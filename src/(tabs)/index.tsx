@@ -9,7 +9,13 @@ import {
   Inter_700Bold,
   Inter_800ExtraBold,
 } from '@expo-google-fonts/inter';
-import { LoginScreen } from './src/screens/auth/LoginScreen';
+import { LoginScreen } from '../screens/auth/LoginScreen';
+import { RegisScreen } from '../screens/auth/RegisScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { AuthNavigator } from '../navigation/AuthNavigator';
+import { AuthProvider } from '../context/AuthContext';
+import { RootNavigator } from '../navigation/RootNavigator';
+
 
 // Не скрываем splash screen сразу
 SplashScreen.preventAutoHideAsync();
@@ -44,10 +50,11 @@ const App: FC = () => {
   }
 
   return (
-    <>
-      <StatusBar style="auto" />
-      <LoginScreen />
-    </>
+    <AuthProvider>
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
+    </AuthProvider>
   );
 };
 

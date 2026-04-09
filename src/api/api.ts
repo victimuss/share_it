@@ -1,5 +1,8 @@
 import apiInstance from "./apiInstance";
 import { getToken } from "../utils/storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthResponse } from "../types/auth";
+
 
 export const api = {
   post: async <T = any>(url: string, body: any): Promise<T> => {
@@ -41,4 +44,6 @@ export const api = {
       throw error;
     }
   },
-};
+}
+
+

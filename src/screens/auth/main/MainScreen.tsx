@@ -1,0 +1,267 @@
+import { View, Text, ScrollView, Pressable, TextInput, FlatList } from "react-native";
+import { homeStyles } from "@/src/styles/MainPageStyles";
+import { useAuth } from "@/src/context/AuthContext";
+import { COLORS } from "@/src/styles/root";
+import { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { currentLessonResponce, Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest } from "@/src/types/main_page";
+import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
+import { set } from "react-native-reanimated";
+import { useNavigation } from "expo-router";
+export const MainScreen = () => {
+  const { user } = useAuth();
+  const id = user ? user.id : 0 <CurrentLessonRequest | null>(null);
+  const [activeFilter, setActiveFilter] = useState<LessonType>(null)
+  const [popular, setPopular] = useState<PopularLessonsResponce | null>(null);;
+  const [recent, setRecent] = useState<RecentLessonsResponce | null>(null);
+  const [current, setCurrent] = useState<currentLessonResponce | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const navigator = useNavigation();
+  const date = new Date();
+
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',   // день недели полностью
+    day: 'numeric',    // число месяца
+    month: 'long',     // название месяца полностью
+  };
+  const handleFilterChange = async (filter: LessonType) => {
+    try {
+      // Сбрасываем данные и ставим loading
+      setActiveFilter(filter);
+      setPopular([]);
+      setRecent([]);
+      setCurrent(null);
+      setError('');
+      setLoading(true);
+
+      // Загружаем новые данные
+      const popResponse = await PopularLession({ type: filter });
+      const recResponse = await RecentLession({ type: filter });
+      // Если API возвращает объекты с массивами уроков
+      setPopular(popResponse || []);
+      setRecent(recResponse || []);
+      console.log('Популярные:', popResponse, 'Недавние:', recResponse);
+    } catch (err: any) {
+      console.error('Ошибка при загрузке уроков:', err);
+      setError('Не удалось загрузить уроки. Попробуйте позже.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  const [authors, setAuthors] = useState<Record<string, string>>({});
+ useEffect(() => {
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const popResponse = await PopularLession({ type: activeFilter });
+      const recResponse = await RecentLession({ type: activeFilter });
+      const curResponse = user ? await CurrentLession({ id: user.id }) : null;
+
+      setPopular(popResponse || null);
+      setRecent(recResponse || null);
+      setCurrent(curResponse || null);
+      console.log('ПОПУДЯ',current)
+    } catch (err: any) {
+      console.error(err);
+      setError('Не удалось загрузить уроки. Попробуйте позже.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, [user, activeFilter]);
+  const formattedDate = new Intl.DateTimeFormat('ru-RU', options).format(date);
+  if (error) {
+    return (
+      <View>
+        <Text> {error} </Text>
+      </View>
+    )
+  }
+
+  return (
+    <SafeAreaView style={homeStyles.container}>
+      <ScrollView contentContainerStyle={homeStyles.scrollContainer}>
+        <View style={homeStyles.header}>
+          <View style={homeStyles.headerLeft}>
+            <Text style={homeStyles.greetingSubtext}>
+              {formattedDate}
+            </Text>
+            <Text style={homeStyles.greetingText}>
+              Привет, {user?.name || 'Гость'}
+            </Text>
+            <Text style={homeStyles.greetingSubtext}>
+              Что изучим сегодня?
+            </Text>
+          </View>
+          <View style={homeStyles.headerRight}>
+            <Pressable style={homeStyles.notificationButton}>
+            </Pressable>
+            <Pressable style={homeStyles.avatar}
+            onPress={()=>{navigator.navigate('Profile')}}>
+              <Text style={homeStyles.avatarText}>
+                {user?.name ? user.name.charAt(0).toUpperCase() : 'G'}
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+        <View style={homeStyles.searchWrapper}>
+          <View style={homeStyles.searchContainer}>
+            <TextInput
+              style={homeStyles.searchInput}
+              placeholder="Найти урок или навык..."
+              placeholderTextColor={'#6B7280'}
+            />
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={homeStyles.filtersScrollContent}>
+            <Pressable
+              style={({ pressed }) => [
+                homeStyles.chip, // базовый стиль
+                activeFilter === null && homeStyles.chipActive, // стиль активного фильтра
+                pressed && homeStyles.chipActive, // стиль при нажатии
+              ]}
+              onPress={() => handleFilterChange(null)}
+            >
+              <Text style={activeFilter === null ? homeStyles.chipTextActive : homeStyles.chipText}>Все</Text>
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [
+                homeStyles.chip, // базовый стиль
+                activeFilter === 'code' && homeStyles.chipActive, // стиль активного фильтра
+                pressed && homeStyles.chipActive, // стиль при нажатии
+              ]}
+              onPress={() => handleFilterChange('code')}
+            >
+              <Text style={activeFilter === 'code' ? homeStyles.chipTextActive : homeStyles.chipText}>Код</Text>
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [
+                homeStyles.chip, // базовый стиль
+                activeFilter === 'design' && homeStyles.chipActive, // стиль активного фильтра
+                pressed && homeStyles.chipActive, // стиль при нажатии
+              ]}
+              onPress={() => handleFilterChange('design')}
+            >
+              <Text style={activeFilter === 'design' ? homeStyles.chipTextActive : homeStyles.chipText}>Дизайн</Text>
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [
+                homeStyles.chip, // базовый стиль
+                activeFilter === 'languange' && homeStyles.chipActive, // стиль активного фильтра
+                pressed && homeStyles.chipActive, // стиль при нажатии
+              ]}
+              onPress={() => handleFilterChange('languange')}
+            >
+              <Text style={activeFilter === 'languange' ? homeStyles.chipTextActive : homeStyles.chipText}>Языки</Text>
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [
+                homeStyles.chip, // базовый стиль
+                activeFilter === 'business' && homeStyles.chipActive, // стиль активного фильтра
+                pressed && homeStyles.chipActive, // стиль при нажатии
+              ]}
+              onPress={() => handleFilterChange('business')}
+            >
+              <Text style={activeFilter === 'business' ? homeStyles.chipTextActive : homeStyles.chipText}>Бизнес</Text>
+            </Pressable>
+          </ScrollView>
+        </View>
+        <View style={homeStyles.section}>
+          <View style={homeStyles.sectionHeader}>
+            <Text style={homeStyles.sectionTitle}>Популярное</Text>
+            <Pressable>
+              <Text style={homeStyles.seeAllText}>Все→</Text>
+            </Pressable>
+          </View>
+          <FlatList
+            data={popular?.popularLessons || []}// делаем единый массив всех уроков
+            keyExtractor={(item) => item.id.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={homeStyles.featuredScrollContent}
+            renderItem={({ item }) => (
+              <Pressable style={homeStyles.featuredCard}>
+                <View style={homeStyles.featuredCardImage}>
+                  <View style={homeStyles.featuredCardContent}>
+                    <View style={homeStyles.featuredCardMeta}>
+                      <View style={homeStyles.badgeCategory}>
+                        <Text style={homeStyles.badgeCategoryText}>{item.type}</Text>
+                      </View>
+                      <Text style={homeStyles.badgeCategoryText}> {Math.round(item.rank/item.rank_count)} ⭐</Text>
+                    </View>
+                  </View>
+                </View>
+                <View style={homeStyles.featureCardContainer}>
+                  <Text style={homeStyles.featuredCardTitle}>{item.lesson_name}</Text>
+                  <Text style={homeStyles.featuredCardAuthor}> {item.students_count} обучаются</Text>
+                </View>
+              </Pressable>
+            )}
+          ></FlatList>
+        </View>
+        <View style={homeStyles.section}>
+          <View style={homeStyles.sectionHeader}>
+            <Text style={homeStyles.sectionTitle}>Продолжить обучение</Text>
+          </View>
+          {current?.last_lession?.last_lession ? (
+            <View style={homeStyles.progressCard}>
+              <View style={homeStyles.progressCardHeader}>
+                <Text style={homeStyles.progressCardTitle}>{current?.last_lession?.lesson?.lesson_name || 'Нет текущего урока'}</Text>
+                <Text style={homeStyles.progressLabel}>{(current.last_lession?.last_lession?.completed_steps/current?.last_lession?.lesson.sheet_counts)*100 || 0}%</Text>
+              </View>
+              <View style={homeStyles.progressTrack}>
+                <View style={[
+                  homeStyles.progressFill,
+                  { width: `${(current.last_lession?.last_lession?.completed_steps/current?.last_lession?.lesson.sheet_counts)*100 || 0}%` }
+                ]} />
+              </View>
+            </View>
+          ) : (
+            <View style={homeStyles.progressCard}>
+              <Text style={homeStyles.progressCardTitle} >Нет текущего урока</Text>
+            </View>
+          )}
+        </View>
+        <View style={homeStyles.section}>
+          <View style={homeStyles.sectionHeader}>
+            <Text style={homeStyles.sectionTitle}>Новые уроки</Text>
+            <Pressable>
+              <Text style={homeStyles.seeAllText}>Все→</Text>
+            </Pressable>
+          </View>
+          <View>
+            {(recent?.recentLessons || []).map((item) => (
+              <View key={item.id} style={[homeStyles.lessonCard]}>
+                <View style={homeStyles.lessonCardThumb}>
+                </View>
+                <View style={homeStyles.lessonCardContent}>
+                  <Text style={homeStyles.lessonCardTitle}>{item.lesson_name}</Text>
+                  <View style={homeStyles.lessonCardMeta}>
+                    <View style={item.level === 'Beginner' ? homeStyles.badgeBeginner : item.level === 'Intermediate' ? homeStyles.badgeIntermediate : item.level === 'Advanced' ? homeStyles.badgeAdvanced :
+                      homeStyles.badgeCategory}>
+                      <Text style={item.level === 'Beginner' ? homeStyles.badgeBeginnerText : item.level === 'Intermediate' ? homeStyles.badgeIntermediateText : item.level === 'Advanced' ? homeStyles.badgeAdvancedText : homeStyles.badgeCategoryText}>{item.level}</Text>
+                    </View>
+                    <View style={homeStyles.badgeCategory}>
+                      <Text style={homeStyles.badgeCategoryText}>{item.type}</Text>
+                    </View>
+                  </View>
+                  <View style={homeStyles.lessonCardFooter}>
+                    <Text style={homeStyles.lessonCardLikes}>❤️ {item.likes}</Text>
+                  </View>
+                </View>
+                <Pressable style={homeStyles.studyButton}>
+                  <Text style={homeStyles.studyButtonText}>Изучить</Text>
+                </Pressable>
+              </View>
+            ))}
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
