@@ -38,7 +38,6 @@ export const LoginScreen = () => {
             await login(email, password);
                 Alert.alert('Успех', 'Вы успешно вошли в систему!');
                 console.log('Успешный вход:', email);
-                navigation.navigate('Home');
         } catch (err: any) {
             setError('Ошибка входа. Проверьте свои данные и попробуйте снова.');
             Alert.alert('Ошибка входа', err?.message || 'Не удалось войти.');

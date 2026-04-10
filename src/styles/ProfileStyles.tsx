@@ -183,9 +183,9 @@ export const profileStyles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
     borderRadius: RADIUS.full,
-    backgroundColor: '#EEF2FF',
+    backgroundColor: COLORS.indigoSoft,
     borderWidth: 1,
-    borderColor: '#C7D2FE',
+    borderColor: COLORS.indigoBorder,
   } as ViewStyle,
 
     skillChipBegginer: {
@@ -195,9 +195,9 @@ export const profileStyles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
     borderRadius: RADIUS.full,
-    backgroundColor: '#D1FAE5',
+    backgroundColor: COLORS.successLight,
     borderWidth: 1,
-    borderColor:'#C7D2FE',
+    borderColor: COLORS.indigoBorder,
   } as ViewStyle,
 
     skillChipIntermediate: {
@@ -207,9 +207,9 @@ export const profileStyles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
     borderRadius: RADIUS.full,
-    backgroundColor: '#FEF3C7',
+    backgroundColor: COLORS.warningLight,
     borderWidth: 1,
-    borderColor: '#C7D2FE',
+    borderColor: COLORS.indigoBorder,
   } as ViewStyle,
 
     skillChipAdvanced: {
@@ -219,9 +219,9 @@ export const profileStyles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
     borderRadius: RADIUS.full,
-    backgroundColor: '#FEE2E2',
+    backgroundColor: COLORS.errorLight,
     borderWidth: 1,
-    borderColor:'#C7D2FE',
+    borderColor: COLORS.indigoBorder,
   } as ViewStyle,
 
   skillChipText: {
@@ -343,7 +343,7 @@ export const profileStyles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: RADIUS.full,
-    backgroundColor: '#D1FAE5',
+    backgroundColor: COLORS.successLight,
     justifyContent: 'center',
     alignItems: 'center',
     flexShrink: 0,
@@ -367,11 +367,11 @@ export const profileStyles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: RADIUS.lg,
-    backgroundColor: '#EEF2FF',
+    backgroundColor: COLORS.indigoSoft,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#C7D2FE',
+    borderColor: COLORS.indigoBorder,
   } as ViewStyle,
 
   /** Залоченная ачивка */

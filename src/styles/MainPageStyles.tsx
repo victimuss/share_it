@@ -197,6 +197,7 @@ export const homeStyles = StyleSheet.create({
     /** Контент горизонтального скролла */
     featuredScrollContent: {
         paddingHorizontal: SPACING.lg,
+        marginBottom: SPACING.md,
         gap: SPACING.md,
     } as ViewStyle,
 
@@ -381,6 +382,7 @@ export const homeStyles = StyleSheet.create({
     /** Универсальный бейдж */
     badge: {
         paddingHorizontal: SPACING.sm,
+        backgroundColor: COLORS.primaryLight,
         paddingVertical: 2,
         borderRadius: RADIUS.sm,
         alignSelf: 'flex-start',
@@ -396,7 +398,7 @@ export const homeStyles = StyleSheet.create({
 
     /** Бейдж категории (фиолетовый) */
     badgeCategory: {
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.indigoSoft,
         paddingHorizontal: SPACING.sm,
         paddingVertical: 2,
         marginRight: SPACING.xs,
@@ -405,12 +407,15 @@ export const homeStyles = StyleSheet.create({
     } as ViewStyle,
 
     badgeCategoryText: {
-        color: COLORS.text,
+        color: 'white',
+        fontWeight: '600' as const,
+        fontFamily: 'Inter_600SemiBold',
+        lineHeight: 16,
     } as TextStyle,
 
     /** Бейдж сложности: Beginner */
     badgeBeginner: {
-        backgroundColor: '#D1FAE5',
+        backgroundColor: COLORS.successLight,
         paddingHorizontal: SPACING.sm,
         paddingVertical: 2,
         marginRight: SPACING.xs,
@@ -429,7 +434,7 @@ export const homeStyles = StyleSheet.create({
         marginRight: SPACING.xs,
         borderRadius: RADIUS.sm,
         alignSelf: 'flex-start',
-        backgroundColor: '#FEF3C7',
+        backgroundColor: COLORS.warningLight,
     } as ViewStyle,
 
     badgeIntermediateText: {
@@ -438,7 +443,7 @@ export const homeStyles = StyleSheet.create({
 
     /** Бейдж сложности: Advanced */
     badgeAdvanced: {
-        backgroundColor: '#FEE2E2',
+        backgroundColor: COLORS.errorLight,
         paddingHorizontal: SPACING.sm,
         paddingVertical: 2,
         marginRight: SPACING.xs,

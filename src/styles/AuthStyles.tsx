@@ -121,7 +121,7 @@ export const authStyles = StyleSheet.create({
 
   /** Отключённая кнопка */
   buttonDisabled: {
-    backgroundColor: '#D1D5DB',
+    backgroundColor: COLORS.borderDark,
     opacity: 0.6,
   } as ViewStyle,
 

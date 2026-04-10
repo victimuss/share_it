@@ -10,6 +10,7 @@ import { profileStyles } from "@/src/styles/ProfileStyles";
 import { useNavigation } from "expo-router";
 import { LearnedLessonsResponce, MakedLessonsResponce, Skill, SkillOut } from "@/src/types/profile";
 import { GetUserSkills, UsersLearned, UsersMaked } from "@/src/api/main_page/profile/profile";
+import { ApplicationCodeIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon } from "@/src/SVG/MainPageSVG";
 
 export const ProfileScreen = () => {
     const [loading, setLoading] = useState(true);
@@ -19,7 +20,12 @@ export const ProfileScreen = () => {
     const [myLessons, setMyLessons] = useState<MakedLessonsResponce>({ lessons: [] });
     const [error, setError] = useState('');
     const navigator = useNavigation();
-
+    const iconMap: Record<string, React.ReactNode> = {
+        code: <ApplicationCodeIcon size={50} />,
+        design: <DesignPaletteIcon size={50} />,
+        language: <LanguageIcon size={50} />,
+        business: <BusinessIcon size={50} />,
+    };
     const [activeTab, setActivebTab] = useState('myLessons');
     const chunkArray = <T,>(array: T[], chunkSize: number): T[][] => {
         const result: T[][] = [];
@@ -54,7 +60,7 @@ export const ProfileScreen = () => {
         fetchData();
     }, [user]);
     return (
-        <SafeAreaView style={profileStyles.container}>
+        <SafeAreaView style={profileStyles.container} edges={['top']}>
             <ScrollView style={profileStyles.scrollContainer}>
                 <View style={profileStyles.coverBanner}>
                 </View>
@@ -145,6 +151,7 @@ export const ProfileScreen = () => {
                                 {item.map((lesson) => (
                                     <View key={lesson.id} style={[homeStyles.lessonCard]}>
                                         <View style={homeStyles.lessonCardThumb}>
+                                            {iconMap[lesson.type || 'code'] || null}
                                         </View>
                                         <View style={homeStyles.lessonCardContent}>
                                             <Text style={homeStyles.lessonCardTitle}>{lesson.lesson_name}</Text>
@@ -153,7 +160,7 @@ export const ProfileScreen = () => {
                                                     homeStyles.badgeCategory}>
                                                     <Text style={lesson.level === 'Beginner' ? homeStyles.badgeBeginnerText : lesson.level === 'Intermediate' ? homeStyles.badgeIntermediateText : lesson.level === 'Advanced' ? homeStyles.badgeAdvancedText : homeStyles.badgeCategoryText}>{lesson.level}</Text>
                                                 </View>
-                                                <View style={homeStyles.badgeCategory}>
+                                                <View style={homeStyles.badge}>
                                                     <Text style={homeStyles.badgeCategoryText}>{lesson.type}</Text>
                                                 </View>
                                             </View>
