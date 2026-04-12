@@ -1,6 +1,7 @@
 export type LessonType = "code" | "business" | "design" | null | 'language'; // пример
 
 export interface Lesson {
+  author: any;
   id: number;
   type: LessonType;
   sheet_counts: number;
@@ -18,12 +19,12 @@ export interface Lesson {
 }
 
 export interface LastLession {
-    id: number;
-    completed_steps: number,
-    updated_at: string
-    lesson_id: number
-    user_id: number
-    created_at: string
+  id: number;
+  completed_steps: number,
+  updated_at: string
+  lesson_id: number
+  user_id: number
+  created_at: string
 }
 export interface PopularLessonsResponce {
   popularLessons: Lesson[]
@@ -51,10 +52,10 @@ export interface CurrentLessonResponse {
 }
 
 export interface LessonRequest {
-    type: LessonType
+  type: LessonType
 }
 
 export interface CurrentLessonRequest {
-    id: number
+  id: number
 }
 

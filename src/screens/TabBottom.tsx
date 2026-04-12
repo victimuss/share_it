@@ -8,8 +8,8 @@ import { MainScreen } from './auth/main/MainScreen';
 import { ProfileScreen } from './auth/main/ProfileScreen';
 import { BookIcon, HomeIcon, SearchIcon, UserIcon } from '../SVG/TabSVG';
 import { COLORS } from '../styles/root'; // Нам нужны цвета для SVG!
+import { SearchScreen } from './auth/main/SearchScreen';
 
-const SearchScreen = () => <View />;
 const MyLessonsScreen = () => <View />;
 
 export type BottomTabParamList = {
@@ -44,7 +44,7 @@ export default function TabNavigator(): React.JSX.Element {
                                 />
                             </View>
                             <Text numberOfLines={1}
-                            style={focused ? tabBarStyles.tabLabelActive : tabBarStyles.tabLabel}>
+                                style={focused ? tabBarStyles.tabLabelActive : tabBarStyles.tabLabel}>
                                 Главная
                             </Text>
                             <View style={focused ? tabBarStyles.activeDot : tabBarStyles.activeDotPlaceholder} />
@@ -66,7 +66,7 @@ export default function TabNavigator(): React.JSX.Element {
                                 />
                             </View>
                             <Text numberOfLines={1}
-                            style={focused ? tabBarStyles.tabLabelActive : tabBarStyles.tabLabel}>
+                                style={focused ? tabBarStyles.tabLabelActive : tabBarStyles.tabLabel}>
                                 Поиск
                             </Text>
                             <View style={focused ? tabBarStyles.activeDot : tabBarStyles.activeDotPlaceholder} />
@@ -136,7 +136,7 @@ export default function TabNavigator(): React.JSX.Element {
                                 />
                             </View>
                             <Text numberOfLines={1}
-                            style={focused ? tabBarStyles.tabLabelActive : tabBarStyles.tabLabel}>
+                                style={focused ? tabBarStyles.tabLabelActive : tabBarStyles.tabLabel}>
                                 Профиль
                             </Text>
                             <View style={focused ? tabBarStyles.activeDot : tabBarStyles.activeDotPlaceholder} />

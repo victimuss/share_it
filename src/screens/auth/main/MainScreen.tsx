@@ -187,28 +187,32 @@ export const MainScreen = () => {
           </View>
           <FlatList
             data={popular?.popularLessons || []}// делаем единый массив всех уроков
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item: any) => item.lesson ? item.lesson.id.toString() : item.id?.toString()}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={homeStyles.featuredScrollContent}
-            renderItem={({ item }) => (
-              <Pressable style={homeStyles.featuredCard}>
-                <View style={homeStyles.featuredCardImage}>
-                  <View style={homeStyles.featuredCardContent}>
-                    <View style={homeStyles.featuredCardMeta}>
-                      <View style={homeStyles.badgeCategory}>
-                        <Text style={homeStyles.badgeCategoryText}>{item.type}</Text>
+            renderItem={({ item }: { item: any }) => {
+              const less = item.lesson || item;
+              const authorName = item.author ? item.author : 'Неизвестен';
+              return (
+                <Pressable style={homeStyles.featuredCard}>
+                  <View style={homeStyles.featuredCardImage}>
+                    <View style={homeStyles.featuredCardContent}>
+                      <View style={homeStyles.featuredCardMeta}>
+                        <View style={homeStyles.badgeCategory}>
+                          <Text style={homeStyles.badgeCategoryText}>{less.type}</Text>
+                        </View>
+                        <Text style={homeStyles.badgeCategoryText}> {less.rank_count > 0 ? Math.round(less.rank / less.rank_count) : 0} ⭐</Text>
                       </View>
-                      <Text style={homeStyles.badgeCategoryText}> {Math.round(item.rank / item.rank_count)} ⭐</Text>
                     </View>
                   </View>
-                </View>
-                <View style={homeStyles.featureCardContainer}>
-                  <Text style={homeStyles.featuredCardTitle}>{item.lesson_name}</Text>
-                  <Text style={homeStyles.featuredCardAuthor}> {item.students_count} обучаются</Text>
-                </View>
-              </Pressable>
-            )}
+                  <View style={homeStyles.featureCardContainer}>
+                    <Text style={homeStyles.featuredCardTitle}>{less.lesson_name}</Text>
+                    <Text style={homeStyles.featuredCardAuthor}> {authorName} · {less.students_count} обучаются</Text>
+                  </View>
+                </Pressable>
+              );
+            }}
           ></FlatList>
         </View>
         <View style={homeStyles.section}>
@@ -243,31 +247,34 @@ export const MainScreen = () => {
             </Pressable>
           </View>
           <View>
-            {(recent?.recentLessons || []).map((item) => (
-              <View key={item.id} style={[homeStyles.lessonCard]}>
-                <View style={homeStyles.lessonCardThumb}>
-                  {iconMap[item.type || 'code'] || null}
-                </View>
-                <View style={homeStyles.lessonCardContent}>
-                  <Text style={homeStyles.lessonCardTitle}>{item.lesson_name}</Text>
-                  <View style={homeStyles.lessonCardMeta}>
-                    <View style={item.level === 'Beginner' ? homeStyles.badgeBeginner : item.level === 'Intermediate' ? homeStyles.badgeIntermediate : item.level === 'Advanced' ? homeStyles.badgeAdvanced :
-                      homeStyles.badgeCategory}>
-                      <Text style={item.level === 'Beginner' ? homeStyles.badgeBeginnerText : item.level === 'Intermediate' ? homeStyles.badgeIntermediateText : item.level === 'Advanced' ? homeStyles.badgeAdvancedText : homeStyles.badgeCategoryText}>{item.level}</Text>
+            {(recent?.recentLessons || []).map((item: any) => {
+              const less = item.lesson || item;
+              return (
+                <View key={less.id} style={[homeStyles.lessonCard]}>
+                  <View style={homeStyles.lessonCardThumb}>
+                    {iconMap[less.type || 'code'] || null}
+                  </View>
+                  <View style={homeStyles.lessonCardContent}>
+                    <Text style={homeStyles.lessonCardTitle}>{less.lesson_name}</Text>
+                    <View style={homeStyles.lessonCardMeta}>
+                      <View style={less.level === 'Beginner' ? homeStyles.badgeBeginner : less.level === 'Intermediate' ? homeStyles.badgeIntermediate : less.level === 'Advanced' ? homeStyles.badgeAdvanced :
+                        homeStyles.badgeCategory}>
+                        <Text style={less.level === 'Beginner' ? homeStyles.badgeBeginnerText : less.level === 'Intermediate' ? homeStyles.badgeIntermediateText : less.level === 'Advanced' ? homeStyles.badgeAdvancedText : homeStyles.badgeCategoryText}>{less.level}</Text>
+                      </View>
+                      <View style={homeStyles.badge}>
+                        <Text style={homeStyles.badgeCategoryText}>{less.type}</Text>
+                      </View>
                     </View>
-                    <View style={homeStyles.badge}>
-                      <Text style={homeStyles.badgeCategoryText}>{item.type}</Text>
+                    <View style={homeStyles.lessonCardFooter}>
+                      <Text style={homeStyles.lessonCardLikes}> {item.author ? item.author : 'Неизвестен'} · ❤️ {less.likes}</Text>
                     </View>
                   </View>
-                  <View style={homeStyles.lessonCardFooter}>
-                    <Text style={homeStyles.lessonCardLikes}>❤️ {item.likes}</Text>
-                  </View>
+                  <Pressable style={homeStyles.studyButton}>
+                    <Text style={homeStyles.studyButtonText}>Изучить</Text>
+                  </Pressable>
                 </View>
-                <Pressable style={homeStyles.studyButton}>
-                  <Text style={homeStyles.studyButtonText}>Изучить</Text>
-                </Pressable>
-              </View>
-            ))}
+              );
+            })}
           </View>
         </View>
       </ScrollView>
