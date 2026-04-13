@@ -1,6 +1,6 @@
 export interface NewSkill {
-    user_id: number
-    skill: Skill[]
+    skill_name: string
+    level: string
 }
 
 export interface SkillOut {

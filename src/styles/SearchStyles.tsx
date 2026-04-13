@@ -519,4 +519,359 @@ export const searchStyles = StyleSheet.create({
         textAlign: 'center',
         marginTop: SPACING.sm,
     } as TextStyle,
+    // ─── Оверлей ─────────────────────────────────────────────────────
+    /** Полупрозрачный фон поверх всего экрана.
+     *  flex: 1 + justifyContent: 'flex-end' прижимает шторку к низу. */
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.45)',
+        justifyContent: 'flex-end',
+    } as ViewStyle,
+
+    // ─── Сама шторка ─────────────────────────────────────────────────
+    /** Контейнер модального окна (bottom sheet).
+     *  Скруглены только верхние углы — классический паттерн шторки. */
+    sheet: {
+        backgroundColor: COLORS.surface,
+        borderTopLeftRadius: RADIUS.xl,
+        borderTopRightRadius: RADIUS.xl,
+        paddingBottom: SPACING.xxxl,
+        maxHeight: '85%',
+    } as ViewStyle,
+
+    // ─── Ручка-индикатор ─────────────────────────────────────────────
+    /** Серая «ручка» в верхней части шторки.
+     *  Сигнализирует пользователю, что шторку можно свайпнуть вниз. */
+    handle: {
+        width: 36,
+        height: 4,
+        borderRadius: RADIUS.full,
+        backgroundColor: COLORS.borderDark,
+        alignSelf: 'center',
+        marginTop: SPACING.md,
+        marginBottom: SPACING.sm,
+    } as ViewStyle,
+
+    // ─── Шапка модалки ───────────────────────────────────────────────
+    /** Строка «Фильтры» + кнопка закрытия.
+     *  borderBottom отделяет заголовок от скроллируемого контента. */
+    headerModal: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: SPACING.lg,
+        paddingVertical: SPACING.md,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.border,
+    } as ViewStyle,
+
+    /** Заголовок «Фильтры» */
+    headerTitleModal: {
+        ...FONTS.bold,
+        color: COLORS.text,
+    } as TextStyle,
+
+    /** Кнопка «Сбросить» — текстовая, без фона.
+     *  Цвет error подчёркивает деструктивное действие. */
+    resetButton: {
+        paddingVertical: SPACING.xs,
+        paddingHorizontal: SPACING.sm,
+    } as ViewStyle,
+
+    resetButtonText: {
+        ...FONTS.regular,
+        color: COLORS.error,
+        fontWeight: '500' as const,
+    } as TextStyle,
+
+    /** Кнопка ✕ закрытия модалки. */
+    closeButton: {
+        width: 32,
+        height: 32,
+        borderRadius: RADIUS.full,
+        backgroundColor: COLORS.background,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: COLORS.border,
+    } as ViewStyle,
+
+    /** View-обёртка под иконку ✕ — добавишь сам. */
+    closeIconWrapper: {
+        width: 14,
+        height: 14,
+        alignItems: 'center',
+        justifyContent: 'center',
+    } as ViewStyle,
+
+    // ─── Скроллируемый контент ───────────────────────────────────────
+    /** ScrollView внутри шторки — контент фильтров. */
+    scrollContent: {
+        paddingHorizontal: SPACING.lg,
+        paddingTop: SPACING.lg,
+        paddingBottom: SPACING.xl,
+    } as ViewStyle,
+
+    // ─── Секция фильтра ──────────────────────────────────────────────
+    /** Обёртка одной группы фильтров (Категория / Сложность / Рейтинг...).
+     *  marginBottom разделяет секции между собой. */
+    filterSection: {
+        marginBottom: SPACING.xl,
+    } as ViewStyle,
+
+    /** Заголовок группы фильтров + счётчик выбранных. */
+    filterSectionHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: SPACING.md,
+    } as ViewStyle,
+
+    /** Название группы: «Категория», «Сложность» и т.д. */
+    filterSectionTitle: {
+        ...FONTS.semibold,
+        color: COLORS.text,
+        fontSize: 15,
+    } as TextStyle,
+
+    /** Бейдж «X выбрано» рядом с заголовком секции .
+     *  Показывается только если есть активные значения. */
+    filterSectionBadge: {
+        backgroundColor: '#EEF2FF',
+        borderRadius: RADIUS.full,
+        paddingHorizontal: SPACING.sm,
+        paddingVertical: 2,
+        minWidth: 20,
+        alignItems: 'center',
+    } as ViewStyle,
+
+    filterSectionBadgeText: {
+        fontSize: 11,
+        fontWeight: '600' as const,
+        fontFamily: 'Inter_600SemiBold',
+        color: COLORS.primary,
+    } as TextStyle,
+
+    // ─── Чипы выбора ─────────────────────────────────────────────────
+    /** Обёртка ряда чипов — flex-wrap для переноса. */
+    chipsRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: SPACING.sm,
+    } as ViewStyle,
+
+    /** Чип-опция фильтра (неактивный). */
+    filterOptionChip: {
+        paddingHorizontal: SPACING.md,
+        paddingVertical: SPACING.sm,
+        borderRadius: RADIUS.full,
+        backgroundColor: COLORS.surface,
+        borderWidth: 1.5,
+        borderColor: COLORS.border,
+    } as ViewStyle,
+
+    /** Чип-опция фильтра (выбранный).
+     *  Заливка primary + тень — аналогично активным чипам на главном экране. */
+    filterOptionChipActive: {
+        paddingHorizontal: SPACING.md,
+        paddingVertical: SPACING.sm,
+        borderRadius: RADIUS.full,
+        backgroundColor: COLORS.primary,
+        borderColor: COLORS.primary,
+        shadowColor: COLORS.primary,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.18,
+        shadowRadius: 8,
+        elevation: 4,
+    } as ViewStyle,
+
+    filterOptionChipText: {
+        fontSize: 13,
+        fontWeight: '500' as const,
+        fontFamily: 'Inter_500Medium',
+        color: COLORS.textSecondary,
+    } as TextStyle,
+
+    filterOptionChipTextActive: {
+        color: COLORS.surface,
+        fontWeight: '600' as const,
+    } as TextStyle,
+
+    // ─── Чипы сложности (цветные) ────────────────────────────────────
+    /** Чип «Beginner» — зелёный неактивный. */
+    chipBeginner: {
+        paddingHorizontal: SPACING.md,
+        paddingVertical: SPACING.sm,
+        borderRadius: RADIUS.full,
+        borderWidth: 1.5,
+        borderColor: '#6EE7B7',
+        backgroundColor: COLORS.surface,
+    } as ViewStyle,
+
+    chipBeginnerActive: {
+        paddingHorizontal: SPACING.md,
+        paddingVertical: SPACING.sm,
+        borderRadius: RADIUS.full,
+        borderWidth: 1.5,
+        backgroundColor: COLORS.success,
+        borderColor: COLORS.success,
+        shadowColor: COLORS.success,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.18,
+        shadowRadius: 8,
+        elevation: 4,
+    } as ViewStyle,
+
+    chipBeginnerText: {
+        color: COLORS.success,
+    } as TextStyle,
+
+    chipBeginnerTextActive: {
+        color: COLORS.surface,
+    } as TextStyle,
+
+    /** Чип «Intermediate» — жёлтый неактивный. */
+    chipIntermediate: {
+        paddingHorizontal: SPACING.md,
+        paddingVertical: SPACING.sm,
+        borderRadius: RADIUS.full,
+        borderWidth: 1.5,
+        borderColor: '#FCD34D',
+        backgroundColor: COLORS.surface,
+    } as ViewStyle,
+
+    chipIntermediateActive: {
+        paddingHorizontal: SPACING.md,
+        paddingVertical: SPACING.sm,
+        borderRadius: RADIUS.full,
+        borderWidth: 1.5,
+        backgroundColor: COLORS.warning,
+        borderColor: COLORS.warning,
+        shadowColor: COLORS.warning,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.18,
+        shadowRadius: 8,
+        elevation: 4,
+    } as ViewStyle,
+
+    chipIntermediateText: {
+        color: COLORS.warning,
+    } as TextStyle,
+
+    chipIntermediateTextActive: {
+        color: COLORS.surface,
+    } as TextStyle,
+
+    /** Чип «Advanced» — красный неактивный. */
+    chipAdvanced: {
+        paddingHorizontal: SPACING.md,
+        paddingVertical: SPACING.sm,
+        borderRadius: RADIUS.full,
+        borderWidth: 1.5,
+        borderColor: '#FCA5A5',
+        backgroundColor: COLORS.surface,
+    } as ViewStyle,
+
+    chipAdvancedActive: {
+        paddingHorizontal: SPACING.md,
+        paddingVertical: SPACING.sm,
+        borderRadius: RADIUS.full,
+        borderWidth: 1.5,
+        backgroundColor: COLORS.error,
+        borderColor: COLORS.error,
+        shadowColor: COLORS.error,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.18,
+        shadowRadius: 8,
+        elevation: 4,
+    } as ViewStyle,
+
+    chipAdvancedText: {
+        color: COLORS.error,
+    } as TextStyle,
+
+    chipAdvancedTextActive: {
+        color: COLORS.surface,
+    } as TextStyle,
+
+    // ─── Слайдер рейтинга ────────────────────────────────────────────
+    /** Строка: иконка звезды + слайдер + текущее значение. */
+    ratingRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: SPACING.md,
+    } as ViewStyle,
+
+    /** Трек слайдера рейтинга (фон). */
+    sliderTrack: {
+        flex: 1,
+        height: 6,
+        borderRadius: RADIUS.full,
+        backgroundColor: COLORS.border,
+        overflow: 'hidden',
+    } as ViewStyle,
+
+    /** Заполненная часть трека — ширина задаётся динамически через style. */
+    sliderFill: {
+        height: '100%',
+        backgroundColor: COLORS.primary,
+        borderRadius: RADIUS.full,
+    } as ViewStyle,
+
+    /** Подпись текущего значения рейтинга (например «4.0+»). */
+    ratingValue: {
+        ...FONTS.semibold,
+        color: COLORS.primary,
+        fontSize: 14,
+        minWidth: 36,
+        textAlign: 'right',
+    } as TextStyle,
+
+    // ─── Разделитель секций ──────────────────────────────────────────
+    /** Горизонтальная линия между секциями фильтров. */
+    divider: {
+        height: 1,
+        backgroundColor: COLORS.border,
+        marginBottom: SPACING.xl,
+    } as ViewStyle,
+
+    // ─── Кнопка «Применить» ──────────────────────────────────────────
+    /** Фиксированный футер с кнопкой применения.
+     *  borderTop отделяет от скролла, paddingBottom = safe area. */
+    footer: {
+        paddingHorizontal: SPACING.lg,
+        paddingTop: SPACING.md,
+        paddingBottom: SPACING.lg,
+        borderTopWidth: 1,
+        borderTopColor: COLORS.border,
+        backgroundColor: COLORS.surface,
+    } as ViewStyle,
+
+    /** Кнопка «Применить фильтры».
+     *  Та же анатомия, что и основная кнопка в authStyles. */
+    applyButton: {
+        backgroundColor: COLORS.primary,
+        borderRadius: RADIUS.lg,
+        paddingVertical: SPACING.md,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: COLORS.primary,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.25,
+        shadowRadius: 10,
+        elevation: 6,
+    } as ViewStyle,
+
+    applyButtonText: {
+        ...FONTS.semibold,
+        color: COLORS.surface,
+    } as TextStyle,
+
+    /** Счётчик активных фильтров в тексте кнопки — «Применить (3)».
+     *  Чуть светлее основного текста, чтобы не конкурировать. */
+    applyButtonCount: {
+        ...FONTS.semibold,
+        color: 'rgba(255, 255, 255, 0.7)',
+    } as TextStyle,
 });
+

@@ -31,4 +31,5 @@ export interface SearchLessonsRequest {
     type: LessonType;
     level: string;
     page: number;
+    order: string
 }

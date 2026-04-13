@@ -188,7 +188,7 @@ export const profileStyles = StyleSheet.create({
     borderColor: COLORS.indigoBorder,
   } as ViewStyle,
 
-    skillChipBegginer: {
+  skillChipBegginer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: SPACING.xs,
@@ -200,7 +200,7 @@ export const profileStyles = StyleSheet.create({
     borderColor: COLORS.indigoBorder,
   } as ViewStyle,
 
-    skillChipIntermediate: {
+  skillChipIntermediate: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: SPACING.xs,
@@ -212,7 +212,7 @@ export const profileStyles = StyleSheet.create({
     borderColor: COLORS.indigoBorder,
   } as ViewStyle,
 
-    skillChipAdvanced: {
+  skillChipAdvanced: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: SPACING.xs,
@@ -274,7 +274,7 @@ export const profileStyles = StyleSheet.create({
   tabActive: {
     borderBottomWidth: 2,
     borderBottomColor: COLORS.primary,
-        flex: 1,
+    flex: 1,
     paddingVertical: SPACING.md,
     alignItems: 'center',
   } as ViewStyle,
@@ -288,7 +288,7 @@ export const profileStyles = StyleSheet.create({
   tabTextActive: {
     color: COLORS.primary,
     fontWeight: '600' as const,
-    
+
   } as TextStyle,
 
   // ─── Карточка урока в профиле ────────────────────────────────────
@@ -387,5 +387,468 @@ export const profileStyles = StyleSheet.create({
     color: COLORS.textSecondary,
     textAlign: 'center',
     lineHeight: 14,
+  } as TextStyle,
+  // ─── Общий оверлей ───────────────────────────────────────────────
+  /** Полупрозрачный фон поверх экрана.
+   *  Один оверлей переиспользуется для обеих модалок. */
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    justifyContent: 'flex-end',
+  } as ViewStyle,
+
+  // ─── Общая шторка ────────────────────────────────────────────────
+  /** Контейнер bottom sheet — скруглены только верхние углы. */
+  sheet: {
+    backgroundColor: COLORS.surface,
+    borderTopLeftRadius: RADIUS.xl,
+    borderTopRightRadius: RADIUS.xl,
+    paddingBottom: SPACING.xxxl,
+    maxHeight: '90%',
+  } as ViewStyle,
+
+  /** Ручка-индикатор свайпа вниз. */
+  handle: {
+    width: 36,
+    height: 4,
+    borderRadius: RADIUS.full,
+    backgroundColor: COLORS.borderDark,
+    alignSelf: 'center',
+    marginTop: SPACING.md,
+    marginBottom: SPACING.sm,
+  } as ViewStyle,
+
+  // ─── Общая шапка ─────────────────────────────────────────────────
+  /** Строка заголовок + кнопка закрытия.
+   *  borderBottom отделяет шапку от тела модалки. */
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+  } as ViewStyle,
+
+  /** Заголовок модалки («Новый навык» / «Редактировать профиль»). */
+  headerTitle: {
+    ...FONTS.bold,
+    color: COLORS.text,
+  } as TextStyle,
+
+  /** Кнопка ✕ закрытия. */
+  closeButton: {
+    width: 32,
+    height: 32,
+    borderRadius: RADIUS.full,
+    backgroundColor: COLORS.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  } as ViewStyle,
+
+  /** View-обёртка под иконку ✕ — добавишь сам. */
+  closeIconWrapper: {
+    width: 14,
+    height: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  } as ViewStyle,
+
+  // ─── Скроллируемое тело ──────────────────────────────────────────
+  /** Внутренний контейнер прокрутки — поля и секции. */
+  scrollContent: {
+    paddingHorizontal: SPACING.lg,
+    paddingTop: SPACING.lg,
+    paddingBottom: SPACING.xl,
+  } as ViewStyle,
+
+  // ════════════════════════════════════════════════════════════════
+  // МОДАЛКА 1 — ДОБАВЛЕНИЕ НАВЫКА
+  // ════════════════════════════════════════════════════════════════
+
+  // ─── Поле названия навыка ────────────────────────────────────────
+  /** Обёртка одного поля ввода с лейблом. */
+  inputGroup: {
+    marginBottom: SPACING.lg,
+  } as ViewStyle,
+
+  /** Лейбл над полем. */
+  inputLabel: {
+    ...FONTS.medium,
+    color: COLORS.text,
+    fontSize: 14,
+    marginBottom: SPACING.sm,
+  } as TextStyle,
+
+  /** Текстовое поле ввода.
+   *  Та же анатомия, что input в authStyles — единый язык компонентов. */
+  input: {
+    backgroundColor: COLORS.background,
+    borderWidth: 1.5,
+    borderColor: COLORS.border,
+    borderRadius: RADIUS.lg,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
+    ...FONTS.regular,
+    color: COLORS.text,
+    fontWeight: '500' as const,
+    shadowColor: COLORS.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 2,
+    marginBottom: SPACING.xl
+  } as TextStyle,
+
+  /** Поле ввода в состоянии фокуса. */
+  inputFocused: {
+    borderColor: COLORS.primary,
+    shadowColor: COLORS.primary,
+    shadowOpacity: 0.1,
+  } as TextStyle,
+
+  /** Поле ввода с ошибкой валидации. */
+  inputError: {
+    borderColor: COLORS.error,
+    backgroundColor: COLORS.errorLight,
+  } as TextStyle,
+
+  /** Текст ошибки под полем. */
+  errorText: {
+    ...FONTS.regular,
+    fontSize: 12,
+    color: COLORS.error,
+    marginTop: SPACING.xs,
+    marginLeft: SPACING.xs,
+  } as TextStyle,
+
+  /** Счётчик символов справа под полем (например «12 / 40»).
+   *  Помогает пользователю не превысить лимит. */
+  charCounter: {
+    ...FONTS.regular,
+    fontSize: 11,
+    color: COLORS.textSecondary,
+    textAlign: 'right',
+    marginTop: -SPACING.xxl,
+  } as TextStyle,
+
+  /** Счётчик когда лимит близко — меняем цвет на warning. */
+  charCounterWarn: {
+    ...FONTS.regular,
+    fontSize: 11,
+    color: COLORS.warning,
+    textAlign: 'right',
+    marginTop: -SPACING.xxl,
+  } as TextStyle,
+
+  // ─── Выбор уровня навыка ─────────────────────────────────────────
+  /** Заголовок секции выбора уровня. */
+  levelLabel: {
+    ...FONTS.medium,
+    color: COLORS.text,
+    fontSize: 14,
+    marginBottom: SPACING.md,
+  } as TextStyle,
+
+  /** Колонка из трёх карточек уровней.
+   *  Карточки вертикально стекаются — больше места для описания. */
+  levelList: {
+    gap: SPACING.sm,
+  } as ViewStyle,
+
+  /** Карточка одного уровня (Beginner / Intermediate / Advanced).
+   *  flexDirection: row — иконка слева, текст справа. */
+  levelCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.md,
+    padding: SPACING.md,
+    borderRadius: RADIUS.lg,
+    borderWidth: 1.5,
+    borderColor: COLORS.border,
+    backgroundColor: COLORS.surface,
+  } as ViewStyle,
+
+  /** Активная карточка уровня — рамка цвета уровня. */
+  levelCardActiveBeginner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.md,
+    padding: SPACING.md,
+    borderRadius: RADIUS.lg,
+    borderWidth: 1.5,
+    borderColor: COLORS.success,
+    backgroundColor: '#F0FDF4',
+  } as ViewStyle,
+
+  levelCardActiveIntermediate: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.md,
+    padding: SPACING.md,
+    borderRadius: RADIUS.lg,
+    borderWidth: 1.5,
+    borderColor: COLORS.warning,
+    backgroundColor: '#FFFBEB',
+  } as ViewStyle,
+
+  levelCardActiveAdvanced: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.md,
+    padding: SPACING.md,
+    borderRadius: RADIUS.lg,
+    borderWidth: 1.5,
+    borderColor: COLORS.error,
+    backgroundColor: '#FFF5F5',
+  } as ViewStyle,
+
+  /** Круглая иконка-индикатор уровня (цветной кружок). */
+  levelDot: {
+    width: 40,
+    height: 40,
+    borderRadius: RADIUS.full,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  } as ViewStyle,
+
+  levelDotBeginner: {
+    width: 40,
+    height: 40,
+    borderRadius: RADIUS.full,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    backgroundColor: '#D1FAE5',
+  } as ViewStyle,
+
+  levelDotIntermediate: {
+    width: 40,
+    height: 40,
+    borderRadius: RADIUS.full,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    backgroundColor: '#FEF3C7',
+  } as ViewStyle,
+
+  levelDotAdvanced: {
+    width: 40,
+    height: 40,
+    borderRadius: RADIUS.full,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    backgroundColor: '#FEE2E2',
+  } as ViewStyle,
+
+  /** View-обёртка под иконку внутри кружка — добавишь сам. */
+  levelDotIconWrapper: {
+    width: 20,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  } as ViewStyle,
+
+  /** Блок текста карточки уровня. */
+  levelCardText: {
+    flex: 1,
+  } as ViewStyle,
+
+  /** Название уровня. */
+  levelCardTitle: {
+    ...FONTS.semibold,
+    fontSize: 14,
+    color: COLORS.text,
+    marginBottom: 2,
+  } as TextStyle,
+
+  /** Подсказка под названием уровня. */
+  levelCardSubtitle: {
+    ...FONTS.regular,
+    fontSize: 12,
+    color: COLORS.textSecondary,
+    lineHeight: 16,
+  } as TextStyle,
+
+  /** Радиокнопка справа на карточке уровня. */
+  radioOuter: {
+    width: 20,
+    height: 20,
+    borderRadius: RADIUS.full,
+    borderWidth: 2,
+    borderColor: COLORS.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  } as ViewStyle,
+
+  radioOuterActive: {
+    width: 20,
+    height: 20,
+    borderRadius: RADIUS.full,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    borderColor: COLORS.primary,
+  } as ViewStyle,
+
+  radioInner: {
+    width: 10,
+    height: 10,
+    borderRadius: RADIUS.full,
+    backgroundColor: COLORS.primary,
+  } as ViewStyle,
+
+  // ════════════════════════════════════════════════════════════════
+  // МОДАЛКА 2 — РЕДАКТИРОВАНИЕ ПРОФИЛЯ
+  // ════════════════════════════════════════════════════════════════
+
+  // ─── Аватар-редактор ─────────────────────────────────────────────
+  /** Центрированная зона аватара с кнопкой смены фото. */
+  avatarSection: {
+    alignItems: 'center',
+    marginBottom: SPACING.xl,
+  } as ViewStyle,
+
+  /** Враппер аватара — относительное позиционирование для кнопки камеры. */
+  /** Кнопка «камера» поверх аватара (правый нижний угол).
+   *  position absolute относительно avatarWrapper. */
+  avatarCameraButton: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    width: 28,
+    height: 28,
+    borderRadius: RADIUS.full,
+    backgroundColor: COLORS.primary,
+    borderWidth: 2,
+    borderColor: COLORS.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+  } as ViewStyle,
+
+  /** View-обёртка под иконку камеры — добавишь сам. */
+  cameraIconWrapper: {
+    width: 14,
+    height: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  } as ViewStyle,
+
+  /** Ссылка «Изменить фото» под аватаром. */
+  avatarChangeText: {
+    ...FONTS.regular,
+    fontSize: 13,
+    color: COLORS.primary,
+    fontWeight: '500' as const,
+  } as TextStyle,
+
+  // ─── Многострочный textarea (bio) ────────────────────────────────
+  /** Поле ввода для bio — многострочное.
+   *  textAlignVertical: 'top' — курсор начинается сверху, не по центру. */
+  textArea: {
+    backgroundColor: COLORS.background,
+    borderWidth: 1.5,
+    borderColor: COLORS.border,
+    borderRadius: RADIUS.lg,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
+    ...FONTS.regular,
+    color: COLORS.text,
+    minHeight: 88,
+    textAlignVertical: 'top',
+  } as TextStyle,
+
+  textAreaFocused: {
+    borderColor: COLORS.primary,
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  } as TextStyle,
+
+  // ─── Разделитель секций внутри формы ────────────────────────────
+  /** Горизонтальная черта между блоками полей. */
+  formDivider: {
+    height: 1,
+    backgroundColor: COLORS.border,
+    marginVertical: SPACING.lg,
+  } as ViewStyle,
+
+  /** Подзаголовок группы полей (например «Контакты»). */
+  formGroupTitle: {
+    ...FONTS.semibold,
+    fontSize: 13,
+    color: COLORS.textSecondary,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 0.5,
+    marginBottom: SPACING.md,
+  } as TextStyle,
+
+  // ─── Футер с кнопкой сохранения ──────────────────────────────────
+  /** Подвал с кнопкой — прилипает к низу, не прокручивается. */
+  footer: {
+    paddingHorizontal: SPACING.lg,
+    paddingTop: SPACING.md,
+    paddingBottom: SPACING.lg,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
+    backgroundColor: COLORS.surface,
+    gap: SPACING.sm,
+  } as ViewStyle,
+
+  /** Основная кнопка сохранения.
+   *  Та же анатомия, что button в authStyles. */
+  saveButton: {
+    backgroundColor: COLORS.primary,
+    borderRadius: RADIUS.lg,
+    paddingVertical: SPACING.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 6,
+  } as ViewStyle,
+
+  /** Кнопка сохранения в задизейбленном состоянии (нет изменений). */
+  saveButtonDisabled: {
+    borderRadius: RADIUS.lg,
+    paddingVertical: SPACING.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 10,
+    backgroundColor: COLORS.borderDark,
+    shadowOpacity: 0,
+    elevation: 0,
+    opacity: 0.6,
+  } as ViewStyle,
+
+  saveButtonText: {
+    ...FONTS.semibold,
+    color: COLORS.surface,
+  } as TextStyle,
+
+  /** Кнопка «Отмена» — вторичная, под кнопкой сохранения. */
+  cancelButton: {
+    paddingVertical: SPACING.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+  } as ViewStyle,
+
+  cancelButtonText: {
+    ...FONTS.regular,
+    fontSize: 14,
+    color: COLORS.textSecondary,
   } as TextStyle,
 });

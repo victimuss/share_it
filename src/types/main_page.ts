@@ -59,3 +59,6 @@ export interface CurrentLessonRequest {
   id: number
 }
 
+export type SearchStackParamList = {
+  Search: { search: string } | undefined;
+};

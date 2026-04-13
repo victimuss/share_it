@@ -1,10 +1,10 @@
-import { View, Text, ScrollView, Pressable, TextInput, FlatList } from "react-native";
+import { View, Text, ScrollView, Pressable, TextInput, FlatList, Modal } from "react-native";
 import { homeStyles } from "@/src/styles/MainPageStyles";
 import { useAuth } from "@/src/context/AuthContext";
 import { COLORS } from "@/src/styles/root";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest } from "@/src/types/main_page";
+import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest, SearchStackParamList } from "@/src/types/main_page";
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
 import { useNavigation } from "expo-router";
 import { ApplicationCodeIcon, BellIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon, PlayIcon } from "@/src/SVG/MainPageSVG";
@@ -14,6 +14,7 @@ import { CloseIcon, FilterIcon } from "@/src/SVG/SearchSVG";
 import { Tag } from "@/src/types/search";
 import { PopularTags, SearchLessons } from "@/src/api/search/search";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { RouteProp, useRoute } from "@react-navigation/native";
 
 const getPaginationItems = (currentPage: number, maxPage: number) => {
     const pages: (number | string)[] = [];
@@ -32,14 +33,19 @@ const getPaginationItems = (currentPage: number, maxPage: number) => {
 };
 
 export const SearchScreen = () => {
-    const [search, setSearch] = useState("");
+    type SearchScreenRouteProp = RouteProp<SearchStackParamList, 'Search'>;
+    const route = useRoute<SearchScreenRouteProp>();
+    const searchFromMainPage = route.params?.search;
+    const [search, setSearch] = useState(searchFromMainPage || "");
     const [findResult, setFindResult] = useState<any[]>([]);
     const [currentpage, setCurrentpage] = useState(1);
-    const [type, setType] = useState<LessonType>("");
+    const [type, setType] = useState<LessonType>(null);
     const [recentSearch, setRecentSearch] = useState<string[]>([]);
     const [level, setLevel] = useState("");
+    const [order, setOrder] = useState("");
     const [maxpage, setMaxpage] = useState(1);
     const [popularTags, setPopularTags] = useState<string[]>([]);
+    const [modalVisible, setModalVisible] = useState(false);
     const iconMap: Record<string, React.ReactNode> = {
         code: <ApplicationCodeIcon size={50} />,
         design: <DesignPaletteIcon size={50} />,
@@ -56,15 +62,19 @@ export const SearchScreen = () => {
         }
     };
 
-    const fetchFindResult = async (searchTerm?: string, pageParam?: number) => {
+    const fetchFindResult = async (searchTerm?: string, pageParam?: number, levelParam?: string, typeParam?: LessonType, orderParam?: string) => {
         const query = searchTerm !== undefined ? searchTerm : search;
         const pageToFetch = pageParam !== undefined ? pageParam : currentpage;
+        const levelToFetch = levelParam !== undefined ? levelParam : level;
+        const typeToFetch = typeParam !== undefined ? typeParam : type;
+        const orderToFetch = orderParam !== undefined ? orderParam : order;
         try {
             const response = await SearchLessons({
                 search: query,
-                type: null,
-                level: "",
-                page: pageToFetch
+                type: typeToFetch,
+                level: levelToFetch,
+                page: pageToFetch,
+                order: order
             });
             setFindResult(response.lessons || []);
             setMaxpage(Math.ceil(response.total / 4) || 1);
@@ -91,6 +101,7 @@ export const SearchScreen = () => {
         });
     };
 
+
     const loadRecentSearch = async () => {
         try {
             const saved = await AsyncStorage.getItem("recent_search");
@@ -106,6 +117,15 @@ export const SearchScreen = () => {
         fetchPopularTags();
         loadRecentSearch();
     }, []);
+
+    useEffect(() => {
+        if (route.params?.search) {
+            setSearch(route.params.search);
+            fetchFindResult(route.params.search, 1);
+            saveRecentSearch(route.params.search);
+        }
+    }, [route.params?.search]);
+
 
     return (
         <SafeAreaView style={searchStyles.container} edges={['top']}>
@@ -168,7 +188,8 @@ export const SearchScreen = () => {
                     <><><View style={searchStyles.section}>
                         <View style={searchStyles.resultsHeader}>
                             <Text style={searchStyles.resultsCount}>Найдено {findResult.length} результата</Text>
-                            <Pressable style={searchStyles.filterButton}>
+                            <Pressable style={searchStyles.filterButton}
+                                onPress={() => { setModalVisible(true) }}>
                                 <View style={searchStyles.filterButtonIconWrapper}>
                                     <FilterIcon color={COLORS.text} size={14} />
                                 </View>
@@ -176,6 +197,92 @@ export const SearchScreen = () => {
                             </Pressable>
                         </View>
                     </View>
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={modalVisible}
+                            onRequestClose={() => setModalVisible(false)}
+                        >
+                            <View style={searchStyles.overlay}>
+                                <View style={searchStyles.sheet}>
+                                    <View style={searchStyles.handle} />
+                                    <View style={searchStyles.headerModal}>
+                                        <Text style={searchStyles.headerTitleModal}>Фильтры</Text>
+                                        <Pressable onPress={() => { setModalVisible(false); setLevel(''); }}>
+                                            <View style={searchStyles.clearButton}>
+                                                <CloseIcon />
+                                            </View>
+                                        </Pressable>
+                                        <Text style={searchStyles.resetButtonText}
+                                            onPress={() => {
+                                                setLevel('');
+                                                setModalVisible(false);
+                                                fetchFindResult(search, currentpage, '');
+                                            }}>
+                                            Сбросить
+                                        </Text>
+                                    </View>
+                                    <ScrollView contentContainerStyle={searchStyles.scrollContent}>
+                                        <View style={searchStyles.filterSection}>
+                                            <View style={searchStyles.filterSectionHeader}>
+                                                <Text style={searchStyles.filterSectionTitle}>Сложность</Text>
+                                                <Text style={searchStyles.resetButtonText}
+                                                    onPress={() => {
+                                                        setLevel('');
+                                                        fetchFindResult(search, currentpage, '');
+                                                    }}>
+                                                    Сбросить
+                                                </Text>
+                                            </View>
+                                            <View style={searchStyles.chipsWrap}>
+                                                <Pressable style={level === 'Beginner' ? searchStyles.chipBeginnerActive : searchStyles.chipBeginner}
+                                                    onPress={() => { setLevel('Beginner'); fetchFindResult(search, currentpage, 'Beginner'); }}>
+                                                    <Text style={level === 'Beginner' ? searchStyles.chipBeginnerTextActive : searchStyles.chipBeginnerText}>Beginner</Text>
+                                                </Pressable>
+                                                <Pressable style={level === 'Intermediate' ? searchStyles.chipIntermediateActive : searchStyles.chipIntermediate}
+                                                    onPress={() => { setLevel('Intermediate'); fetchFindResult(search, currentpage, 'Intermediate'); }}>
+                                                    <Text style={level === 'Intermediate' ? searchStyles.chipIntermediateTextActive : searchStyles.chipIntermediateText}>Intermediate</Text>
+                                                </Pressable>
+                                                <Pressable style={level === 'Advanced' ? searchStyles.chipAdvancedActive : searchStyles.chipAdvanced}
+                                                    onPress={() => { setLevel('Advanced'); fetchFindResult(search, currentpage, 'Advanced'); }}>
+                                                    <Text style={level === 'Advanced' ? searchStyles.chipAdvancedTextActive : searchStyles.chipAdvancedText}>Advanced</Text>
+                                                </Pressable>
+                                            </View>
+                                        </View>
+                                        <View style={searchStyles.filterSection}>
+                                            <View style={searchStyles.filterSectionHeader}>
+                                                <Text style={searchStyles.filterSectionTitle}>Категория</Text>
+                                                <Text style={searchStyles.resetButtonText}
+                                                    onPress={() => {
+                                                        setType(null);
+                                                        fetchFindResult(search, currentpage, level, null);
+                                                    }}>
+                                                    Сбросить
+                                                </Text>
+                                            </View>
+                                            <View style={searchStyles.chipsWrap}>
+                                                <Pressable style={type === 'code' ? searchStyles.filterOptionChipActive : searchStyles.filterOptionChip}
+                                                    onPress={() => { setType('code'); fetchFindResult(search, currentpage, level, 'code'); }}>
+                                                    <Text style={type === 'code' ? searchStyles.filterOptionChipTextActive : searchStyles.filterOptionChipText}>code</Text>
+                                                </Pressable>
+                                                <Pressable style={type === 'design' ? searchStyles.filterOptionChipActive : searchStyles.filterOptionChip}
+                                                    onPress={() => { setType('design'); fetchFindResult(search, currentpage, level, 'design'); }}>
+                                                    <Text style={type === 'design' ? searchStyles.filterOptionChipTextActive : searchStyles.filterOptionChipText}>design</Text>
+                                                </Pressable>
+                                                <Pressable style={type === 'language' ? searchStyles.filterOptionChipActive : searchStyles.filterOptionChip}
+                                                    onPress={() => { setType('language'); fetchFindResult(search, currentpage, level, 'language'); }}>
+                                                    <Text style={type === 'language' ? searchStyles.filterOptionChipTextActive : searchStyles.filterOptionChipText}>language</Text>
+                                                </Pressable>
+                                                <Pressable style={type === 'business' ? searchStyles.filterOptionChipActive : searchStyles.filterOptionChip}
+                                                    onPress={() => { setType('business'); fetchFindResult(search, currentpage, level, 'business'); }}>
+                                                    <Text style={type === 'business' ? searchStyles.filterOptionChipTextActive : searchStyles.filterOptionChipText}>business</Text>
+                                                </Pressable>
+                                            </View>
+                                        </View>
+                                    </ScrollView>
+                                </View>
+                            </View>
+                        </Modal>
                         <View>
                             {(findResult || []).map((item: any) => {
                                 const less = item.lesson || item;

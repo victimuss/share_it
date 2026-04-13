@@ -14,19 +14,17 @@ export const GetUserSkills = async (): Promise<Skill[]> => {
   }
 };
 
-export const NewSkillapi = async(data: NewSkill): Promise<SkillOut> => {
+export const NewSkillapi = async (data: NewSkill): Promise<SkillOut> => {
   try {
-    const query = data.user_id ? `?type=${data.user_id}` : ''
-    const response = await api.post<SkillOut>('users/new_skill${query}', data);
+    const response = await api.post<SkillOut>('users/new_skill', data);
     return response;
   } catch (error) {
     console.error(`Ошибка запроса skills:`, error);
     throw error;
   }
-    
 }
 
-export const EditSkillapi = async(data: EditSkill): Promise<SkillOut> => {
+export const EditSkillapi = async (data: EditSkill): Promise<SkillOut> => {
   try {
     const query = data.user_id ? `?type=${data.user_id}` : ''
     const response = await api.put<SkillOut>('users/edit_skill${query}', data);
@@ -36,10 +34,10 @@ export const EditSkillapi = async(data: EditSkill): Promise<SkillOut> => {
     throw error;
   }
 
-  
+
 }
 
-export const UsersLearned = async(): Promise<LearnedLessonsResponce> => {
+export const UsersLearned = async (): Promise<LearnedLessonsResponce> => {
   try {
     const response = await api.get<LearnedLessonsResponce>('users/users_learned');
     return response;
@@ -49,7 +47,7 @@ export const UsersLearned = async(): Promise<LearnedLessonsResponce> => {
   }
 }
 
-export const UsersMaked = async(): Promise<MakedLessonsResponce> => {
+export const UsersMaked = async (): Promise<MakedLessonsResponce> => {
   try {
     const response = await api.get<MakedLessonsResponce>('users/user_maked_lessons');
     return response;

@@ -1,20 +1,29 @@
-import { View, Text, ScrollView, Pressable, TextInput, FlatList } from "react-native";
+import { View, Text, ScrollView, Pressable, TextInput, FlatList, Dimensions, Modal, KeyboardAvoidingView, Alert } from "react-native";
 import { homeStyles } from "@/src/styles/MainPageStyles";
 import { useAuth } from "@/src/context/AuthContext";
 import { COLORS } from "@/src/styles/root";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 import { currentLessonResponce, Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest } from "@/src/types/main_page";
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
 import { profileStyles } from "@/src/styles/ProfileStyles";
 import { useNavigation } from "expo-router";
 import { LearnedLessonsResponce, MakedLessonsResponce, Skill, SkillOut } from "@/src/types/profile";
-import { GetUserSkills, UsersLearned, UsersMaked } from "@/src/api/main_page/profile/profile";
+import { GetUserSkills, NewSkillapi, UsersLearned, UsersMaked } from "@/src/api/main_page/profile/profile";
 import { ApplicationCodeIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon } from "@/src/SVG/MainPageSVG";
+import { CloseIcon } from "@/src/SVG/SearchSVG";
+import { NewSkill } from "@/src/types/profile";
 
 export const ProfileScreen = () => {
     const [loading, setLoading] = useState(true);
+    const [newSkillname, setNewSkillname] = useState('')
+    const [newSkillError, setNewSkillError] = useState(false)
+    const [newSkillLevel, setNewSkillLevel] = useState('beginner')
     const [skills, setSkills] = useState<Skill[]>([]);
+    const [skillModal, showskillModal] = useState(false)
+    const [editModal, showeditModal] = useState(false)
+    const [isFocused, setIsFocused] = useState(false)
     const [completedLessons, setCompletedLessons] = useState<LearnedLessonsResponce>({ learnLessons: [], lessons: [] });
     const [Lessons, setLessons] = useState<LearnedLessonsResponce>({ learnLessons: [], lessons: [] });
     const [myLessons, setMyLessons] = useState<MakedLessonsResponce>({ lessons: [] });
@@ -38,27 +47,46 @@ export const ProfileScreen = () => {
     const lesColumn = chunkArray(Lessons.lessons, 2)
     const completedColumn = chunkArray(completedLessons.lessons, 2)
     const { user } = useAuth();
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const skillResponse = user ? await GetUserSkills() : null;
+            const completedResponse = user ? await UsersLearned() : null;
+            const getMyLessons = user ? await UsersMaked() : null;
+            setSkills(skillResponse || []);
+            setCompletedLessons(completedResponse || { learnLessons: [], lessons: [] });
+            setLessons(completedResponse || { learnLessons: [], lessons: [] });
+            setMyLessons(getMyLessons || { lessons: [] });
+            console.log('ПОПУДЯ', skills)
+        } catch (err: any) {
+            console.error(err);
+            setError('Не удалось загрузить уроки. Попробуйте позже.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const NewSkillAdd = async () => {
+        setLoading(true);
+        try {
+            const skillResponse = user ? await NewSkillapi({ skill_name: newSkillname, level: newSkillLevel }) : null
+            Alert.alert('Успешно добавлено')
+            fetchData()
+            setNewSkillname('')
+            showskillModal(false)
+        } catch (err: any) {
+            console.error(err);
+            setError('Не удалось загрузить уроки. Попробуйте позже.');
+        } finally {
+            setLoading(false);
+        }
+
+    }
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const skillResponse = user ? await GetUserSkills() : null;
-                const completedResponse = user ? await UsersLearned() : null;
-                const getMyLessons = user ? await UsersMaked() : null;
-                setSkills(skillResponse || []);
-                setCompletedLessons(completedResponse || { learnLessons: [], lessons: [] });
-                setLessons(completedResponse || { learnLessons: [], lessons: [] });
-                setMyLessons(getMyLessons || { lessons: [] });
-                console.log('ПОПУДЯ', skills)
-            } catch (err: any) {
-                console.error(err);
-                setError('Не удалось загрузить уроки. Попробуйте позже.');
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchData();
     }, [user]);
+
+
     return (
         <SafeAreaView style={profileStyles.container} edges={['top']}>
             <ScrollView style={profileStyles.scrollContainer}>
@@ -105,9 +133,127 @@ export const ProfileScreen = () => {
                             Мои навыки
                         </Text>
                         <Pressable>
-                            <Text style={profileStyles.sectionAction}>+ Добавить</Text>
+                            <Text style={profileStyles.sectionAction}
+                                onPress={((pressed) => showskillModal(true))}>+ Добавить</Text>
                         </Pressable>
                     </View>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={skillModal}
+                        onRequestClose={() => showskillModal(false)}>
+                        <View style={profileStyles.overlay}>
+                            <View style={profileStyles.sheet}>
+                                <View style={profileStyles.handle}>
+                                </View>
+                                <View style={profileStyles.header}>
+                                    <Text style={profileStyles.headerTitle}>
+                                        Новый навык
+                                    </Text>
+                                    <Pressable style={profileStyles.closeButton}
+                                        onPress={() => { showskillModal(false); setNewSkillname('') }}>
+                                        <View style={profileStyles.closeIconWrapper}>
+                                            <CloseIcon />
+                                        </View>
+                                    </Pressable>
+                                </View>
+                                <ScrollView style={profileStyles.scrollContent}
+                                    showsVerticalScrollIndicator={false}>
+                                    <KeyboardAvoidingView style={profileStyles.inputGroup}>
+                                        <Text style={profileStyles.inputLabel}> Название навыка</Text>
+                                        <Text style={newSkillname.length >= 20 ? profileStyles.charCounterWarn : profileStyles.charCounter}>{newSkillname.length}/25</Text>
+                                        <TextInput
+                                            style={[
+                                                profileStyles.input,
+                                                isFocused && profileStyles.inputFocused
+                                            ]}
+                                            onChangeText={(text) => { setNewSkillname(text) }}
+                                            onFocus={() => setIsFocused(true)}
+                                            onBlur={() => setIsFocused(false)}
+                                            maxLength={25}
+
+                                            placeholder="Например, React, Figma, Python...">
+                                        </TextInput>
+                                        {(newSkillError) && (
+                                            <Text style={profileStyles.errorText}>
+                                                Заполните все поля
+                                            </Text>
+                                        )}
+                                        <Text style={profileStyles.levelLabel}>
+                                            Уровень владения
+                                        </Text>
+                                        <View style={profileStyles.levelList}>
+                                            <Pressable onPress={() => setNewSkillLevel('beginner')}
+                                                style={newSkillLevel == 'beginner' ? profileStyles.levelCardActiveBeginner : profileStyles.levelCard}>
+                                                <View style={profileStyles.levelDotBeginner}>
+                                                    <View style={profileStyles.levelDotIconWrapper}>
+                                                        <Text>🌱</Text>
+                                                    </View>
+                                                </View>
+                                                <View style={profileStyles.levelCardText}>
+                                                    <Text style={profileStyles.levelCardTitle}>Beginner</Text>
+                                                    <Text style={profileStyles.levelCardSubtitle}>Знаком с основами, изучаю</Text>
+                                                </View>
+                                                <View style={newSkillLevel == 'beginner' ? profileStyles.radioOuterActive : profileStyles.radioOuter}>
+                                                    {(newSkillLevel == 'beginner') && (
+                                                        <View style={profileStyles.radioInner}>
+                                                        </View>
+                                                    )}
+                                                </View>
+                                            </Pressable>
+                                            <Pressable onPress={() => setNewSkillLevel('intermediate')}
+                                                style={newSkillLevel == 'intermediate' ? profileStyles.levelCardActiveIntermediate : profileStyles.levelCard}>
+                                                <View style={profileStyles.levelDotIntermediate}>
+                                                    <View style={profileStyles.levelDotIconWrapper}>
+                                                        <Text>⚡</Text>
+                                                    </View>
+                                                </View>
+                                                <View style={profileStyles.levelCardText}>
+                                                    <Text style={profileStyles.levelCardTitle}>Intermediate</Text>
+                                                    <Text style={profileStyles.levelCardSubtitle}>Уверенно применяю на практике</Text>
+                                                </View>
+                                                <View style={newSkillLevel == 'intermediate' ? profileStyles.radioOuterActive : profileStyles.radioOuter}>
+                                                    {(newSkillLevel == 'intermediate') && (
+                                                        <View style={profileStyles.radioInner}>
+                                                        </View>
+                                                    )}
+                                                </View>
+                                            </Pressable>
+                                            <Pressable onPress={() => setNewSkillLevel('advanced')}
+                                                style={newSkillLevel == 'advanced' ? profileStyles.levelCardActiveAdvanced : profileStyles.levelCard}>
+                                                <View style={profileStyles.levelDotAdvanced}>
+                                                    <View style={profileStyles.levelDotIconWrapper}>
+                                                        <Text>🔥</Text>
+                                                    </View>
+                                                </View>
+                                                <View style={profileStyles.levelCardText}>
+                                                    <Text style={profileStyles.levelCardTitle}>Advanced</Text>
+                                                    <Text style={profileStyles.levelCardSubtitle}>Экспертный уровень, обучаю других</Text>
+                                                </View>
+                                                <View style={newSkillLevel == 'advanced' ? profileStyles.radioOuterActive : profileStyles.radioOuter}>
+                                                    {(newSkillLevel == 'advanced') && (
+                                                        <View style={profileStyles.radioInner}>
+                                                        </View>
+                                                    )}
+                                                </View>
+                                            </Pressable>                                     </View>
+                                    </KeyboardAvoidingView>
+                                </ScrollView>
+                                <View style={profileStyles.footer}>
+                                    <Pressable style={(newSkillname.length == 0) ? profileStyles.saveButtonDisabled : profileStyles.saveButton}
+                                        disabled={(newSkillname.length == 0)}
+                                        onPress={() => { NewSkillAdd(); }}>
+                                        <Text style={profileStyles.saveButtonText}>
+                                            Сохранить
+                                        </Text>
+                                    </Pressable>
+                                    <Pressable>
+
+                                    </Pressable>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
                     <FlatList
                         horizontal
                         data={skills || []}
@@ -142,12 +288,12 @@ export const ProfileScreen = () => {
                     <FlatList
                         data={activeTab === 'myLessons' ? myLesColumn : activeTab === 'Lessons' ? lesColumn : completedColumn}
                         horizontal
+                        showsHorizontalScrollIndicator={false}
                         keyExtractor={(_, i) => `${activeTab}-${i}`}
                         key={activeTab}
                         extraData={activeTab}
-                        contentContainerStyle={homeStyles.lessonCardContent}
                         renderItem={({ item }) => (
-                            <View>
+                            <View style={{ width: Dimensions.get('window').width * 0.85 }}>
                                 {item.map((lesson) => (
                                     <View key={lesson.id} style={[homeStyles.lessonCard]}>
                                         <View style={homeStyles.lessonCardThumb}>
@@ -175,6 +321,7 @@ export const ProfileScreen = () => {
                     />
                 </View>
             </ScrollView>
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
+

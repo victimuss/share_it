@@ -4,12 +4,13 @@ import { useAuth } from "@/src/context/AuthContext";
 import { COLORS } from "@/src/styles/root";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LoadScreen } from "./LoadScreen";
+import { ErrorScreen } from "./ErrorScreen";
 import { currentLessonResponce, Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest } from "@/src/types/main_page";
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
 import { set } from "react-native-reanimated";
 import { useNavigation } from "expo-router";
 import { ApplicationCodeIcon, BellIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon, PlayIcon } from "@/src/SVG/MainPageSVG";
-
 export const MainScreen = () => {
   const { user } = useAuth();
   const id = user ? user.id : 0 <CurrentLessonRequest | null>(null);
@@ -87,6 +88,19 @@ export const MainScreen = () => {
     )
   }
 
+  if (loading) {
+    return (
+      <LoadScreen />
+
+    )
+  }
+
+  if (error) {
+    return (
+      <ErrorScreen />
+    )
+  }
+
   return (
     <SafeAreaView style={homeStyles.container} edges={['top']}>
       <ScrollView contentContainerStyle={homeStyles.scrollContainer}>
@@ -120,6 +134,8 @@ export const MainScreen = () => {
               style={homeStyles.searchInput}
               placeholder="Найти урок или навык..."
               placeholderTextColor={'#6B7280'}
+              returnKeyType="search"
+              onSubmitEditing={(e) => (navigator as any).navigate('Search', { search: e.nativeEvent.text })}
             />
           </View>
           <ScrollView
@@ -182,7 +198,8 @@ export const MainScreen = () => {
           <View style={homeStyles.sectionHeader}>
             <Text style={homeStyles.sectionTitle}>Популярное</Text>
             <Pressable>
-              <Text style={homeStyles.seeAllText}>Все→</Text>
+              <Text style={homeStyles.seeAllText}
+                onPress={(pressed) => navigator.navigate('Search')}>Все→</Text>
             </Pressable>
           </View>
           <FlatList
@@ -224,12 +241,12 @@ export const MainScreen = () => {
               <View style={homeStyles.progressCardHeader}>
                 <PlayIcon></PlayIcon>
                 <Text style={homeStyles.progressCardTitle}>{current?.last_lession?.lesson?.lesson_name || 'Нет текущего урока'}</Text>
-                <Text style={homeStyles.progressLabel}>{(current.last_lession?.last_lession?.completed_steps / current?.last_lession?.lesson.sheet_counts) * 100 || 0}%</Text>
+                <Text style={homeStyles.progressLabel}>{Math.ceil((current.last_lession?.last_lession?.completed_steps / current?.last_lession?.lesson.sheet_counts) * 100) || 0}%</Text>
               </View>
               <View style={homeStyles.progressTrack}>
                 <View style={[
                   homeStyles.progressFill,
-                  { width: `${Math.round(current.last_lession?.last_lession?.completed_steps / current?.last_lession?.lesson.sheet_counts) * 100 || 0}%` }
+                  { width: `${Math.ceil((current.last_lession?.last_lession?.completed_steps / current?.last_lession?.lesson.sheet_counts) * 100)}%` }
                 ]} />
               </View>
             </View>
@@ -243,7 +260,8 @@ export const MainScreen = () => {
           <View style={homeStyles.sectionHeader}>
             <Text style={homeStyles.sectionTitle}>Новые уроки</Text>
             <Pressable>
-              <Text style={homeStyles.seeAllText}>Все→</Text>
+              <Text style={homeStyles.seeAllText}
+                onPress={(pressed) => navigator.navigate('Search')}>Все→</Text>
             </Pressable>
           </View>
           <View>
