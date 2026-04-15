@@ -1,4 +1,4 @@
-export type LessonType = "code" | "business" | "design" | null | 'language'; // пример
+export type LessonType = "code" | "business" | "design" | null | 'language';
 
 export interface Lesson {
   author: any;
