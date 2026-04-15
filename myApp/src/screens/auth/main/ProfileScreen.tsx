@@ -10,10 +10,11 @@ import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/
 import { profileStyles } from "@/src/styles/ProfileStyles";
 import { useNavigation } from "expo-router";
 import { LearnedLessonsResponce, MakedLessonsResponce, Skill, SkillOut } from "@/src/types/profile";
-import { GetUserSkills, NewSkillapi, UsersLearned, UsersMaked } from "@/src/api/main_page/profile/profile";
+import { EditUserAPI, GetUserSkills, NewSkillapi, UsersLearned, UsersMaked } from "@/src/api/main_page/profile/profile";
 import { ApplicationCodeIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon } from "@/src/SVG/MainPageSVG";
 import { CloseIcon } from "@/src/SVG/SearchSVG";
 import { NewSkill } from "@/src/types/profile";
+import { LoadScreen } from "./LoadScreen";
 
 export const ProfileScreen = () => {
     const [loading, setLoading] = useState(true);
@@ -23,6 +24,12 @@ export const ProfileScreen = () => {
     const [skills, setSkills] = useState<Skill[]>([]);
     const [skillModal, showskillModal] = useState(false)
     const [editModal, showeditModal] = useState(false)
+    const [editUserName, setEditUserName] = useState('')
+    const [editDescription, setEditDescription] = useState('')
+    const [editTag, setEditTag] = useState('')
+    const [editSite, setEditSite] = useState('')
+    const [editTelegram, setEditTelegram] = useState('')
+    const [editAvatar, setEditAvatar] = useState('')
     const [isFocused, setIsFocused] = useState(false)
     const [completedLessons, setCompletedLessons] = useState<LearnedLessonsResponce>({ learnLessons: [], lessons: [] });
     const [Lessons, setLessons] = useState<LearnedLessonsResponce>({ learnLessons: [], lessons: [] });
@@ -82,10 +89,35 @@ export const ProfileScreen = () => {
         }
 
     }
+
+    const EditUserFetch = async () => {
+        setLoading(true)
+        try {
+            const editResponse = user ? await EditUserAPI({ user_name: editUserName, description: editDescription, tag: editTag, site: editSite, telegram: editTelegram, avatar: editAvatar }) : null
+            Alert.alert('Успешно изменено')
+            fetchData()
+            setEditUserName('')
+            setEditDescription('')
+            setEditTag('')
+            setEditSite('')
+            setEditTelegram('')
+            setEditAvatar('')
+            showeditModal(false)
+        } catch (err: any) {
+            console.error(err);
+            setError('Не удалось изменить. Попробуйте позже.');
+            Alert.alert('Ошибка', 'Не удалось изменить. Попробуйте позже.')
+        } finally {
+            setLoading(false);
+        }
+    }
     useEffect(() => {
         fetchData();
     }, [user]);
 
+    if (loading) {
+        return <LoadScreen></LoadScreen>
+    }
 
     return (
         <SafeAreaView style={profileStyles.container} edges={['top']}>
@@ -112,6 +144,14 @@ export const ProfileScreen = () => {
                     <Pressable style={profileStyles.editButton}>
                         <Text style={profileStyles.editButtonText}>Редактировать профиль</Text>
                     </Pressable>
+                    <Modal
+                        visible={editModal}
+                        animationType="slide"
+                        transparent={true}
+                        onRequestClose={() => showeditModal(false)}
+                    >
+                        
+                    </Modal>
                 </View>
                 <View style={profileStyles.statsRow}>
                     <View style={profileStyles.statItem}>

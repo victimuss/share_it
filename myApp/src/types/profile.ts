@@ -54,3 +54,21 @@ export interface LearnedLessonsResponce {
 export interface MakedLessonsResponce {
     lessons: Lesson[]
 }
+
+export interface EditUser {
+    user_name: string
+    description: string
+    tag: string
+    site: string
+    telegram: string
+    avatar: string
+}
+
+export interface UserOut {
+    user_name: string
+    description: string
+    tag: string
+    site: string
+    telegram: string
+    avatar: string
+}

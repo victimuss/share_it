@@ -60,3 +60,11 @@ class SkillOut(BaseModel):
 class NewSkill(BaseModel):
     skill_name: str 
     level: str
+
+class UserEdit(BaseModel):
+    user_name: Optional[str]
+    description: Optional[str]
+    tag: Optional[str]
+    site: Optional[str]
+    telegram: Optional[str]
+    avatar: Optional[str]

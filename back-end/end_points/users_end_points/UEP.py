@@ -113,3 +113,7 @@ async def test(current_user =  Depends(get_current_active_user)):
 @router.get('/user_maked_lessons')
 async def test(current_user =  Depends(get_current_active_user)):
     return await get_maked_lessons(current_user)
+
+@router.post('/edit_user')
+async def edit_us(user_data: UserEdit, current_user =  Depends(get_current_active_user)):
+    return await edit_user(user_data) 

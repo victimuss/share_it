@@ -2,7 +2,7 @@ import { AuthorRequest, AuthorResponce, CurrentLessonRequest, curretLessonRespon
 import { api } from "../../api";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { EditSkill, LearnedLessonsResponce, MakedLessonsResponce, NewSkill, Skill, SkillOut, SkillRequest } from "@/src/types/profile";
+import { EditSkill, EditUser, LearnedLessonsResponce, MakedLessonsResponce, NewSkill, Skill, SkillOut, SkillRequest, UserOut } from "@/src/types/profile";
 
 export const GetUserSkills = async (): Promise<Skill[]> => {
   try {
@@ -56,3 +56,14 @@ export const UsersMaked = async (): Promise<MakedLessonsResponce> => {
     throw error;
   }
 }
+
+export const EditUserAPI = async (data: EditUser): Promise<UserOut> => {
+  try {
+    const response = await api.post<UserOut>('users/edit_user', data);
+    return response;
+  } catch (error) {
+    console.error(`Ошибка запроса skills:`, error);
+    throw error;
+  }
+}
+

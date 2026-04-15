@@ -17,6 +17,9 @@ class User(Base):
     description: Mapped[str] = mapped_column(String(255), default='Нет описания', nullable=True)
     tag: Mapped[str] = mapped_column(String(255), default='',unique=True, nullable=True)
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
+    avatar: Mapped[str] = mapped_column(String(255), default='', nullable=True)
+    site: Mapped[str] = mapped_column(String(255), default='', nullable=True)
+    telegram: Mapped[str] = mapped_column(String(255), default='', nullable=True)
     
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(timezone.utc))
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))

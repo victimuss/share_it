@@ -154,3 +154,19 @@ async def get_maked_lessons(user_id: int):
         result = await session.execute(select(Lesson).where(Lesson.author_id == user_id))
         lessons = result.scalars().all()
         return {'lessons':lessons}
+
+async def edit_user(user_id: int, user_data: UserEdit):
+    async with async_session() as session:
+        result = await session.execute(select(User).where(User.id == user_id))
+        user = result.scalar_one_or_none()
+        if user is None:
+            raise HTTPException(status_code=404, detail="User not found")
+        user.user_name = user_data.user_name
+        user.description = user_data.description
+        user.tag = user_data.tag
+        user.site = user_data.site
+        user.telegram = user_data.telegram
+        user.avatar = user_data.avatar
+        await session.commit()
+        await session.refresh(user)
+        return {'user' : UserOut(user_name=user.user_name, description=user.description, tag=user.tag, site=user.site, telegram=user.telegram, avatar=user.avatar)}
