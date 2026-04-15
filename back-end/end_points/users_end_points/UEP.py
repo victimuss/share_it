@@ -8,7 +8,7 @@ import requests
 from pydantic import BaseModel
 from auth.jwt_tokens import *
 from databases.schemas.schemas_user import *
-from databases.users_db.user_db_utils import add_skill, add_user, authenticate_user, edit_skill, get_last_lession, get_maked_lessons, get_user_learn_lessons, get_user_lessions, get_users_skills
+from databases.users_db.user_db_utils import add_skill, add_user, authenticate_user, edit_skill, get_last_lession, get_maked_lessons, get_user_learn_lessons, get_user_lessions, get_users_skills , edit_user
 from databases.users_db.users_db import User
 from fastapi import APIRouter
 from auth.dependency import get_current_user
@@ -116,4 +116,4 @@ async def test(current_user =  Depends(get_current_active_user)):
 
 @router.post('/edit_user')
 async def edit_us(user_data: UserEdit, current_user =  Depends(get_current_active_user)):
-    return await edit_user(user_data) 
+    return await edit_user(current_user, user_data) 

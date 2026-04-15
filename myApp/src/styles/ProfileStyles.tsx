@@ -716,11 +716,25 @@ export const profileStyles = StyleSheet.create({
     marginBottom: SPACING.xl,
   } as ViewStyle,
 
+  /** Враппер аватара внутри модалки редактирования.
+   *  position: 'relative' обязателен — кнопка камеры (position: absolute)
+   *  позиционируется относительно этого элемента, а не "улетает". */
+  avatarWrapperEdit: {
+    position: 'relative',
+    width: 88,
+    height: 88,
+  } as ViewStyle,
+
   /** Враппер аватара — относительное позиционирование для кнопки камеры. */
   /** Кнопка «камера» поверх аватара (правый нижний угол).
    *  position absolute относительно avatarWrapper. */
   avatarCameraButton: {
     position: 'absolute',
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
     bottom: 0,
     right: 0,
     width: 28,
@@ -744,7 +758,8 @@ export const profileStyles = StyleSheet.create({
   /** Ссылка «Изменить фото» под аватаром. */
   avatarChangeText: {
     ...FONTS.regular,
-    fontSize: 13,
+    alignSelf: 'center',
+    fontSize: 11,
     color: COLORS.primary,
     fontWeight: '500' as const,
   } as TextStyle,
@@ -784,7 +799,7 @@ export const profileStyles = StyleSheet.create({
 
   /** Подзаголовок группы полей (например «Контакты»). */
   formGroupTitle: {
-    ...FONTS.semibold,
+    ...FONTS.bold,
     fontSize: 13,
     color: COLORS.textSecondary,
     textTransform: 'uppercase' as const,

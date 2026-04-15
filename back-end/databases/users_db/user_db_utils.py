@@ -4,7 +4,7 @@ import asyncio
 from sqlalchemy import *
 from fastapi import HTTPException
 from typing import Optional
-from databases.schemas.schemas_user import NewSkill, SkillOut, UserCreate, LoginUser
+from databases.schemas.schemas_user import NewSkill, SkillOut, UserCreate, LoginUser, UserEdit, UserOut
 from databases.lesson_db.lessons_db_utils import *
 from auth.auth import hash_password, verify_password
 from sqlalchemy.exc import IntegrityError
@@ -169,4 +169,4 @@ async def edit_user(user_id: int, user_data: UserEdit):
         user.avatar = user_data.avatar
         await session.commit()
         await session.refresh(user)
-        return {'user' : UserOut(user_name=user.user_name, description=user.description, tag=user.tag, site=user.site, telegram=user.telegram, avatar=user.avatar)}
+        return {'user' : UserEdit(user_name=user.user_name, description=user.description, tag=user.tag, site=user.site, telegram=user.telegram, avatar=user.avatar)}

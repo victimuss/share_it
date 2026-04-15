@@ -5,7 +5,7 @@ import { COLORS } from "@/src/styles/root";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { currentLessonResponce, Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest } from "@/src/types/main_page";
+import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest } from "@/src/types/main_page";
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
 import { profileStyles } from "@/src/styles/ProfileStyles";
 import { useNavigation } from "expo-router";
@@ -15,8 +15,10 @@ import { ApplicationCodeIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon } fr
 import { CloseIcon } from "@/src/SVG/SearchSVG";
 import { NewSkill } from "@/src/types/profile";
 import { LoadScreen } from "./LoadScreen";
+import { SearchIcon } from "@/src/SVG/TabSVG";
 
 export const ProfileScreen = () => {
+    const { user, edit } = useAuth();
     const [loading, setLoading] = useState(true);
     const [newSkillname, setNewSkillname] = useState('')
     const [newSkillError, setNewSkillError] = useState(false)
@@ -24,12 +26,12 @@ export const ProfileScreen = () => {
     const [skills, setSkills] = useState<Skill[]>([]);
     const [skillModal, showskillModal] = useState(false)
     const [editModal, showeditModal] = useState(false)
-    const [editUserName, setEditUserName] = useState('')
-    const [editDescription, setEditDescription] = useState('')
-    const [editTag, setEditTag] = useState('')
-    const [editSite, setEditSite] = useState('')
-    const [editTelegram, setEditTelegram] = useState('')
-    const [editAvatar, setEditAvatar] = useState('')
+    const [editUserName, setEditUserName] = useState(user?.name || '')
+    const [editDescription, setEditDescription] = useState(user?.description || '')
+    const [editTag, setEditTag] = useState(user?.tag || '')
+    const [editSite, setEditSite] = useState(user?.site || '')
+    const [editTelegram, setEditTelegram] = useState(user?.telegram || '')
+    const [editAvatar, setEditAvatar] = useState(user?.avatar || '')
     const [isFocused, setIsFocused] = useState(false)
     const [completedLessons, setCompletedLessons] = useState<LearnedLessonsResponce>({ learnLessons: [], lessons: [] });
     const [Lessons, setLessons] = useState<LearnedLessonsResponce>({ learnLessons: [], lessons: [] });
@@ -53,7 +55,6 @@ export const ProfileScreen = () => {
     const myLesColumn = chunkArray(myLessons.lessons, 2)
     const lesColumn = chunkArray(Lessons.lessons, 2)
     const completedColumn = chunkArray(completedLessons.lessons, 2)
-    const { user } = useAuth();
     const fetchData = async () => {
         setLoading(true);
         try {
@@ -92,16 +93,16 @@ export const ProfileScreen = () => {
 
     const EditUserFetch = async () => {
         setLoading(true)
+        if (editUserName.length <= 3) {
+            Alert.alert('Имя должно быть не менее 3 символов')
+            return
+        }
         try {
             const editResponse = user ? await EditUserAPI({ user_name: editUserName, description: editDescription, tag: editTag, site: editSite, telegram: editTelegram, avatar: editAvatar }) : null
+            // Обновляем данные в AuthContext — все экраны, читающие user, обновятся мгновенно
+            edit(editUserName, editDescription, editTag, editSite, editTelegram, editAvatar)
             Alert.alert('Успешно изменено')
             fetchData()
-            setEditUserName('')
-            setEditDescription('')
-            setEditTag('')
-            setEditSite('')
-            setEditTelegram('')
-            setEditAvatar('')
             showeditModal(false)
         } catch (err: any) {
             console.error(err);
@@ -127,7 +128,7 @@ export const ProfileScreen = () => {
                 <View style={profileStyles.profileHeaderContainer}>
                     <View style={profileStyles.avatarWrapper}>
                         <View style={profileStyles.avatar}>
-                            <Text style={profileStyles.avatarText}>T</Text>
+                            <Text style={profileStyles.avatarText}>{user?.name.charAt(0).toUpperCase()}</Text>
                             <View style={profileStyles.onlineDot}>
                             </View>
                         </View>
@@ -141,7 +142,8 @@ export const ProfileScreen = () => {
                     <Text style={profileStyles.userBio}>
                         {user?.tag}
                     </Text>
-                    <Pressable style={profileStyles.editButton}>
+                    <Pressable style={profileStyles.editButton}
+                        onPress={() => showeditModal(true)}>
                         <Text style={profileStyles.editButtonText}>Редактировать профиль</Text>
                     </Pressable>
                     <Modal
@@ -150,7 +152,123 @@ export const ProfileScreen = () => {
                         transparent={true}
                         onRequestClose={() => showeditModal(false)}
                     >
-                        
+                        <View style={profileStyles.overlay}>
+                            <View style={profileStyles.sheet}>
+                                <View style={profileStyles.handle}>
+                                </View>
+                                <View style={profileStyles.header}>
+                                    <Text style={profileStyles.headerTitle}>
+                                        Редактировать профиль
+                                    </Text>
+                                    <Pressable style={profileStyles.closeButton}
+                                        onPress={() => { showeditModal(false); setNewSkillname('') }}>
+                                        <View style={profileStyles.closeIconWrapper}>
+                                            <CloseIcon />
+                                        </View>
+                                    </Pressable>
+                                </View>
+                                <ScrollView style={profileStyles.scrollContent}>
+                                    <View style={profileStyles.avatarSection}>
+                                        <View style={profileStyles.avatarWrapperEdit}>
+                                            <View style={profileStyles.avatar}>
+                                                <Text style={profileStyles.avatarText}>
+                                                    {user?.name?.[0]?.toUpperCase() ?? '?'}
+                                                </Text>
+                                            </View>
+                                            <View style={profileStyles.avatarCameraButton}>
+                                                <View style={profileStyles.cameraIconWrapper}>
+                                                    <SearchIcon size={14} color="white" />
+                                                </View>
+                                            </View>
+                                            <Text style={profileStyles.avatarChangeText}
+                                                numberOfLines={1}>
+                                                Изменить фото
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View>
+                                        <Text style={profileStyles.formGroupTitle}>
+                                            Основное
+                                        </Text>
+                                        <View>
+                                            <Text style={profileStyles.inputLabel}>
+                                                Имя
+                                            </Text>
+                                            <TextInput
+                                                style={profileStyles.input}
+                                                value={editUserName}
+                                                onChangeText={setEditUserName}
+                                                placeholder='Ваше имя'
+                                                placeholderTextColor={COLORS.textSecondary}
+                                            />
+                                        </View>
+                                        <View>
+                                            <Text style={profileStyles.inputLabel}>
+                                                Описание
+                                            </Text>
+                                            <TextInput
+                                                style={profileStyles.input}
+                                                value={editDescription}
+                                                onChangeText={setEditDescription}
+                                                placeholder={'Описание'}
+                                                placeholderTextColor={COLORS.textSecondary}
+                                            />
+                                        </View>
+                                        <View>
+                                            <Text style={profileStyles.inputLabel}>
+                                                Тег
+                                            </Text>
+                                            <TextInput
+                                                style={profileStyles.input}
+                                                value={editTag}
+                                                onChangeText={setEditTag}
+                                                placeholder={'Тег'}
+                                                placeholderTextColor={COLORS.textSecondary}
+                                            />
+                                        </View>
+                                        <View style={profileStyles.formDivider} />
+                                        <Text style={profileStyles.formGroupTitle}>
+                                            Контакты
+                                        </Text>
+                                        <View>
+                                            <Text style={profileStyles.inputLabel}>
+                                                Сайт
+                                            </Text>
+                                            <TextInput
+                                                style={profileStyles.input}
+                                                value={editSite}
+                                                onChangeText={setEditSite}
+                                                placeholder={'https://...'}
+                                                placeholderTextColor={COLORS.textSecondary}
+                                            />
+                                        </View>
+                                        <View>
+                                            <Text style={profileStyles.inputLabel}>
+                                                Телеграм
+                                            </Text>
+                                            <TextInput
+                                                style={profileStyles.input}
+                                                value={editTelegram}
+                                                onChangeText={setEditTelegram}
+                                                placeholder={'@username'}
+                                                placeholderTextColor={COLORS.textSecondary}
+                                            />
+                                        </View>
+                                    </View>
+                                </ScrollView>
+                                <View style={profileStyles.footer}>
+                                    <Pressable style={(editUserName.length <= 3) ? profileStyles.saveButtonDisabled : profileStyles.saveButton}
+                                        disabled={(editUserName.length <= 3)}
+                                        onPress={() => { EditUserFetch(); }}>
+                                        <Text style={profileStyles.saveButtonText}>
+                                            Сохранить
+                                        </Text>
+                                    </Pressable>
+                                    <Pressable>
+                                    </Pressable>
+                                </View>
+                            </View>
+                        </View>
                     </Modal>
                 </View>
                 <View style={profileStyles.statsRow}>

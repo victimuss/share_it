@@ -8,6 +8,9 @@ export interface AuthResponse {
     refresh_token?: string;
     token_type: string;
     user: {
+        avatar: string;
+        telegram: string;
+        site: string;
         user_name: string;
         description: string
         tag: string
