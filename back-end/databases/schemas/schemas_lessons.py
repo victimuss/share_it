@@ -15,10 +15,10 @@ class LessonCreate(BaseModel):
 
 # Схема для обновления урока
 class LessonUpdate(BaseModel):
-    sheet_counts: Optional[int] = None
     lesson_name: Optional[str] = None
     description: Optional[str] = None
     level: Optional[str] = None
+    status: Optional[str] = None
     is_active: Optional[bool] = None
 
 
@@ -30,6 +30,7 @@ class LessonOut(BaseModel):
     description: Optional[str]
     type: str
     level: str
+    status: str
     rank: float
     sheet_counts: int
     rank_count: int
@@ -40,23 +41,30 @@ class LessonOut(BaseModel):
     updated_at: datetime
     is_active: bool
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class SheetCreate(BaseModel):
     sheet_header: str
-    content_id: int
     content: str
-    author_id: int
     timeToRead: int
-    sheetType: str  # (theory, practice, example)
+    sheetType: str
+    description_for_video_or_picture: Optional[str]
+    video_url: Optional[str]
+    picture_url: Optional[str]
+    question_text: Optional[str]
+    quiz_options: Optional[List[QuizOption]] = None
     content_danger: Optional[str]
     content_advice: Optional[str]
 
 
 class SheetUpdate(BaseModel):
     sheet_header: Optional[str]
+    description_for_video_or_picture: Optional[str]
+    video_url: Optional[str]
+    picture_url: Optional[str]
+    question_text: Optional[str]
+    quiz_options: Optional[List[QuizOption]] = None
     content: Optional[str]
     timeToRead: Optional[int]
     sheetType: Optional[str]

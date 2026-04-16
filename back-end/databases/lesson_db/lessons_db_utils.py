@@ -17,76 +17,96 @@ from databases.schemas.schemas_lessons import *
 
 async def get_lesson_by_id(lesson_id: int) -> Optional[Lesson]:
     async with async_session() as session:
-        result = await session.execute(select(Lesson).where(Lesson.id == lesson_id))
+        result = await session.execute(select(Lesson).where(Lesson.id == lesson_id).where(Lesson.status == "ACTIVE"))
         lesson = result.scalar_one_or_none()
         return lesson
 
 
 async def get_all_lessons() -> Optional[Lesson]:
     async with async_session() as session:
-        result = await session.execute(select(Lesson))
+        result = await session.execute(select(Lesson).where(Lesson.status == "ACTIVE"))
         lessons = result.scalars().all()
         return lessons
 
 
 async def get_popular_lessons(
     limit: int = 3, type: Optional[str] = None
-) -> Optional[Lesson]:
+) -> Optional[list]:
     async with async_session() as session:
-        query = (select(Lesson).order_by(Lesson.likes.desc()).limit(limit)).join(
-            User, Lesson.author_id == User.id
+        query = (
+            select(Lesson, User.user_name)
+            .join(User, Lesson.author_id == User.id)
+            .where(Lesson.status == "ACTIVE")
+            .order_by(Lesson.likes.desc())
+            .limit(limit)
         )
+        
         if type is not None:
             query = query.where(Lesson.type == type)
+            
         result = await session.execute(query)
+        
         popular_lessons = []
-        for lesson in result.scalars().all():
-            popular_lessons.append(
-                {"lesson": lesson, "author": await get_author(lesson.author_id)}
-            )
+        for lesson, author_name in result.all():
+            popular_lessons.append({
+                "lesson": lesson, 
+                "author": author_name
+            })
+            
         return popular_lessons
 
 
 async def get_new_lessons(
     limit: int = 3, type: Optional[str] = None
-) -> Optional[Lesson]:
+) -> Optional[list]:
     async with async_session() as session:
-        query = (select(Lesson).order_by(Lesson.created_at.desc()).limit(limit)).join(
-            User, Lesson.author_id == User.id
-        )
+        query = (
+            select(Lesson, User.user_name)
+            .join(User, Lesson.author_id == User.id)
+            .where(Lesson.status == "ACTIVE")
+            .order_by(Lesson.created_at.desc())
+            .limit(limit)
+        )   
+        
         if type is not None:
             query = query.where(Lesson.type == type)
+            
         result = await session.execute(query)
+        
         new_lessons = []
-        for lesson in result.scalars().all():
-            new_lessons.append(
-                {"lesson": lesson, "author": await get_author(lesson.author_id)}
-            )
+        for lesson, author_name in result.all():
+            new_lessons.append({
+                "lesson": lesson, 
+                "author": author_name
+            })
+            
         return new_lessons
 
 
 async def get_lesson_by_type(lesson_type: str):
     async with async_session() as session:
-        result = await session.execute(select(Lesson).where(Lesson.type == lesson_type))
+        result = await session.execute(select(Lesson).where(Lesson.type == lesson_type).where(Lesson.status == "ACTIVE"))
         lessons = result.scalars().all()
         return lessons
 
 
-async def new_sheet(sheet_data: SheetCreate, author_id: int):
+async def new_sheet(sheet_data: SheetCreate, author_id: int, lesson_id: int):
     async with async_session() as session:
+        res = await session.execute(select(Lesson).where(Lesson.id == lesson_id).where(Lesson.author_id == author_id))
+        lesson = res.scalar_one_or_none()
+        if lesson is None:
+            raise HTTPException(status_code=404, detail="Lesson not found")
+        sheet_dict = sheet_data.model_dump(exclude_unset=True)
         new_sheet = LessonSheet(
-            content_id=sheet_data.content_id,
-            sheet_header=sheet_data.sheet_header,
-            content=sheet_data.content,
-            timeToRead=sheet_data.timeToRead,
-            sheetType=sheet_data.sheetType,
-            author_id=author_id,
-            content_danger=sheet_data.content_danger,
-            content_advice=sheet_data.content_advice,
+            **sheet_dict,
+            content_id=lesson_id,
+            author_id=author_id
         )
+
         session.add(new_sheet)
         await session.commit()
         await session.refresh(new_sheet)
+        
         return new_sheet
 
 
@@ -104,27 +124,46 @@ async def new_lesson(lesson_data: LessonCreate, author_id: int):
         await session.refresh(new_lesson)
         return new_lesson
 
-
-async def plus_minus_sheet(sheet_id: int, plus: bool):
+async def edit_lesson(lesson_data: LessonUpdate, author_id: int, lesson_id: int):
     async with async_session() as session:
-        result = await session.execute(
-            select(LessonSheet).where(LessonSheet.id == sheet_id)
-        )
-        sheet = result.scalar_one_or_none()
+        res = await session.execute(select(Lesson).where(Lesson.id == lesson_id).where(Lesson.author_id == author_id))
+        lesson = res.scalar_one_or_none()
+        if lesson is None:
+            raise HTTPException(status_code=404, detail="Lesson not found")
+        lesson_dict = lesson_data.model_dump(exclude_unset=True)
+        for key, value in lesson_dict.items():
+            setattr(lesson, key, value)
+        await session.commit()
+        await session.refresh(lesson)
+        return lesson
+
+async def edit_sheet(lesson_data: SheetUpdate, author_id: int, sheet_id: int):
+    async with async_session() as session:
+        res = await session.execute(select(LessonSheet).where(LessonSheet.id == sheet_id).where(LessonSheet.author_id == author_id))
+        sheet = res.scalar_one_or_none()
         if sheet is None:
             raise HTTPException(status_code=404, detail="Sheet not found")
-        if plus:
-            sheet.sheet_counts += 1
-        else:
-            sheet.sheet_counts -= 1
+        sheet_dict = lesson_data.model_dump(exclude_unset=True)
+        for key, value in sheet_dict.items():
+            setattr(sheet, key, value)
         await session.commit()
         await session.refresh(sheet)
         return sheet
 
+async def delete_sheet(sheet_id: int, author_id: int):
+    async with async_session() as session:
+        res = await session.execute(select(LessonSheet).where(LessonSheet.id == sheet_id).where(LessonSheet.author_id == author_id))
+        sheet = res.scalar_one_or_none()
+        if sheet is None:
+            raise HTTPException(status_code=404, detail="Sheet not found")
+        await session.delete(sheet)
+        await session.commit()
+        return {"message": "Sheet deleted successfully"}
+
 
 async def like_lection(lesson_id: int, like: bool, user_id: int):
     async with async_session() as session:
-        result = await session.execute(select(Lesson).where(Lesson.id == lesson_id))
+        result = await session.execute(select(Lesson).where(Lesson.id == lesson_id).where(Lesson.status == "ACTIVE"))
         lesson = result.scalar_one_or_none()
         if lesson is None:
             raise HTTPException(status_code=404, detail="Lesson not found")
@@ -154,7 +193,7 @@ async def like_lection(lesson_id: int, like: bool, user_id: int):
 
 async def register_lesson(lesson_id: int, user_id: int, register: bool):
     async with async_session() as session:
-        result = await session.execute(select(Lesson).where(Lesson.id == lesson_id))
+        result = await session.execute(select(Lesson).where(Lesson.id == lesson_id).where(Lesson.status == "ACTIVE"))
         lesson = result.scalar_one_or_none()
         if lesson is None:
             raise HTTPException(status_code=404, detail="Lesson not found")
@@ -193,7 +232,7 @@ async def register_lesson(lesson_id: int, user_id: int, register: bool):
 
 async def rank_lesson(lesson_id: int, rank: int, user_id: int):
     async with async_session() as session:
-        result = await session.execute(select(Lesson).where(Lesson.id == lesson_id))
+        result = await session.execute(select(Lesson).where(Lesson.id == lesson_id).where(Lesson.status == "ACTIVE"))
         lesson = result.scalar_one_or_none()
         if lesson is None:
             raise HTTPException(status_code=404, detail="Lesson not found")
@@ -218,43 +257,6 @@ async def rank_lesson(lesson_id: int, rank: int, user_id: int):
         return {"lesson_id": lesson.id, "rank": lesson.rank, "count": lesson.rank_count}
 
 
-async def update_lesson(lesson_id: int, lesson_data: LessonUpdate, user_id: int):
-    async with async_session() as session:
-        result = await session.execute(
-            select(Lesson)
-            .where(Lesson.id == lesson_id)
-            .where(Lesson.author_id == user_id)
-        )
-        lesson = result.scalar_one_or_none()
-        if lesson is None:
-            raise HTTPException(status_code=404, detail="Lesson not found")
-        for key, value in lesson_data.dict(exclude_unset=True).items():
-            setattr(lesson, key, value)
-        await session.commit()
-        await session.refresh(lesson)
-        return lesson
-
-
-async def update_sheet(
-    lesson_id: int, sheet_id: int, sheet_data: SheetUpdate, user_id: int
-):
-    async with async_session() as session:
-        result = await session.execute(
-            select(LessonSheet)
-            .where(LessonSheet.id == sheet_id)
-            .where(LessonSheet.lesson_id == lesson_id)
-            .where(LessonSheet.author_id == user_id)
-        )
-        sheet = result.scalar_one_or_none()
-        if sheet is None:
-            raise HTTPException(status_code=404, detail="Sheet not found")
-        for key, value in sheet_data.dict(exclude_unset=True).items():
-            setattr(sheet, key, value)
-        await session.commit()
-        await session.refresh(sheet)
-        return sheet
-
-
 async def delete_lesson(lesson_id: int, user_id: int):
     async with async_session() as session:
         result = await session.execute(
@@ -273,26 +275,14 @@ async def delete_lesson(lesson_id: int, user_id: int):
         await session.execute(
             delete(LessonLike).where(LessonLike.lesson_id == lesson_id)
         )
+        await session.execute(
+            delete(LessonSheet).where(LessonSheet.content_id == lesson_id)
+        )
         await session.delete(lesson)
-
         await session.commit()
         return {"message": "Lesson deleted"}
 
 
-async def delete_sheet(content_id: int, sheet_id: int, user_id: int):
-    async with async_session() as session:
-        result = await session.execute(
-            select(LessonSheet)
-            .where(LessonSheet.id == sheet_id)
-            .where(LessonSheet.content_id == content_id)
-            .where(LessonSheet.author_id == user_id)
-        )
-        sheet = result.scalar_one_or_none()
-        if sheet is None:
-            raise HTTPException(status_code=404, detail="Sheet not found")
-        await session.delete(sheet)
-        await session.commit()
-        return {"message": "Sheet deleted"}
 
 
 async def get_users_lessons(user_id: int):
@@ -306,7 +296,7 @@ async def get_users_lessons(user_id: int):
 
 async def get_author(user_id: int):
     async with async_session() as session:
-        result = await session.execute(select(User.user_name).where(User.id == user_id))
+        result = await session.execute(select(User.user_name).where(User.id == user_id).where(User.is_active == True))
         user = result.scalar_one_or_none()
         return user
 
@@ -345,6 +335,7 @@ async def search_lessons(
             select(func.count(Lesson.id.distinct()))
             .join(User, Lesson.author_id == User.id)
             .outerjoin(LessonTag, Lesson.id == LessonTag.lesson_id)
+            .where(Lesson.status == "ACTIVE")
         )
         for c in conditions:
             count_query = count_query.where(c)
@@ -356,6 +347,7 @@ async def search_lessons(
             select(Lesson, User.user_name)
             .join(User, Lesson.author_id == User.id)
             .outerjoin(LessonTag, Lesson.id == LessonTag.lesson_id)
+            .where(Lesson.status == "ACTIVE")
         )
         for c in conditions:
             query = query.where(c)
@@ -386,3 +378,7 @@ async def search_lessons(
             lessons_data.append(lesson_dict)
 
         return {"lessons": lessons_data, "total": total}
+
+
+async def check_content_author(content_id: int, user_id: int):
+    pass

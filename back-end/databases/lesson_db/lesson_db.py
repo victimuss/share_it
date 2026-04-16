@@ -19,6 +19,7 @@ class Lesson(Base):
     __tablename__ = "lessons"
     id: Mapped[int] = mapped_column(primary_key=True)
     lesson_name: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
+    status: Mapped[str] = mapped_column(String(50), default="DRAFT")
     description: Mapped[str] = mapped_column(String, nullable=True)
     type: Mapped[str] = mapped_column(String(50), default="Code")
     level: Mapped[str] = mapped_column(String(50), default="Beginner")
@@ -27,7 +28,12 @@ class Lesson(Base):
     likes: Mapped[int] = mapped_column(Integer, default=0)
     author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     students_count: Mapped[int] = mapped_column(Integer, default=0)
-    sheet_counts: Mapped[int] = mapped_column(Integer, default=0)
+    sheet_counts: Mapped[int] = column_property(
+        select(func.count(LessonSheet.id))
+        .where(LessonSheet.content_id == id)
+        .correlate_except(LessonSheet)
+        .scalar_subquery()
+    )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now(timezone.utc)
@@ -45,10 +51,20 @@ class LessonSheet(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     content_id: Mapped[int] = mapped_column(Integer, ForeignKey("lessons.id"))
+    sheetType: Mapped[str] = mapped_column(String(50), default="THEORY")
     sheet_header: Mapped[str] = mapped_column(String(255), nullable=False)
+
     content: Mapped[str] = mapped_column(String, nullable=False)
+
+    description_for_video_or_picture: Mapped[str] = mapped_column(String(50), nullable=True)
+    video_url: Mapped[str] = mapped_column(String, nullable=True)
+    picture_url: Mapped[str] = mapped_column(String, nullable=True)
+
+    question_text: Mapped[str] = mapped_column(String, nullable=True)
+    quiz_options: Mapped[list] = mapped_column(JSON, nullable=True)
+
     timeToRead: Mapped[int] = mapped_column(Integer, default=0.0)
-    sheetType: Mapped[str] = mapped_column(String(50), default="theory")
+    
     content_danger: Mapped[str] = mapped_column(String, nullable=True)
     content_advice: Mapped[str] = mapped_column(String, nullable=True)
 

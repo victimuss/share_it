@@ -43,6 +43,22 @@ class UsersSkills(Base):
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'))
     skill_name: Mapped[str] = mapped_column(String(255), nullable=False)
     level: Mapped[str] = mapped_column(String(50), default='Beginner')
+    status: Mapped[str] = mapped_column(String(50), default='IN_PROGRESS')
     
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(timezone.utc))
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+
+
+
+class UserProgress(Base):
+    __tablename__ = 'user_progress'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    slide_id = Column(Integer, ForeignKey('lesson_sheets.id'), nullable=False)
+    
+    selected_answer = Column(String(255), nullable=True) 
+    
+    is_correct = Column(Boolean, nullable=False) 
+    
+    answered_at = Column(DateTime, default=datetime.utcnow)
