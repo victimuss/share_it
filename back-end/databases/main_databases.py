@@ -34,3 +34,7 @@ async def create_all_tables():
             await conn.run_sync(Base.metadata.create_all)
     print("Все таблицы созданы успешно!")
 
+
+async def get_db():
+    async with async_session() as session:
+        yield session

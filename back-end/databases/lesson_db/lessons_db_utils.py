@@ -13,14 +13,21 @@ from databases.lesson_db.lesson_db import (
 )
 from databases.users_db.users_db import UserLesson
 from databases.schemas.schemas_lessons import *
+import asyncio
+import os
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
 
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=api_key)
 
 async def get_lesson_by_id(lesson_id: int) -> Optional[Lesson]:
     async with async_session() as session:
-        result = await session.execute(select(Lesson).where(Lesson.id == lesson_id).where(Lesson.status == "ACTIVE"))
+        result = await session.execute(select(Lesson, User.user_name).where(Lesson.id == lesson_id).where(Lesson.status == "ACTIVE").join(User, Lesson.author_id == User.id))
         lesson = result.scalar_one_or_none()
         return lesson
-
 
 async def get_all_lessons() -> Optional[Lesson]:
     async with async_session() as session:
@@ -137,13 +144,13 @@ async def edit_lesson(lesson_data: LessonUpdate, author_id: int, lesson_id: int)
         await session.refresh(lesson)
         return lesson
 
-async def edit_sheet(lesson_data: SheetUpdate, author_id: int, sheet_id: int):
+async def edit_sheet(sheet_data: SheetUpdate, author_id: int, sheet_id: int):
     async with async_session() as session:
         res = await session.execute(select(LessonSheet).where(LessonSheet.id == sheet_id).where(LessonSheet.author_id == author_id))
         sheet = res.scalar_one_or_none()
         if sheet is None:
             raise HTTPException(status_code=404, detail="Sheet not found")
-        sheet_dict = lesson_data.model_dump(exclude_unset=True)
+        sheet_dict = sheet_data.model_dump(exclude_unset=True)
         for key, value in sheet_dict.items():
             setattr(sheet, key, value)
         await session.commit()
@@ -382,3 +389,125 @@ async def search_lessons(
 
 async def check_content_author(content_id: int, user_id: int):
     pass
+
+
+async def checker(lesson_id: int, max_retries: int = 3):
+    async with async_session() as session:
+
+        lesson_res = await session.execute(select(Lesson).where(Lesson.id == lesson_id))
+        lesson = lesson_res.scalar_one_or_none()
+        
+        if not lesson:
+            return json.dumps({"status": False, "reason": "Урок не найден"})
+
+        sheets_res = await session.execute(
+            select(LessonSheet)
+            .where(LessonSheet.content_id == lesson_id)
+            .order_by(LessonSheet.id)
+        )
+        sheets = sheets_res.scalars().all()
+
+    full_text = "--- ОБЩИЕ ДАННЫЕ УРОКА ---\n"
+    full_text += f"Название урока: {lesson.lesson_name}\n"
+    if lesson.description:
+        full_text += f"Описание урока: {lesson.description}\n"
+
+    for idx, sheet in enumerate(sheets, 1):
+        full_text += f"--- СТРАНИЦА {idx} ---\n"
+        full_text += f"Заголовок листа (sheet_header): {sheet.sheet_header}\n"
+        full_text += f"Основной текст (content): {sheet.content}\n"
+        
+        if sheet.description_for_video_or_picture:
+            full_text += f"Описание медиа: {sheet.description_for_video_or_picture}\n"
+        if sheet.question_text:
+            full_text += f"Вопрос квиза: {sheet.question_text}\n"
+        if sheet.quiz_options:
+            full_text += f"Варианты ответа: {json.dumps(sheet.quiz_options, ensure_ascii=False)}\n"
+        full_text += "\n"
+
+    prompt = f"""
+    Ты — строгий модератор образовательной платформы.
+    Проверь всё "досье" урока на легальность, насилие, оскорбления, мат и вредные советы.
+    Внимание: нарушения могут быть спрятаны где угодно (в названии, тегах, вопросах квиза или вариантах ответов).
+    
+    Если всё абсолютно чисто, верни: {{"status": true}}
+    Если есть нарушения, точно укажи ГДЕ оно найдено, и верни JSON: 
+    {{"status": false, "reason": "краткая причина", "error_location": "Например: 'Страница 2, Варианты ответа' или 'Общие данные, Название урока'"}}
+    
+    Досье урока: 
+    {full_text}
+    """
+
+    for attempt in range(max_retries):
+        try:
+            response = await client.aio.models.generate_content(
+                model="gemini-2.5-flash", 
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json"
+                )
+            )
+            return response.text 
+            
+        except Exception as e:
+            if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+                await asyncio.sleep(60)
+            else:
+                break
+                
+    return json.dumps({"status": False, "reason": "Система модерации перегружена", "error_location": "Сервер"})
+    async with async_session() as session:
+        query = select(LessonSheet.page_number, LessonSheet.content)\
+            .where(LessonSheet.lesson_id == lesson_id)\
+            .order_by(LessonSheet.page_number)
+            
+        result = await session.execute(query)
+        sheets = result.all()
+
+    if not sheets:
+        return json.dumps({"status": False, "reason": "Урок пуст"})
+
+
+    formatted_pages = [
+        f"--- Страница {sheet.page_number} ---\n{sheet.content}" 
+        for sheet in sheets
+    ]
+    
+
+    full_text = "\n\n".join(formatted_pages)
+
+
+    prompt = f"""
+    Проверь этот многостраничный урок на легальность, насилие и вредные советы.
+    В тексте указаны номера страниц (--- Страница N ---).
+    
+    Если всё чисто, верни: {{"status": true}}
+    Если есть нарушения, найди первую страницу с нарушением и верни: 
+    {{"status": false, "reason": "краткая причина", "bad_page": номер_страницы}}
+    
+    Текст урока: 
+    {full_text}
+    """
+
+    for attempt in range(max_retries):
+        try:
+            response = await client.aio.models.generate_content(
+                model="gemini-2.5-flash", 
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json"
+                )
+            )
+            return response.text 
+            
+        except Exception as e:
+            error_msg = str(e)
+            if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
+                wait_time = 60 
+                print(f"⚠️ Лимит запросов. Ждем {wait_time} сек... (Попытка {attempt + 1}/{max_retries})")
+                await asyncio.sleep(wait_time)
+            else:
+                print(f"❌ Критическая ошибка ИИ: {e}")
+                break
+                
+    return json.dumps({"status": False, "reason": "Система модерации перегружена. Попробуйте позже."})

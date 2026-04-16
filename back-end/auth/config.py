@@ -1,5 +1,7 @@
 import os
-SECRET_KEY = "J_evbUH#G3..S@reM+ao1tqV?,y&QlzF8I5@zNnD4OHGmtN2ZgtAb@g{e^D{C7tDPZr@:rZIk{#r*UZ#6{GYV)"  
+from dotenv import load_dotenv
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 REFRESH_TOKEN_EXPIRE_DAYS = 7

@@ -20,7 +20,7 @@ class Lesson(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     lesson_name: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     status: Mapped[str] = mapped_column(String(50), default="DRAFT")
-    description: Mapped[str] = mapped_column(String, nullable=True)
+    description: Mapped[str] = mapped_column(String(255), nullable=True)
     type: Mapped[str] = mapped_column(String(50), default="Code")
     level: Mapped[str] = mapped_column(String(50), default="Beginner")
     rank: Mapped[float] = mapped_column(Float, default=0.0)
@@ -52,21 +52,21 @@ class LessonSheet(Base):
     author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     content_id: Mapped[int] = mapped_column(Integer, ForeignKey("lessons.id"))
     sheetType: Mapped[str] = mapped_column(String(50), default="THEORY")
-    sheet_header: Mapped[str] = mapped_column(String(255), nullable=False)
+    sheet_header: Mapped[str] = mapped_column(String(50), nullable=False)
 
-    content: Mapped[str] = mapped_column(String, nullable=False)
+    content: Mapped[str] = mapped_column(String(500), nullable=False)
 
     description_for_video_or_picture: Mapped[str] = mapped_column(String(50), nullable=True)
     video_url: Mapped[str] = mapped_column(String, nullable=True)
     picture_url: Mapped[str] = mapped_column(String, nullable=True)
 
-    question_text: Mapped[str] = mapped_column(String, nullable=True)
+    question_text: Mapped[str] = mapped_column(String(30), nullable=True)
     quiz_options: Mapped[list] = mapped_column(JSON, nullable=True)
 
     timeToRead: Mapped[int] = mapped_column(Integer, default=0.0)
     
-    content_danger: Mapped[str] = mapped_column(String, nullable=True)
-    content_advice: Mapped[str] = mapped_column(String, nullable=True)
+    content_danger: Mapped[str] = mapped_column(String(75), nullable=True)
+    content_advice: Mapped[str] = mapped_column(String(75), nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now(timezone.utc)

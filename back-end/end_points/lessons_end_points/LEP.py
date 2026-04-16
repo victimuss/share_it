@@ -7,6 +7,7 @@ from typing import Optional
 import requests
 from pydantic import BaseModel
 from auth.jwt_tokens import *
+from databases.main_databases import get_db
 from databases.schemas.schemas_lessons import *
 from databases.lesson_db.lessons_db_utils import *
 from databases.users_db.user_db_utils import get_last_lession, get_user_lessions
@@ -14,6 +15,7 @@ from databases.lesson_db.lesson_db import Lesson
 from fastapi import APIRouter
 from auth.dependency import get_current_user
 from fastapi import status, Depends
+
 
 router = APIRouter(prefix="/lessons")
 
@@ -46,31 +48,29 @@ async def new_she(
 ):
     return await new_sheet(sheet_data, current_user)
 
-
 @router.post("/update_lesson")
 async def update_les(
     lesson_id: int,
     lesson_data: LessonUpdate,
     current_user=Depends(get_current_active_user),
 ):
-    return await update_lesson(lesson_id, lesson_data, current_user)
+    return await edit_lesson(lesson_data=lesson_data, author_id=current_user, lesson_id=lesson_id)
 
 
 @router.post("/update_sheet")
-async def update_sh(
-    lesson_id: int,
+async def update_les(
     sheet_id: int,
     sheet_data: SheetUpdate,
     current_user=Depends(get_current_active_user),
 ):
-    return await update_sheet(lesson_id, sheet_id, sheet_data, current_user)
+    return await edit_sheet(sheet_data=sheet_data, author_id=current_user, sheet_id=sheet_id)
 
 
 @router.delete("/delete_sheet")
 async def delete_sh(
-    lesson_id: int, sheet_id: int, current_user=Depends(get_current_active_user)
+    sheet_id: int, current_user=Depends(get_current_active_user)
 ):
-    return await delete_sheet(lesson_id, sheet_id, current_user)
+    return await delete_sheet(sheet_id, current_user)
 
 
 @router.delete("/delete_lesson")
@@ -116,3 +116,38 @@ async def api_search_lessons(search_req: SearchLessonsRequest):
     return await search_lessons(
         search_req.search, search_req.type, search_req.level, search_req.page, search_req.order
     )
+
+@router.post("/{lesson_id}/publish")
+async def publish_lesson(
+    lesson_id: int, 
+    current_user=Depends(get_current_active_user),
+    db: AsyncSession = Depends(get_db)
+):
+    ai_response_json = await checker(lesson_id)
+    result = json.loads(ai_response_json)
+
+    if not result.get("status"):
+        await db.execute(
+            update(Lesson)
+            .where(Lesson.id == lesson_id)
+            .values(status="REJECTED")
+        )
+        await db.commit()
+        
+        raise HTTPException(
+            status_code=400, 
+            detail={
+                "message": "Модерация не прошла",
+                "reason": result.get("reason"),
+                "location": result.get("error_location")
+            }
+        )
+
+    await db.execute(
+        update(Lesson)
+        .where(Lesson.id == lesson_id)
+        .values(status="ACTIVE", is_active=True)
+    )
+    await db.commit()
+
+    return {"status": "success", "message": "Урок опубликован и доступен всем!"}
