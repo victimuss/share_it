@@ -53,12 +53,12 @@ class UsersSkills(Base):
 class UserProgress(Base):
     __tablename__ = 'user_progress'
 
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    slide_id = Column(Integer, ForeignKey('lesson_sheets.id'), nullable=False)
+    id: Mapped[int] = mapped_column(primary_key = True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'))
+    slide_id: Mapped[int] = mapped_column(Integer, ForeignKey('lesson_sheets.id'))
     
-    selected_answer = Column(String(255), nullable=True) 
+    selected_answer: Mapped[str] = mapped_column(String(255), nullable=True) 
     
-    is_correct = Column(Boolean, nullable=False) 
+    is_correct: Mapped[bool] = mapped_column(Boolean, nullable=False) 
     
-    answered_at = Column(DateTime, default=datetime.utcnow)
+    answered_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(timezone.utc))

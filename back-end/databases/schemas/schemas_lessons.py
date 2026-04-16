@@ -1,6 +1,6 @@
 # src/schemas/lesson.py
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, ConfigDict
+from typing import Optional, List
 from datetime import datetime
 
 
@@ -10,8 +10,10 @@ class LessonCreate(BaseModel):
     description: Optional[str] = None
     type: Optional[str] = "Code"
     level: Optional[str] = "Beginner"
-    author_id: int
 
+class QuizOption(BaseModel):
+    option: str
+    is_correct: bool
 
 # Схема для обновления урока
 class LessonUpdate(BaseModel):

@@ -15,6 +15,9 @@ from databases.lesson_db.lesson_db import Lesson
 from fastapi import APIRouter
 from auth.dependency import get_current_user
 from fastapi import status, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import update
+import json
 
 
 router = APIRouter(prefix="/lessons")

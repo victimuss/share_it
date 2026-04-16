@@ -1,4 +1,4 @@
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, column_property
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from sqlalchemy import (
     BigInteger,
@@ -9,6 +9,9 @@ from sqlalchemy import (
     DateTime,
     Float,
     Boolean,
+    select,
+    func,
+    JSON,
 )
 from sqlalchemy.dialects.postgresql import ARRAY
 from datetime import datetime, timezone
@@ -28,12 +31,6 @@ class Lesson(Base):
     likes: Mapped[int] = mapped_column(Integer, default=0)
     author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     students_count: Mapped[int] = mapped_column(Integer, default=0)
-    sheet_counts: Mapped[int] = column_property(
-        select(func.count(LessonSheet.id))
-        .where(LessonSheet.content_id == id)
-        .correlate_except(LessonSheet)
-        .scalar_subquery()
-    )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now(timezone.utc)
@@ -109,3 +106,11 @@ class LessonTag(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     lesson_id: Mapped[int] = mapped_column(ForeignKey("lessons.id"))
     tag: Mapped[str] = mapped_column(String(50), nullable=False)
+
+
+Lesson.sheet_counts = column_property(
+    select(func.count(LessonSheet.id))
+    .where(LessonSheet.content_id == Lesson.id)
+    .correlate_except(LessonSheet)
+    .scalar_subquery()
+)

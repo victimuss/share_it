@@ -14,6 +14,8 @@ from databases.lesson_db.lesson_db import Lesson
 from fastapi import APIRouter
 from auth.dependency import get_current_user
 from fastapi import status, Depends
+from sqlalchemy import select
+from databases.users_db.users_db import User
 
 router = APIRouter(prefix="/main_page")
 async def get_current_active_user(user=Depends(get_current_user)):
