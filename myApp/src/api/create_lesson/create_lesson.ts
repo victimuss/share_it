@@ -27,7 +27,7 @@ export const CreateSheet = async (data: SheetCreate, lesson_id: number): Promise
 
 export const Publish = async (lesson_id: number): Promise<PublishOut> => {
     try {
-        const response = await api.post<PublishOut>(`lessons/${lesson_id}/publish`);
+        const response = await api.post<PublishOut>(`lessons/${lesson_id}/publish`, {});
         return response;
     } catch (error) {
         console.error(`Ошибка запроса публикации урока:`, error);

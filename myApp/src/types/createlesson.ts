@@ -1,3 +1,4 @@
+
 export interface LessonCreate {
     lesson_name: string;
     description: string;
@@ -45,6 +46,7 @@ export interface EditSheet {
     content_danger?: string;
     content_advice?: string;
 }
+
 
 export interface LessonOut {
     id: number;
@@ -110,3 +112,4 @@ export interface SheetOut {
     content_danger?: string;
     content_advice?: string;
 }
+
