@@ -6,9 +6,8 @@ import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LoadScreen } from "./LoadScreen";
 import { ErrorScreen } from "./ErrorScreen";
-import { currentLessonResponce, Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest } from "@/src/types/main_page";
+import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest } from "@/src/types/main_page";
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
-import { set } from "react-native-reanimated";
 import { useNavigation } from "expo-router";
 import { ApplicationCodeIcon, BellIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon, PlayIcon } from "@/src/SVG/MainPageSVG";
 export const MainScreen = () => {

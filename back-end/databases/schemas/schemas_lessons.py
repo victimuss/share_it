@@ -96,3 +96,10 @@ class SearchLessonsRequest(BaseModel):
 class SearchLessonsResponse(BaseModel):
     lessons: list[LessonOut]
     total: int
+
+class Tag(BaseModel):
+    tag: str
+
+class CreateTags(BaseModel):
+    lesson_id: int
+    tags: list[Tag]

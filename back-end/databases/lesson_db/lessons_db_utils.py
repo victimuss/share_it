@@ -512,3 +512,22 @@ async def checker(lesson_id: int, max_retries: int = 3):
                 break
                 
     return json.dumps({"status": False, "reason": "Система модерации перегружена. Попробуйте позже."})
+
+
+async def add_tags(tags: CreateTags, current_user: int):
+    async with async_session() as session:
+        result = await session.execute(
+            select(Lesson).where(Lesson.id == tags.lesson_id)
+        )
+        lesson = result.scalar_one_or_none()
+        if not lesson:
+            return {"status": False, "reason": f"Урок не найден{tags.lesson_id}"}
+        if lesson.author_id != int(current_user):
+            return {"status": False, "reason": f"У вас нет прав на редактирование этого урока {lesson.author_id} {current_user}"}
+        try:
+            for tag in tags.tags:
+                session.add(LessonTag(lesson_id=tags.lesson_id, tag=tag.tag))
+            await session.commit()
+            return {"status": True}
+        except Exception as e:
+            return {"status": False, "reason": str(e)}

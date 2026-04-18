@@ -2,12 +2,11 @@ import React from 'react';
 import { View, Text, Pressable, SafeAreaView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-// Твои импорты (убедись, что пути правильные)
 import { tabBarStyles } from '../styles/TabStyles';
 import { MainScreen } from './auth/main/MainScreen';
 import { ProfileScreen } from './auth/main/ProfileScreen';
 import { BookIcon, HomeIcon, SearchIcon, UserIcon } from '../SVG/TabSVG';
-import { COLORS } from '../styles/root'; // Нам нужны цвета для SVG!
+import { COLORS } from '../styles/root';
 import { SearchScreen } from './auth/main/SearchScreen';
 
 const MyLessonsScreen = () => <View />;
@@ -88,7 +87,6 @@ export default function TabNavigator(): React.JSX.Element {
                                     pressed && tabBarStyles.fabButtonPressed
                                 ]}
                             >
-                                {/* Заменили текстовый "+" на красивую SVG иконку (если есть PlusIcon) */}
                                 <Text style={tabBarStyles.fabIcon}>+</Text>
                             </Pressable>
                         </View>
@@ -97,6 +95,7 @@ export default function TabNavigator(): React.JSX.Element {
                 listeners={({ navigation }) => ({
                     tabPress: (e) => {
                         e.preventDefault();
+                        navigation.navigate('NewLessonScreen');
                         console.log('Открываем меню создания урока!');
                     },
                 })}

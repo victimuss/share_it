@@ -113,3 +113,16 @@ export interface SheetOut {
     content_advice?: string;
 }
 
+export interface TagCreate {
+    lesson_id: number;
+    tags: BackEndTag[];
+}
+
+export interface BackEndTag {
+    tag: string
+}
+
+export interface TagsOut {
+    status: string;
+    message: string;
+}

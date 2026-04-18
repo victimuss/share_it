@@ -119,6 +119,10 @@ async def api_search_lessons(search_req: SearchLessonsRequest):
     return await search_lessons(
         search_req.search, search_req.type, search_req.level, search_req.page, search_req.order
     )
+@router.post('/add_tags')
+async def add_tags_API(tags: CreateTags, current_user=Depends(get_current_active_user)):
+    return await add_tags(tags, current_user)
+
 
 @router.post("/{lesson_id}/publish")
 async def publish_lesson(
