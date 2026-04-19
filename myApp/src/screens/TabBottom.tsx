@@ -8,6 +8,7 @@ import { ProfileScreen } from './auth/main/ProfileScreen';
 import { BookIcon, HomeIcon, SearchIcon, UserIcon } from '../SVG/TabSVG';
 import { COLORS } from '../styles/root';
 import { SearchScreen } from './auth/main/SearchScreen';
+import { NewLessonScreen } from './auth/main/NewLesson/NewLessonScreen';
 
 const MyLessonsScreen = () => <View />;
 
@@ -76,7 +77,7 @@ export default function TabNavigator(): React.JSX.Element {
 
             <Tab.Screen
                 name="Create"
-                component={View}
+                component={NewLessonScreen}
                 options={{
                     tabBarButton: ({ style, ...restProps }: any) => (
                         <View style={tabBarStyles.fabWrapper}>

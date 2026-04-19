@@ -47,9 +47,9 @@ async def new_les(
 
 @router.post("/new_sheet")
 async def new_she(
-    sheet_data: SheetCreate, current_user=Depends(get_current_active_user)
+    sheet_data: SheetCreate, lesson_id: int,current_user=Depends(get_current_active_user),
 ):
-    return await new_sheet(sheet_data, current_user)
+    return await new_sheet(sheet_data, current_user, lesson_id)
 
 @router.post("/update_lesson")
 async def update_les(
@@ -71,9 +71,9 @@ async def update_les(
 
 @router.delete("/delete_sheet")
 async def delete_sh(
-    sheet_id: int, current_user=Depends(get_current_active_user)
+    sheet_id: int, lesson_id: int, current_user=Depends(get_current_active_user)
 ):
-    return await delete_sheet(sheet_id, current_user)
+    return await delete_sheet(sheet_id, current_user, lesson_id)
 
 
 @router.delete("/delete_lesson")

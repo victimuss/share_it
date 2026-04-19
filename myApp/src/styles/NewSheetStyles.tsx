@@ -34,6 +34,7 @@ export const lessonEditorStyles = StyleSheet.create({
         ...FONTS.semibold,
         color: COLORS.text,
         fontSize: 16,
+        marginRight: SPACING.xxl
     } as TextStyle,
 
     /** Кнопка «Опубликовать» — акцентная, справа в шапке. */
@@ -71,9 +72,12 @@ export const lessonEditorStyles = StyleSheet.create({
      *  Горизонтальный скролл — страниц может быть много. */
     pagesBar: {
         backgroundColor: COLORS.surface,
+        width: '100%',
+        height: 60,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.border,
         paddingVertical: SPACING.md,
+        flexDirection: 'column',
     } as ViewStyle,
 
     /** Внутренний контент скролла пагинации. */
@@ -81,6 +85,7 @@ export const lessonEditorStyles = StyleSheet.create({
         paddingHorizontal: SPACING.lg,
         alignItems: 'center',
         gap: SPACING.sm,
+        flexDirection: 'row',
     } as ViewStyle,
 
     /** Одна кнопка-страница (цифра).
@@ -98,6 +103,11 @@ export const lessonEditorStyles = StyleSheet.create({
 
     /** Активная (редактируемая) страница — заливка primary. */
     pageTabActive: {
+        width: 32,
+        height: 32,
+        borderRadius: RADIUS.md,
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: COLORS.primary,
         borderColor: COLORS.primary,
         shadowColor: COLORS.primary,
@@ -133,7 +143,7 @@ export const lessonEditorStyles = StyleSheet.create({
     /** Разделитель между номерами страниц и счётчиком. */
     pagesDivider: {
         width: 1,
-        height: 20,
+        height: 25,
         backgroundColor: COLORS.border,
         marginHorizontal: SPACING.xs,
     } as ViewStyle,
@@ -148,7 +158,9 @@ export const lessonEditorStyles = StyleSheet.create({
 
     /** Подсветка числа в счётчике. */
     pagesCounterBold: {
-        fontWeight: '600' as const,
+        ...FONTS.regular,
+        fontSize: 12,
+        fontWeight: '800' as const,
         color: COLORS.text,
     } as TextStyle,
 
@@ -239,6 +251,7 @@ export const lessonEditorStyles = StyleSheet.create({
         borderRadius: RADIUS.lg,
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.md,
+        marginBottom: SPACING.lg,
         ...FONTS.regular,
         color: COLORS.text,
         shadowColor: COLORS.shadow,
@@ -268,6 +281,7 @@ export const lessonEditorStyles = StyleSheet.create({
         textAlignVertical: 'top',
         minHeight: 120,
         lineHeight: 22,
+        marginBottom: SPACING.lg
     } as TextStyle,
 
     textAreaFocused: {
@@ -369,6 +383,7 @@ export const lessonEditorStyles = StyleSheet.create({
         borderRadius: RADIUS.full,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: COLORS.successLight,
     } as ViewStyle,
 
     typeOptionTitle: {
@@ -402,11 +417,19 @@ export const lessonEditorStyles = StyleSheet.create({
     } as ViewStyle,
 
     calloutCardAdvice: {
+        flex: 1,
+        borderRadius: RADIUS.lg,
+        borderWidth: 1.5,
+        padding: SPACING.md,
         borderColor: '#C7D2FE',
         backgroundColor: '#EEF2FF',
     } as ViewStyle,
 
     calloutCardWarning: {
+        flex: 1,
+        borderRadius: RADIUS.lg,
+        borderWidth: 1.5,
+        padding: SPACING.md,
         borderColor: '#FCD34D',
         backgroundColor: '#FFFBEB',
     } as ViewStyle,
@@ -427,10 +450,18 @@ export const lessonEditorStyles = StyleSheet.create({
     } as TextStyle,
 
     calloutTitleAdvice: {
+        flex: 1,
+        fontSize: 12,
+        fontWeight: '600' as const,
+        fontFamily: 'Inter_600SemiBold',
         color: COLORS.primary,
     } as TextStyle,
 
     calloutTitleWarning: {
+        flex: 1,
+        fontSize: 12,
+        fontWeight: '600' as const,
+        fontFamily: 'Inter_600SemiBold',
         color: COLORS.warning,
     } as TextStyle,
 
@@ -610,7 +641,7 @@ export const lessonEditorStyles = StyleSheet.create({
 
     uploadHint: {
         ...FONTS.regular,
-        fontSize: 13,
+        fontSize: 11,
         color: COLORS.textSecondary,
         textAlign: 'center',
     } as TextStyle,
@@ -658,10 +689,6 @@ export const lessonEditorStyles = StyleSheet.create({
     /** Нижняя панель с кнопками «Сохранить страницу» и «Удалить».
      *  Фиксирована — всегда видна при скролле контента. */
     bottomBar: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
         flexDirection: 'row',
         gap: SPACING.md,
         paddingHorizontal: SPACING.lg,
@@ -688,6 +715,20 @@ export const lessonEditorStyles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#FECACA',
         flexShrink: 0,
+    } as ViewStyle,
+
+    savePageButtonDisabled: {
+        flex: 1,
+        paddingVertical: SPACING.md,
+        borderRadius: RADIUS.lg,
+        backgroundColor: COLORS.border,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: COLORS.border,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.25,
+        shadowRadius: 10,
+        elevation: 6,
     } as ViewStyle,
 
     /** View-обёртка под иконку удаления — добавишь сам. */

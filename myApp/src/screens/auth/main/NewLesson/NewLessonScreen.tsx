@@ -6,6 +6,10 @@ import { View, Text, ScrollView, Pressable, TextInput, Modal } from "react-nativ
 import { Dropdown } from 'react-native-element-dropdown';
 import { COLORS } from "@/src/styles/root";
 import { AddTags, CreateLession } from "@/src/api/create_lesson/create_lesson";
+import { useNavigation } from "expo-router";
+import { RootStackParamList } from "@/src/navigation/appNavigator";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useLessonStore } from "@/src/context/useLessonStore";
 
 const difficultyData = [
     { label: 'Beginner', value: 'Beginner', subtitle: 'С нуля', icon: '🌱', bg: COLORS.successLight },
@@ -28,6 +32,8 @@ export const NewLessonScreen = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const { setLessonId } = useLessonStore();
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const [currentLessonId, setCurrentLessonId] = useState<number | null>(null);
     const [tags, setTags] = useState<{ id: string, name: string }[]>([
     ]);
@@ -83,6 +89,7 @@ export const NewLessonScreen = () => {
                 type: type || 'code',
             })
             setCurrentLessonId(LessonResponce.id)
+
         } catch (error) {
             console.error(`Ошибка запроса урока:`, error);
         }
@@ -290,11 +297,17 @@ export const NewLessonScreen = () => {
                             </View>
                             <View style={styles.tagsFooter}>
                                 <Pressable style={styles.doneButton}
-                                    onPress={fetchTags}
+                                    onPress={() => {
+                                        fetchTags();
+                                        navigation.navigate('NewSheetScreen');
+                                    }}
                                 >
                                     <Text style={styles.doneButtonText}>Продолжить</Text>
                                 </Pressable>
                                 <Pressable style={styles.skipButton}
+                                    onPress={() => {
+                                        navigation.navigate('NewSheetScreen', { lessonId: currentLessonId });
+                                    }}
                                 >
                                     <Text style={styles.skipButtonText}>Пропустить</Text>
                                 </Pressable>

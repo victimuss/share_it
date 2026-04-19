@@ -6,7 +6,7 @@ import { EditLesson, LessonOut, EditSheet } from "@/src/types/createlesson";
 
 export const EditLessonAPI = async (data: EditLesson, lesson_id: number): Promise<LessonOut> => {
     try {
-        const response = await api.post<LessonOut>(`update_lesson?lesson_id=${lesson_id}`, data);
+        const response = await api.post<LessonOut>(`lessons/update_lesson?lesson_id=${lesson_id}`, data);
         return response;
     } catch (error) {
         console.error(`Ошибка запроса редактирования урока:`, error);
@@ -16,7 +16,7 @@ export const EditLessonAPI = async (data: EditLesson, lesson_id: number): Promis
 
 export const EditSheetAPI = async (data: EditSheet, sheet_id: number): Promise<LessonOut> => {
     try {
-        const response = await api.post<LessonOut>(`/update_sheet?${sheet_id}=3`, data);
+        const response = await api.post<LessonOut>(`lessons/update_sheet?sheet_id=${sheet_id}`, data);
         return response;
     } catch (error) {
         console.error(`Ошибка запроса редактирования листа:`, error);

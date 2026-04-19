@@ -17,8 +17,9 @@ interface LessonStore {
     setLessonId: (id: number) => void;
     setCurrentIndex: (index: number) => void;
     addSheet: () => void;
-    updateSheetField: <K extends keyof EditSheet>(field: K, value: EditSheet[K]) => void;
+    updateSheetField: <K extends keyof SheetDraft>(field: K, value: SheetDraft[K]) => void;
     saveCurrentSheet: () => Promise<void>;
+    deleteCurrentSheet: () => Promise<void>;
 }
 
 export const useLessonStore = create<LessonStore>((set, get) => ({
@@ -26,7 +27,7 @@ export const useLessonStore = create<LessonStore>((set, get) => ({
     currentIndex: 0,
     sheets: [{
         localId: Date.now().toString(),
-        sheetType: 'Theory',
+        sheetType: 'THEORY',
         sheet_header: '',
         content: '',
         isSaving: false
@@ -38,7 +39,7 @@ export const useLessonStore = create<LessonStore>((set, get) => ({
     addSheet: () => set((state) => ({
         sheets: [...state.sheets, {
             localId: Date.now().toString(),
-            sheetType: 'Theory',
+            sheetType: 'THEORY',
             sheet_header: '',
             content: '',
             isSaving: false
@@ -59,9 +60,9 @@ export const useLessonStore = create<LessonStore>((set, get) => ({
         const state = get();
         const current = state.sheets[state.currentIndex];
 
-        if (!state.lessonId) return;
+        if (!state.lessonId) return console.log('Нет ID урока');
 
-        state.updateSheetField('isSaving' as any, true);
+        state.updateSheetField('isSaving', true);
 
         try {
             if (current.serverId) {
@@ -96,34 +97,40 @@ export const useLessonStore = create<LessonStore>((set, get) => ({
                 };
 
                 const data = await CreateSheet(createPayload, state.lessonId);
-                state.updateSheetField('serverId' as any, data.id);
+                state.updateSheetField('serverId', data.id);
             }
         } catch (error) {
             console.error(error);
         } finally {
-            state.updateSheetField('isSaving' as any, false);
+            state.updateSheetField('isSaving', false);
         }
     },
     deleteCurrentSheet: async () => {
         const state = get()
         const current = state.sheets[state.currentIndex]
+        const deletedId = current.localId
+
         if (current.serverId) {
             try {
-                state.updateSheetField('isSaving' as any, true);
-                await DeleteSheetAPI(current.serverId);
+                state.updateSheetField('isSaving', true);
+                await DeleteSheetAPI(current.serverId, state.lessonId!);
             } catch (error) {
                 console.error("Не удалось удалить на сервере:", error);
-                state.updateSheetField('isSaving' as any, false);
+                state.updateSheetField('isSaving', false);
                 return;
             }
         }
         set((state) => {
-            const newSheets = state.sheets.filter((_, index) => index !== state.currentIndex);
+            const indexToRemove = state.sheets.findIndex(s => s.localId === deletedId);
+            if (indexToRemove === -1) return {};
+
+            const newSheets = state.sheets.filter(s => s.localId !== deletedId);
+
             if (newSheets.length === 0) {
                 return {
                     sheets: [{
                         localId: Date.now().toString(),
-                        sheetType: 'Theory',
+                        sheetType: 'THEORY',
                         sheet_header: '',
                         content: '',
                         isSaving: false
@@ -131,8 +138,10 @@ export const useLessonStore = create<LessonStore>((set, get) => ({
                     currentIndex: 0
                 }
             }
-            const isLast = state.currentIndex === newSheets.length
-            const nextIndex = isLast ? newSheets.length - 1 : state.currentIndex
+
+            const isLast = indexToRemove === newSheets.length;
+            const nextIndex = isLast ? newSheets.length - 1 : indexToRemove;
+
             return {
                 sheets: newSheets,
                 currentIndex: nextIndex

@@ -61,17 +61,17 @@ class SheetCreate(BaseModel):
 
 
 class SheetUpdate(BaseModel):
-    sheet_header: Optional[str]
-    description_for_video_or_picture: Optional[str]
-    video_url: Optional[str]
-    picture_url: Optional[str]
-    question_text: Optional[str]
+    sheet_header: Optional[str] = None
+    description_for_video_or_picture: Optional[str] = None
+    video_url: Optional[str] = None
+    picture_url: Optional[str] = None
+    question_text: Optional[str] = None
     quiz_options: Optional[List[QuizOption]] = None
-    content: Optional[str]
-    timeToRead: Optional[int]
-    sheetType: Optional[str]
-    content_danger: Optional[str]
-    content_advice: Optional[str]
+    content: Optional[str] = None
+    timeToRead: Optional[int] = None
+    sheetType: Optional[str] = None
+    content_danger: Optional[str] = None
+    content_advice: Optional[str] = None
 
 
 # Обновление контента

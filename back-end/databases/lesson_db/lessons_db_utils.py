@@ -158,9 +158,9 @@ async def edit_sheet(sheet_data: SheetUpdate, author_id: int, sheet_id: int):
         await session.refresh(sheet)
         return sheet
 
-async def delete_sheet(sheet_id: int, author_id: int):
+async def delete_sheet(sheet_id: int, author_id: int, lesson_id: int):
     async with async_session() as session:
-        res = await session.execute(select(LessonSheet).where(LessonSheet.id == sheet_id).where(LessonSheet.author_id == author_id))
+        res = await session.execute(select(LessonSheet).where(LessonSheet.id == sheet_id).where(LessonSheet.author_id == author_id).where(LessonSheet.content_id == lesson_id))
         sheet = res.scalar_one_or_none()
         if sheet is None:
             raise HTTPException(status_code=404, detail="Sheet not found")
@@ -392,128 +392,107 @@ async def check_content_author(content_id: int, user_id: int):
     pass
 
 
+import json
+import asyncio
+from sqlalchemy import select
+from groq import AsyncGroq 
+
+client = AsyncGroq()
+
 async def checker(lesson_id: int, max_retries: int = 3):
     async with async_session() as session:
-
         lesson_res = await session.execute(select(Lesson).where(Lesson.id == lesson_id))
         lesson = lesson_res.scalar_one_or_none()
         
         if not lesson:
-            return json.dumps({"status": False, "reason": "Урок не найден"})
+            return json.dumps({"status": False, "reason": "Урок не найден"}, ensure_ascii=False)
 
         sheets_res = await session.execute(
             select(LessonSheet)
-            .where(LessonSheet.content_id == lesson_id)
+            .where(LessonSheet.content_id == lesson_id) 
             .order_by(LessonSheet.id)
         )
         sheets = sheets_res.scalars().all()
 
+    if not sheets:
+        return json.dumps({"status": False, "reason": "Урок пуст, нечего проверять"}, ensure_ascii=False)
+
     full_text = "--- ОБЩИЕ ДАННЫЕ УРОКА ---\n"
     full_text += f"Название урока: {lesson.lesson_name}\n"
     if lesson.description:
-        full_text += f"Описание урока: {lesson.description}\n"
+        full_text += f"Описание урока: {lesson.description}\n\n"
 
     for idx, sheet in enumerate(sheets, 1):
         full_text += f"--- СТРАНИЦА {idx} ---\n"
-        full_text += f"Заголовок листа (sheet_header): {sheet.sheet_header}\n"
-        full_text += f"Основной текст (content): {sheet.content}\n"
         
-        if sheet.description_for_video_or_picture:
+        if getattr(sheet, 'sheet_header', None):
+            full_text += f"Заголовок листа: {sheet.sheet_header}\n"
+        if getattr(sheet, 'content', None):
+            full_text += f"Основной текст: {sheet.content}\n"
+        if getattr(sheet, 'description_for_video_or_picture', None):
             full_text += f"Описание медиа: {sheet.description_for_video_or_picture}\n"
-        if sheet.question_text:
+        if getattr(sheet, 'question_text', None):
             full_text += f"Вопрос квиза: {sheet.question_text}\n"
-        if sheet.quiz_options:
+        if getattr(sheet, 'quiz_options', None):
             full_text += f"Варианты ответа: {json.dumps(sheet.quiz_options, ensure_ascii=False)}\n"
+        
         full_text += "\n"
 
     prompt = f"""
-    Ты — строгий модератор образовательной платформы.
     Проверь всё "досье" урока на легальность, насилие, оскорбления, мат и вредные советы.
-    Внимание: нарушения могут быть спрятаны где угодно (в названии, тегах, вопросах квиза или вариантах ответов).
+    Внимание: нарушения могут быть спрятаны где угодно (в названии, текстах, вопросах квиза или вариантах ответов).
     
-    Если всё абсолютно чисто, верни: {{"status": true}}
+    Если всё абсолютно чисто, верни строго JSON: {{"status": true}}
     Если есть нарушения, точно укажи ГДЕ оно найдено, и верни JSON: 
-    {{"status": false, "reason": "краткая причина", "error_location": "Например: 'Страница 2, Варианты ответа' или 'Общие данные, Название урока'"}}
+    {{"status": false, "reason": "краткая причина", "error_location": "Например: 'Страница 2, Варианты ответа'"}}
     
     Досье урока: 
     {full_text}
     """
 
+    # 4. Цикл запросов в Groq
     for attempt in range(max_retries):
         try:
-            response = await client.aio.models.generate_content(
-                model="gemini-2.5-flash", 
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    response_mime_type="application/json"
-                )
+            chat_completion = await client.chat.completions.create(
+                messages=[
+                    {
+                      
+                        "role": "system",
+                        "content": "Ты — строгий модератор образовательной платформы. Ты возвращаешь ответы СТРОГО в формате валидного JSON."
+                    },
+                    {
+                       
+                        "role": "user",
+                        "content": prompt
+                    }
+                ],
+                model="llama-3.3-70b-versatile", 
+                temperature=0.1,
+                response_format={"type": "json_object"} 
             )
-            return response.text 
+            
+            result_text = chat_completion.choices[0].message.content
+            return result_text 
             
         except Exception as e:
-            if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
-                await asyncio.sleep(60)
-            else:
-                break
-                
-    return json.dumps({"status": False, "reason": "Система модерации перегружена", "error_location": "Сервер"})
-    async with async_session() as session:
-        query = select(LessonSheet.page_number, LessonSheet.content)\
-            .where(LessonSheet.lesson_id == lesson_id)\
-            .order_by(LessonSheet.page_number)
-            
-        result = await session.execute(query)
-        sheets = result.all()
-
-    if not sheets:
-        return json.dumps({"status": False, "reason": "Урок пуст"})
-
-
-    formatted_pages = [
-        f"--- Страница {sheet.page_number} ---\n{sheet.content}" 
-        for sheet in sheets
-    ]
-    
-
-    full_text = "\n\n".join(formatted_pages)
-
-
-    prompt = f"""
-    Проверь этот многостраничный урок на легальность, насилие и вредные советы.
-    В тексте указаны номера страниц (--- Страница N ---).
-    
-    Если всё чисто, верни: {{"status": true}}
-    Если есть нарушения, найди первую страницу с нарушением и верни: 
-    {{"status": false, "reason": "краткая причина", "bad_page": номер_страницы}}
-    
-    Текст урока: 
-    {full_text}
-    """
-
-    for attempt in range(max_retries):
-        try:
-            response = await client.aio.models.generate_content(
-                model="gemini-2.5-flash", 
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    response_mime_type="application/json"
-                )
-            )
-            return response.text 
-            
-        except Exception as e:
-            error_msg = str(e)
-            if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
-                wait_time = 60 
-                print(f"⚠️ Лимит запросов. Ждем {wait_time} сек... (Попытка {attempt + 1}/{max_retries})")
+            error_msg = str(e).lower()
+            if "429" in error_msg or "rate limit" in error_msg:
+                wait_time = 60 * (attempt + 1)
+                print(f"⚠️ Лимит запросов Groq API. Ждем {wait_time} сек... (Попытка {attempt + 1}/{max_retries})")
                 await asyncio.sleep(wait_time)
             else:
-                print(f"❌ Критическая ошибка ИИ: {e}")
-                break
+                print(f"❌ Критическая ошибка ИИ модератора: {e}")
+                return json.dumps({
+                    "status": False, 
+                    "reason": f"Ошибка сервера модерации", 
+                    "error_location": "Сервер"
+                }, ensure_ascii=False)
                 
-    return json.dumps({"status": False, "reason": "Система модерации перегружена. Попробуйте позже."})
-
-
+    return json.dumps({
+        "status": False, 
+        "reason": "Система модерации временно перегружена. Попробуйте сохранить позже.", 
+        "error_location": "Сервер"
+    }, ensure_ascii=False)
 async def add_tags(tags: CreateTags, current_user: int):
     async with async_session() as session:
         result = await session.execute(

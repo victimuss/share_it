@@ -17,10 +17,10 @@ export const CreateLession = async (data: LessonCreate): Promise<LessonOut> => {
 
 export const CreateSheet = async (data: SheetCreate, lesson_id: number): Promise<SheetOut> => {
     try {
-        const response = await api.post<SheetOut>(`lessons/${lesson_id}/sheets`, data);
+        const response = await api.post<SheetOut>(`lessons/new_sheet?lesson_id=${lesson_id}`, data);
         return response;
     } catch (error) {
-        console.error(`Ошибка запроса создания листа:`, error);
+        console.log("ДЕТАЛИ ОШИБКИ 422:", JSON.stringify(error.response.data, null, 2));
         throw error;
     }
 };
