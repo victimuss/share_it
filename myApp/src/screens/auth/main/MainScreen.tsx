@@ -10,6 +10,8 @@ import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, Curr
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
 import { useNavigation } from "expo-router";
 import { ApplicationCodeIcon, BellIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon, PlayIcon } from "@/src/SVG/MainPageSVG";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "@/src/navigation/appNavigator";
 export const MainScreen = () => {
   const { user } = useAuth();
   const id = user ? user.id : 0 <CurrentLessonRequest | null>(null);
@@ -20,6 +22,7 @@ export const MainScreen = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigator = useNavigation();
+  type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'MyLessons'>;
   const date = new Date();
   const iconMap: Record<string, React.ReactNode> = {
     code: <ApplicationCodeIcon size={50} />,
@@ -211,7 +214,8 @@ export const MainScreen = () => {
               const less = item.lesson || item;
               const authorName = item.author ? item.author : 'Неизвестен';
               return (
-                <Pressable style={homeStyles.featuredCard}>
+                <Pressable style={homeStyles.featuredCard}
+                  onPress={() => navigator.navigate('LessonMainScreen', { lessonId: less.id })}>
                   <View style={homeStyles.featuredCardImage}>
                     <View style={homeStyles.featuredCardContent}>
                       <View style={homeStyles.featuredCardMeta}>
@@ -236,7 +240,8 @@ export const MainScreen = () => {
             <Text style={homeStyles.sectionTitle}>Продолжить обучение</Text>
           </View>
           {current?.last_lession?.last_lession ? (
-            <View style={homeStyles.progressCard}>
+            <Pressable style={homeStyles.progressCard}
+              onPress={() => navigator.navigate('LessonMainScreen', { lessonId: current?.last_lession?.lesson.id })}>
               <View style={homeStyles.progressCardHeader}>
                 <PlayIcon></PlayIcon>
                 <Text style={homeStyles.progressCardTitle}>{current?.last_lession?.lesson?.lesson_name || 'Нет текущего урока'}</Text>
@@ -248,7 +253,7 @@ export const MainScreen = () => {
                   { width: `${Math.ceil((current.last_lession?.last_lession?.completed_steps / current?.last_lession?.lesson.sheet_counts) * 100)}%` }
                 ]} />
               </View>
-            </View>
+            </Pressable>
           ) : (
             <View style={homeStyles.progressCard}>
               <Text style={homeStyles.progressCardTitle} >Нет текущего урока</Text>
@@ -286,7 +291,8 @@ export const MainScreen = () => {
                       <Text style={homeStyles.lessonCardLikes}> {item.author ? item.author : 'Неизвестен'} · ❤️ {less.likes}</Text>
                     </View>
                   </View>
-                  <Pressable style={homeStyles.studyButton}>
+                  <Pressable style={homeStyles.studyButton}
+                    onPress={() => navigator.navigate('LessonMainScreen', { lessonId: less.id })}>
                     <Text style={homeStyles.studyButtonText}>Изучить</Text>
                   </Pressable>
                 </View>

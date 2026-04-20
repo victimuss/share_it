@@ -9,6 +9,7 @@ import { BookIcon, HomeIcon, SearchIcon, UserIcon } from '../SVG/TabSVG';
 import { COLORS } from '../styles/root';
 import { SearchScreen } from './auth/main/SearchScreen';
 import { NewLessonScreen } from './auth/main/NewLesson/NewLessonScreen';
+import { LessonMainScreen } from './Lesson/LessonMainPage';
 
 const MyLessonsScreen = () => <View />;
 
@@ -104,7 +105,7 @@ export default function TabNavigator(): React.JSX.Element {
 
             <Tab.Screen
                 name='MyLessons'
-                component={MyLessonsScreen}
+                component={LessonMainScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View style={tabBarStyles.tab}>

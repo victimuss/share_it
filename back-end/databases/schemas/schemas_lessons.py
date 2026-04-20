@@ -1,5 +1,5 @@
 # src/schemas/lesson.py
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, field_validator
 from typing import Optional, List
 from datetime import datetime
 
@@ -103,3 +103,46 @@ class Tag(BaseModel):
 class CreateTags(BaseModel):
     lesson_id: int
     tags: list[Tag]
+
+class PersonalLessonOut(BaseModel):
+    id: int
+    lesson_name: str
+    author: Optional[str] = None
+    description: Optional[str]
+    type: str
+    level: str
+    status: str
+    rank: float
+    sheet_counts: int
+    rank_count: int
+    author_id: int
+    likes: int
+    students_count: int
+    created_at: datetime
+    updated_at: datetime
+    rank: float
+
+    model_config = ConfigDict(from_attributes=True)
+
+class PersonalLessonResponse(BaseModel):
+    lesson: PersonalLessonOut
+    progress: int
+    is_liked: bool
+    is_registered: bool
+    author_name: str
+    tags: list[str] | None = None
+    rank: float | None = None
+
+
+    @field_validator('tags', mode='before')
+    @classmethod
+    def validate_tags(cls, v):
+        if isinstance(v, str):
+            return v.split(',')
+        return v
+    model_config = ConfigDict(from_attributes=True)
+
+
+class PersonalLessonRequest(BaseModel):
+    lesson_id: int
+    user_id: int

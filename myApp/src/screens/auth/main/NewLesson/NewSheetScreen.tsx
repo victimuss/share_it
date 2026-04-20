@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { lessonEditorStyles as styles } from "@/src/styles/NewSheetStyles";
 import { CloseIcon } from "@/src/SVG/SearchSVG";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Pressable, TextInput, Modal, Alert } from "react-native";
+import { View, Text, ScrollView, Pressable, TextInput, Modal, Alert, KeyboardAvoidingView } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
 import { COLORS } from "@/src/styles/root";
 import { AddTags, CreateLession, Publish } from "@/src/api/create_lesson/create_lesson";
@@ -156,7 +156,7 @@ export const NewSheetScreen = () => {
                 contentContainerStyle={styles.scrollContent}
                 showsVerticalScrollIndicator={false}
             >
-                <View style={styles.pageContent}>
+                <KeyboardAvoidingView style={styles.pageContent}>
                     <View style={styles.fieldHeader}>
                         <Text style={styles.fieldLabel}>Название страницы</Text>
                         <Text style={styles.charCount}>0/50</Text>
@@ -205,13 +205,13 @@ export const NewSheetScreen = () => {
                             return null;
                         }}
                     />
-                </View>
+                </KeyboardAvoidingView>
                 {(currentSheet.sheetType === 'THEORY') && (
-                    <View style={styles.pageContent}>
-                        <View style={styles.fieldHeader}>
+                    <KeyboardAvoidingView style={styles.pageContent}>
+                        <KeyboardAvoidingView style={styles.fieldHeader}>
                             <Text style={styles.fieldLabel}>Текст</Text>
                             <Text style={styles.charCount}>0/500</Text>
-                        </View>
+                        </KeyboardAvoidingView>
                         <TextInput
                             style={styles.textArea}
                             placeholder="Содержание страницы..."
@@ -250,11 +250,11 @@ export const NewSheetScreen = () => {
                                 />
                             </View>
                         </View>
-                    </View>
+                    </KeyboardAvoidingView>
                 )
                 }
                 {(currentSheet.sheetType === 'VIDEO') && (
-                    <View style={styles.pageContent}>
+                    <KeyboardAvoidingView style={styles.pageContent}>
                         <View style={styles.fieldHeader}>
                             <Text style={styles.fieldLabel}>Ссылка на видео</Text>
                         </View>
@@ -278,11 +278,11 @@ export const NewSheetScreen = () => {
                             value={currentSheet.description_for_video_or_picture}
                             onChangeText={(text) => updateSheetField('description_for_video_or_picture', text)}
                         />
-                    </View>
+                    </KeyboardAvoidingView>
                 )
                 }
                 {(currentSheet.sheetType === 'QUIZ') && (
-                    <View style={styles.pageContent}>
+                    <KeyboardAvoidingView style={styles.pageContent}>
                         <View style={styles.fieldHeader}>
                             <Text style={styles.fieldLabel}>Вопрос</Text>
                             <Text style={styles.charCount}>0/30</Text>
@@ -293,11 +293,11 @@ export const NewSheetScreen = () => {
                             placeholderTextColor={COLORS.textSecondary}
                             maxLength={30}
                         />
-                    </View>
+                    </KeyboardAvoidingView>
                 )
                 }
                 {(currentSheet.sheetType === 'PICTURE') && (
-                    <View style={styles.pageContent}>
+                    <KeyboardAvoidingView style={styles.pageContent}>
                         <View style={styles.pictureUploadZone}>
                             <View style={styles.uploadIconCircle}>
                                 <View style={styles.uploadIconWrapper}>
@@ -307,7 +307,7 @@ export const NewSheetScreen = () => {
                             <Text style={styles.uploadHintAccent}>Нажми для загрузки</Text>
                             <Text style={styles.uploadHint}>PNG, JPG до 10 MB</Text>
                         </View>
-                    </View>
+                    </KeyboardAvoidingView>
                 )}
             </ScrollView>
             <View style={styles.bottomBar}>

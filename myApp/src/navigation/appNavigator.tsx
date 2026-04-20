@@ -5,12 +5,15 @@ import TabNavigator from '../screens/TabBottom';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NewLessonScreen } from '../screens/auth/main/NewLesson/NewLessonScreen';
 import { NewSheetScreen } from '../screens/auth/main/NewLesson/NewSheetScreen';
+import LessonMainScreen from '../screens/Lesson/LessonMainPage';
 
-const Stack = createNativeStackNavigator();
 export type RootStackParamList = {
+  MainTabs: undefined;
   NewLessonScreen: undefined;
-  NewSheetScreen: { lessonId: number | null };
+  NewSheetScreen: undefined;
+  LessonMainScreen: { lessonId: number };
 };
+const Stack = createNativeStackNavigator();
 
 export const AppNavigator = () => {
   return (
@@ -18,6 +21,7 @@ export const AppNavigator = () => {
       <Stack.Screen name="MainTabs" component={TabNavigator} />
       <Stack.Screen name="NewLessonScreen" component={NewLessonScreen} />
       <Stack.Screen name="NewSheetScreen" component={NewSheetScreen} />
+      <Stack.Screen name="LessonMainScreen" component={LessonMainScreen} />
     </Stack.Navigator>
   );
 };

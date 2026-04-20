@@ -20,15 +20,41 @@ from google import genai
 from google.genai import types
 import json
 
-load_dotenv()
-api_key = os.getenv("GEMINI_API_KEY")
-client = genai.Client(api_key=api_key)
 
-async def get_lesson_by_id(lesson_id: int) -> Optional[Lesson]:
+async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
     async with async_session() as session:
-        result = await session.execute(select(Lesson, User.user_name).where(Lesson.id == lesson_id).where(Lesson.status == "ACTIVE").join(User, Lesson.author_id == User.id))
-        lesson = result.scalar_one_or_none()
-        return lesson
+        query = (
+            select(Lesson, UserLesson.completed_steps, LessonLike.user_id, LessonRank.user_id, RegistedUsers.user_id, User.user_name, LessonTag.tag)
+            .outerjoin(UserLesson, and_(
+                UserLesson.lesson_id == Lesson.id, 
+                UserLesson.user_id == user_id
+            ))
+            .outerjoin(LessonLike, and_(
+                LessonLike.lesson_id == Lesson.id, 
+                LessonLike.user_id == user_id
+            ))
+            .outerjoin(LessonRank, and_(
+                LessonRank.lesson_id == Lesson.id, 
+                LessonRank.user_id == user_id
+            ))
+            .outerjoin(RegistedUsers, and_(
+                RegistedUsers.lesson_id == Lesson.id, 
+                RegistedUsers.user_id == user_id
+            ))
+            .outerjoin(LessonTag, and_(
+                LessonTag.lesson_id == Lesson.id,
+            ))
+            .join(User, Lesson.author_id == User.id)
+            .where(Lesson.id == lesson_id)
+            .where(Lesson.status == "ACTIVE")
+        )
+        result = await session.execute(query)
+        row = result.first() 
+        
+        if not row:
+            return None
+            
+        return row
 
 async def get_all_lessons() -> Optional[Lesson]:
     async with async_session() as session:
@@ -369,7 +395,8 @@ async def search_lessons(
                 query = query.order_by(Lesson.rank.desc())
             else:
                 try:
-                    query = query.order_by(text(order))
+                    #query = query.order_by(text(order)) #убрано в угоду безопасности
+                    pass
                 except:
                     pass
 
@@ -383,6 +410,7 @@ async def search_lessons(
                 c.name: getattr(lesson, c.name) for c in lesson.__table__.columns
             }
             lesson_dict["author"] = user_name
+            lesson_dict["sheet_counts"] = lesson.sheet_counts
             lessons_data.append(lesson_dict)
 
         return {"lessons": lessons_data, "total": total}

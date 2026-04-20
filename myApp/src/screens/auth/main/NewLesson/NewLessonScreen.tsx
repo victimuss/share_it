@@ -89,6 +89,7 @@ export const NewLessonScreen = () => {
                 type: type || 'code',
             })
             setCurrentLessonId(LessonResponce.id)
+            setLessonId(LessonResponce.id);
 
         } catch (error) {
             console.error(`Ошибка запроса урока:`, error);

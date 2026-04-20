@@ -36,6 +36,7 @@ export const SearchScreen = () => {
     type SearchScreenRouteProp = RouteProp<SearchStackParamList, 'Search'>;
     const route = useRoute<SearchScreenRouteProp>();
     const searchFromMainPage = route.params?.search;
+    const navigator = useNavigation();
     const [search, setSearch] = useState(searchFromMainPage || "");
     const [findResult, setFindResult] = useState<any[]>([]);
     const [currentpage, setCurrentpage] = useState(1);
@@ -306,7 +307,8 @@ export const SearchScreen = () => {
                                                 <Text style={homeStyles.lessonCardLikes}> {item.author ? item.author : 'Неизвестен'} · ❤️ {less.likes}</Text>
                                             </View>
                                         </View>
-                                        <Pressable style={homeStyles.studyButton}>
+                                        <Pressable style={homeStyles.studyButton}
+                                            onPress={() => navigator.navigate('LessonMainScreen', { lessonId: less.id })}>
                                             <Text style={homeStyles.studyButtonText}>Изучить</Text>
                                         </Pressable>
                                     </View>

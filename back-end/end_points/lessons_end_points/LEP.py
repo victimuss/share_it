@@ -33,9 +33,25 @@ async def get_current_active_user(user=Depends(get_current_user)):
     return user
 
 
-@router.get("/get_lesson_by_id")
-async def get_les_by_id(lesson_id: int):
-    return await get_lesson_by_id(lesson_id)
+@router.get("/get_lesson_by_id", response_model=PersonalLessonResponse)
+async def get_les_by_id(lesson_id: int, current_user=Depends(get_current_active_user)):
+    row = await get_lesson_by_id(lesson_id, current_user)
+    if row is None:
+        raise HTTPException(status_code=404, detail="Lesson not found")
+
+    lesson, progress, is_liked, is_registered, rank, author_name, tags = row
+
+    return {
+            "lesson": lesson,         
+            "progress": progress if progress is not None else 0,           
+            "is_liked": is_liked is not None,
+            "is_registered": is_registered is not None,                 
+            "rank": rank,
+            "author_name": author_name,
+            "tags": tags
+}
+    
+
 
 
 @router.post("/new_lesson")
