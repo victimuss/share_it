@@ -6,12 +6,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { NewLessonScreen } from '../screens/auth/main/NewLesson/NewLessonScreen';
 import { NewSheetScreen } from '../screens/auth/main/NewLesson/NewSheetScreen';
 import LessonMainScreen from '../screens/Lesson/LessonMainPage';
+import SheetScreen from '../screens/Lesson/SheetScreen';
 
 export type RootStackParamList = {
   MainTabs: undefined;
   NewLessonScreen: undefined;
   NewSheetScreen: undefined;
   LessonMainScreen: { lessonId: number };
+  LessonPage: { lessonId: number };
 };
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +24,7 @@ export const AppNavigator = () => {
       <Stack.Screen name="NewLessonScreen" component={NewLessonScreen} />
       <Stack.Screen name="NewSheetScreen" component={NewSheetScreen} />
       <Stack.Screen name="LessonMainScreen" component={LessonMainScreen} />
+      <Stack.Screen name="LessonPage" component={SheetScreen} />
     </Stack.Navigator>
   );
 };

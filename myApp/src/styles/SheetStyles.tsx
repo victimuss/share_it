@@ -104,6 +104,9 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     /** Пройденный сегмент. */
     segmentDone: {
+        flex: 1,
+        height: 4,
+        borderRadius: RADIUS.full,
         backgroundColor: COLORS.primary,
     } as ViewStyle,
 
@@ -171,25 +174,48 @@ export const lessonSwipeViewStyles = StyleSheet.create({
     } as ViewStyle,
 
     typeBadgeTheory: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: SPACING.xs,
+        paddingHorizontal: SPACING.sm,
+        paddingVertical: 3,
+        borderRadius: RADIUS.xl,
         backgroundColor: '#EEF2FF',
     } as ViewStyle,
 
     typeBadgeVideo: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: SPACING.xs,
+        paddingHorizontal: SPACING.sm,
+        paddingVertical: 3,
+        borderRadius: RADIUS.xl,
         backgroundColor: '#FEE2E2',
     } as ViewStyle,
 
     typeBadgeQuestion: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: SPACING.xs,
+        paddingHorizontal: SPACING.sm,
+        paddingVertical: 3,
+        borderRadius: RADIUS.xl,
         backgroundColor: '#D1FAE5',
     } as ViewStyle,
 
     typeBadgePicture: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: SPACING.xs,
+        paddingHorizontal: SPACING.sm,
+        paddingVertical: 3,
+        borderRadius: RADIUS.xl,
         backgroundColor: '#FEF3C7',
     } as ViewStyle,
 
     typeBadgeText: {
-        fontSize: 11,
-        fontWeight: '600' as const,
-        fontFamily: 'Inter_600SemiBold',
+        ...FONTS.medium,
+        fontSize: 13,
     } as TextStyle,
 
     typeBadgeTextTheory: { color: COLORS.primary } as TextStyle,
@@ -698,6 +724,16 @@ export const lessonSwipeViewStyles = StyleSheet.create({
     } as ViewStyle,
 
     prevButtonDisabled: {
+        flex: 1,
+        paddingVertical: SPACING.md,
+        borderRadius: RADIUS.lg,
+        backgroundColor: COLORS.surface,
+        borderWidth: 1.5,
+        borderColor: COLORS.border,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        gap: SPACING.xs,
         opacity: 0.35,
     } as ViewStyle,
 

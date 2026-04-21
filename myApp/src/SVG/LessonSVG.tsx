@@ -1,5 +1,5 @@
 import * as React from "react";
-import Svg, { SvgProps, Path, Circle, Polyline, Polygon } from "react-native-svg";
+import Svg, { SvgProps, Path, Circle, Polyline, Polygon, Line } from "react-native-svg";
 
 export const LessonBackIcon = (props: SvgProps) => (
   <Svg
@@ -117,5 +117,79 @@ export const LessonDislikeIcon = (props: SvgProps) => (
     {...props}
   >
     <Path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+  </Svg>
+);
+
+export const LessonArrowLeftIcon = (props: SvgProps) => (
+  <Svg
+    width={props.width || 14}
+    height={props.height || 14}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={props.color || "#6B7280"}
+    strokeWidth={2}
+    {...props}
+  >
+    <Path d="M19 12H5M12 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+  </Svg>
+);
+
+export const LessonBookmarkIcon = (props: SvgProps) => (
+  <Svg
+    width={props.width || 14}
+    height={props.height || 14}
+    viewBox="0 0 24 24"
+    fill={props.color || "#6366F1"}
+    stroke={props.color || "#6366F1"}
+    strokeWidth={2}
+    {...props}
+  >
+    <Path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" strokeLinecap="round" strokeLinejoin="round" />
+  </Svg>
+);
+
+export const LessonInfoIcon = (props: SvgProps) => (
+  <Svg
+    width={props.width || 16}
+    height={props.height || 16}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={props.color || "#6366F1"}
+    strokeWidth={2}
+    {...props}
+  >
+    <Circle cx="12" cy="12" r="10" />
+    <Line x1="12" y1="8" x2="12" y2="12" />
+    <Line x1="12" y1="16" x2="12.01" y2="16" />
+  </Svg>
+);
+
+export const LessonWarningIcon = (props: SvgProps) => (
+  <Svg
+    width={props.width || 16}
+    height={props.height || 16}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={props.color || "#D97706"}
+    strokeWidth={2}
+    {...props}
+  >
+    <Path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+    <Line x1="12" y1="9" x2="12" y2="13" />
+    <Line x1="12" y1="17" x2="12.01" y2="17" />
+  </Svg>
+);
+
+export const LessonArrowRightIcon = (props: SvgProps) => (
+  <Svg
+    width={props.width || 13}
+    height={props.height || 13}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={props.color || "currentColor"}
+    strokeWidth={2}
+    {...props}
+  >
+    <Path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
   </Svg>
 );

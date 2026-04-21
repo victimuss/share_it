@@ -72,4 +72,5 @@ export interface SheetResponse {
     sheets: Sheet[];
     total: number;
     completed_steps: number;
+    lesson_name: string;
 }

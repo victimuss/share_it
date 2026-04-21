@@ -21,6 +21,7 @@ interface LessonStore {
     total: number;
     completed_steps: number;
     currentIndex: number;
+    lesson_name: string;
     isLoading: boolean;
     error: string | null;
     setCurrentIndex: (index: number) => void;
@@ -28,11 +29,12 @@ interface LessonStore {
     loadLesson: (lessonId: number) => Promise<void>;
 
 }
-export const useLessonStore = create<LessonStore>((set) => ({
+export const useSheetStore = create<LessonStore>((set) => ({
     sheets: [],
     total: 0,
     currentIndex: 0,
     completed_steps: 0,
+    lesson_name: '',
     isLoading: false,
     error: null,
 
@@ -43,6 +45,7 @@ export const useLessonStore = create<LessonStore>((set) => ({
         total: 0,
         currentIndex: 0,
         completed_steps: 0,
+        lesson_name: '',
         isLoading: false,
         error: null,
     }),
@@ -55,6 +58,7 @@ export const useLessonStore = create<LessonStore>((set) => ({
                 sheets: response.sheets,
                 total: response.total,
                 completed_steps: response.completed_steps,
+                lesson_name: response.lesson_name,
                 currentIndex: Math.min(response.completed_steps, response.total - 1 >= 0 ? response.total - 1 : 0),
                 isLoading: false,
             });

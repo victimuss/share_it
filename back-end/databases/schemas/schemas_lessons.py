@@ -123,6 +123,12 @@ class PersonalLessonOut(BaseModel):
     rank: float
 
     model_config = ConfigDict(from_attributes=True)
+    @field_validator('author', mode='before')
+    @classmethod
+    def validate_author(cls, v):
+        if v and hasattr(v, 'user_name'):
+            return v.user_name
+        return v
 
 class PersonalLessonResponse(BaseModel):
     lesson: PersonalLessonOut
@@ -139,7 +145,7 @@ class PersonalLessonResponse(BaseModel):
     def validate_tags(cls, v):
         if isinstance(v, str):
             return v.split(',')
-        return v
+        return v 
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -166,6 +172,7 @@ class SheetResponse(BaseModel):
     sheets: list[SheetOut]
     total: int
     completed_steps: int
+    lesson_name: str
     model_config = ConfigDict(from_attributes=True)
 
 class SheetRequest(BaseModel):

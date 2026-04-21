@@ -35,7 +35,7 @@ export const RankLessonAPI = async (request: RankRequest): Promise<PersonalLesso
 
 export const GetSheetApi = async (request: SheetRequest): Promise<SheetResponse> => {
     try {
-        const response = await api.get<SheetResponse>(`lessons/get_sheets?lesson_id=${request.lesson_id}`);
+        const response = await api.post<SheetResponse>(`lessons/get_sheets?lesson_id=${request.lesson_id}`);
         return response;
     } catch (error) {
         console.error(`Ошибка запроса урока:`, error);

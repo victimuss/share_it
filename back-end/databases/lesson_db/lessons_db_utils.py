@@ -24,12 +24,18 @@ import json
 
 async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
     async with async_session() as session:
+        tags_subquery = (
+            select(func.group_concat(LessonTag.tag, ', '))
+            .where(LessonTag.lesson_id == Lesson.id)
+            .scalar_subquery()
+        )
         query = (
-            select(Lesson, UserLesson.completed_steps, LessonLike.user_id, LessonRank.user_id, RegistedUsers.user_id, User.user_name, LessonTag.tag)
+            select(Lesson, UserLesson.completed_steps, LessonLike.user_id, LessonRank.user_id, RegistedUsers.user_id, User.user_name, tags_subquery.label('tags_list'))
             .outerjoin(UserLesson, and_(
                 UserLesson.lesson_id == Lesson.id, 
                 UserLesson.user_id == user_id
             ))
+            .options(joinedload(Lesson.author))
             .outerjoin(LessonLike, and_(
                 LessonLike.lesson_id == Lesson.id, 
                 LessonLike.user_id == user_id
@@ -42,15 +48,12 @@ async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
                 RegistedUsers.lesson_id == Lesson.id, 
                 RegistedUsers.user_id == user_id
             ))
-            .outerjoin(LessonTag, and_(
-                LessonTag.lesson_id == Lesson.id,
-            ))
             .join(User, Lesson.author_id == User.id)
             .where(Lesson.id == lesson_id)
             .where(Lesson.status == "ACTIVE")
         )
         result = await session.execute(query)
-        row = result.first() 
+        row = result.unique().first()
         
         if not row:
             return None
@@ -572,7 +575,8 @@ async def get_sheets(lesson_id: int, user_id: int):
             )
 
         return {
-            "sheets": lesson.sheets, 
+            "sheets": lesson.sheets,
+            "lesson_name": lesson.lesson_name,
             "total": len(lesson.sheets),
             "completed_steps": completed_steps if completed_steps else 0
         }

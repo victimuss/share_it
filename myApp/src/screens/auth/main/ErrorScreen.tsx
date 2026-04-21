@@ -3,9 +3,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SPACING, FONTS, RADIUS } from '@/src/styles/root';
 interface ErrorScreenProps {
-    /** Текст ошибки для отображения */
     error: string;
-    /** Функция обратного вызова при нажатии кнопки "Попробовать снова" */
     onRetry?: () => void;
 }
 

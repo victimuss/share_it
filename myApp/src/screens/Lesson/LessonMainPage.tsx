@@ -33,6 +33,7 @@ export const LessonMainScreen = () => {
             const response = await GetLessonByIdAPI(lesson_id)
             setCurrentLesson(response)
             setCurrentLikes(response?.lesson.likes)
+            setIsLiked(response?.is_liked)
             const date = new Date(response?.lesson.created_at);
             const options: Intl.DateTimeFormatOptions = {
                 day: 'numeric',
@@ -187,7 +188,8 @@ export const LessonMainScreen = () => {
                     </View>
                 </View>
                 <View style={styles.ctaContainer}>
-                    <Pressable style={styles.startButton}>
+                    <Pressable style={styles.startButton}
+                        onPress={() => navigation.navigate('LessonPage', { lessonId: currentLesson?.lesson.id })}>
                         <Text style={styles.startButtonText}>Продолжить обучение</Text>
                     </Pressable>
                     <Pressable style={styles.exitButton} onPress={() => navigation.goBack()}>
