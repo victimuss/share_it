@@ -2,6 +2,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from sqlalchemy import BigInteger, String, ForeignKey, Numeric, Integer, DateTime, Float, Boolean
 from sqlalchemy.dialects.postgresql import ARRAY
+from typing import List
 from datetime import datetime, timezone
 from databases.databases_compile import Base
 def calculate_progress(sheets, comleted_steps ):
@@ -20,6 +21,7 @@ class User(Base):
     avatar: Mapped[str] = mapped_column(String(255), default='', nullable=True)
     site: Mapped[str] = mapped_column(String(255), default='', nullable=True)
     telegram: Mapped[str] = mapped_column(String(255), default='', nullable=True)
+    lessons: Mapped[List["Lesson"]] = relationship(back_populates="author")
     
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(timezone.utc))
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))

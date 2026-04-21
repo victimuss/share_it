@@ -1,7 +1,7 @@
 from databases.users_db.users_db import User
 from databases.main_databases import async_session
 from sqlalchemy import *
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from typing import Optional
 from databases.lesson_db.lesson_db import (
     Lesson,
@@ -13,6 +13,7 @@ from databases.lesson_db.lesson_db import (
 )
 from databases.users_db.users_db import UserLesson
 from databases.schemas.schemas_lessons import *
+from sqlalchemy.orm import joinedload
 import asyncio
 import os
 from dotenv import load_dotenv
@@ -521,6 +522,9 @@ async def checker(lesson_id: int, max_retries: int = 3):
         "reason": "Система модерации временно перегружена. Попробуйте сохранить позже.", 
         "error_location": "Сервер"
     }, ensure_ascii=False)
+
+
+
 async def add_tags(tags: CreateTags, current_user: int):
     async with async_session() as session:
         result = await session.execute(
@@ -538,3 +542,37 @@ async def add_tags(tags: CreateTags, current_user: int):
             return {"status": True}
         except Exception as e:
             return {"status": False, "reason": str(e)}
+
+async def get_sheets(lesson_id: int, user_id: int):
+    async with async_session() as session:
+        stmt = (
+            select(Lesson,UserLesson.completed_steps)
+            .options(joinedload(Lesson.sheets)) 
+            .where(Lesson.id == lesson_id)
+            .outerjoin(UserLesson, and_(
+                UserLesson.lesson_id == Lesson.id,
+                UserLesson.user_id == user_id
+            ))
+        )
+        
+        result = await session.execute(stmt)
+        row = result.unique().one_or_none()
+        if not row:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Урок {lesson_id} не найден"
+            )
+        lesson = row[0]
+        completed_steps = row[1]
+
+        if lesson.status != "ACTIVE":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Урок не активен"
+            )
+
+        return {
+            "sheets": lesson.sheets, 
+            "total": len(lesson.sheets),
+            "completed_steps": completed_steps if completed_steps else 0
+        }

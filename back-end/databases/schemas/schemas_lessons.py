@@ -146,3 +146,27 @@ class PersonalLessonResponse(BaseModel):
 class PersonalLessonRequest(BaseModel):
     lesson_id: int
     user_id: int
+
+class SheetOut(BaseModel):
+    id: int
+    sheet_header: str
+    content: str
+    timeToRead: int
+    sheetType: str
+    description_for_video_or_picture: Optional[str]
+    video_url: Optional[str]
+    picture_url: Optional[str]
+    question_text: Optional[str]
+    quiz_options: Optional[List[QuizOption]] = None
+    content_danger: Optional[str]
+    content_advice: Optional[str]
+    model_config = ConfigDict(from_attributes=True)
+
+class SheetResponse(BaseModel):
+    sheets: list[SheetOut]
+    total: int
+    completed_steps: int
+    model_config = ConfigDict(from_attributes=True)
+
+class SheetRequest(BaseModel):
+    lesson_id: int  

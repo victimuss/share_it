@@ -50,8 +50,11 @@ async def get_les_by_id(lesson_id: int, current_user=Depends(get_current_active_
             "author_name": author_name,
             "tags": tags
 }
-    
 
+@router.post("/get_sheets")
+async def get_she(lesson_id: int, current_user=Depends(get_current_active_user)):
+    return await get_sheets(lesson_id, current_user)
+    
 
 
 @router.post("/new_lesson")

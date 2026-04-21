@@ -47,3 +47,29 @@ export interface RankResponse {
     rank: number,
     rank_count: number,
 }
+
+
+export interface PublishLessonRequest {
+    lesson_id: number;
+}
+
+export interface Sheet {
+    id: number;
+    sheetType: string;
+    sheet_header: string;
+    content: string | null;
+    description_for_video_or_picture: string | null;
+    video_url: string | null;
+    picture_url: string | null;
+    question_text: string | null;
+    quiz_options: string[] | null;
+    timeToRead: number | null;
+    content_danger: string | null;
+    content_advice: string | null;
+}
+
+export interface SheetResponse {
+    sheets: Sheet[];
+    total: number;
+    completed_steps: number;
+}

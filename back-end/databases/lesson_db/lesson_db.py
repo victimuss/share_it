@@ -1,5 +1,6 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, column_property
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
+from typing import List
 from sqlalchemy import (
     BigInteger,
     String,
@@ -31,6 +32,11 @@ class Lesson(Base):
     likes: Mapped[int] = mapped_column(Integer, default=0)
     author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     students_count: Mapped[int] = mapped_column(Integer, default=0)
+    author: Mapped["User"] = relationship(back_populates="lessons")
+    sheets: Mapped[List["LessonSheet"]] = relationship(
+        back_populates="lesson", 
+        cascade="all, delete-orphan"
+    )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now(timezone.utc)
@@ -65,6 +71,7 @@ class LessonSheet(Base):
     content_danger: Mapped[str] = mapped_column(String(75), nullable=True)
     content_advice: Mapped[str] = mapped_column(String(75), nullable=True)
 
+    lesson: Mapped["Lesson"] = relationship(back_populates="sheets")
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now(timezone.utc)
     )
