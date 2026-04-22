@@ -66,6 +66,7 @@ export interface Sheet {
     timeToRead: number | null;
     content_danger: string | null;
     content_advice: string | null;
+    image_public_id: string | null;
 }
 
 export interface SheetResponse {

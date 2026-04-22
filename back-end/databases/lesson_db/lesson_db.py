@@ -62,6 +62,7 @@ class LessonSheet(Base):
     description_for_video_or_picture: Mapped[str] = mapped_column(String(50), nullable=True)
     video_url: Mapped[str] = mapped_column(String, nullable=True)
     picture_url: Mapped[str] = mapped_column(String, nullable=True)
+    image_public_id: Mapped[str] = mapped_column(String, nullable=True)
 
     question_text: Mapped[str] = mapped_column(String(30), nullable=True)
     quiz_options: Mapped[list] = mapped_column(JSON, nullable=True)

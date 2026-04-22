@@ -4,6 +4,7 @@ import uvicorn
 from datetime import timezone, datetime
 from pydantic import BaseModel
 from typing import Optional
+from fastapi import APIRouter, UploadFile, File, Depends
 import requests
 from pydantic import BaseModel
 from auth.jwt_tokens import *
@@ -18,6 +19,8 @@ from fastapi import status, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import update
 import json
+from cloud_storage.s3main import upload_image_to_cloud
+import base64
 
 
 router = APIRouter(prefix="/lessons")
@@ -78,6 +81,22 @@ async def update_les(
 ):
     return await edit_lesson(lesson_data=lesson_data, author_id=current_user, lesson_id=lesson_id)
 
+@router.post("/upload-lesson-banner")
+async def upload_banner(lesson_id: int, sheet_id: int, user_id: int, file: UploadFile = File(...)):
+    file_bytes = await file.read()
+    moderation_result = await media_checker(file_bytes, file.content_type)
+    res_data = json.loads(moderation_result)
+    if not res_data.get("safe"):
+        return {"error":'Модерация не пройдена', "reason": res_data.get("reason")}
+    await file.seek(0)
+    url = await upload_image_to_cloud(lesson_id, sheet_id, user_id, file, folder="lesson_banners")
+    if not url:
+        return {"error": "Не удалось загрузить изображение"}
+    return {"banner_url": url}
+
+@router.post("/delete-lesson-banner")
+async def delete_banner(sheet_id: int, user_id: int):
+    return await delete_image_from_cloud(sheet_id, user_id)
 
 @router.post("/update_sheet")
 async def update_les(

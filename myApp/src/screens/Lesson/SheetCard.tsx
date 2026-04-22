@@ -1,7 +1,8 @@
-import { View, Text } from "react-native";
+import { View, Text, Linking } from "react-native";
 import { lessonSwipeViewStyles as styles } from "@/src/styles/SheetStyles";
 import { COLORS } from "@/src/styles/root";
 import { Sheet } from "@/src/types/lessonmainscreen";
+import YoutubePlayer from "react-native-youtube-iframe";
 import { LessonInfoIcon, LessonWarningIcon } from "@/src/SVG/LessonSVG";
 interface SheetCardProps {
     type: string;
@@ -41,7 +42,24 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
         case 'QUIZ':
             return <Text>{sheet.content}</Text>
         case 'VIDEO':
-            return <Text>{sheet.content}</Text>
+            return <View style={styles.swipePage}>
+                <YoutubePlayer
+                    height={230}
+                    videoId={sheet.video_url || ''}
+                />
+                <View style={styles.videoComment}>
+                    <Text style={styles.videoCommentLabel}>
+                        Комментарий
+                    </Text>
+                    <Text style={styles.videoCommentText}>
+                        {sheet.description_for_video_or_picture}
+                    </Text>
+                    <Text style={styles.videoLink}
+                        onPress={() => Linking.openURL(sheet.video_url || '')}>
+                        Открыть на YouTube
+                    </Text>
+                </View>
+            </View>
         case 'PICTURE':
             return <Text>{sheet.content}</Text>
         default:

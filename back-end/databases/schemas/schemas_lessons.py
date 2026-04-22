@@ -166,6 +166,7 @@ class SheetOut(BaseModel):
     quiz_options: Optional[List[QuizOption]] = None
     content_danger: Optional[str]
     content_advice: Optional[str]
+    image_public_id: Optional[str]
     model_config = ConfigDict(from_attributes=True)
 
 class SheetResponse(BaseModel):

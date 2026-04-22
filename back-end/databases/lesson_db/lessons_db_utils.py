@@ -20,6 +20,8 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 import json
+from cloud_storage.s3main import delete_image_from_cloud_for_DB
+import base64
 
 
 async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
@@ -194,6 +196,7 @@ async def delete_sheet(sheet_id: int, author_id: int, lesson_id: int):
         sheet = res.scalar_one_or_none()
         if sheet is None:
             raise HTTPException(status_code=404, detail="Sheet not found")
+        delete_image_from_cloud_for_DB(sheet.image_public_id)
         await session.delete(sheet)
         await session.commit()
         return {"message": "Sheet deleted successfully"}
@@ -303,7 +306,14 @@ async def delete_lesson(lesson_id: int, user_id: int):
         lesson = result.scalar_one_or_none()
         if not lesson:
             raise HTTPException(status_code=404, detail="Lesson not found")
+        sheets_with_images = await session.execute(
+            select(LessonSheet.image_public_id)
+            .where(LessonSheet.content_id == lesson_id)
+        )
+        public_ids_to_delete = [pid for pid in sheets_with_images.scalars() if pid]
 
+        for pid in public_ids_to_delete:
+            await delete_image_from_cloud(pid)
         await session.execute(
             delete(LessonRank).where(LessonRank.lesson_id == lesson_id)
         )
@@ -526,7 +536,33 @@ async def checker(lesson_id: int, max_retries: int = 3):
         "error_location": "Сервер"
     }, ensure_ascii=False)
 
+async def media_checker(image_data: bytes, image_type: str):
+    base64_image = base64.b64encode(image_data).decode('utf-8')
 
+    try:
+        chat_completion = await client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": "Ты — модератор. Проверь, нет ли на фото эротики, насилия, политики или треша. Ответь СТРОГО JSON: {'safe': true} или {'safe': false, 'reason': '...'}"},
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{base64_image}",
+                            },
+                        },
+                    ],
+                }
+            ],
+            model="meta-llama/llama-4-scout-17b-16e-instruct",
+            response_format={"type": "json_object"},
+            temperature=0.1
+        )
+        return chat_completion.choices[0].message.content
+    except Exception as e:
+        print(f"❌ Ошибка в media_checker: {e}")
+        return json.dumps({"safe": False, "reason": "Moderation skipped due to error"})
 
 async def add_tags(tags: CreateTags, current_user: int):
     async with async_session() as session:
