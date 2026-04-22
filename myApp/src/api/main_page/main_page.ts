@@ -1,4 +1,4 @@
-import { AuthorRequest, AuthorResponce, CurrentLessonRequest, curretLessonResponce, LessonRequest, PopularLessonsResponce, RecentLessonsResponce } from "@/src/types/main_page";
+import { AuthorRequest, AuthorResponce, CurrentLessonRequest, CurrentLessonResponse, curretLessonResponce, LessonRequest, PopularLessonsResponce, RecentLessonsResponce } from "@/src/types/main_page";
 import { api } from "../api";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,9 +24,9 @@ export const RecentLession = async (data: LessonRequest): Promise<PopularLessons
   }
 };
 
-export const CurrentLession = async (data: CurrentLessonRequest): Promise<currentLessonResponce> => {
-try {
-    const response = await api.get<currentLessonResponce>(`users/last_lession`);
+export const CurrentLession = async (data: CurrentLessonRequest): Promise<CurrentLessonResponse> => {
+  try {
+    const response = await api.get<CurrentLessonResponse>(`users/last_lession`);
     return response;
   } catch (error) {
     console.error(`Ошибка запроса популярных уроков:`, error);

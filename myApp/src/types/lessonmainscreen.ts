@@ -62,7 +62,7 @@ export interface Sheet {
     video_url: string | null;
     picture_url: string | null;
     question_text: string | null;
-    quiz_options: string[] | null;
+    quiz_options: { option: string, is_correct: boolean }[] | null;
     timeToRead: number | null;
     content_danger: string | null;
     content_advice: string | null;
@@ -74,4 +74,16 @@ export interface SheetResponse {
     total: number;
     completed_steps: number;
     lesson_name: string;
+}
+
+
+
+export interface setProgressRequest {
+    progress: number;
+    lesson_id: number;
+}
+
+export interface setProgressResponse {
+    progress?: number
+    detail?: string;
 }

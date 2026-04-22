@@ -20,6 +20,7 @@ interface LessonStore {
     updateSheetField: <K extends keyof SheetDraft>(field: K, value: SheetDraft[K]) => void;
     saveCurrentSheet: () => Promise<void>;
     deleteCurrentSheet: () => Promise<void>;
+    clearStore: () => void;
 }
 
 export const useLessonStore = create<LessonStore>((set, get) => ({
@@ -46,7 +47,17 @@ export const useLessonStore = create<LessonStore>((set, get) => ({
         }],
         currentIndex: state.sheets.length
     })),
-
+    clearStore: () => set({
+        lessonId: null,
+        currentIndex: 0,
+        sheets: [{
+            localId: Date.now().toString(),
+            sheetType: 'THEORY',
+            sheet_header: '',
+            content: '',
+            isSaving: false
+        }]
+    }),
     updateSheetField: (field, value) => set((state) => {
         const newSheets = [...state.sheets];
         newSheets[state.currentIndex] = {
@@ -79,8 +90,8 @@ export const useLessonStore = create<LessonStore>((set, get) => ({
                     content_danger: current.content_danger,
                     content_advice: current.content_advice,
                 };
-
                 await EditSheetAPI(editPayload, current.serverId);
+
             } else {
                 const createPayload: SheetCreate = {
                     sheet_header: current.sheet_header || '',

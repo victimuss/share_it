@@ -12,6 +12,7 @@ import { CloseIcon } from '@/src/SVG/SearchSVG';
 import { LessonArrowLeftIcon, LessonArrowRightIcon, LessonBookmarkIcon } from '@/src/SVG/LessonSVG';
 import { SheetCard } from './SheetCard';
 import { COLORS } from '@/src/styles/root';
+import { SetProgressAPI } from '@/src/api/lessonmain/lessonmain';
 
 export const SheetScreen = () => {
     type LessonScreenRouteProp = RouteProp<RootStackParamList, 'LessonPage'>;
@@ -33,6 +34,15 @@ export const SheetScreen = () => {
             setLoading(false)
         }
     }
+
+    const handleSetProgress = async (lesson_id: number, progress: number) => {
+        try {
+            await SetProgressAPI({ lesson_id, progress })
+        } catch (error) {
+            console.error("Ошибка сохранения прогресса:", error.message);
+        }
+    }
+
     useEffect(() => {
         fetchLesson()
     }, [])
@@ -88,6 +98,7 @@ export const SheetScreen = () => {
                     <Pressable style={styles.finishButton}
                         onPress={() => {
                             if (currentIndex === total - 1) {
+                                handleSetProgress(lesson_id, total)
                                 navigation.goBack();
                             }
                         }}>
@@ -98,8 +109,10 @@ export const SheetScreen = () => {
                 ) : (
                     <Pressable style={styles.nextButton}
                         onPress={() => {
+
                             if (currentIndex < total - 1) {
                                 setCurrentIndex(currentIndex + 1);
+                                handleSetProgress(lesson_id, currentIndex + 1)
                             }
                         }}>
                         <Text style={styles.nextButtonText}>
@@ -114,3 +127,7 @@ export const SheetScreen = () => {
 }
 
 export default SheetScreen
+
+function setProgressAPI(arg0: { lesson_id: number; progress: number; }) {
+    throw new Error('Function not implemented.');
+}

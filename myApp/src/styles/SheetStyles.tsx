@@ -1,4 +1,4 @@
-import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from 'react-native';
 import { COLORS, FONTS, SPACING, RADIUS } from './root';
 
 export const lessonSwipeViewStyles = StyleSheet.create({
@@ -622,13 +622,13 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         backgroundColor: '#E0E7FF',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: 180,
     } as ViewStyle,
 
     pictureImage: {
         width: '100%',
+        height: 250,
         borderRadius: RADIUS.xl,
-    } as ViewStyle,
+    } as ImageStyle,
 
     pictureZoomButton: {
         position: 'absolute',

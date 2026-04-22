@@ -2,10 +2,11 @@ import apiInstance from "./apiInstance";
 import { getToken } from "../utils/storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthResponse } from "../types/auth";
+import { AxiosRequestConfig } from "axios";
 
 
 export const api = {
-  post: async <T = any>(url: string, body: any): Promise<T> => {
+  post: async <T = any>(url: string, body: any, config?: AxiosRequestConfig): Promise<T> => {
     try {
       const response = await apiInstance.post<T>(url, body);
       return response.data;

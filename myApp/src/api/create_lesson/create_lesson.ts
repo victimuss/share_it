@@ -1,8 +1,7 @@
 
-import { LessonCreate, LessonOut, PublishOut, SheetCreate, SheetOut, TagCreate, TagsOut } from "@/src/types/createlesson";
+import { CloudinaryRequest, CloudinaryResponse, DeleteLessonBannerRequest, DeleteLessonBannerResponse, LessonCreate, LessonOut, PublishOut, SheetCreate, SheetOut, TagCreate, TagsOut } from "@/src/types/createlesson";
 import { api } from "../api";
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export const CreateLession = async (data: LessonCreate): Promise<LessonOut> => {
@@ -41,6 +40,58 @@ export const AddTags = async (data: TagCreate): Promise<TagsOut> => {
         return response;
     } catch (error) {
         console.error(`Ошибка запроса добавления тегов:`, error);
+        throw error;
+    }
+};
+
+export const DeleteLessonBanner = async (data: DeleteLessonBannerRequest): Promise<DeleteLessonBannerResponse> => {
+
+    try {
+        const response = await api.post<DeleteLessonBannerResponse>(`lessons/delete-lesson-banner?sheet_id=${data.sheet_id}`, {});
+        return response;
+    } catch (error) {
+        console.error(`Ошибка запроса удаления баннера урока:`, error);
+        throw error;
+    }
+};
+
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export const LoadLessonBanner = async (data: CloudinaryRequest) => { // это пиздец а не передача
+    const formData = new FormData();
+    const access_token = await AsyncStorage.getItem("access_token");
+    formData.append('file', {
+        uri: data.file.uri,
+        name: data.file.name || 'photo.jpg',
+        type: data.file.type || 'image/jpeg',
+    } as any);
+
+    const url = `http://172.20.101.59:8000/lessons/upload-lesson-banner?lesson_id=${data.lesson_id}&sheet_id=${data.sheet_id}`;
+
+    console.log("🚀 Пытаюсь отправить на:", url);
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${access_token}`,
+            },
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.log("❌ Сервер ответил ошибкой:", result);
+            throw result;
+        }
+
+        console.log("✅ УСПЕХ через fetch:", result);
+        return result;
+    } catch (error) {
+        console.error("🔥 Network Error в fetch обычно значит, что файл слишком большой или URL недоступен:", error);
         throw error;
     }
 };

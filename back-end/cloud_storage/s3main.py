@@ -58,13 +58,13 @@ async def upload_image_to_cloud(lesson_id: int, sheet_id: int, user_id: int, fil
             )
             await session.commit()
             await session.refresh(lesson)
-            return lesson
+            return image_url
 
     except Exception as e:
         print(f"Ошибка Cloudinary: {e}")
         return None
 
-async def delete_image_from_cloud():
+async def delete_image_from_cloud(sheet_id: int, user_id: int):
     try:
         async with async_session() as session:
             result = await session.execute(
@@ -80,10 +80,10 @@ async def delete_image_from_cloud():
                     .values(picture_url=None, image_public_id=None)
                 )
                 await session.commit()
-            return True
+            return {"status": "success", "message": "Image deleted successfully"}
     except Exception as e:
         print(f"Ошибка Cloudinary: {e}")
-        return False
+        return {"status": "error", "message": "Failed to delete image"}
 
 async def delete_image_from_cloud_for_DB(public_id: str):
     try:

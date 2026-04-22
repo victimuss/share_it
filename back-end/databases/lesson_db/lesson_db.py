@@ -31,7 +31,6 @@ class Lesson(Base):
     rank_count: Mapped[int] = mapped_column(Integer, default=0)
     likes: Mapped[int] = mapped_column(Integer, default=0)
     author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
-    students_count: Mapped[int] = mapped_column(Integer, default=0)
     author: Mapped["User"] = relationship(back_populates="lessons")
     sheets: Mapped[List["LessonSheet"]] = relationship(
         back_populates="lesson", 
@@ -120,5 +119,12 @@ Lesson.sheet_counts = column_property(
     select(func.count(LessonSheet.id))
     .where(LessonSheet.content_id == Lesson.id)
     .correlate_except(LessonSheet)
+    .scalar_subquery()
+)
+
+Lesson.students_count = column_property(
+    select(func.count(RegistedUsers.id))
+    .where(RegistedUsers.lesson_id == Lesson.id)
+    .correlate_except(RegistedUsers)
     .scalar_subquery()
 )

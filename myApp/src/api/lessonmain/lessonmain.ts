@@ -1,6 +1,6 @@
 
 import { api } from "../api";
-import { LikeRequest, LikeResponse, PersonalLessonResponse, RankRequest, SheetRequest, SheetResponse } from "@/src/types/lessonmainscreen";
+import { LikeRequest, LikeResponse, PersonalLessonResponse, RankRequest, setProgressRequest, setProgressResponse, SheetRequest, SheetResponse } from "@/src/types/lessonmainscreen";
 
 
 export const GetLessonByIdAPI = async (lesson_id: number): Promise<PersonalLessonResponse> => {
@@ -39,6 +39,18 @@ export const GetSheetApi = async (request: SheetRequest): Promise<SheetResponse>
         return response;
     } catch (error) {
         console.error(`Ошибка запроса урока:`, error);
+        throw error;
+    }
+};
+
+
+export const SetProgressAPI = async (request: setProgressRequest): Promise<setProgressResponse> => {
+    try {
+        const response = await api.post<setProgressResponse>(`/users/set_progress?progress=${request.progress}&lesson_id=${request.lesson_id}`);
+        console.log(`response: ${JSON.stringify(response)}`)
+        return response;
+    } catch (error) {
+        console.error(`Ошибка сохранения прогресса:`, error);
         throw error;
     }
 };

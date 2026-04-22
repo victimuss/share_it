@@ -47,7 +47,7 @@ async def current_progress(user_id: int):
     last_lesson = await get_last_lession(user_id)
     if last_lesson is None:
         raise HTTPException(status_code=404, detail="Последний урок пользователя не найден")
-    return {"currentLesson": await get_lesson_by_id(last_lesson.lesson_id), "lesson_progress": last_lesson.lesson_progress}
+    return {"currentLesson": await get_lesson_by_id(last_lesson.lesson_id), "lesson_progress": last_lesson.completed_steps}
     
     
 @router.get('/author')

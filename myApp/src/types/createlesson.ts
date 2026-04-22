@@ -126,3 +126,28 @@ export interface TagsOut {
     status: string;
     message: string;
 }
+
+export interface CloudinaryResponse {
+    banner_url?: string;
+    error?: string;
+    reason?: string;
+}
+
+export interface CloudinaryRequest {
+    lesson_id: number;
+    sheet_id: number;
+    file: {
+        uri: string;
+        name: string;
+        type: string;
+    };
+}
+
+export interface DeleteLessonBannerResponse {
+    status: string;
+    message: string;
+}
+
+export interface DeleteLessonBannerRequest {
+    sheet_id: number;
+}

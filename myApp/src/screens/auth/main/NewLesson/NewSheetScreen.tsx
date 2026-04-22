@@ -1,20 +1,22 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { lessonEditorStyles as styles } from "@/src/styles/NewSheetStyles";
 import { CloseIcon } from "@/src/SVG/SearchSVG";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Pressable, TextInput, Modal, Alert, KeyboardAvoidingView } from "react-native";
+import { View, Text, ScrollView, Pressable, TextInput, Modal, Alert, KeyboardAvoidingView, Image } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
 import { COLORS } from "@/src/styles/root";
-import { AddTags, CreateLession, Publish } from "@/src/api/create_lesson/create_lesson";
+import { AddTags, CreateLession, DeleteLessonBanner, LoadLessonBanner, Publish } from "@/src/api/create_lesson/create_lesson";
 import { NewLessonScreen } from "./NewLessonScreen";
 import { createLessonStyles } from "@/src/styles/NewLessonStyles";
 import { PictureIcon, DeleteIcon } from "@/src/SVG/NewSheetSVG";
 import { useLessonStore } from "@/src/context/useLessonStore";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { LoadScreen } from "../LoadScreen";
 import { ModeratingScreen } from "../ModeratingScreen";
 import { ApprovedScreen } from "../ApprovedScreen";
 import { RejectedScreen } from "../RejectedScreen";
+import { CloudinaryRequest } from "@/src/types/createlesson";
+import * as ImagePicker from 'expo-image-picker';
 
 
 const typesData = [
@@ -33,15 +35,76 @@ export const NewSheetScreen = () => {
         updateSheetField,
         saveCurrentSheet,
         deleteCurrentSheet,
+        clearStore,
         lessonId
     } = useLessonStore();
     const currentSheet = sheets[currentIndex];
     const [selectedType, setSelectedType] = useState<string | null>(null);
     const [isFocus, setIsFocus] = useState(false);
+    const navigation = useNavigation();
     const [isModerating, setIsModerating] = useState(false);
     const [rejected, setRejected] = useState(false);
     const [approved, setApproved] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [ModerateError, setModerateError] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const pickImage = async () => {
+        setLoading(true);
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images'],
+            allowsEditing: true,
+            aspect: [16, 9],
+            quality: 0.7,
+        });
+
+        if (!result.canceled && result.assets && result.assets.length > 0) {
+            const asset = result.assets[0];
+
+            const fileName = asset.uri.split('/').pop() || 'upload.jpg';
+
+            const match = /\.(\w+)$/.exec(fileName);
+            const fileType = match ? `image/${match[1]}` : `image/jpeg`;
+            if (currentSheet.sheet_header != '') {
+                await saveCurrentSheet();
+            }
+            else {
+                Alert.alert('Ошибка', 'Сначала введите заголовок листа');
+                setLoading(false);
+                return;
+            }
+            if (currentSheet.serverId === null) {
+                Alert.alert('Ошибка загрузки', 'Попробуйте снова');
+                setLoading(false);
+                return;
+            }
+            const requestData: CloudinaryRequest = {
+                lesson_id: lessonId || 0,
+                sheet_id: currentSheet.serverId || 0,
+                file: {
+                    uri: asset.uri,
+                    name: fileName,
+                    type: fileType,
+                }
+            };
+            await handleLoadImage(requestData);
+
+        }
+    };
+
+    const handleDeleteImage = async () => {
+        const response = await DeleteLessonBanner({ sheet_id: currentSheet.serverId || 0 });
+        setLoading(true);
+        if (response.status == "success") {
+            setLoading(false);
+            setSelectedImage(null);
+            updateSheetField('picture_url', '');
+        } else {
+            setLoading(false);
+            Alert.alert('Ошибка', 'Ошибка удаления изображения');
+        }
+    };
+
+
     const renderTypesItem = (item: typeof typesData[0]) => {
         return (
             <View style={styles.typeOption}>
@@ -72,6 +135,7 @@ export const NewSheetScreen = () => {
             if (ModerResponse.status === 'success') {
                 setIsModerating(false);
                 setApproved(true);
+                clearStore();
             } else {
                 setIsModerating(false);
                 setRejected(true);
@@ -90,11 +154,40 @@ export const NewSheetScreen = () => {
         }
     }
 
+    const handleLoadImage = async (data: CloudinaryRequest) => {
+        try {
+            setLoading(false);
+            setIsModerating(true);
+            setModerateError(null);
+            const response = await LoadLessonBanner(data);
+            if (response.banner_url) {
+                setSelectedImage(response.banner_url || '');
+                updateSheetField('picture_url', response.banner_url || '');
+                setIsModerating(false);
+            } else {
+                setIsModerating(false);
+                setRejected(true);
+                setModerateError(response.reason || 'Ошибка модерации');
+            }
+        } catch (error: any) {
+            setIsModerating(false);
+            setRejected(true);
+
+            if (error.response?.data?.detail) {
+                setModerateError(error.response.data.detail.reason || error.response.data.detail.message);
+            } else {
+                setModerateError("Ошибка запроса загрузки баннера урока");
+                console.error(`Ошибка запроса загрузки баннера урока:`, error);
+            }
+        }
+    }
+
     if (isModerating) {
         return (
             <ModeratingScreen />
         )
     }
+
 
     if (rejected) {
         return (
@@ -111,11 +204,19 @@ export const NewSheetScreen = () => {
         )
     }
 
+    if (loading) {
+        return (
+            <LoadScreen />
+        )
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <View style={createLessonStyles.headerLeft}>
-                    <Pressable style={createLessonStyles.closeIconWrapper}>
+                    <Pressable style={createLessonStyles.closeIconWrapper}
+                        onPress={() => { clearStore(); navigation.goBack() }}
+                    >
                         <CloseIcon></CloseIcon>
                     </Pressable>
                     <Text style={styles.headerTitle}>Новая страница</Text>
@@ -159,7 +260,7 @@ export const NewSheetScreen = () => {
                 <KeyboardAvoidingView style={styles.pageContent}>
                     <View style={styles.fieldHeader}>
                         <Text style={styles.fieldLabel}>Название страницы</Text>
-                        <Text style={styles.charCount}>0/50</Text>
+                        <Text style={styles.charCount}>{currentSheet.sheet_header?.length || 0}/50</Text>
                     </View>
                     <TextInput
                         style={styles.input}
@@ -210,7 +311,7 @@ export const NewSheetScreen = () => {
                     <KeyboardAvoidingView style={styles.pageContent}>
                         <KeyboardAvoidingView style={styles.fieldHeader}>
                             <Text style={styles.fieldLabel}>Текст</Text>
-                            <Text style={styles.charCount}>0/500</Text>
+                            <Text style={styles.charCount}>{currentSheet.content?.length || 0}/500</Text>
                         </KeyboardAvoidingView>
                         <TextInput
                             style={styles.textArea}
@@ -224,7 +325,7 @@ export const NewSheetScreen = () => {
                             <View style={styles.calloutCardAdvice}>
                                 <View style={styles.calloutHeader}>
                                     <Text style={styles.calloutTitleAdvice}>💡 Совет</Text>
-                                    <Text style={styles.charCount}>0/75</Text>
+                                    <Text style={styles.charCount}>{currentSheet.content_advice?.length || 0}/75</Text>
                                 </View>
                                 <TextInput
                                     style={styles.calloutInput}
@@ -238,7 +339,7 @@ export const NewSheetScreen = () => {
                             <View style={styles.calloutCardWarning}>
                                 <View style={styles.calloutHeader}>
                                     <Text style={styles.calloutTitleWarning}>⚠️ Важно</Text>
-                                    <Text style={styles.charCount}>0/75</Text>
+                                    <Text style={styles.charCount}>{currentSheet.content_danger?.length || 0}/75</Text>
                                 </View>
                                 <TextInput
                                     style={styles.calloutInput}
@@ -268,7 +369,7 @@ export const NewSheetScreen = () => {
                         />
                         <View style={styles.fieldHeader}>
                             <Text style={styles.fieldLabel}>Комментарий</Text>
-                            <Text style={styles.charCount}>0/50</Text>
+                            <Text style={styles.charCount}>{currentSheet.description_for_video_or_picture?.length || 0}/50</Text>
                         </View>
                         <TextInput
                             style={styles.input}
@@ -285,28 +386,112 @@ export const NewSheetScreen = () => {
                     <KeyboardAvoidingView style={styles.pageContent}>
                         <View style={styles.fieldHeader}>
                             <Text style={styles.fieldLabel}>Вопрос</Text>
-                            <Text style={styles.charCount}>0/30</Text>
+                            <Text style={styles.charCount}>{currentSheet.question_text?.length || 0}/150</Text>
                         </View>
                         <TextInput
                             style={styles.input}
                             placeholder="Введи вопрос..."
                             placeholderTextColor={COLORS.textSecondary}
-                            maxLength={30}
+                            maxLength={150}
+                            value={currentSheet.question_text}
+                            onChangeText={(text) => updateSheetField('question_text', text)}
                         />
+                        <View style={styles.fieldHeader}>
+                            <Text style={styles.fieldLabel}>Ответы</Text>
+                        </View>
+                        {currentSheet.quiz_options?.map((option: any, index: number) => (
+                            <View key={index} style={styles.answerRow}>
+                                <Pressable
+                                    style={[styles.checkbox, option.is_correct && styles.checkboxActive]}
+                                    onPress={() => {
+                                        const newOptions = [...(currentSheet.quiz_options || [])];
+                                        newOptions[index] = { ...newOptions[index], is_correct: !newOptions[index].is_correct };
+                                        updateSheetField('quiz_options', newOptions);
+                                    }}
+                                >
+                                    {option.is_correct && (
+                                        <View style={styles.checkIconWrapper}>
+                                            <Text style={{ color: COLORS.surface, fontSize: 12, fontWeight: 'bold' }}>✓</Text>
+                                        </View>
+                                    )}
+                                </Pressable>
+                                <TextInput
+                                    style={[styles.answerInput, option.is_correct && styles.answerInputCorrect]}
+                                    placeholder={`Ответ ${index + 1}...`}
+                                    placeholderTextColor={COLORS.textSecondary}
+                                    maxLength={100}
+                                    value={option.option}
+                                    onChangeText={(text) => {
+                                        const newOptions = [...(currentSheet.quiz_options || [])];
+                                        newOptions[index] = { ...newOptions[index], option: text };
+                                        updateSheetField('quiz_options', newOptions);
+                                    }}
+                                />
+                                <Pressable
+                                    onPress={() => {
+                                        const newOptions = (currentSheet.quiz_options || []).filter((_, i) => i !== index);
+                                        updateSheetField('quiz_options', newOptions);
+                                    }}
+                                    style={{ padding: 4, marginLeft: 4 }}
+                                >
+                                    <Text style={{ color: COLORS.error, fontSize: 24, lineHeight: 24 }}>×</Text>
+                                </Pressable>
+                            </View>
+                        ))}
+                        {(!currentSheet.quiz_options || currentSheet.quiz_options.length < 6) && (
+                            <Pressable
+                                style={styles.addAnswerButton}
+                                onPress={() => {
+                                    const newOptions = [...(currentSheet.quiz_options || [])];
+                                    newOptions.push({ option: '', is_correct: false });
+                                    updateSheetField('quiz_options', newOptions);
+                                }}
+                            >
+                                <Text style={styles.addAnswerText}>+ Добавить вариант</Text>
+                            </Pressable>
+                        )}
                     </KeyboardAvoidingView>
                 )
                 }
                 {(currentSheet.sheetType === 'PICTURE') && (
                     <KeyboardAvoidingView style={styles.pageContent}>
-                        <View style={styles.pictureUploadZone}>
-                            <View style={styles.uploadIconCircle}>
-                                <View style={styles.uploadIconWrapper}>
-                                    <PictureIcon />
-                                </View>
-                            </View>
-                            <Text style={styles.uploadHintAccent}>Нажми для загрузки</Text>
-                            <Text style={styles.uploadHint}>PNG, JPG до 10 MB</Text>
+                        <View style={styles.fieldHeader}>
+                            <Text style={styles.fieldLabel}>Комментарий</Text>
+                            <Text style={styles.charCount}>{currentSheet.description_for_video_or_picture?.length || 0}/50</Text>
                         </View>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Коротко о фото..."
+                            placeholderTextColor={COLORS.textSecondary}
+                            maxLength={50}
+                            value={currentSheet.description_for_video_or_picture}
+                            onChangeText={(text) => updateSheetField('description_for_video_or_picture', text)}
+                        />
+                        {selectedImage ? (
+                            <View>
+                                <Pressable onPress={pickImage} style={styles.pictureUploadZone}>
+                                    <Image
+                                        source={{ uri: selectedImage }}
+                                        style={{ width: '100%', height: '100%' }}
+                                    />
+                                </Pressable>
+                                <Text style={{ color: "#FF6666", marginVertical: 0, marginStart: 80 }}
+                                    onPress={() => handleDeleteImage()}
+                                >Удалить изображение</Text>
+                            </View>
+
+                        ) : (
+                            <Pressable onPress={pickImage} style={styles.pictureUploadZone}>
+                                <View style={styles.uploadIconCircle}>
+                                    <View style={styles.uploadIconWrapper}>
+                                        <PictureIcon />
+                                    </View>
+                                </View>
+                                <Text style={styles.uploadHintAccent}>Нажми для загрузки</Text>
+                                <Text style={styles.uploadHint}>PNG, JPG до 10 MB</Text>
+                            </Pressable>
+
+                        )}
                     </KeyboardAvoidingView>
                 )}
             </ScrollView>

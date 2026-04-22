@@ -54,15 +54,17 @@ async def authenticate_user(user_data: LoginUser) -> Optional[User]:
         raise HTTPException(status_code=401, detail="Неверный email или пароль")
     
 async def get_last_lession(user_id: int):
-    async with async_session() as session:
-        result = await session.execute(select(UserLesson).where(UserLesson.user_id == user_id).order_by(UserLesson.updated_at.desc()).limit(1))
-        last_lesson = result.scalar_one_or_none()
-        try:
-            les = await get_lesson_by_id(last_lesson.lesson_id)
-        except Exception:
+    try:
+        async with async_session() as session:
+            result = await session.execute(select(UserLesson).where(UserLesson.user_id == user_id).order_by(UserLesson.updated_at.desc()).limit(1))
+            userlesson = result.scalar_one_or_none()
+            if userlesson:
+                lesson = await session.execute(select(Lesson).where(Lesson.id == userlesson.lesson_id))
+            lesson = lesson.scalar_one_or_none()
+            return {'last_lession':{'completed_steps':userlesson.completed_steps}, 
+                'lesson':lesson} if lesson else None
+    except Exception:
             return HTTPException(status_code=404, detail="Последний урок не найден")
-        return {'last_lession':last_lesson, 
-                'lesson':les} if les else None
     
 async def get_user_lessions(user_id: int):
     async with async_session() as session:
@@ -70,11 +72,54 @@ async def get_user_lessions(user_id: int):
         lessons = result.scalars().all()
         return lessons
     
-async def set_progress(user_id:int, progress: int, lession_id:int):
+from sqlalchemy import update
+
+from sqlalchemy import select, update, insert
+from fastapi import HTTPException
+
+async def set_progress(user_id: int, progress: int, lesson_id: int):
     async with async_session() as session:
-        result = await session.execute(update(UserLesson).where(UserLesson.user_id == user_id).where(UserLesson.lesson_id == lession_id).values(lesson_progress=progress))
-        await session.commit()
-        
+        try:
+            res_ul = await session.execute(
+                select(UserLesson).where(UserLesson.user_id == user_id, UserLesson.lesson_id == lesson_id)
+            )
+            user_lesson_exists = res_ul.scalar_one_or_none()
+
+            if user_lesson_exists:
+                await session.execute(
+                    update(UserLesson)
+                    .where(UserLesson.user_id == user_id, UserLesson.lesson_id == lesson_id)
+                    .values(completed_steps=progress)
+                )
+            else:
+                await session.execute(
+                    insert(UserLesson).values(
+                        user_id=user_id, 
+                        lesson_id=lesson_id, 
+                        completed_steps=progress
+                    )
+                )
+
+            res_reg = await session.execute(
+                select(RegistedUsers).where(RegistedUsers.user_id == user_id, RegistedUsers.lesson_id == lesson_id)
+            )
+            reg_exists = res_reg.scalar_one_or_none()
+
+            if not reg_exists:
+                await session.execute(
+                    insert(RegistedUsers).values(
+                        user_id=user_id, 
+                        lesson_id=lesson_id,
+                    )
+                )
+
+            await session.commit()
+            return {'status': 'success', 'progress': progress}
+
+        except Exception as e:
+            await session.rollback()
+            raise HTTPException(status_code=400, detail=f"Database error: {str(e)}")
+
 
 async def set_lession(user_id: int, lession_id:int):
     async with async_session() as session:
