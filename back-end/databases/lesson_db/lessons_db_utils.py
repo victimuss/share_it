@@ -367,6 +367,65 @@ async def search_lessons(
     async with async_session() as session:
         conditions = []
         if search:
+            tag_subquery = select(LessonTag.lesson_id).where(LessonTag.tag.ilike(f"%{search}%"))
+            
+            conditions.append(
+                or_(
+                    Lesson.lesson_name.ilike(f"%{search}%"),
+                    User.user_name.ilike(f"%{search}%"),
+                    Lesson.id.in_(tag_subquery),
+                )
+            )
+            
+        if type:
+            conditions.append(Lesson.type == type)
+        if level:
+            conditions.append(Lesson.level == level)
+
+        count_query = (
+            select(func.count(Lesson.id)) 
+            .join(User, Lesson.author_id == User.id)
+            .where(Lesson.status == "ACTIVE")
+        )
+        for c in conditions:
+            count_query = count_query.where(c)
+
+        total_result = await session.execute(count_query)
+        total = total_result.scalar() or 0
+
+        query = (
+            select(Lesson, User.user_name)
+            .join(User, Lesson.author_id == User.id)
+            .where(Lesson.status == "ACTIVE")
+        )
+        for c in conditions:
+            query = query.where(c)
+
+        if order:
+            if order.lower() in ("popular", "likes"):
+                query = query.order_by(Lesson.likes.desc())
+            elif order.lower() in ("new", "newest", "recent", "created_at"):
+                query = query.order_by(Lesson.created_at.desc())
+            elif order.lower() in ("rating", "rank"):
+                query = query.order_by(Lesson.rank.desc())
+
+        query = query.limit(5).offset((page - 1) * 5)
+
+        result = await session.execute(query)
+
+        lessons_data = []
+        for lesson, user_name in result.all():
+            lesson_dict = {
+                c.name: getattr(lesson, c.name) for c in lesson.__table__.columns
+            }
+            lesson_dict["author"] = user_name
+            lesson_dict["sheet_counts"] = lesson.sheet_counts
+            lessons_data.append(lesson_dict)
+
+        return {"lessons": lessons_data, "total": total}
+    async with async_session() as session:
+        conditions = []
+        if search:
             conditions.append(
                 or_(
                     Lesson.lesson_name.ilike(f"%{search}%"),

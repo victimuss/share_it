@@ -37,7 +37,7 @@ export const LessonMainScreen = () => {
             const response = await GetLessonByIdAPI(lesson_id)
             setCurrentLesson(response)
             setCurrentLikes(response?.lesson.likes)
-            setCurrentRating(response?.lesson.rank)
+            setCurrentRating(response?.rank ?? 0)
             setIsLiked(response?.is_liked)
             const date = new Date(response?.lesson.created_at);
             const options: Intl.DateTimeFormatOptions = {

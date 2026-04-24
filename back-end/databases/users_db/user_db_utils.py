@@ -162,7 +162,7 @@ async def get_progress(user_id: int, lession_id:int):
         
 async def get_users_skills(user_id: int):
     async with async_session() as session:
-        result = await session.execute(select(UsersSkills).where(User.id == user_id))
+        result = await session.execute(select(UsersSkills).where(UsersSkills.user_id == user_id))
         user = result.scalars().all()
         return user
     
