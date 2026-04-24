@@ -6,19 +6,22 @@ import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LoadScreen } from "./LoadScreen";
 import { ErrorScreen } from "./ErrorScreen";
-import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest } from "@/src/types/main_page";
+import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest, CurrentLessonResponse } from "@/src/types/main_page";
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
 import { useNavigation } from "expo-router";
 import { ApplicationCodeIcon, BellIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon, PlayIcon } from "@/src/SVG/MainPageSVG";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/src/navigation/appNavigator";
+import { useCallback } from 'react';
+import { RefreshControl } from 'react-native';
 export const MainScreen = () => {
   const { user } = useAuth();
   const id = user ? user.id : 0 <CurrentLessonRequest | null>(null);
   const [activeFilter, setActiveFilter] = useState<LessonType>(null)
   const [popular, setPopular] = useState<PopularLessonsResponce | null>(null);;
   const [recent, setRecent] = useState<RecentLessonsResponce | null>(null);
-  const [current, setCurrent] = useState<currentLessonResponce | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const [current, setCurrent] = useState<CurrentLessonResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigator = useNavigation();
@@ -45,12 +48,14 @@ export const MainScreen = () => {
       setError('');
       setLoading(true);
 
-      // Загружаем новые данные
+
       const popResponse = await PopularLession({ type: filter });
       const recResponse = await RecentLession({ type: filter });
-      // Если API возвращает объекты с массивами уроков
+      const curResponse = user ? await CurrentLession({ id: user.id }) : null;
+
       setPopular(popResponse || []);
       setRecent(recResponse || []);
+      setCurrent(curResponse || []);
       console.log('Популярные:', popResponse, 'Недавние:', recResponse);
     } catch (err: any) {
       console.error('Ошибка при загрузке уроков:', err);
@@ -59,28 +64,32 @@ export const MainScreen = () => {
       setLoading(false);
     }
   };
-  const [authors, setAuthors] = useState<Record<string, string>>({});
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const popResponse = await PopularLession({ type: activeFilter });
+      const recResponse = await RecentLession({ type: activeFilter });
+      const curResponse = user ? await CurrentLession({ id: user.id }) : null;
+      setPopular(popResponse || null);
+      setRecent(recResponse || null);
+      setCurrent(curResponse || null);
+      console.log('ПОПУДЯ', current)
+    } catch (err: any) {
+      console.error(err);
+      setError('Не удалось загрузить уроки. Попробуйте позже.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await handleFilterChange(null);
+    setRefreshing(false);
+  }, []);
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const popResponse = await PopularLession({ type: activeFilter });
-        const recResponse = await RecentLession({ type: activeFilter });
-        const curResponse = user ? await CurrentLession({ id: user.id }) : null;
-        setPopular(popResponse || null);
-        setRecent(recResponse || null);
-        setCurrent(curResponse || null);
-        console.log('ПОПУДЯ', current)
-      } catch (err: any) {
-        console.error(err);
-        setError('Не удалось загрузить уроки. Попробуйте позже.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, [user, activeFilter]);
+
   const formattedDate = new Intl.DateTimeFormat('ru-RU', options).format(date);
   if (error) {
     return (
@@ -105,7 +114,17 @@ export const MainScreen = () => {
 
   return (
     <SafeAreaView style={homeStyles.container} edges={['top']}>
-      <ScrollView contentContainerStyle={homeStyles.scrollContainer}>
+      <ScrollView contentContainerStyle={homeStyles.scrollContainer}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[COLORS.accent]}
+            tintColor={COLORS.accent}
+            title="Обновляем..."
+            titleColor={COLORS.accent}
+          />
+        }>
         <View style={homeStyles.header}>
           <View style={homeStyles.headerLeft}>
             <Text style={homeStyles.greetingSubtext}>

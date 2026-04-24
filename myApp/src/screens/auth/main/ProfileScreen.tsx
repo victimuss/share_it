@@ -9,14 +9,15 @@ import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, Curr
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
 import { profileStyles } from "@/src/styles/ProfileStyles";
 import { useNavigation } from "expo-router";
-import { LearnedLessonsResponce, MakedLessonsResponce, Skill, SkillOut } from "@/src/types/profile";
+import { LearnedLessonsResponce, MakedLessonsResponce, Skill, SkillOut, UserLesson } from "@/src/types/profile";
 import { EditUserAPI, GetUserSkills, NewSkillapi, UsersLearned, UsersMaked } from "@/src/api/main_page/profile/profile";
 import { ApplicationCodeIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon } from "@/src/SVG/MainPageSVG";
 import { CloseIcon } from "@/src/SVG/SearchSVG";
 import { NewSkill } from "@/src/types/profile";
 import { LoadScreen } from "./LoadScreen";
 import { SearchIcon } from "@/src/SVG/TabSVG";
-
+import { useCallback } from 'react';
+import { RefreshControl } from 'react-native';
 export const ProfileScreen = () => {
     const { user, edit } = useAuth();
     const [loading, setLoading] = useState(true);
@@ -25,6 +26,7 @@ export const ProfileScreen = () => {
     const [newSkillLevel, setNewSkillLevel] = useState('beginner')
     const [skills, setSkills] = useState<Skill[]>([]);
     const [skillModal, showskillModal] = useState(false)
+    const [refreshing, setRefreshing] = useState(false);
     const [editModal, showeditModal] = useState(false)
     const [editUserName, setEditUserName] = useState(user?.name || '')
     const [editDescription, setEditDescription] = useState(user?.description || '')
@@ -38,6 +40,7 @@ export const ProfileScreen = () => {
     const [myLessons, setMyLessons] = useState<MakedLessonsResponce>({ lessons: [] });
     const [error, setError] = useState('');
     const navigator = useNavigation();
+
     const iconMap: Record<string, React.ReactNode> = {
         code: <ApplicationCodeIcon size={50} />,
         design: <DesignPaletteIcon size={50} />,
@@ -58,17 +61,32 @@ export const ProfileScreen = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const skillResponse = user ? await GetUserSkills() : null;
-            const completedResponse = user ? await UsersLearned() : null;
-            const getMyLessons = user ? await UsersMaked() : null;
+            const [skillResponse, completedResponse, getMyLessons] = user
+                ? await Promise.all([
+                    GetUserSkills(),
+                    UsersLearned(),
+                    UsersMaked()
+                ])
+                : [null, null, null];
             setSkills(skillResponse || []);
-            setCompletedLessons(completedResponse || { learnLessons: [], lessons: [] });
-            setLessons(completedResponse || { learnLessons: [], lessons: [] });
+            if (completedResponse) {
+                const completedProgress = completedResponse.learnLessons.filter(p => p.status === 'COMPLETED');
+                const inProgressProgress = completedResponse.learnLessons.filter(p => p.status === 'IN_PROGRESS');
+                const completedIds = completedProgress.map(p => p.lesson_id);
+                const inProgressIds = inProgressProgress.map(p => p.lesson_id);
+                setCompletedLessons({
+                    learnLessons: completedProgress,
+                    lessons: completedResponse.lessons.filter(lesson => completedIds.includes(lesson.id))
+                });
+                setLessons({
+                    learnLessons: inProgressProgress,
+                    lessons: completedResponse.lessons.filter(lesson => inProgressIds.includes(lesson.id))
+                });
+            }
             setMyLessons(getMyLessons || { lessons: [] });
-            console.log('ПОПУДЯ', skills)
         } catch (err: any) {
             console.error(err);
-            setError('Не удалось загрузить уроки. Попробуйте позже.');
+            setError('Не удалось загрузить данные');
         } finally {
             setLoading(false);
         }
@@ -112,6 +130,11 @@ export const ProfileScreen = () => {
             setLoading(false);
         }
     }
+    const onRefresh = useCallback(async () => {
+        setRefreshing(true);
+        await fetchData();
+        setRefreshing(false);
+    }, []);
     useEffect(() => {
         fetchData();
     }, [user]);
@@ -122,7 +145,17 @@ export const ProfileScreen = () => {
 
     return (
         <SafeAreaView style={profileStyles.container} edges={['top']}>
-            <ScrollView style={profileStyles.scrollContainer}>
+            <ScrollView style={profileStyles.scrollContainer}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        colors={[COLORS.accent]}
+                        tintColor={COLORS.accent}
+                        title="Обновляем..."
+                        titleColor={COLORS.accent}
+                    />
+                }>
                 <View style={profileStyles.coverBanner}>
                 </View>
                 <View style={profileStyles.profileHeaderContainer}>
@@ -273,11 +306,11 @@ export const ProfileScreen = () => {
                 </View>
                 <View style={profileStyles.statsRow}>
                     <View style={profileStyles.statItem}>
-                        <Text style={profileStyles.statValue}>{user?.us_lessons}</Text>
+                        <Text style={profileStyles.statValue}>{myLessons?.lessons.length}</Text>
                         <Text style={profileStyles.statLabel}>Создал уроков</Text>
                     </View>
                     <View style={profileStyles.statItem}>
-                        <Text style={profileStyles.statValue}>{user?.us_learn_lessons}</Text>
+                        <Text style={profileStyles.statValue}>{Lessons?.lessons.length}</Text>
                         <Text style={profileStyles.statLabel}>Изучаю</Text>
                     </View>
                     <View style={profileStyles.statItem}>
@@ -435,7 +468,7 @@ export const ProfileScreen = () => {
                     <Pressable style={activeTab === 'Lessons' ? profileStyles.tabActive : profileStyles.tab}
                         onPress={() => { setActivebTab('Lessons') }}>
 
-                        <Text style={activeTab === 'Lessons' ? profileStyles.tabTextActive : profileStyles.tabText}>Изучаю({completedLessons.learnLessons.length})</Text>
+                        <Text style={activeTab === 'Lessons' ? profileStyles.tabTextActive : profileStyles.tabText}>Изучаю({Lessons.learnLessons.length})</Text>
                     </Pressable>
                     <Pressable style={activeTab === 'completedLessons' ? profileStyles.tabActive : profileStyles.tab}
                         onPress={() => { setActivebTab('completedLessons') }}>
@@ -444,7 +477,7 @@ export const ProfileScreen = () => {
                 </View>
                 <View style={profileStyles.section}>
                     <FlatList
-                        data={activeTab === 'myLessons' ? myLesColumn : activeTab === 'Lessons' ? lesColumn : completedColumn}
+                        data={activeTab === 'myLessons' ? myLesColumn : activeTab === 'Lessons' ? lesColumn : activeTab === 'completedLessons' ? completedColumn : []}
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         keyExtractor={(_, i) => `${activeTab}-${i}`}

@@ -5,9 +5,6 @@ from sqlalchemy.dialects.postgresql import ARRAY
 from typing import List
 from datetime import datetime, timezone
 from databases.databases_compile import Base
-def calculate_progress(sheets, comleted_steps ):
-    progress = comleted_steps.lenght / sheets.lenght * 100
-    return progress
 
 class User(Base):
     __tablename__ = 'users'
@@ -33,11 +30,12 @@ class UserLesson(Base):
     id: Mapped[int] = mapped_column(primary_key = True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'))
     lesson_id: Mapped[int] = mapped_column(Integer, ForeignKey('lessons.id'))
+    status: Mapped[str] = mapped_column(String(50), default='IN_PROGRESS')
     completed_steps: Mapped[float] = mapped_column(Integer, default=0)
 
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(timezone.utc))
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
-
+    lesson: Mapped["Lesson"] = relationship(back_populates="users_lesson")
 
 class UsersSkills(Base):
     __tablename__ = 'users_skills'
@@ -45,7 +43,6 @@ class UsersSkills(Base):
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'))
     skill_name: Mapped[str] = mapped_column(String(255), nullable=False)
     level: Mapped[str] = mapped_column(String(50), default='Beginner')
-    status: Mapped[str] = mapped_column(String(50), default='IN_PROGRESS')
     
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(timezone.utc))
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Linking, Image, Pressable } from "react-native";
+import { View, Text, Linking, Image, Pressable, ScrollView } from "react-native";
 import { lessonSwipeViewStyles as styles } from "@/src/styles/SheetStyles";
 import { COLORS } from "@/src/styles/root";
 import { Sheet } from "@/src/types/lessonmainscreen";
@@ -23,7 +23,7 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
 
     switch (type) {
         case 'THEORY':
-            return <View style={styles.swipePage}>
+            return <ScrollView style={styles.swipePage}>
                 <Text style={styles.paragraph}>
                     {sheet.content}
                 </Text>
@@ -43,10 +43,10 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
                         <Text style={styles.warningText}>{sheet.content_danger}</Text>
                     </View>
                 )}
-            </View>
+            </ScrollView>
         case 'QUIZ':
             return (
-                <View style={styles.swipePage}>
+                <ScrollView style={styles.swipePage}>
                     <View style={styles.quizCard}>
                         <View style={styles.questionHeader}>
                             <View style={styles.questionIconCircle}>
@@ -56,7 +56,7 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
                         </View>
                         {sheet.quiz_options?.map((option: any, index: number) => {
                             const isSelected = selectedOption === index;
-                            
+
                             let optionStyle = isSelected ? styles.answerOptionSelected : null;
                             let bulletStyle = isSelected ? styles.answerBulletSelected : null;
                             let textStyle = isSelected ? styles.answerOptionTextSelected : null;
@@ -84,8 +84,8 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
                             }
 
                             return (
-                                <Pressable 
-                                    key={index} 
+                                <Pressable
+                                    key={index}
                                     style={[styles.answerOption, optionStyle]}
                                     onPress={() => {
                                         if (!isSubmitted) setSelectedOption(index);
@@ -104,7 +104,7 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
                         })}
 
                         {!isSubmitted ? (
-                            <Pressable 
+                            <Pressable
                                 style={[styles.checkButton, selectedOption === null && styles.checkButtonDisabled]}
                                 disabled={selectedOption === null}
                                 onPress={() => setIsSubmitted(true)}
@@ -113,11 +113,11 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
                             </Pressable>
                         ) : (
                             <View style={[
-                                styles.resultBanner, 
+                                styles.resultBanner,
                                 sheet.quiz_options?.[selectedOption as number]?.is_correct ? styles.resultBannerCorrect : styles.resultBannerWrong
                             ]}>
                                 <View style={styles.resultBannerIconWrapper}>
-                                    <Text style={{fontSize: 12}}>
+                                    <Text style={{ fontSize: 12 }}>
                                         {sheet.quiz_options?.[selectedOption as number]?.is_correct ? '✅' : '❌'}
                                     </Text>
                                 </View>
@@ -127,7 +127,7 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
                             </View>
                         )}
                     </View>
-                </View>
+                </ScrollView>
             );
         case 'VIDEO':
             const getYouTubeID = (url: string) => {
@@ -137,7 +137,7 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
             };
             const videoId = getYouTubeID(sheet.video_url || '');
             console.log(videoId);
-            return <View style={styles.swipePage}>
+            return <ScrollView style={styles.swipePage}>
                 <View style={{
                     width: '100%',
                     height: 230,
@@ -167,9 +167,9 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
                         Открыть на YouTube
                     </Text>
                 </View>
-            </View>
+            </ScrollView>
         case 'PICTURE':
-            return <View style={[styles.swipePage, { flex: 1, minHeight: 300 }]}>
+            return <ScrollView style={[styles.swipePage, { flex: 1, minHeight: 300 }]}>
                 <View style={styles.pictureImageArea}>
                     <Image
                         source={{ uri: sheet.picture_url || "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" }}
@@ -182,9 +182,9 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
                 <Text style={[styles.videoCommentText, { marginTop: 10, color: 'black' }]}>
                     {sheet.description_for_video_or_picture || "Описания нет"}
                 </Text>
-            </View>
+            </ScrollView>
         default:
-            return <Text>{sheet.content}</Text>
+            return <ScrollView>{sheet.content}</ScrollView>
     }
 }
 export const SheetCard = ({ type, sheet }: SheetCardProps) => {

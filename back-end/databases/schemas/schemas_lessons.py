@@ -38,7 +38,7 @@ class LessonOut(BaseModel):
     rank_count: int
     author_id: int
     likes: int
-    students_count: int
+    students_count: Optional[int] = None
     created_at: datetime
     updated_at: datetime
     is_active: bool
@@ -178,3 +178,36 @@ class SheetResponse(BaseModel):
 
 class SheetRequest(BaseModel):
     lesson_id: int  
+
+class madeLessons(BaseModel):
+    id: int
+    lesson_name: str
+    description: Optional[str]
+    type: str
+    level: str
+    status: str
+    rank: float
+    sheet_counts: int
+    rank_count: int
+    likes: int
+    students_count: int
+    created_at: datetime
+    updated_at: datetime
+    rank: float
+    is_active: bool
+
+
+class learnLessons(BaseModel):
+    lesson_id: int
+    completed_steps: int
+    updated_at: datetime
+    status: str
+    id: int
+    created_at: datetime
+    lesson: madeLessons
+
+
+class MyLessonsResponse(BaseModel):
+    made_lessons: list[madeLessons]
+    learn_lessons: list[learnLessons]
+    model_config = ConfigDict(from_attributes=True)

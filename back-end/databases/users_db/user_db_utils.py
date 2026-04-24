@@ -4,11 +4,13 @@ import asyncio
 from sqlalchemy import *
 from fastapi import HTTPException
 from typing import Optional
+from sqlalchemy.orm import selectinload
 from databases.schemas.schemas_user import NewSkill, SkillOut, UserCreate, LoginUser, UserEdit, UserOut
 from databases.lesson_db.lessons_db_utils import *
 from auth.auth import hash_password, verify_password
 from sqlalchemy.exc import IntegrityError
 from databases.users_db.users_db import UserLesson
+from datetime import datetime, timezone
 def calculate_progress(total_steps: int, completed_steps: int) -> float:
     if total_steps == 0:
         return 0.0  
@@ -56,7 +58,7 @@ async def authenticate_user(user_data: LoginUser) -> Optional[User]:
 async def get_last_lession(user_id: int):
     try:
         async with async_session() as session:
-            result = await session.execute(select(UserLesson).where(UserLesson.user_id == user_id).order_by(UserLesson.updated_at.desc()).limit(1))
+            result = await session.execute(select(UserLesson).where(UserLesson.user_id == user_id, UserLesson.status == 'IN_PROGRESS').order_by(UserLesson.updated_at.desc()).limit(1))
             userlesson = result.scalar_one_or_none()
             if userlesson:
                 lesson = await session.execute(select(Lesson).where(Lesson.id == userlesson.lesson_id))
@@ -84,19 +86,21 @@ async def set_progress(user_id: int, progress: int, lesson_id: int):
                 select(UserLesson).where(UserLesson.user_id == user_id, UserLesson.lesson_id == lesson_id)
             )
             user_lesson_exists = res_ul.scalar_one_or_none()
-
+            lesson_obj = await session.execute(select(Lesson).where(Lesson.id == lesson_id))
+            lesson_obj = lesson_obj.scalar_one_or_none()
             if user_lesson_exists:
                 await session.execute(
                     update(UserLesson)
                     .where(UserLesson.user_id == user_id, UserLesson.lesson_id == lesson_id)
-                    .values(completed_steps=progress)
+                    .values(completed_steps=progress, updated_at=datetime.now(timezone.utc), status = 'IN_PROGRESS' if progress < lesson_obj.sheet_counts else 'COMPLETED')
                 )
             else:
                 await session.execute(
                     insert(UserLesson).values(
                         user_id=user_id, 
                         lesson_id=lesson_id, 
-                        completed_steps=progress
+                        completed_steps=progress,
+                        status='IN_PROGRESS'
                     )
                 )
 
@@ -215,3 +219,12 @@ async def edit_user(user_id: int, user_data: UserEdit):
         await session.commit()
         await session.refresh(user)
         return {'user' : UserEdit(user_name=user.user_name, description=user.description, tag=user.tag, site=user.site, telegram=user.telegram, avatar=user.avatar)}
+
+
+async def get_users_lessons_for_edit(user_id):
+    async with async_session() as session:
+        user_maded = await session.execute(select(Lesson).where(Lesson.author_id == user_id))
+        user_maded = user_maded.scalars().all()
+        result = await session.execute(select(UserLesson).where(UserLesson.user_id == user_id).options(selectinload(UserLesson.lesson)))
+        user_learn = result.scalars().all()
+        return {'made_lessons': user_maded, 'learn_lessons': user_learn}

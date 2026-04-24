@@ -8,11 +8,13 @@ import requests
 from pydantic import BaseModel
 from auth.jwt_tokens import *
 from databases.schemas.schemas_user import *
-from databases.users_db.user_db_utils import add_skill, add_user, authenticate_user, edit_skill, get_last_lession, get_maked_lessons, get_user_learn_lessons, get_user_lessions, get_users_skills , edit_user, set_progress
+from databases.users_db.user_db_utils import add_skill, add_user, authenticate_user, edit_skill, get_last_lession, get_maked_lessons, get_user_learn_lessons, get_user_lessions, get_users_skills , edit_user, set_progress, get_users_lessons_for_edit
 from databases.users_db.users_db import User
 from fastapi import APIRouter
 from auth.dependency import get_current_user
 from fastapi import status, Depends
+from databases.schemas.schemas_lessons import MyLessonsResponse
+
 async def get_current_active_user(user=Depends(get_current_user)):
     if not user:
         raise HTTPException(
@@ -123,3 +125,7 @@ async def edit_us(user_data: UserEdit, current_user =  Depends(get_current_activ
 @router.post('/set_progress')
 async def set_pro(progress: int, lesson_id: int, current_user =  Depends(get_current_active_user)):
     return await set_progress(current_user, progress, lesson_id)
+
+@router.get('/user_lessons_for_edit', response_model=MyLessonsResponse)
+async def get_user_lessons_for_edit_a(current_user =  Depends(get_current_active_user)):
+    return await get_users_lessons_for_edit(current_user)

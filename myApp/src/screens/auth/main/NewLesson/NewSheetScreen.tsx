@@ -123,7 +123,6 @@ export const NewSheetScreen = () => {
         if (currentSheet.sheetType === 'THEORY' && !currentSheet.content) return true;
         if (currentSheet.sheetType === 'VIDEO' && !currentSheet.video_url) return true;
         if (currentSheet.sheetType === 'QUIZ' && !currentSheet.question_text) return true;
-        if (currentSheet.sheetType === 'PICTURE' && !currentSheet.picture_url) return true;
         return false;
     };
 

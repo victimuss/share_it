@@ -32,7 +32,7 @@ async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
             .scalar_subquery()
         )
         query = (
-            select(Lesson, UserLesson.completed_steps, LessonLike.user_id, LessonRank.user_id, RegistedUsers.user_id, User.user_name, tags_subquery.label('tags_list'))
+            select(Lesson, UserLesson.completed_steps, LessonLike.user_id, LessonRank.rank, RegistedUsers.user_id, User.user_name, tags_subquery.label('tags_list'))
             .outerjoin(UserLesson, and_(
                 UserLesson.lesson_id == Lesson.id, 
                 UserLesson.user_id == user_id
@@ -44,7 +44,7 @@ async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
             ))
             .outerjoin(LessonRank, and_(
                 LessonRank.lesson_id == Lesson.id, 
-                LessonRank.user_id == user_id
+                LessonRank.user_id == user_id,
             ))
             .outerjoin(RegistedUsers, and_(
                 RegistedUsers.lesson_id == Lesson.id, 
@@ -56,7 +56,7 @@ async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
         )
         result = await session.execute(query)
         row = result.unique().first()
-        
+        print(row)
         if not row:
             return None
             

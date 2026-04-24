@@ -10,11 +10,13 @@ import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/
 import { useNavigation } from "expo-router";
 import { ApplicationCodeIcon, BellIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon, PlayIcon } from "@/src/SVG/MainPageSVG";
 import { lessonLandingStyles as styles } from "@/src/styles/LessonMainPageStyles";
-import { LessonBackIcon, LessonMoreIcon, LessonFileIcon, LessonUsersIcon, LessonStarIcon, LessonLikeIcon, LessonDislikeIcon } from "@/src/SVG/LessonSVG";
+import { LessonBackIcon, LessonMoreIcon, LessonFileIcon, LessonUsersIcon, LessonStarIcon, LessonStarFilledIcon, LessonLikeIcon, LessonDislikeIcon } from "@/src/SVG/LessonSVG";
 import { PersonalLessonOut, PersonalLessonResponse } from "@/src/types/lessonmainscreen";
-import { GetLessonByIdAPI, LikeLessonAPI } from "@/src/api/lessonmain/lessonmain";
+import { GetLessonByIdAPI, LikeLessonAPI, RankLessonAPI } from "@/src/api/lessonmain/lessonmain";
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from "@/src/navigation/appNavigator";
+import { useCallback } from 'react';
+import { RefreshControl } from 'react-native';
 export const LessonMainScreen = () => {
     type LessonScreenRouteProp = RouteProp<RootStackParamList, 'LessonMainScreen'>;
     const route = useRoute<LessonScreenRouteProp>();
@@ -25,14 +27,17 @@ export const LessonMainScreen = () => {
     const [currentLikes, setCurrentLikes] = useState(0);
     const [createdAt, setCreatedAt] = useState('');
     const [error, setError] = useState('');
+    const [refreshing, setRefreshing] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
     const [rating, setRating] = useState(0);
+    const [currentRating, setCurrentRating] = useState(0);
     const fetchCurrentLesson = async () => {
         try {
             setLoading(true)
             const response = await GetLessonByIdAPI(lesson_id)
             setCurrentLesson(response)
             setCurrentLikes(response?.lesson.likes)
+            setCurrentRating(response?.lesson.rank)
             setIsLiked(response?.is_liked)
             const date = new Date(response?.lesson.created_at);
             const options: Intl.DateTimeFormatOptions = {
@@ -40,7 +45,7 @@ export const LessonMainScreen = () => {
                 month: 'long',
             };
             setCreatedAt(date.toLocaleDateString('ru-RU', options));
-            setRating(Math.ceil(response?.lesson.rank_count / response?.lesson.rank) || 0)
+            setRating(response?.lesson.rank_count > 0 ? Math.round(response?.lesson.rank / response?.lesson.rank_count) : 0)
             console.log(response)
         } catch (error) {
             console.error("Error fetching current lesson:", error);
@@ -61,6 +66,25 @@ export const LessonMainScreen = () => {
             setLoading(false)
         }
     }
+
+    const fetchRank = async (rank: number) => {
+        try {
+            setLoading(true)
+            const response = await RankLessonAPI({ lesson_id: lesson_id, rank: rank })
+            setRating(response?.lesson.rank_count > 0 ? Math.round(response?.lesson.rank / response?.lesson.rank_count) : 0)
+            console.log(response)
+        } catch (error) {
+            console.error("Error fetching current lesson:", error);
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const onRefresh = useCallback(async () => {
+        setRefreshing(true);
+        await fetchCurrentLesson()
+        setRefreshing(false);
+    }, []);
     useEffect(() => {
         fetchCurrentLesson()
     }, [])
@@ -72,7 +96,11 @@ export const LessonMainScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView style={styles.scrollContent}>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+                style={styles.scrollContent}>
                 <View style={styles.heroBanner}>
                     <Pressable style={styles.heroBackButton} onPress={() => navigation.goBack()}>
                         <View style={styles.heroBackIconWrapper}>
@@ -159,31 +187,24 @@ export const LessonMainScreen = () => {
                             <Text style={isLiked ? styles.likeCountActive : styles.likeCount}>{currentLikes}</Text>
                         </Pressable>
                         <View style={styles.starsRow}>
-                            <Pressable style={styles.starButton}>
-                                <View style={styles.starIconWrapper}>
-                                    <LessonStarIcon />
-                                </View>
-                            </Pressable>
-                            <Pressable style={styles.starButton}>
-                                <View style={styles.starIconWrapper}>
-                                    <LessonStarIcon />
-                                </View>
-                            </Pressable>
-                            <Pressable style={styles.starButton}>
-                                <View style={styles.starIconWrapper}>
-                                    <LessonStarIcon />
-                                </View>
-                            </Pressable>
-                            <Pressable style={styles.starButton}>
-                                <View style={styles.starIconWrapper}>
-                                    <LessonStarIcon />
-                                </View>
-                            </Pressable>
-                            <Pressable style={styles.starButton}>
-                                <View style={styles.starIconWrapper}>
-                                    <LessonStarIcon />
-                                </View>
-                            </Pressable>
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <Pressable
+                                    key={star}
+                                    style={({ pressed }) => [
+                                        styles.starButton,
+                                        pressed && { opacity: 0.7, transform: [{ scale: 0.9 }] }
+                                    ]}
+                                    onPress={() => { setCurrentRating(star); fetchRank(star) }}
+                                >
+                                    <View style={styles.starIconWrapper}>
+                                        {currentRating >= star ? (
+                                            <LessonStarFilledIcon color={COLORS.warning} width={28} height={28} />
+                                        ) : (
+                                            <LessonStarIcon color={COLORS.borderDark} width={28} height={28} />
+                                        )}
+                                    </View>
+                                </Pressable>
+                            ))}
                         </View>
                     </View>
                 </View>

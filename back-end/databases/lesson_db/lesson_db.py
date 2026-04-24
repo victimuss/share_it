@@ -32,9 +32,11 @@ class Lesson(Base):
     likes: Mapped[int] = mapped_column(Integer, default=0)
     author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     author: Mapped["User"] = relationship(back_populates="lessons")
+    users_lesson: Mapped[List["UserLesson"]] = relationship(back_populates="lesson")
     sheets: Mapped[List["LessonSheet"]] = relationship(
         back_populates="lesson", 
-        cascade="all, delete-orphan"
+        cascade="all, delete-orphan",
+        order_by="LessonSheet.id.asc()"
     )
 
     created_at: Mapped[datetime] = mapped_column(

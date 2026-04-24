@@ -28,6 +28,7 @@ export interface UserLesson {
     user_id: number
     lesson_id: number
     completed_steps: number
+    status: string
 }
 
 export interface Lesson {
@@ -36,6 +37,7 @@ export interface Lesson {
     id: number
     rank_count: number
     likes: number
+    status: string
     students_count: number
     created_at: string
     is_active: boolean
