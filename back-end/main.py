@@ -14,8 +14,17 @@ from databases.main_databases import create_all_tables
 from end_points.users_end_points.UEP import router as user_router
 from end_points.main_page_end_points.MPEP import router as main_page_router
 from end_points.lessons_end_points.LEP import router as lesson_router
+from fastapi import Request
 
-app = FastAPI()
+app = FastAPI(
+    title="Spark ❇️ API",
+    description="Backend API для образовательной P2P-платформы Spark. Zero-bullshit, только знания.",
+    version="1.0.0",
+    contact={
+        "name": "Timur",
+        "url": "https://t.me/spark_app_edu",
+    }
+)
 app.include_router(user_router)
 app.include_router(main_page_router)
 app.include_router(lesson_router)
@@ -42,3 +51,23 @@ async def startup_event():
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+    
+@app.on_event("startup")
+async def startup_event():
+    print("""
+\033[95m
+  ___  ___  _   ___ _  __
+ / __|| _ \/ \ | _ \ |/ /
+ \__ \|  _/ _ \|   / ' < 
+ |___/|_|/_/ \_\_|_\_|\_\
+\033[0m
+🚀 SPARK Backend is running...
+    """)
+
+@app.middleware("http")
+async def add_custom_header(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Powered-By"] = "Timur & Coffee (SPARK P2P)"
+    response.headers["X-Mission"] = "Education for everyone"
+    return response
