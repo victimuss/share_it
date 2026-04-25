@@ -10,6 +10,10 @@ import { useNavigation } from "expo-router";
 import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useLessonStore } from "@/src/context/useLessonStore";
+import { useRoute, RouteProp } from "@react-navigation/native";
+import { GetLessonByIdAPI, GetSheetApiForEdit } from "@/src/api/lessonmain/lessonmain";
+import { EditLessonAPI } from "@/src/api/create_lesson/edit_lesson";
+import { GetMyLessonForEditAPI } from "@/src/api/lessonmain/mylesson";
 
 const difficultyData = [
     { label: 'Beginner', value: 'Beginner', subtitle: 'С нуля', icon: '🌱', bg: COLORS.successLight },
@@ -34,6 +38,9 @@ export const NewLessonScreen = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const { setLessonId } = useLessonStore();
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    const route = useRoute<RouteProp<Record<string, { isEdit?: boolean, editLessonId?: number }>, string>>();
+    const isEdit = route.params?.isEdit || false;
+    const editLessonId = route.params?.editLessonId;
     const [currentLessonId, setCurrentLessonId] = useState<number | null>(null);
     const [tags, setTags] = useState<{ id: string, name: string }[]>([
     ]);
@@ -82,15 +89,25 @@ export const NewLessonScreen = () => {
 
     const fetchLesson = async () => {
         try {
-            const LessonResponce = await CreateLession({
-                lesson_name: title,
-                description: description,
-                level: difficulty || 'Beginner',
-                type: type || 'code',
-            })
-            setCurrentLessonId(LessonResponce.id)
-            setLessonId(LessonResponce.id);
-
+            if (isEdit) {
+                const LessonResponce = await EditLessonAPI({
+                    lesson_name: title,
+                    description: description,
+                    level: difficulty || 'Beginner',
+                    type: type || 'code',
+                }, editLessonId || 0)
+                setCurrentLessonId(LessonResponce.id)
+                setLessonId(LessonResponce.id);
+            } else {
+                const LessonResponce = await CreateLession({
+                    lesson_name: title,
+                    description: description,
+                    level: difficulty || 'Beginner',
+                    type: type || 'code',
+                })
+                setCurrentLessonId(LessonResponce.id)
+                setLessonId(LessonResponce.id);
+            }
         } catch (error) {
             console.error(`Ошибка запроса урока:`, error);
         }
@@ -106,6 +123,31 @@ export const NewLessonScreen = () => {
             console.error(`Ошибка запроса тегов:`, error);
         }
     }
+    useEffect(() => {
+        const loadLessonData = async () => {
+            if (isEdit && editLessonId) {
+                try {
+                    const lessonData = await GetMyLessonForEditAPI(editLessonId);
+                    setTitle(lessonData.lesson.lesson_name);
+                    setDescription(lessonData.lesson.description);
+                    setDifficulty(lessonData.lesson.level);
+                    setType(lessonData.lesson.type);
+                    setCurrentLessonId(editLessonId);
+                    setLessonId(editLessonId);
+                } catch (error) {
+                    console.error("Ошибка загрузки данных урока:", error);
+                }
+            } else {
+                setTitle('');
+                setDescription('');
+                setDifficulty(null);
+                setType(null);
+                setCurrentLessonId(null);
+            }
+        };
+
+        loadLessonData();
+    }, [isEdit, editLessonId]);
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -115,7 +157,7 @@ export const NewLessonScreen = () => {
                             <CloseIcon />
                         </Pressable>
                     </View>
-                    <Text style={styles.headerTitle}>Создать урок</Text>
+                    <Text style={styles.headerTitle}>{isEdit ? 'Редактировать урок' : 'Создать урок'}</Text>
                 </View>
             </View>
             <ScrollView style={styles.formContainer}>
@@ -239,8 +281,12 @@ export const NewLessonScreen = () => {
                     disabled={!difficulty || !type || !title || !description}
                     style={!difficulty || !type || !title || !description ? styles.saveButtonDisabled : styles.saveButton}
                     onPress={() => {
-                        setIsModalVisible(true);
-                        fetchLesson();
+                        if (isEdit) {
+                            navigation.navigate('NewSheetScreen', { lessonId: currentLessonId, isEdit: true });
+                        } else {
+                            setIsModalVisible(true);
+                            fetchLesson();
+                        }
                     }}
                 >
                     <Text style={styles.saveButtonText}>Сохранить и продолжить</Text>

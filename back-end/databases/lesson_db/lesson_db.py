@@ -32,11 +32,30 @@ class Lesson(Base):
     likes: Mapped[int] = mapped_column(Integer, default=0)
     author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     author: Mapped["User"] = relationship(back_populates="lessons")
-    users_lesson: Mapped[List["UserLesson"]] = relationship(back_populates="lesson")
+    users_lesson: Mapped[List["UserLesson"]] = relationship(
+        back_populates="lesson",
+        cascade="all, delete-orphan" 
+    )
+    tags: Mapped[List["LessonTag"]] = relationship(
+        back_populates="lesson",
+        cascade="all, delete-orphan"
+    )
+    rating_list: Mapped[List["LessonRank"]] = relationship(
+        back_populates="lesson",
+        cascade="all, delete-orphan"
+    )
+    likes_list: Mapped[List["LessonLike"]] = relationship(
+        back_populates="lesson",
+        cascade="all, delete-orphan"
+    )
     sheets: Mapped[List["LessonSheet"]] = relationship(
         back_populates="lesson", 
         cascade="all, delete-orphan",
         order_by="LessonSheet.id.asc()"
+    )
+    reg_users: Mapped[List["RegistedUsers"]] = relationship(
+        back_populates="lesson",
+        cascade="all, delete-orphan"
     )
 
     created_at: Mapped[datetime] = mapped_column(
@@ -90,6 +109,7 @@ class LessonLike(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     lesson_id: Mapped[int] = mapped_column(ForeignKey("lessons.id"))
+    lesson: Mapped["Lesson"] = relationship(back_populates="likes_list")
 
 
 class RegistedUsers(Base):
@@ -98,6 +118,7 @@ class RegistedUsers(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     lesson_id: Mapped[int] = mapped_column(ForeignKey("lessons.id"))
+    lesson: Mapped["Lesson"] = relationship(back_populates="reg_users")
 
 
 class LessonRank(Base):
@@ -107,6 +128,7 @@ class LessonRank(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     lesson_id: Mapped[int] = mapped_column(ForeignKey("lessons.id"))
     rank: Mapped[float] = mapped_column(Float, default=0.0)
+    lesson: Mapped["Lesson"] = relationship(back_populates="rating_list")
 
 
 class LessonTag(Base):
@@ -115,6 +137,7 @@ class LessonTag(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     lesson_id: Mapped[int] = mapped_column(ForeignKey("lessons.id"))
     tag: Mapped[str] = mapped_column(String(50), nullable=False)
+    lesson: Mapped["Lesson"] = relationship(back_populates="tags")
 
 
 Lesson.sheet_counts = column_property(

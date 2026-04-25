@@ -29,8 +29,7 @@ export interface EditLesson {
     lesson_name?: string;
     description?: string;
     level?: string;
-    status?: string;
-    is_active?: boolean;
+    type?: string;
 }
 
 export interface EditSheet {

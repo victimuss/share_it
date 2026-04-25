@@ -3,6 +3,7 @@ import { EditSheet, SheetCreate } from '../types/createlesson';
 import { CreateSheet } from '../api/create_lesson/create_lesson';
 import { EditSheetAPI } from '../api/create_lesson/edit_lesson';
 import { DeleteSheetAPI } from '../api/create_lesson/delete_lesson';
+import { Sheet } from '../types/lessonmainscreen';
 
 export interface SheetDraft extends EditSheet {
     localId: string;
@@ -10,7 +11,7 @@ export interface SheetDraft extends EditSheet {
     isSaving?: boolean;
 }
 
-interface LessonStore {
+interface CreateLessonStore {
     lessonId: number | null;
     currentIndex: number;
     sheets: SheetDraft[];
@@ -21,9 +22,10 @@ interface LessonStore {
     saveCurrentSheet: () => Promise<void>;
     deleteCurrentSheet: () => Promise<void>;
     clearStore: () => void;
+    setSheetsFromBackend: (backendSheets: Sheet[]) => void;
 }
 
-export const useLessonStore = create<LessonStore>((set, get) => ({
+export const useLessonStore = create<CreateLessonStore>((set, get) => ({
     lessonId: null,
     currentIndex: 0,
     sheets: [{
@@ -158,5 +160,34 @@ export const useLessonStore = create<LessonStore>((set, get) => ({
                 currentIndex: nextIndex
             }
         })
-    }
+    },
+    setSheetsFromBackend: (backendSheets) => {
+        const mappedSheets: SheetDraft[] = backendSheets.map(s => ({
+            localId: Math.random().toString(36).substr(2, 9),
+            serverId: s.id,
+            sheet_header: s.sheet_header || '',
+            content: s.content || '',
+            sheetType: s.sheetType || 'THEORY',
+            timeToRead: s.timeToRead || 0,
+            description_for_video_or_picture: s.description_for_video_or_picture || '',
+            video_url: s.video_url || '',
+            picture_url: s.picture_url || '',
+            question_text: s.question_text || '',
+            quiz_options: s.quiz_options || [],
+            content_danger: s.content_danger || '',
+            content_advice: s.content_advice || '',
+            isSaving: false
+        }));
+
+        set({
+            sheets: mappedSheets.length > 0 ? mappedSheets : [{
+                localId: Date.now().toString(),
+                sheetType: 'THEORY',
+                sheet_header: '',
+                content: '',
+                isSaving: false
+            }],
+            currentIndex: 0
+        });
+    },
 }));

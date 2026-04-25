@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { GetSheetApi } from '../api/lessonmain/lessonmain';
-
+import { QuizOptions } from '../types/createlesson';
 export interface Sheet {
     id: number;
     sheetType: string;
@@ -10,13 +10,13 @@ export interface Sheet {
     video_url: string | null;
     picture_url: string | null;
     question_text: string | null;
-    quiz_options: string[] | null;
+    quiz_options: QuizOptions[] | null;
     timeToRead: number | null;
     content_danger: string | null;
     content_advice: string | null;
 }
 
-interface LessonStore {
+interface LearnSheetStore {
     sheets: Sheet[];
     total: number;
     completed_steps: number;
@@ -27,9 +27,8 @@ interface LessonStore {
     setCurrentIndex: (index: number) => void;
     clearLesson: () => void;
     loadLesson: (lessonId: number) => Promise<void>;
-
 }
-export const useSheetStore = create<LessonStore>((set) => ({
+export const useSheetStore = create<LearnSheetStore>((set) => ({
     sheets: [],
     total: 0,
     currentIndex: 0,

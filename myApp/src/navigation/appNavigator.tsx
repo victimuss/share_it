@@ -10,12 +10,12 @@ import SheetScreen from '../screens/Lesson/SheetScreen';
 
 export type RootStackParamList = {
   MainTabs: undefined;
-  NewLessonScreen: undefined;
-  NewSheetScreen: undefined;
+  NewLessonScreen: { isEdit?: boolean; editLessonId?: number } | undefined;
+  NewSheetScreen: { lessonId: number; isEdit?: boolean } | undefined;
   LessonMainScreen: { lessonId: number };
   LessonPage: { lessonId: number };
 };
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const AppNavigator = () => {
   return (

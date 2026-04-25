@@ -210,7 +210,7 @@ export const LessonMainScreen = () => {
                 </View>
                 <View style={styles.ctaContainer}>
                     <Pressable style={styles.startButton}
-                        onPress={() => navigation.navigate('LessonPage', { lessonId: currentLesson?.lesson.id })}>
+                        onPress={() => navigation.navigate('LessonPage', { lessonId: currentLesson?.lesson.id, isEdit: false })}>
                         <Text style={styles.startButtonText}>Продолжить обучение</Text>
                     </Pressable>
                     <Pressable style={styles.exitButton} onPress={() => navigation.goBack()}>

@@ -10,13 +10,15 @@ import { NewLessonScreen } from "./NewLessonScreen";
 import { createLessonStyles } from "@/src/styles/NewLessonStyles";
 import { PictureIcon, DeleteIcon } from "@/src/SVG/NewSheetSVG";
 import { useLessonStore } from "@/src/context/useLessonStore";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { LoadScreen } from "../LoadScreen";
 import { ModeratingScreen } from "../ModeratingScreen";
 import { ApprovedScreen } from "../ApprovedScreen";
 import { RejectedScreen } from "../RejectedScreen";
 import { CloudinaryRequest } from "@/src/types/createlesson";
 import * as ImagePicker from 'expo-image-picker';
+import { RootStackParamList } from "@/src/navigation/appNavigator";
+import { GetLessonByIdAPI, GetSheetApi, GetSheetApiForEdit } from "@/src/api/lessonmain/lessonmain";
 
 
 const typesData = [
@@ -36,7 +38,8 @@ export const NewSheetScreen = () => {
         saveCurrentSheet,
         deleteCurrentSheet,
         clearStore,
-        lessonId
+        lessonId,
+        setSheetsFromBackend
     } = useLessonStore();
     const currentSheet = sheets[currentIndex];
     const [selectedType, setSelectedType] = useState<string | null>(null);
@@ -46,6 +49,9 @@ export const NewSheetScreen = () => {
     const [rejected, setRejected] = useState(false);
     const [approved, setApproved] = useState(false);
     const [loading, setLoading] = useState(false);
+    const route = useRoute<RouteProp<RootStackParamList, 'NewSheetScreen'>>();
+    const isEdit = route.params?.isEdit;
+    const currentLessonId = route.params?.lessonId;
     const [ModerateError, setModerateError] = useState<string | null>(null);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const pickImage = async () => {
@@ -130,7 +136,13 @@ export const NewSheetScreen = () => {
         setIsModerating(true);
         setModerateError(null);
         try {
-            const ModerResponse = await Publish(lessonId || 0);
+            let ModerResponse;
+            if (isEdit) {
+                ModerResponse = await Publish(currentLessonId || 0);
+            }
+            else {
+                ModerResponse = await Publish(lessonId || 0);
+            }
             if (ModerResponse.status === 'success') {
                 setIsModerating(false);
                 setApproved(true);
@@ -180,6 +192,27 @@ export const NewSheetScreen = () => {
             }
         }
     }
+    useEffect(() => {
+        const loadSheets = async () => {
+            if (!currentLessonId) {
+                return;
+            }
+            try {
+                setLoading(true);
+                const response = await GetSheetApiForEdit({ lesson_id: currentLessonId });
+                if (response && response.sheets) {
+                    setSheetsFromBackend(response.sheets);
+                    console.log(response.sheets);
+                }
+            } catch (error) {
+                console.error("Ошибка при загрузке листов:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadSheets();
+    }, [currentLessonId]);
 
     if (isModerating) {
         return (
@@ -218,10 +251,12 @@ export const NewSheetScreen = () => {
                     >
                         <CloseIcon></CloseIcon>
                     </Pressable>
-                    <Text style={styles.headerTitle}>Новая страница</Text>
+                    <Text style={styles.headerTitle}>{isEdit ? 'Новая страница' : 'Редактировать урок'}</Text>
                     <Pressable style={styles.publishButton}
                         onPress={handlePublish}
-                    > <Text style={styles.publishButtonText}>Опубликовать</Text></Pressable>
+                    >
+                        <Text style={styles.publishButtonText}>{isEdit ? 'Опубликовать' : 'Сохранить'}</Text>
+                    </Pressable>
                 </View>
             </View>
             <View style={styles.pagesBar}>

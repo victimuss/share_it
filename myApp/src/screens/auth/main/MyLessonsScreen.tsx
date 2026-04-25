@@ -23,11 +23,14 @@ import { LessonEditIcon, LessonEyeIcon, LessonInfoIcon, LessonMoreIcon, LessonTr
 import { GetMyLessonsAPI } from "@/src/api/lessonmain/mylesson";
 import { MyLessonsResponse } from "@/src/types/mylessontype";
 import { useMemo } from 'react';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "@/src/navigation/appNavigator";
+import { DeleteLessonAPI } from "@/src/api/create_lesson/delete_lesson";
 
 export const MyLessonsScreen = () => {
     const [activeTab, setActiveTab] = useState('created');
     const [filters, setFilters] = useState('all');
-    const navigation = useNavigation();
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const [isVisibleModal, setIsVisibleModal] = useState(false);
     const [selectedLesson, setSelectedLesson] = useState<any>(null);
     const [refreshing, setRefreshing] = useState(false);
@@ -77,6 +80,17 @@ export const MyLessonsScreen = () => {
         await fetchData()
 
     }, []);
+
+    const DeleteLesson = async (lesson_id: number) => {
+        try {
+            const response = await DeleteLessonAPI(lesson_id);
+            if (response) {
+                await fetchData();
+            }
+        } catch (err: any) {
+            console.error(err.detail.message);
+        }
+    }
     useEffect(() => {
         fetchData();
     }, [user]);
@@ -366,7 +380,19 @@ export const MyLessonsScreen = () => {
                                 </View>
                             </Pressable>
 
-                            <Pressable style={styles.dialogAction}>
+                            <Pressable style={styles.dialogAction}
+                                onPress={() => {
+                                    if (selectedLesson.id) {
+                                        navigation.navigate('NewLessonScreen', {
+                                            isEdit: true,
+                                            editLessonId: selectedLesson.id
+                                        });
+                                        setIsVisibleModal(false);
+                                    } else {
+                                        console.warn("Нет ID урока для редактирования");
+                                    }
+                                }}
+                            >
                                 <View style={[styles.dialogActionIconCircle, { backgroundColor: '#FFF7ED' }]}>
                                     <View style={styles.dialogActionIconWrapper}>
                                         <LessonEditIcon color="#D97706" />
@@ -380,7 +406,15 @@ export const MyLessonsScreen = () => {
 
                             <View style={styles.dialogDivider} />
 
-                            <Pressable style={[styles.dialogAction, styles.dialogActionDelete]}>
+                            <Pressable style={[styles.dialogAction, styles.dialogActionDelete]} onPress={() => {
+                                if (selectedLesson.id) {
+                                    DeleteLesson(selectedLesson.id);
+                                    setIsVisibleModal(false);
+                                    Alert.alert("Успешно", "Урок удален");
+                                } else {
+                                    console.warn("Нет ID урока для удаления");
+                                }
+                            }}>
                                 <View style={[styles.dialogActionIconCircle, { backgroundColor: '#FEF2F2' }]}>
                                     <View style={styles.dialogActionIconWrapper}>
                                         <LessonTrashIcon color="#DC2626" />
@@ -394,8 +428,8 @@ export const MyLessonsScreen = () => {
                         </View>
                     </Pressable>
                 </Pressable>
-            </Modal>
-        </SafeAreaView>
+            </Modal >
+        </SafeAreaView >
     )
 }
 

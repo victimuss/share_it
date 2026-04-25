@@ -62,6 +62,43 @@ async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
             
         return row
 
+async def get_lesson_by_id_for_edit(lesson_id: int, user_id: int) -> Optional[Lesson]:
+    async with async_session() as session:
+        tags_subquery = (
+            select(func.group_concat(LessonTag.tag, ', '))
+            .where(LessonTag.lesson_id == Lesson.id)
+            .scalar_subquery()
+        )
+        query = (
+            select(Lesson, UserLesson.completed_steps, LessonLike.user_id, LessonRank.rank, RegistedUsers.user_id, User.user_name, tags_subquery.label('tags_list'))
+            .outerjoin(UserLesson, and_(
+                UserLesson.lesson_id == Lesson.id, 
+                UserLesson.user_id == user_id
+            ))
+            .options(joinedload(Lesson.author))
+            .outerjoin(LessonLike, and_(
+                LessonLike.lesson_id == Lesson.id, 
+                LessonLike.user_id == user_id
+            ))
+            .outerjoin(LessonRank, and_(
+                LessonRank.lesson_id == Lesson.id, 
+                LessonRank.user_id == user_id,
+            ))
+            .outerjoin(RegistedUsers, and_(
+                RegistedUsers.lesson_id == Lesson.id, 
+                RegistedUsers.user_id == user_id
+            ))
+            .join(User, Lesson.author_id == User.id)
+            .where(Lesson.id == lesson_id)
+        )
+        result = await session.execute(query)
+        row = result.unique().first()
+        print(row)
+        if not row:
+            return None
+            
+        return row
+
 async def get_all_lessons() -> Optional[Lesson]:
     async with async_session() as session:
         result = await session.execute(select(Lesson).where(Lesson.status == "ACTIVE"))
@@ -313,19 +350,7 @@ async def delete_lesson(lesson_id: int, user_id: int):
         public_ids_to_delete = [pid for pid in sheets_with_images.scalars() if pid]
 
         for pid in public_ids_to_delete:
-            await delete_image_from_cloud(pid)
-        await session.execute(
-            delete(LessonRank).where(LessonRank.lesson_id == lesson_id)
-        )
-        await session.execute(
-            delete(RegistedUsers).where(RegistedUsers.lesson_id == lesson_id)
-        )
-        await session.execute(
-            delete(LessonLike).where(LessonLike.lesson_id == lesson_id)
-        )
-        await session.execute(
-            delete(LessonSheet).where(LessonSheet.content_id == lesson_id)
-        )
+            await delete_image_from_cloud_for_DB(pid)
         await session.delete(lesson)
         await session.commit()
         return {"message": "Lesson deleted"}
@@ -668,6 +693,36 @@ async def get_sheets(lesson_id: int, user_id: int):
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Урок не активен"
             )
+
+        return {
+            "sheets": lesson.sheets,
+            "lesson_name": lesson.lesson_name,
+            "total": len(lesson.sheets),
+            "completed_steps": completed_steps if completed_steps else 0
+        }
+
+
+async def get_sheets_for_edit(lesson_id: int, user_id: int):
+    async with async_session() as session:
+        stmt = (
+            select(Lesson,UserLesson.completed_steps)
+            .options(joinedload(Lesson.sheets)) 
+            .where(Lesson.id == lesson_id)
+            .outerjoin(UserLesson, and_(
+                UserLesson.lesson_id == Lesson.id,
+                UserLesson.user_id == user_id
+            ))
+        )
+        
+        result = await session.execute(stmt)
+        row = result.unique().one_or_none()
+        if not row:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Урок {lesson_id} не найден"
+            )
+        lesson = row[0]
+        completed_steps = row[1]
 
         return {
             "sheets": lesson.sheets,

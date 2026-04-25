@@ -43,6 +43,16 @@ export const GetSheetApi = async (request: SheetRequest): Promise<SheetResponse>
     }
 };
 
+export const GetSheetApiForEdit = async (request: SheetRequest): Promise<SheetResponse> => {
+    try {
+        const response = await api.post<SheetResponse>(`lessons/get_sheets_for_edit?lesson_id=${request.lesson_id}`);
+        return response;
+    } catch (error) {
+        console.error(`Ошибка запроса урока:`, error);
+        throw error;
+    }
+};
+
 
 export const SetProgressAPI = async (request: setProgressRequest): Promise<setProgressResponse> => {
     try {
