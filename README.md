@@ -1,4 +1,4 @@
-# SPARK ❇️ – Education Platform
+# Spark ❇️ – Education Platform
 
 ![Release Date](https://img.shields.io/badge/Release-28.04.2026-blueviolet)
 ![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android-lightgrey)
@@ -7,7 +7,7 @@
 
 SPARK — это образовательная P2P-платформа нового поколения, созданная для того, чтобы сделать знания доступными для каждого. Никакой рекламы, никаких платных подписок. Только чистый контент от человека к человеку.
 
-[🔗 Следить за разработкой в Telegram (Тимур делает SPARK)](https://t.me/spark_app_edu)
+[🔗 Следить за разработкой в Telegram (Тимур делает Spark)](https://t.me/spark_app_edu)
 
 ## 🔥 Философия (Манифест)
 * **P2P Обучение:** Знания передаются напрямую от пользователей к пользователям.
