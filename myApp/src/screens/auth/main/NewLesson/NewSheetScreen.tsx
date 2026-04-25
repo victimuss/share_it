@@ -194,7 +194,7 @@ export const NewSheetScreen = () => {
     }
     useEffect(() => {
         const loadSheets = async () => {
-            if (!currentLessonId) {
+            if (!isEdit) {
                 return;
             }
             try {

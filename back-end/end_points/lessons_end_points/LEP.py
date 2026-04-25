@@ -58,6 +58,9 @@ async def get_les_by_id(lesson_id: int, current_user=Depends(get_current_active_
 async def get_she(lesson_id: int, current_user=Depends(get_current_active_user)):
     return await get_sheets_for_edit(lesson_id, current_user)
 
+@router.post("/get_sheets")
+async def get_she(lesson_id: int, current_user=Depends(get_current_active_user)):
+    return await get_sheets(lesson_id, current_user)
 
 @router.get("/get_lesson_by_id_for_edit", response_model=PersonalLessonResponse)
 async def get_les_for_edit(lesson_id: int, current_user=Depends(get_current_active_user)):
