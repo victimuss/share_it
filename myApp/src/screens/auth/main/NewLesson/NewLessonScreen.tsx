@@ -282,6 +282,7 @@ export const NewLessonScreen = () => {
                     style={!difficulty || !type || !title || !description ? styles.saveButtonDisabled : styles.saveButton}
                     onPress={() => {
                         if (isEdit) {
+                            fetchLesson()
                             navigation.navigate('NewSheetScreen', { lessonId: currentLessonId, isEdit: true });
                         } else {
                             setIsModalVisible(true);

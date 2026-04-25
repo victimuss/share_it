@@ -196,7 +196,7 @@ export const NewSheetScreen = () => {
         const loadSheets = async () => {
             if (!isEdit) {
                 return;
-            }
+            } useEffect
             try {
                 setLoading(true);
                 const response = await GetSheetApiForEdit({ lesson_id: currentLessonId });
@@ -213,6 +213,13 @@ export const NewSheetScreen = () => {
 
         loadSheets();
     }, [currentLessonId]);
+    useEffect(() => {
+        if (currentSheet?.picture_url) {
+            setSelectedImage(currentSheet.picture_url);
+        } else {
+            setSelectedImage(null);
+        }
+    }, [currentIndex, currentSheet?.picture_url]);
 
     if (isModerating) {
         return (
