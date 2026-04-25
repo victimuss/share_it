@@ -201,6 +201,47 @@ export const myLessonsStyles = StyleSheet.create({
         color: COLORS.textLight,
     } as TextStyle,
 
+    /** Бабл-теги (сложность, категория). */
+    tagBadge: {
+        paddingHorizontal: SPACING.sm,
+        paddingVertical: 4,
+        borderRadius: RADIUS.sm,
+    } as ViewStyle,
+
+    tagText: {
+        fontSize: 11,
+        fontWeight: '600' as const,
+        fontFamily: 'Inter_600SemiBold',
+    } as TextStyle,
+
+    // ─── Кнопки действий на карточке ──────────────────────────────────
+    continueButton: {
+        backgroundColor: COLORS.primary,
+        paddingHorizontal: SPACING.lg,
+        paddingVertical: SPACING.sm,
+        borderRadius: RADIUS.lg,
+    } as ViewStyle,
+
+    continueButtonText: {
+        color: COLORS.surface,
+        fontSize: 13,
+        fontWeight: '600' as const,
+        fontFamily: 'Inter_600SemiBold',
+    } as TextStyle,
+
+    repeatButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: SPACING.xs,
+    } as ViewStyle,
+
+    repeatButtonText: {
+        color: COLORS.primary,
+        fontSize: 13,
+        fontWeight: '600' as const,
+        fontFamily: 'Inter_600SemiBold',
+    } as TextStyle,
+
     /** Кнопка ⋯ справа от карточки. */
     lessonMenuButton: {
         width: 32,
@@ -511,7 +552,6 @@ export const myLessonsStyles = StyleSheet.create({
         ...FONTS.semibold,
         fontSize: 14,
         color: COLORS.text,
-        flex: 1,
     } as TextStyle,
 
     dialogPreviewMeta: {
@@ -566,8 +606,6 @@ export const myLessonsStyles = StyleSheet.create({
 
     /** Действие «Удалить» — красный акцент. */
     dialogActionDelete: {
-        borderTopWidth: 1,
-        borderTopColor: COLORS.border,
         marginTop: SPACING.xs,
     } as ViewStyle,
 

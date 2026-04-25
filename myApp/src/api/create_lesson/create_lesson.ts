@@ -67,7 +67,7 @@ export const LoadLessonBanner = async (data: CloudinaryRequest) => { // это �
         type: data.file.type || 'image/jpeg',
     } as any);
 
-    const url = `http://172.20.101.152:8000/lessons/upload-lesson-banner?lesson_id=${data.lesson_id}&sheet_id=${data.sheet_id}`;
+    const url = `http://172.20.101.19:8000/lessons/upload-lesson-banner?lesson_id=${data.lesson_id}&sheet_id=${data.sheet_id}`;
 
     console.log("🚀 Пытаюсь отправить на:", url);
 
