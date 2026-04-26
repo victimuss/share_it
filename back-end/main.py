@@ -15,7 +15,11 @@ from end_points.users_end_points.UEP import router as user_router
 from end_points.main_page_end_points.MPEP import router as main_page_router
 from end_points.lessons_end_points.LEP import router as lesson_router
 from fastapi import Request
-
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
+limiter = Limiter(key_func=get_remote_address, default_limits=["100/minute"])
 app = FastAPI(
     title="Spark ❇️ API",
     description="Backend API для образовательной P2P-платформы Spark. Zero-bullshit, только знания.",
@@ -29,6 +33,9 @@ app.include_router(user_router)
 app.include_router(main_page_router)
 app.include_router(lesson_router)
 
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+app.add_middleware(SlowAPIMiddleware)
 
 app.add_middleware(
     CORSMiddleware,

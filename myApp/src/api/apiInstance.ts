@@ -1,15 +1,15 @@
 import axios, { AxiosInstance, AxiosError } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { api } from "./api";
 
 const apiInstance: AxiosInstance = axios.create({
-  baseURL: "http://172.20.101.88:8000/",
+  baseURL: "http://10.20.73.28:8000/",
   timeout: 0,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Интерцептор для добавления токена к каждому запросу
 apiInstance.interceptors.request.use(
   async (config) => {
     const access_token = await AsyncStorage.getItem("access_token");
@@ -21,7 +21,6 @@ apiInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Интерцептор для автоматического обновления токена
 apiInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError & { config: any }) => {
@@ -34,13 +33,13 @@ apiInstance.interceptors.response.use(
       try {
         const refresh_token = await AsyncStorage.getItem("refresh_token");
         if (refresh_token) {
-          const res = await axios.post("http://localhost:8000/users/refresh", {
+          const res = await api.post(`/users/refresh`, {
             token: refresh_token,
           });
           const newAccessToken = res.data.access_token;
           await AsyncStorage.setItem("access_token", newAccessToken);
           error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          return apiInstance(error.config); // повторяем запрос
+          return apiInstance(error.config);
         }
       } catch (err) {
         console.error("Не удалось обновить токен", err);

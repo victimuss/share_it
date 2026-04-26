@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react';
-import { View, ActivityIndicator, Text, StyleSheet, FlatList, Pressable } from 'react-native';
+import { View, ActivityIndicator, Text, StyleSheet, FlatList, Pressable, Alert } from 'react-native';
 import { useSheetStore } from '@/src/context/useSheetStore';
 import { LoadScreen } from '../auth/main/LoadScreen';
 import { lessonSwipeViewStyles as styles } from '@/src/styles/SheetStyles';
@@ -63,7 +63,8 @@ export const SheetScreen = () => {
                     </View>
                 </Pressable>
                 <Text style={styles.headerTitle}>{lesson_name}</Text>
-                <Pressable style={styles.bookmarkButton}>
+                <Pressable style={styles.bookmarkButton}
+                    onPress={() => { Alert.alert('Скоро', 'Функция будет доступна в будущем') }}>
                     <View style={styles.bookmarkIconWrapper}>
                         <LessonBookmarkIcon />
                     </View>

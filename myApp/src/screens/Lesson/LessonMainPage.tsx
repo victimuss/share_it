@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, TextInput, FlatList } from "react-native";
+import { View, Text, ScrollView, Pressable, TextInput, FlatList, Alert } from "react-native";
 import { homeStyles } from "@/src/styles/MainPageStyles";
 import { useAuth } from "@/src/context/AuthContext";
 import { COLORS } from "@/src/styles/root";
@@ -107,7 +107,8 @@ export const LessonMainScreen = () => {
                             <LessonBackIcon />
                         </View>
                     </Pressable>
-                    <Pressable style={styles.heroMoreButton}>
+                    <Pressable style={styles.heroMoreButton}
+                        onPress={() => { Alert.alert('Скоро', 'Функция будет доступна в будущем') }}>
                         <View style={styles.heroMoreIconWrapper}>
                             <LessonMoreIcon />
                         </View>

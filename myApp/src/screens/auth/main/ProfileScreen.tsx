@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, Pressable, TextInput, FlatList, Dimensions, Modal, KeyboardAvoidingView, Alert } from "react-native";
 import { homeStyles } from "@/src/styles/MainPageStyles";
-import { useAuth } from "@/src/context/AuthContext";
+import { TotalclearStore, useAuth } from "@/src/context/AuthContext";
 import { COLORS } from "@/src/styles/root";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,8 +18,11 @@ import { LoadScreen } from "./LoadScreen";
 import { SearchIcon } from "@/src/SVG/TabSVG";
 import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
+import { lessonEditorStyles } from "@/src/styles/NewSheetStyles";
+import { useLessonStore } from "@/src/context/useLessonStore";
+import { useSheetStore } from "@/src/context/useSheetStore";
 export const ProfileScreen = () => {
-    const { user, edit } = useAuth();
+    const { user, edit, logout } = useAuth();
     const [loading, setLoading] = useState(true);
     const [newSkillname, setNewSkillname] = useState('')
     const [newSkillError, setNewSkillError] = useState(false)
@@ -40,6 +43,7 @@ export const ProfileScreen = () => {
     const [myLessons, setMyLessons] = useState<MakedLessonsResponce>({ lessons: [] });
     const [error, setError] = useState('');
     const navigator = useNavigation();
+
 
     const iconMap: Record<string, React.ReactNode> = {
         code: <ApplicationCodeIcon size={50} />,
@@ -214,6 +218,7 @@ export const ProfileScreen = () => {
                                                 </View>
                                             </View>
                                             <Text style={profileStyles.avatarChangeText}
+                                                onPress={() => { Alert.alert('Скоро', 'Функция будет доступна в будущем') }}
                                                 numberOfLines={1}>
                                                 Изменить фото
                                             </Text>
@@ -297,7 +302,17 @@ export const ProfileScreen = () => {
                                             Сохранить
                                         </Text>
                                     </Pressable>
-                                    <Pressable>
+                                    <Pressable style={{ backgroundColor: 'red', height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
+                                        onPress={() => { logout(); }}>
+                                        <Text style={[{ color: COLORS.text, fontSize: 16, fontWeight: '600' }]}>
+                                            Выйти
+                                        </Text>
+                                    </Pressable>
+                                    <Pressable style={{ backgroundColor: 'red', height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
+                                        onPress={() => { useLessonStore.getState().clearStore(); useSheetStore.getState().clearLesson(); Alert.alert('Черновик сброшен', 'Все несохраненные изменения были удалены.') }}>
+                                        <Text style={[{ color: COLORS.text, fontSize: 16, fontWeight: '600' }]}>
+                                            Cбросить черновик
+                                        </Text>
                                     </Pressable>
                                 </View>
                             </View>

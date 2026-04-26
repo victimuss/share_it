@@ -4,7 +4,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import apiInstance, { } from "../api/apiInstance";
 import { Login, Refresh } from "../api/auth/auth";
 import { AuthResponse, RefreshResponse } from "../types/auth";
-
+import { useLessonStore } from "./useLessonStore";
+import { useSheetStore } from "./useSheetStore";
 // Интерфейс пользователя
 export interface User {
   name: string;
@@ -37,6 +38,10 @@ const defaultContext: AuthContextType = {
   refreshToken: async () => { },
   edit: (user_name: string, description: string, tag: string, site: string, telegram: string, avatar: string) => { },
 };
+export const TotalclearStore = () => {
+  useLessonStore.getState().clearStore();
+  useSheetStore.getState().clearLesson();
+}
 
 // Создаём контекст
 export const AuthContext = createContext<AuthContextType>(defaultContext);
@@ -66,6 +71,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = async () => {
     setAccessToken(null);
     setUser(null);
+    TotalclearStore();
     await AsyncStorage.removeItem("access_token");
     await AsyncStorage.removeItem("refresh_token");
   };

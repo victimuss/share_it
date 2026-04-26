@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, TextInput, FlatList } from "react-native";
+import { View, Text, ScrollView, Pressable, TextInput, FlatList, Alert } from "react-native";
 import { homeStyles } from "@/src/styles/MainPageStyles";
 import { useAuth } from "@/src/context/AuthContext";
 import { COLORS } from "@/src/styles/root";
@@ -138,7 +138,8 @@ export const MainScreen = () => {
             </Text>
           </View>
           <View style={homeStyles.headerRight}>
-            <Pressable style={homeStyles.notificationButton}>
+            <Pressable style={homeStyles.notificationButton}
+              onPress={() => { Alert.alert('Скоро', 'Функция будет доступна в будущем') }}>
               <BellIcon></BellIcon>
             </Pressable>
             <Pressable style={homeStyles.avatar}
@@ -165,9 +166,9 @@ export const MainScreen = () => {
             contentContainerStyle={homeStyles.filtersScrollContent}>
             <Pressable
               style={({ pressed }) => [
-                homeStyles.chip, // базовый стиль
-                activeFilter === null && homeStyles.chipActive, // стиль активного фильтра
-                pressed && homeStyles.chipActive, // стиль при нажатии
+                homeStyles.chip,
+                activeFilter === null && homeStyles.chipActive,
+                pressed && homeStyles.chipActive,
               ]}
               onPress={() => handleFilterChange(null)}
             >
@@ -175,9 +176,9 @@ export const MainScreen = () => {
             </Pressable>
             <Pressable
               style={({ pressed }) => [
-                homeStyles.chip, // базовый стиль
-                activeFilter === 'code' && homeStyles.chipActive, // стиль активного фильтра
-                pressed && homeStyles.chipActive, // стиль при нажатии
+                homeStyles.chip,
+                activeFilter === 'code' && homeStyles.chipActive,
+                pressed && homeStyles.chipActive,
               ]}
               onPress={() => handleFilterChange('code')}
             >
@@ -185,9 +186,9 @@ export const MainScreen = () => {
             </Pressable>
             <Pressable
               style={({ pressed }) => [
-                homeStyles.chip, // базовый стиль
-                activeFilter === 'design' && homeStyles.chipActive, // стиль активного фильтра
-                pressed && homeStyles.chipActive, // стиль при нажатии
+                homeStyles.chip,
+                activeFilter === 'design' && homeStyles.chipActive,
+                pressed && homeStyles.chipActive,
               ]}
               onPress={() => handleFilterChange('design')}
             >
@@ -195,9 +196,9 @@ export const MainScreen = () => {
             </Pressable>
             <Pressable
               style={({ pressed }) => [
-                homeStyles.chip, // базовый стиль
-                activeFilter === 'language' && homeStyles.chipActive, // стиль активного фильтра
-                pressed && homeStyles.chipActive, // стиль при нажатии
+                homeStyles.chip,
+                activeFilter === 'language' && homeStyles.chipActive,
+                pressed && homeStyles.chipActive,
               ]}
               onPress={() => handleFilterChange('language')}
             >
