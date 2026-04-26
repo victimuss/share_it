@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, ScrollView } from 'react-native';
+import { View, TextInput, Button, Text, ScrollView, Linking } from 'react-native';
 import { Regis } from '../../api/auth/auth';
 import { Alert } from 'react-native';
 import { saveToken } from '../../utils/storage';
@@ -35,7 +35,7 @@ export const RegisScreen = () => {
             await Regis({ user_name: name, email, hashed_password: password });
             Alert.alert('Успех', 'Вы успешно зарегистрировались!');
             // Навигация на главный экран или другой экран после успешной регистрации
-            navigation.navigate('Login' ,{email: email});
+            navigation.navigate('Login', { email: email });
         } catch (err: any) {
             setError('Ошибка регистрации. Проверьте свои данные и попробуйте снова.');
             console.error('Ошибка регистрации:', err);
@@ -44,6 +44,16 @@ export const RegisScreen = () => {
             setLoading(false);
         }
     }
+    const openPrivacyPolicy = async () => {
+        const url = 'https://spark-edu.ru/privacy';
+        const supported = await Linking.canOpenURL(url);
+
+        if (supported) {
+            await Linking.openURL(url);
+        } else {
+            Alert.alert(`Не удалось открыть ссылку: ${url}`);
+        }
+    };
     return (
         <SafeAreaView style={authStyles.container}>
             <ScrollView contentContainerStyle={authStyles.scrollContainer}>
@@ -86,6 +96,12 @@ export const RegisScreen = () => {
                         onPress={() => navigation.navigate('Login')}>
                         Есть аккаунт? Войти</Text>
                 </Pressable>
+                <Text style={authStyles.legalText}>
+                    Регистрируясь, вы соглашаетесь с{' '}
+                    <Text style={authStyles.link} onPress={openPrivacyPolicy}>
+                        Политикой конфиденциальности
+                    </Text>
+                </Text>
                 {error && (
                     <View style={authStyles.errorContainer}>
                         <Text style={authStyles.errorText}>{error}</Text>

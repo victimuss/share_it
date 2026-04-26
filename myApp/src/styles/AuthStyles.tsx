@@ -139,7 +139,7 @@ export const authStyles = StyleSheet.create({
     borderColor: COLORS.primary,
     borderRadius: RADIUS.lg,
     paddingVertical: SPACING.md,
-    marginBottom:SPACING.md,
+    marginBottom: SPACING.md,
     paddingHorizontal: SPACING.lg,
     justifyContent: 'center',
     alignItems: 'center',
@@ -185,6 +185,15 @@ export const authStyles = StyleSheet.create({
     ...FONTS.medium,
     color: COLORS.textSecondary,
   } as TextStyle,
+  legalText: {
+    fontSize: 12,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 20,
+  } as TextStyle,
+  link: {
+    color: '#007AFF',
+    textDecorationLine: 'underline',
+  } as TextStyle,
 });
 
- 

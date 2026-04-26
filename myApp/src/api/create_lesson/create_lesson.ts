@@ -67,9 +67,7 @@ export const LoadLessonBanner = async (data: CloudinaryRequest) => { // это �
         type: data.file.type || 'image/jpeg',
     } as any);
 
-    const url = `http://2.26.111.93:8000/lessons/upload-lesson-banner?lesson_id=${data.lesson_id}&sheet_id=${data.sheet_id}`;
-
-    console.log("🚀 Пытаюсь отправить на:", url);
+    const url = `https://spark-edu.ru/lessons/upload-lesson-banner?lesson_id=${data.lesson_id}&sheet_id=${data.sheet_id}`;
 
     try {
         const response = await fetch(url, {
