@@ -27,9 +27,14 @@ async def add_user(user_data: UserCreate):
             await session.commit()
             await session.refresh(new_user)
             return new_user
-        except IntegrityError:
+        except IntegrityError as e:
             await session.rollback()
-            raise HTTPException(status_code=400, detail="Пользователь с таким email уже существует")
+            # Это выведет реальную ошибку в консоль докера!
+            print(f"DATABASE ERROR: {e.orig}") 
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Ошибка базы данных: {e.orig}" # Временно выводим прямо в ответ
+            )
         
 async def authenticate_user(user_data: LoginUser) -> Optional[User]:
     async with async_session() as session:
