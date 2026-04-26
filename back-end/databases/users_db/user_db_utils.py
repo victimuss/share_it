@@ -15,6 +15,7 @@ def calculate_progress(total_steps: int, completed_steps: int) -> float:
     if total_steps == 0:
         return 0.0  
     return (completed_steps / total_steps) * 100
+    
 async def add_user(user_data: UserCreate):
     async with async_session() as session:
         new_user = User(

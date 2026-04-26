@@ -25,13 +25,13 @@ async def get_current_active_user(user=Depends(get_current_user)):
     return user
 router = APIRouter(prefix="/users")
  
-# @router.post ('/signup', response_model=UserOut) #Убрано из кода пока идёт тестирование и решаются юридичские вопросы
-# async def auth_us(us_data: UserCreate):
-#     try:
-#         new_user = await add_user(us_data)
-#         return new_user
-#     except ValueError as e:  # ловим дубли / уникальные ограничения
-#         raise HTTPException(status_code=400, detail=str(e))
+@router.post ('/signup', response_model=UserOut) #Убрано из кода пока идёт тестирование и решаются юридичские вопросы
+async def auth_us(us_data: UserCreate):
+    try:
+        new_user = await add_user(us_data)
+        return new_user
+    except ValueError as e:  # ловим дубли / уникальные ограничения
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.post("/login", response_model=TokenOut)
 async def login_user(login_data: LoginUser):
