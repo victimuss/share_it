@@ -1,0 +1,30 @@
+# Python environment
+venv/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+.env.*
+
+# Git
+.git/
+.gitignore
+
+# IDE & Editor
+.idea/
+.vscode/
+
+# Project metadata
+dist/
+build/
+develop-eggs/
+.eggs/
+*.egg-info/
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
