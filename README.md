@@ -1,48 +1,58 @@
-# Spark ❇️ – Education Platform
+# Spark ❇️ – AI-Powered Education Platform
 
-![Release Date](https://img.shields.io/badge/Release-28.04.2026-blueviolet)
-![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android-lightgrey)
+![Status](https://img.shields.io/badge/Status-Demo--Release-green)
 ![Backend](https://img.shields.io/badge/Backend-FastAPI-009688)
-![Status](https://img.shields.io/badge/Status-Pre--release-orange)
+![Database](https://img.shields.io/badge/DB-SQLite-003B57)
+![AI](https://img.shields.io/badge/AI-Gemini%20%7C%20Groq-blue)
+![Platform](https://img.shields.io/badge/Platform-Android-lightgrey)
 
-SPARK — это образовательная P2P-платформа нового поколения, созданная для того, чтобы сделать знания доступными для каждого. Никакой рекламы, никаких платных подписок. Только чистый контент от человека к человеку.
+**SPARK** — это образовательная платформа нового поколения, где искусственный интеллект помогает структурировать знания, а пользователи делятся ими в формате микрообучения. Проект адаптирован для работы в условиях ограниченных ресурсов и строгих требований к приватности.
 
-[🔗 Следить за разработкой в Telegram (Тимур делает Spark)](https://t.me/spark_app_edu)
+[🔗 Следить за разработкой в Telegram](https://t.me/spark_app_edu)
 
-## 🔥 Философия (Манифест)
-* **P2P Обучение:** Знания передаются напрямую от пользователей к пользователям.
-* **Микрообучение:** Короткие форматы, теги и списки. Учитесь быстро и по делу.
-* **Zero-Bullshit:** Полное отсутствие рекламы, инфоцыганства и платных курсов.
-* **Доступность:** Приложение глубоко оптимизировано для плавной работы даже на старых и слабых устройствах.
+---
+
+## 🚀 Текущие реалии (Privacy-First)
+В связи с изменениями в законодательстве (152-ФЗ) и требованиями к локализации данных, архитектура проекта была пересмотрена:
+* **Анонимный доступ:** Демо-версия работает через единый гостевой аккаунт. Это позволяет тестировать функционал, не передавая персональные данные на сервер.
+* **Extreme Optimization:** Бэкенд оптимизирован для работы на сверхбюджетных VPS (1 vCPU, 1GB RAM).
 
 ## 🛠 Технологический стек
-**Mobile (Frontend):**
-* React Native
-* Zustand (State management)
-* Axios
 
-**Backend:**
-* FastAPI (Python)
-* PostgreSQL + SQLAlchemy (Database)
-* AWS S3 (Media storage)
-* Docker + Nginx (Infrastructure)
+### **Backend:**
+* **Framework:** FastAPI (Асинхронная архитектура).
+* **AI Core:** Интеграция с **Gemini 1.5 Pro** и **Groq (Llama 3)** для интеллектуального анализа контента.
+* **Database:** SQLite (Оптимизированный выбор для экономии RAM на микро-серверах).
+* **Media Storage:** Cloudinary API (Раздача медиа через CDN).
+* **Infrastructure:** Docker + Docker Volumes (Обеспечение персистентности данных).
 
-## 🚀 Локальный запуск (Backend)
+### **Mobile (Frontend):**
+* **Framework:** React Native.
+* **State Management:** Zustand (Легковесный и быстрый).
+* **Networking:** Axios.
 
+---
+
+## 🔑 Доступ к Demo (Android)
+Регистрация новых пользователей временно приостановлена для соблюдения норм приватности. Используйте общий доступ:
+
+* **Login:** `spark_guest`
+* **Password:** `spark2026`
+
+---
+
+## 🗓 Дорожная карта (Roadmap)
+- [x] Интеграция ИИ-ассистентов (Gemini/Groq).
+- [x] Оптимизация под Low-end серверы (VPS Black).
+- [x] Контейнеризация и деплой через Docker.
+- [x] Настройка персистентных хранилищ (Docker Volumes) для БД.
+- [ ] **Next Step:** Переход на Telegram Auth (авторизация без хранения паролей).
+- [ ] **Next Step:** Переход на S3-совместимое хранилище в юрисдикции РФ.
+
+---
+
+## 🛠 Локальная разработка
 1. Клонируйте репозиторий:
    ```bash
    git clone [https://github.com/ВАШ_ЮЗЕРНЕЙМ/spark-backend.git](https://github.com/ВАШ_ЮЗЕРНЕЙМ/spark-backend.git)
    cd spark-backend
-
-🗓 Дорожная карта (Roadmap)
-[x] Архитектура БД и API
-
-[x] Интеграция с S3 и загрузка медиа
-
-[x] Реализация системы тегов и списков
-
-[x] Rate Limiting и безопасность
-
-[x] Контейнеризация (Docker) (В процессе)
-
-[ ] Официальный релиз (28 апреля 2026)
