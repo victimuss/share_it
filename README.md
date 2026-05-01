@@ -58,7 +58,7 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone [https://github.com/ВАШ_ЮЗЕРНЕЙМ/spark-backend.git](https://github.com/ВАШ_ЮЗЕРНЕЙМ/spark-backend.git)
+   git clone [https://github.com/victimuss/spark_edu.git](https://github.com/victimuss/spark_edu.git)
    cd spark-backend
    ```
 2. Запустите инфраструктуру через Docker Compose:
