@@ -1,8 +1,7 @@
 import cloudinary
 import cloudinary.uploader
 from fastapi import UploadFile
-import os
-from dotenv import load_dotenv
+from core.config import settings
 from databases.users_db.users_db import User
 from databases.main_databases import async_session
 from sqlalchemy import *
@@ -20,16 +19,14 @@ from databases.users_db.users_db import UserLesson
 from databases.schemas.schemas_lessons import *
 from sqlalchemy.orm import joinedload
 import asyncio
-import os
-from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 import json
-load_dotenv()
+
 cloudinary.config( 
-  cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"), 
-  api_key = os.getenv("CLOUDINARY_API_KEY"), 
-  api_secret = os.getenv("CLOUDINARY_API_SECRET"),
+  cloud_name = settings.CLOUDINARY_CLOUD_NAME, 
+  api_key = settings.CLOUDINARY_API_KEY, 
+  api_secret = settings.CLOUDINARY_API_SECRET,
   secure = True
 )
 

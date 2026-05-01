@@ -6,6 +6,9 @@ from pydantic import BaseModel
 from typing import Optional
 from fastapi import APIRouter, UploadFile, File, Depends
 import requests
+import os
+import uuid
+import shutil
 from pydantic import BaseModel
 from auth.jwt_tokens import *
 from databases.main_databases import get_db
@@ -108,15 +111,51 @@ async def upload_banner(lesson_id: int, sheet_id: int, current_user=Depends(get_
     res_data = json.loads(moderation_result)
     if not res_data.get("safe"):
         return {"error":'Модерация не пройдена', "reason": res_data.get("reason")}
+    file_ext = file.filename.split(".")[-1]
+    temp_file_name = f"{uuid.uuid4()}.{file_ext}"
+    temp_file_path = os.path.join(TEMP_DIR, temp_file_name)
+
     await file.seek(0)
-    url = await upload_image_to_cloud(lesson_id, sheet_id, current_user, file, folder="lesson_banners")
-    if not url:
-        return {"error": "Не удалось загрузить изображение"}
-    return {"banner_url": url}
+
+    with open(temp_file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    upload_to_minio_task.delay(temp_file_path, sheet_id)
+
+    return {
+        "status": "processing", 
+        "message": "Изображение прошло модерацию и загружается",
+        "banner_url": None 
+    }
 
 @router.post("/delete-lesson-banner")
 async def delete_banner(sheet_id: int, current_user=Depends(get_current_active_user)):
-    return await delete_image_from_cloud(sheet_id, current_user)
+    try:
+        async with async_session() as session:
+            result = await session.execute(
+                select(LessonSheet.image_public_id)
+                .join(Lesson, Lesson.id == LessonSheet.content_id)
+                .where(LessonSheet.id == sheet_id)
+                .where(Lesson.author_id == current_user.id)
+            )
+            image_public_id = result.scalar_one_or_none()
+
+            if not image_public_id:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND, 
+                    detail="Изображение не найдено или у вас нет прав на его удаление"
+                )
+            delete_from_minio_task.delay(image_public_id)
+            await session.execute(
+                update(LessonSheet)
+                .where(LessonSheet.id == sheet_id)
+                .values(picture_url=None, image_public_id=None)
+            )
+            await session.commit()
+            return {"status": "success", "message": "Image deleted successfully"}
+    except Exception as e:
+        print(f"Ошибка S3: {e}")
+        return {"status": "error", "message": "Failed to delete image"}
 
 @router.post("/update_sheet")
 async def update_les(
@@ -188,31 +227,20 @@ async def publish_lesson(
     current_user=Depends(get_current_active_user),
     db: AsyncSession = Depends(get_db)
 ):
-    ai_response_json = await checker(lesson_id)
-    result = json.loads(ai_response_json)
-
-    if not result.get("status"):
-        await db.execute(
-            update(Lesson)
-            .where(Lesson.id == lesson_id)
-            .values(status="REJECTED")
-        )
-        await db.commit()
-        
-        raise HTTPException(
-            status_code=400, 
-            detail={
-                "message": "Модерация не прошла",
-                "reason": result.get("reason"),
-                "location": result.get("error_location")
-            }
-        )
+    lesson = await db.get(Lesson, lesson_id)
+    if not lesson:
+        raise HTTPException(status_code=404, detail="Урок не найден")
 
     await db.execute(
         update(Lesson)
         .where(Lesson.id == lesson_id)
-        .values(status="ACTIVE", is_active=True)
+        .values(status="DRAFT") 
     )
     await db.commit()
 
-    return {"status": "success", "message": "Урок опубликован и доступен всем!"}
+    checker_lesson.delay(lesson_id)
+
+    return {
+        "status": "draft", 
+        "message": "Урок отправлен на модерацию. Это займет около минуты.",
+    }

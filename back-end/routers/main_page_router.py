@@ -27,18 +27,32 @@ async def get_current_active_user(user=Depends(get_current_user)):
         )
     return user
 @router.get('/popular_lessons')
-async def popular_lessons(type: Optional[str] = None):          
+async def popular_lessons(type: Optional[str] = None):    
+    cache_key = "main_page_general_info"
+    if type:
+        cache_key += f"_{type}"
+    cached_data = await redis_client.get(cache_key)
+    if cached_data:
+        return {"popularLessons": json.loads(cached_data)}
     lessons = await get_popular_lessons(type=type)
     if lessons is None:
         raise HTTPException(status_code=404, detail="Популярные уроки не найдены")
+    await redis_client.set(cache_key, json.dumps(lessons), ex=60*60*24)
     return {'popularLessons':lessons}
 
 
 @router.get('/new_lessons')
-async def new_lessons(type: Optional[str] = None):          
+async def new_lessons(type: Optional[str] = None): 
+    cache_key = "new_lessons"
+    if type:
+        cache_key += f"_{type}"
+    cached_data = await redis_client.get(cache_key)
+    if cached_data:
+        return {"recentLessons": json.loads(cached_data)}
     lessons = await get_new_lessons(type=type)
     if lessons is None:
         raise HTTPException(status_code=404, detail="Новые уроки не найдены")
+    await redis_client.set(cache_key, json.dumps(lessons), ex=60*60*24)
     return {'recentLessons':lessons}
 
 

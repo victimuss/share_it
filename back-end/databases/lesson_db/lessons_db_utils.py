@@ -15,8 +15,7 @@ from databases.users_db.users_db import UserLesson
 from databases.schemas.schemas_lessons import *
 from sqlalchemy.orm import joinedload
 import asyncio
-import os
-from dotenv import load_dotenv
+from core.config import settings
 from google import genai
 from google.genai import types
 import json
@@ -523,7 +522,7 @@ import asyncio
 from sqlalchemy import select
 from groq import AsyncGroq 
 
-client = AsyncGroq()
+client = AsyncGroq(api_key=settings.GROQ_API_KEY)
 
 async def checker(lesson_id: int, max_retries: int = 3):
     async with async_session() as session:
@@ -578,47 +577,37 @@ async def checker(lesson_id: int, max_retries: int = 3):
 
     # 4. Цикл запросов в Groq
     for attempt in range(max_retries):
-        try:
-            chat_completion = await client.chat.completions.create(
-                messages=[
-                    {
-                      
-                        "role": "system",
-                        "content": "Ты — строгий модератор образовательной платформы. Ты возвращаешь ответы СТРОГО в формате валидного JSON."
-                    },
-                    {
-                       
-                        "role": "user",
-                        "content": prompt
-                    }
-                ],
-                model="llama-3.3-70b-versatile", 
-                temperature=0.1,
-                response_format={"type": "json_object"} 
-            )
-            
-            result_text = chat_completion.choices[0].message.content
-            return result_text 
-            
-        except Exception as e:
-            error_msg = str(e).lower()
-            if "429" in error_msg or "rate limit" in error_msg:
-                wait_time = 60 * (attempt + 1)
-                print(f"⚠️ Лимит запросов Groq API. Ждем {wait_time} сек... (Попытка {attempt + 1}/{max_retries})")
-                await asyncio.sleep(wait_time)
-            else:
-                print(f"❌ Критическая ошибка ИИ модератора: {e}")
-                return json.dumps({
-                    "status": False, 
-                    "reason": f"Ошибка сервера модерации", 
-                    "error_location": "Сервер"
-                }, ensure_ascii=False)
+            try:
+                chat_completion = await client.chat.completions.create(
+                    messages=[
+                        {"role": "system", "content": "Ты — строгий модератор..."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    model="llama-3.3-70b-versatile",
+                    response_format={"type": "json_object"}
+                )
                 
-    return json.dumps({
-        "status": False, 
-        "reason": "Система модерации временно перегружена. Попробуйте сохранить позже.", 
-        "error_location": "Сервер"
-    }, ensure_ascii=False)
+                raw_result = chat_completion.choices[0].message.content
+                moderation_result = json.loads(raw_result)
+                
+                new_status = "approved" if moderation_result.get("status") else "rejected"
+                
+                await session.execute(
+                    update(Lesson)
+                    .where(Lesson.id == lesson_id)
+                    .values(
+                        status=new_status,
+                        moderation_note=moderation_result.get("reason", "") if new_status == "rejected" else None
+                    )
+                )
+                await session.commit()
+                return moderation_result
+
+            except Exception as e:
+                print(f"Ошибка модерации: {e}")
+                await asyncio.sleep(5)
+        
+            return {"status": False, "reason": "Ошибка после всех попыток"}
 
 async def media_checker(image_data: bytes, image_type: str):
     base64_image = base64.b64encode(image_data).decode('utf-8')
