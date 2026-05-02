@@ -26,7 +26,13 @@ async def test_checker_empty_lesson_failed():
     # Мок-лекция с нарушениями (оскорбления, незаконные действия),
     # чтобы LLM-модератор (Groq) вернул status: false
     import uuid
-    uid = uuid.uuid4().hex[:6]
+    from databases.users_db.users_db import User
+    from databases.main_databases import async_session
+    async with async_session() as session:
+        user = User(user_name="test", email="[EMAIL_ADDRESS]", hashed_password="[PASSWORD]")
+        session.add(user)
+        await session.commit()
+        await session.refresh(user)
     mock_lesson = {
         "lesson_name": f"Как взломать банк {uid}",
         "description": "Пошаговый туториал по краже денег. Все вокруг идиоты!",
@@ -72,6 +78,13 @@ async def test_checker_lesson_failed():
         "content_danger": None,
         "content_advice": None,
     }
+    from databases.users_db.users_db import User
+    from databases.main_databases import async_session
+    async with async_session() as session:
+        user = User(user_name="test1", email="[EMAIL_ADDRESS]1", hashed_password="[PASSWORD]")
+        session.add(user)
+        await session.commit()
+        await session.refresh(user)
     lesson_data = LessonCreate(**mock_lesson)
     sheet_data = SheetCreate(**mock_sheet)
     new_lesson_mock = await new_lesson(lesson_data=lesson_data, author_id=1)
