@@ -33,6 +33,13 @@ class Settings(BaseSettings):
     # URL для фронтенда
     S3_PUBLIC_URL: str = "http://127.0.0.1:9000/lessons-media"
 
+    # ZKP
+    P_KEY: str = ""
+    G_KEY: str = ""
+
+    #Telegram
+    BOT_TOKEN: str = ""
+    
     # Дополнительные API ключи
     GROQ_API_KEY: str = ""
     GEMINI_API_KEY: str = ""
