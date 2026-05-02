@@ -1,7 +1,7 @@
 import asyncio
 from databases.databases_compile import Base
-from databases.users_db import *
-from databases.lesson_db import *
+from databases.users_db.users_db import *
+from databases.lesson_db.lesson_db import *
 from databases.main_databases import engine
 
 async def main():
