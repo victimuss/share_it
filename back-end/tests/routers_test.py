@@ -17,7 +17,7 @@ def test_register_user_success(client):
     payload = {
         'user_name': f'test_user_{uid}',
         'email': f'test_new_{uid}@gmail.com',
-        'hashed_password': 'test_password'
+        'password': 'test_password'
     }
 
     response = client.post('/users/signup', json=payload)
@@ -33,7 +33,7 @@ def test_login_user_success(client):
     payload = {
         'user_name': f'test_login_{uid}',
         'email': f'test_login_{uid}@gmail.com',
-        'hashed_password': 'test_password'
+        'password': 'test_password'
     }
     client.post('/users/signup', json=payload)
 
@@ -55,7 +55,7 @@ def test_email_duplicate_failed(client):
     payload = {
         'user_name': f'test_dup_{uid}',
         'email': f'test_dup_{uid}@gmail.com',
-        'hashed_password': 'test_password'
+        'password': 'test_password'
     }
 
     response = client.post('/users/signup', json=payload)

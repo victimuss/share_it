@@ -23,7 +23,7 @@ async def add_user(user_data: UserCreate):
         new_user = User(
             user_name=user_data.user_name,
             email=user_data.email,
-            hashed_password=hash_password(user_data.hashed_password),
+            hashed_password=hash_password(user_data.password),
         )
         session.add(new_user)
         try:

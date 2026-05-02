@@ -8,7 +8,7 @@ from datetime import datetime
 class UserCreate(BaseModel):
     user_name: str
     email: EmailStr
-    hashed_password: str
+    password: str
 
 
 # --- Схема для логина ---
