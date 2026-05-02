@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spark Test Plan</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #cccccc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #569cd6;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #252526;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 16px 20px;
+            text-align: left;
+            border: 1px solid #333333;
+        }
+
+        th {
+            background-color: #2d2d30;
+            color: #4fc1ff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background-color: #2a2d2e;
+        }
+
+        .section-header {
+            background-color: #007acc;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        .file-path {
+            color: #ce9178;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .priority-max {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        .priority-high {
+            color: #ff9800;
+            font-weight: bold;
+        }
+
+        .priority-med {
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        code {
+            background-color: #1e1e1e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #9cdcfe;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            border: 1px solid #333;
+        }
+
+        .desc {
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🚀 Spark Backend: Матрица покрытия тестами (60% Core)</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Локация (Файл)</th>
+                <th>Приоритет</th>
+                <th>Вид тестирования</th>
+                <th>Что проверяем (Суть)</th>
+                <th>Пример Input (Вход)</th>
+                <th>Пример Output (Выход)</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <!-- БЛОК 1 -->
+            <tr>
+                <td colspan="6" class="section-header">🛡️ Блок 1: Авторизация и Безопасность</td>
+            </tr>
+            <tr>
+                <td class="file-path">auth/jwt_tokens.py</td>
+                <td class="priority-max">🔥 Максимальный</td>
+                <td>Юнит-тест<br><span style="font-size: 12px; color: #888;">(Без БД)</span></td>
+                <td class="desc">Генерация токена и выброс ошибки при протухании срока (exp).</td>
+                <td><code>decode_token("old_token")</code></td>
+                <td><code>HTTPException 401</code></td>
+            </tr>
+            <tr>
+                <td class="file-path">auth/dependency.py</td>
+                <td class="priority-max">🔥 Максимальный</td>
+                <td>Интеграция с БД</td>
+                <td class="desc">Извлекает ли Depends юзера из БД по валидному токену.</td>
+                <td><code>get_current_user(token)</code></td>
+                <td><code>User(id=1)</code></td>
+            </tr>
+
+            <!-- БЛОК 2 -->
+            <tr>
+                <td colspan="6" class="section-header">🌐 Блок 2: API Эндпоинты (Роутеры)</td>
+            </tr>
+            <tr>
+                <td class="file-path">routers/user_router.py</td>
+                <td class="priority-high">⚡ Высокий</td>
+                <td>API-тест<br><span style="font-size: 12px; color: #888;">(TestClient)</span></td>
+                <td class="desc">Регистрация дубликата email. База не должна упасть с 500 ошибкой!</td>
+                <td><code>POST /register</code> (дубль)</td>
+                <td><code>400 Bad Request</code></td>
+            </tr>
+            <tr>
+                <td class="file-path">routers/lesson_router.py</td>
+                <td class="priority-high">⚡ Высокий</td>
+                <td>API-тест<br><span style="font-size: 12px; color: #888;">(TestClient)</span></td>
+                <td class="desc">Создание урока без токена (проверка работы защиты ручки).</td>
+                <td><code>POST /lesson/create</code><br><span style="color: #888; font-size: 12px;">без Header
+                        Auth</span></td>
+                <td><code>401 Unauthorized</code></td>
+            </tr>
+            <tr>
+                <td class="file-path">routers/main_page_router.py</td>
+                <td class="priority-med">🟢 Средний</td>
+                <td>API-тест<br><span style="font-size: 12px; color: #888;">(TestClient)</span></td>
+                <td class="desc">Выдача контента для главной. При пустой базе возвращает пустой список.</td>
+                <td><code>GET /main_page</code></td>
+                <td><code>200 OK, "data": []</code></td>
+            </tr>
+
+            <!-- БЛОК 3 -->
+            <tr>
+                <td colspan="6" class="section-header">⚙️ Блок 3: Celery Воркеры и Фоновые Таски</td>
+            </tr>
+            <tr>
+                <td class="file-path">routers/tasks/lesson_tasks.py</td>
+                <td class="priority-max">🔥 Максимальный</td>
+                <td>Юнит-тест<br><span style="font-size: 12px; color: #888;">(Mock AI)</span></td>
+                <td class="desc">Имитируем ответ от нейронки и проверяем, что таска сохраняет его в БД.</td>
+                <td><code>mock_ai.return="Lesson"</code></td>
+                <td><code>Task.status == SUCCESS</code></td>
+            </tr>
+            <tr>
+                <td class="file-path">routers/tasks/censore_tasks.py</td>
+                <td class="priority-high">⚡ Высокий</td>
+                <td>Юнит-тест</td>
+                <td class="desc">Проверка работы фильтра слов. Запрещенное слово блокирует таску.</td>
+                <td><code>run_censor("bad_word")</code></td>
+                <td><code>Result: CENSURED</code></td>
+            </tr>
+            <tr>
+                <td class="file-path">routers/tasks/media_tasks.py</td>
+                <td class="priority-high">⚡ Высокий</td>
+                <td>Юнит-тест<br><span style="font-size: 12px; color: #888;">(Mock S3)</span></td>
+                <td class="desc">Отказ S3/MinIO. Воркер должен попытаться сделать Retry.</td>
+                <td><code>mock_s3.side_effect=Error</code></td>
+                <td><code>Task.status == RETRY</code></td>
+            </tr>
+
+            <!-- БЛОК 4 -->
+            <tr>
+                <td colspan="6" class="section-header">💾 Блок 4: Инфраструктура и БД</td>
+            </tr>
+            <tr>
+                <td class="file-path">core/s3_client.py</td>
+                <td class="priority-med">🟢 Средний</td>
+                <td>Юнит-тест</td>
+                <td class="desc">Проверяем правильность генерации путей к файлам для S3.</td>
+                <td><code>upload(user=1, "a.jpg")</code></td>
+                <td><code>return True</code></td>
+            </tr>
+            <tr>
+                <td class="file-path">databases/lesson_db/<br>lesson_db.py</td>
+                <td class="priority-med">🟢 Средний</td>
+                <td>Юнит-тест<br><span style="font-size: 12px; color: #888;">(DB)</span></td>
+                <td class="desc">Корректное каскадное удаление урока из базы.</td>
+                <td><code>delete_lesson(id=99)</code></td>
+                <td><code>db.commit() == success</code></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</body>
+
+</html>

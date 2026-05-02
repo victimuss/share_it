@@ -590,14 +590,14 @@ async def checker(lesson_id: int, max_retries: int = 3):
                 raw_result = chat_completion.choices[0].message.content
                 moderation_result = json.loads(raw_result)
                 
-                new_status = "approved" if moderation_result.get("status") else "rejected"
+                new_status = "APPROVED" if moderation_result.get("status") else "REJECTED"
                 
                 await session.execute(
                     update(Lesson)
                     .where(Lesson.id == lesson_id)
                     .values(
                         status=new_status,
-                        moderation_note=moderation_result.get("reason", "") if new_status == "rejected" else None
+                        # moderation_note=moderation_result.get("reason", "") if new_status == "rejected" else None
                     )
                 )
                 await session.commit()

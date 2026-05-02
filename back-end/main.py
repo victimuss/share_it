@@ -10,10 +10,9 @@ from auth.jwt_tokens import *
 from databases.users_db.user_db_utils import add_user, authenticate_user, set_progress, set_lession
 from databases.users_db.users_db import User
 from databases.lesson_db.lessons_db_utils import *
-from databases.main_databases import create_all_tables
-from end_points.users_end_points.UEP import router as user_router
-from end_points.main_page_end_points.MPEP import router as main_page_router
-from end_points.lessons_end_points.LEP import router as lesson_router
+from routers.user_router import router as user_router
+from routers.main_page_router import router as main_page_router
+from routers.lesson_router import router as lesson_router
 from fastapi import Request
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
@@ -49,11 +48,6 @@ app.add_middleware(
 
 if __name__ == "__main__":
     uvicorn.run('main:app', host='0.0.0.0', port = 8000, reload = True)
-
-@app.on_event("startup")
-async def startup_event():
-    await create_all_tables()
-    print("Все таблицы загружены!")
 
 @app.get("/")
 async def root():

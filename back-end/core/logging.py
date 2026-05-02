@@ -4,15 +4,13 @@ from loguru import logger
 
 def obfuscate_secrets(record):
     msg = str(record["message"])
-    
-    # Obfuscate email (keep first letter and domain)
+
     msg = re.sub(
         r'([a-zA-Z0-9_.+-])[a-zA-Z0-9_.+-]*(@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)',
         r'\1***\2',
         msg
     )
     
-    # Obfuscate passwords and tokens
     msg = re.sub(
         r'(?i)(password|token|access_token|refresh_token)\s*[:=]\s*(["\']?)[^\s,"\']+((["\']?))',
         r'\1: \2***\3',

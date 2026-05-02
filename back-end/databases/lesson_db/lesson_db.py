@@ -18,6 +18,9 @@ from sqlalchemy.dialects.postgresql import ARRAY
 from datetime import datetime, timezone
 from databases.databases_compile import Base
 
+def get_utcnow():
+    return datetime.now(timezone.utc).replace(tzinfo=None)
+
 
 class Lesson(Base):
     __tablename__ = "lessons"
@@ -59,12 +62,12 @@ class Lesson(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.now(timezone.utc)
+        DateTime, default=get_utcnow
     )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime,
-        default=datetime.now(timezone.utc),
-        onupdate=datetime.now(timezone.utc),
+        default=get_utcnow,
+        onupdate=get_utcnow,
     )
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
 
@@ -94,12 +97,12 @@ class LessonSheet(Base):
 
     lesson: Mapped["Lesson"] = relationship(back_populates="sheets")
     created_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.now(timezone.utc)
+        DateTime, default=get_utcnow
     )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime,
-        default=datetime.now(timezone.utc),
-        onupdate=datetime.now(timezone.utc),
+        default=get_utcnow,
+        onupdate=get_utcnow,
     )
 
 

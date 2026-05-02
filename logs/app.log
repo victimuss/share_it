@@ -1,0 +1,10 @@
+2026-05-02 13:44:28 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_00d459
+2026-05-02 13:45:42 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_3bc3aa
+2026-05-02 14:49:56 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_0b44f0
+2026-05-02 15:08:42 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_b25bbd
+2026-05-02 15:33:15 | ERROR    | databases.lesson_db.lessons_db_utils:checker:607 - Ошибка модерации: Connection error., lesson_id: 12
+2026-05-02 15:35:59 | ERROR    | databases.lesson_db.lessons_db_utils:checker:607 - Ошибка модерации: Unconsumed column names: moderation_note, lesson_id: 14
+2026-05-02 15:36:38 | ERROR    | databases.lesson_db.lessons_db_utils:checker:607 - Ошибка модерации: Unconsumed column names: moderation_note, lesson_id: 17
+2026-05-02 15:37:16 | ERROR    | databases.lesson_db.lessons_db_utils:checker:607 - Ошибка модерации: Unconsumed column names: moderation_note, lesson_id: 20
+2026-05-02 15:40:00 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_05a0be
+2026-05-02 16:17:02 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_3c0224
