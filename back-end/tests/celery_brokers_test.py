@@ -26,6 +26,7 @@ async def test_checker_empty_lesson_failed():
     # Мок-лекция с нарушениями (оскорбления, незаконные действия),
     # чтобы LLM-модератор (Groq) вернул status: false
     import uuid
+    uid = uuid.uuid4().hex[:6]
     from databases.users_db.users_db import User
     from databases.main_databases import async_session
     async with async_session() as session:
