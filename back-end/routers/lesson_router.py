@@ -24,6 +24,7 @@ from sqlalchemy import update
 import json
 from cloud_storage.s3main import upload_image_to_cloud,delete_image_from_cloud
 import base64
+from core.logging import logger
 
 
 router = APIRouter(prefix="/lessons")
@@ -154,7 +155,7 @@ async def delete_banner(sheet_id: int, current_user=Depends(get_current_active_u
             await session.commit()
             return {"status": "success", "message": "Image deleted successfully"}
     except Exception as e:
-        print(f"Ошибка S3: {e}")
+        logger.error(f"Ошибка S3: {e}, user_name: {current_user.user_name}")
         return {"status": "error", "message": "Failed to delete image"}
 
 @router.post("/update_sheet")

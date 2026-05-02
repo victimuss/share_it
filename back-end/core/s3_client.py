@@ -1,6 +1,7 @@
 import aioboto3
 import os
 from core.config import settings
+from core.logging import logger
 
 class S3Storage:
     def __init__(self):
@@ -34,7 +35,7 @@ class S3Storage:
                 await s3.delete_object(Bucket=bucket, Key=object_name)
                 return True
             except Exception as e:
-                print(f"Ошибка при удалении из S3: {e}")
+                logger.error(f"Ошибка при удалении из S3: {e}")
                 return False
 
 

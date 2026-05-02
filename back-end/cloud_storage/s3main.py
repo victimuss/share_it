@@ -2,6 +2,7 @@ import cloudinary
 import cloudinary.uploader
 from fastapi import UploadFile
 from core.config import settings
+from core.logging import logger
 from databases.users_db.users_db import User
 from databases.main_databases import async_session
 from sqlalchemy import *
@@ -58,7 +59,7 @@ async def upload_image_to_cloud(lesson_id: int, sheet_id: int, user_id: int, fil
             return image_url
 
     except Exception as e:
-        print(f"Ошибка Cloudinary: {e}")
+        logger.error(f"Ошибка Cloudinary: {e}, user_name: {user_name}")
         return None
 
 async def delete_image_from_cloud(sheet_id: int, user_id: int):
@@ -79,7 +80,7 @@ async def delete_image_from_cloud(sheet_id: int, user_id: int):
                 await session.commit()
             return {"status": "success", "message": "Image deleted successfully"}
     except Exception as e:
-        print(f"Ошибка Cloudinary: {e}")
+        logger.error(f"Ошибка Cloudinary: {e}, user_name: {user_name}")
         return {"status": "error", "message": "Failed to delete image"}
 
 async def delete_image_from_cloud_for_DB(public_id: str):
@@ -87,5 +88,5 @@ async def delete_image_from_cloud_for_DB(public_id: str):
         cloudinary.uploader.destroy(public_id)
         return True
     except Exception as e:
-        print(f"Ошибка Cloudinary: {e}")
+        logger.error(f"Ошибка Cloudinary: {e}")
         return False

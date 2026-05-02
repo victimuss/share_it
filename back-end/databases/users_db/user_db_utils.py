@@ -11,6 +11,8 @@ from auth.auth import hash_password, verify_password
 from sqlalchemy.exc import IntegrityError
 from databases.users_db.users_db import UserLesson
 from datetime import datetime, timezone
+from core.logging import logger
+
 def calculate_progress(total_steps: int, completed_steps: int) -> float:
     if total_steps == 0:
         return 0.0  
@@ -71,7 +73,8 @@ async def get_last_lession(user_id: int):
             lesson = lesson.scalar_one_or_none()
             return {'last_lession':{'completed_steps':userlesson.completed_steps}, 
                 'lesson':lesson} if lesson else None
-    except Exception:
+    except Exception as e:
+            logger.error(f"Error fetching last lesson, user_name: {user_name}, error: {e}")
             return HTTPException(status_code=404, detail="Последний урок не найден")
     
 async def get_user_lessions(user_id: int):
@@ -128,6 +131,7 @@ async def set_progress(user_id: int, progress: int, lesson_id: int):
 
         except Exception as e:
             await session.rollback()
+            logger.error(f"Database error in set_progress: {e}, user_name: {user_name}")
             raise HTTPException(status_code=400, detail=f"Database error: {str(e)}")
 
 

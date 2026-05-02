@@ -21,7 +21,7 @@ from google.genai import types
 import json
 from cloud_storage.s3main import delete_image_from_cloud_for_DB
 import base64
-
+from core.logging import logger
 
 async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
     async with async_session() as session:
@@ -604,7 +604,7 @@ async def checker(lesson_id: int, max_retries: int = 3):
                 return moderation_result
 
             except Exception as e:
-                print(f"Ошибка модерации: {e}")
+                logger.error(f"Ошибка модерации: {e}, lesson_id: {lesson_id}")
                 await asyncio.sleep(5)
         
             return {"status": False, "reason": "Ошибка после всех попыток"}
@@ -634,7 +634,7 @@ async def media_checker(image_data: bytes, image_type: str):
         )
         return chat_completion.choices[0].message.content
     except Exception as e:
-        print(f"❌ Ошибка в media_checker: {e}")
+        logger.error(f"❌ Ошибка в media_checker: {e}")
         return json.dumps({"safe": False, "reason": "Moderation skipped due to error"})
 
 async def add_tags(tags: CreateTags, current_user: int):
@@ -653,6 +653,7 @@ async def add_tags(tags: CreateTags, current_user: int):
             await session.commit()
             return {"status": True}
         except Exception as e:
+            logger.error(f"Error adding tags: {e}, user_name: {current_user.user_name}")
             return {"status": False, "reason": str(e)}
 
 async def get_sheets(lesson_id: int, user_id: int):

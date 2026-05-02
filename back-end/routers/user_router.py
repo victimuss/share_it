@@ -14,6 +14,7 @@ from fastapi import APIRouter
 from auth.dependency import get_current_user
 from fastapi import status, Depends
 from databases.schemas.schemas_lessons import MyLessonsResponse
+from core.logging import logger
 
 async def get_current_active_user(user=Depends(get_current_user)):
     if not user:
@@ -41,6 +42,9 @@ async def login_user(login_data: LoginUser):
     
     access_token = create_access_token({"sub": str(user['user'].id)})
     refresh_token = create_refresh_token({"sub": str(user['user'].id)})
+    
+    logger.info(f"Успешный вход пользователя. user_name: {user['user'].user_name}")
+    
     
     return {
         "access_token": access_token,
@@ -74,7 +78,8 @@ def refresh_token(refresh_token: str):
 
         return {"access_token": new_access_token}
 
-    except Exception:
+    except Exception as e:
+        logger.error(f"Ошибка обновления токена: {str(e)}")
         raise HTTPException(status_code=401, detail="Invalid refresh token")
     
 @router.get('/last_lession')
