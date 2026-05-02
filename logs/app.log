@@ -8,3 +8,4 @@
 2026-05-02 15:37:16 | ERROR    | databases.lesson_db.lessons_db_utils:checker:607 - Ошибка модерации: Unconsumed column names: moderation_note, lesson_id: 20
 2026-05-02 15:40:00 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_05a0be
 2026-05-02 16:17:02 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_3c0224
+2026-05-02 16:30:28 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_8a3cb5
