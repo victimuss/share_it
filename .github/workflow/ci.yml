@@ -1,0 +1,63 @@
+name: Spark Backend CI
+
+# 1. КОГДА ЗАПУСКАТЬ (При пуше в main или создании Pull Request)
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # Виртуальная машина от GitHub
+
+    # 2. СЕРВИСЫ (Поднимаем реальный Postgres для API-тестов)
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: test_spark_db
+        ports:
+          - 5432:5432
+        # Ждем, пока база точно поднимется, прежде чем запускать тесты
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    # Шаг 1: Скачиваем твой код из репозитория
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Шаг 2: Устанавливаем Python
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11" # Укажи свою версию (3.11, 3.12 и т.д.)
+
+    # Шаг 3: Устанавливаем библиотеки
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # Устанавливаем твои зависимости (замени путь до requirements.txt, если он другой)
+        pip install -r back-end/requirements.txt
+        # Доустанавливаем пакеты для тестов
+        pip install pytest pytest-asyncio moto[s3] httpx
+
+    # Шаг 4: ЗАПУСК ТЕСТОВ! 🚀
+    - name: Run Pytest
+      env:
+        # Передаем доступы к тестовой БД, которую мы подняли выше
+        DATABASE_URL: postgresql+asyncpg://test_user:test_password@localhost:5432/test_spark_db
+        
+        # Подсовываем фейковые ключи, чтобы FastAPI не ругался при старте
+        SECRET_KEY: "super_secret_ci_key"
+        # Для moto endpoint_url должен быть пустым/None, чтобы тесты не ломились в локальный MinIO
+        MINIO_URL: "" 
+      run: |
+        # Запускаем все тесты в папке
+        python -m pytest back-end/tests/ -v
