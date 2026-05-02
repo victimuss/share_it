@@ -3,9 +3,9 @@ name: Spark Backend CI
 # 1. КОГДА ЗАПУСКАТЬ (При пуше в main или создании Pull Request)
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: [ "master", "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build-and-test:
