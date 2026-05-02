@@ -32,11 +32,10 @@ async def add_user(user_data: UserCreate):
             return new_user
         except IntegrityError as e:
             await session.rollback()
-            # Это выведет реальную ошибку в консоль докера!
             print(f"DATABASE ERROR: {e.orig}") 
             raise HTTPException(
                 status_code=400, 
-                detail=f"Ошибка базы данных: {e.orig}" # Временно выводим прямо в ответ
+                detail=f"Ошибка базы данных: {e.orig}"
             )
         
 async def authenticate_user(user_data: LoginUser) -> Optional[User]:
