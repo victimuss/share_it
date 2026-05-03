@@ -61,5 +61,5 @@ jobs:
       working-directory: ./back-end
       run: |
         # Запускаем все тесты в папке
-        python back-end/create_tables.py
-        python -m pytest back-end/tests/ -v
+        python create_tables.py
+        python -m pytest tests/ -v
