@@ -2801,3 +2801,9 @@ RuntimeError: Event loop is closed
 2026-05-03 18:26:20 | INFO     | routers.auth_router:verify_challenge:114 - New user 74 registered
 2026-05-03 18:26:48 | INFO     | routers.auth_router:request_challenge:42 - Challenge (login) for ID 11 generated
 2026-05-03 18:26:48 | INFO     | routers.auth_router:verify_challenge:114 - New user 75 registered
+2026-05-03 18:29:57 | INFO     | routers.auth_router:request_challenge:42 - Challenge (login) for ID 11 generated
+2026-05-03 18:29:57 | INFO     | routers.auth_router:verify_challenge:114 - New user 82 registered
+2026-05-03 18:33:05 | INFO     | routers.auth_router:request_challenge:42 - Challenge (login) for ID 11 generated
+2026-05-03 18:33:05 | INFO     | routers.auth_router:verify_challenge:114 - New user 83 registered
+2026-05-03 18:33:49 | INFO     | routers.auth_router:request_challenge:42 - Challenge (login) for ID 11 generated
+2026-05-03 18:33:49 | INFO     | routers.auth_router:verify_challenge:114 - New user 84 registered
