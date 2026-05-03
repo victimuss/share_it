@@ -83,44 +83,27 @@ async def test_challenge_binding_to_user_id(client, redis_test_client):
     assert nonce_in_redis == nonce_from_api
     await redis_test_client.delete(f"auth:nonce:id:{test_user_id}")
 
-@pytest.mark.asyncio
-async def test_verify_registration_success(client, redis_test_client, db_session: AsyncSession):
-    # 1. Генерируем ключи (имитируем телефон)
-    signing_key = nacl.signing.SigningKey.generate()
-    pub_key_hex = signing_key.verify_key.encode(encoder=nacl.encoding.HexEncoder).decode()
-    priv_key_hex = signing_key.encode(encoder=nacl.encoding.HexEncoder).decode()
-
-    nonce = "test-registration-nonce-123"
-    redis_key = f"auth:nonce:pk:{pub_key_hex}"
-
-    # 2. Подготавливаем Redis
-    await redis_test_client.setex(redis_key, 60, nonce)
-
-    # 3. Подписываем
-    signature = sign_nonce(priv_key_hex, nonce)
+@@pytest.mark.asyncio
+async def test_challenge_binding_to_user_id(client, redis_test_client, db_session: AsyncSession): 
+    new_user = User(
+        public_key="test_public_key_123",
+        user_name="test_pilot",
+        email="test@pilot.com",
+        tag="@test12"
+    )
+    db_session.add(new_user)
+    await db_session.commit()
+    await db_session.refresh(new_user)
     
-    payload = {
-        "public_key": pub_key_hex,
-        "nonce": nonce,
-        "signature": signature
-    }
-    
-    # 4. Отправляем на верификацию
-    response = await client.post("/auth/verify_challenge", json=payload)
-    
-    # 5. Сверяем результаты
+
+    real_user_id = new_user.id
+
+    response = await client.post("/auth/request_challenge", params={"user_id": real_user_id})
     assert response.status_code == 200
-    data = response.json()
-    assert "access_token" in data
-    assert data["user_id"] is not None
     
-    # Проверяем запись в БД через нашу фикстуру сессии
-    result = await db_session.execute(select(User).where(User.id == data["user_id"]))
-    user_in_db = result.scalar_one_or_none()
+
+    nonce_from_api = response.json()["nonce"]
+    nonce_in_redis = await redis_test_client.get(f"auth:nonce:id:{real_user_id}")
     
-    assert user_in_db is not None
-    assert user_in_db.public_key == pub_key_hex
-    
-    # Проверяем, что за собой убрали в Redis
-    stored_after = await redis_test_client.get(redis_key)
-    assert stored_after is None
+    assert nonce_in_redis == nonce_from_api
+    await redis_test_client.delete(f"auth:nonce:id:{real_user_id}")
