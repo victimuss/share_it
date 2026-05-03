@@ -83,7 +83,7 @@ async def test_challenge_binding_to_user_id(client, redis_test_client):
     assert nonce_in_redis == nonce_from_api
     await redis_test_client.delete(f"auth:nonce:id:{test_user_id}")
 
-@@pytest.mark.asyncio
+@pytest.mark.asyncio
 async def test_challenge_binding_to_user_id(client, redis_test_client, db_session: AsyncSession): 
     new_user = User(
         public_key="test_public_key_123",
