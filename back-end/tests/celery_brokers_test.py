@@ -41,7 +41,7 @@ async def test_checker_empty_lesson_failed():
         "level": "Beginner"
     }
     lesson_data = LessonCreate(**mock_lesson)
-    new_lesson_mock = await new_lesson(lesson_data=lesson_data, author_id=1)
+    new_lesson_mock = await new_lesson(lesson_data=lesson_data, author_id=user.id)
     await checker(new_lesson_mock.id)
     
     from databases.main_databases import async_session
@@ -88,8 +88,8 @@ async def test_checker_lesson_failed():
         await session.refresh(user)
     lesson_data = LessonCreate(**mock_lesson)
     sheet_data = SheetCreate(**mock_sheet)
-    new_lesson_mock = await new_lesson(lesson_data=lesson_data, author_id=1)
-    new_sheet_mock = await new_sheet(sheet_data=sheet_data, author_id=1, lesson_id=new_lesson_mock.id )
+    new_lesson_mock = await new_lesson(lesson_data=lesson_data, author_id=user.id)
+    new_sheet_mock = await new_sheet(sheet_data=sheet_data, author_id=user.id, lesson_id=new_lesson_mock.id )
     from unittest.mock import patch, AsyncMock
     import json
     
