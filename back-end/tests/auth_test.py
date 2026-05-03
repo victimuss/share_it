@@ -89,7 +89,8 @@ async def test_challenge_binding_to_user_id(client, redis_test_client, db_sessio
         public_key="test_public_key_123",
         user_name="test_pilot",
         email="test@pilot.com",
-        tag="@test12"
+        tag="@test12",
+        hashed_password="test_password"
     )
     db_session.add(new_user)
     await db_session.commit()
