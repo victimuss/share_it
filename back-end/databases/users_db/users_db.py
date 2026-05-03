@@ -22,6 +22,9 @@ class User(Base):
     description: Mapped[str] = mapped_column(String(255), default='Нет описания', nullable=True)
     tag: Mapped[str] = mapped_column(String(255),unique=True, nullable=False, default=generate_unique_tag)
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
+
+    public_key: Mapped[str] = mapped_column(String, unique=True, nullable=True)
+    
     avatar: Mapped[str] = mapped_column(String(255), default='', nullable=True)
     site: Mapped[str] = mapped_column(String(255), default='', nullable=True)
     telegram: Mapped[str] = mapped_column(String(255), default='', nullable=True)

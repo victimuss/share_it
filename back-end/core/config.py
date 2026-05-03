@@ -36,6 +36,7 @@ class Settings(BaseSettings):
     # ZKP
     P_KEY: str = ""
     G_KEY: str = ""
+    NONCE_EXPIRE: int = 60
 
     #Telegram
     BOT_TOKEN: str = ""

@@ -16,6 +16,13 @@ class LoginUser(BaseModel):
     email: EmailStr
     password: str
 
+    
+# --- Схема для логина ---
+class VerifyRequest(BaseModel):
+    user_id: int | None = None
+    public_key: str | None = None
+    nonce: str
+    signature: str
 
 # --- Схема для отдельного урока пользователя ---
 class UserLessonOut(BaseModel):

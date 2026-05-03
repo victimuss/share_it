@@ -30,7 +30,7 @@ async def test_checker_empty_lesson_failed():
     from databases.users_db.users_db import User
     from databases.main_databases import async_session
     async with async_session() as session:
-        user = User(user_name="test", email="[EMAIL_ADDRESS]", hashed_password="[PASSWORD]")
+        user = User(user_name=f"test_{uid}", email=f'test_new_{uid}@gmail.com', hashed_password="[PASSWORD]")
         session.add(user)
         await session.commit()
         await session.refresh(user)
@@ -82,7 +82,7 @@ async def test_checker_lesson_failed():
     from databases.users_db.users_db import User
     from databases.main_databases import async_session
     async with async_session() as session:
-        user = User(user_name="test1", email="[EMAIL_ADDRESS]1", hashed_password="[PASSWORD]")
+        user = User(user_name=f"test1_{uid}", email=f"test_new_{uid}@gmail.com", hashed_password="[PASSWORD]")
         session.add(user)
         await session.commit()
         await session.refresh(user)

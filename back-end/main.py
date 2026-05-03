@@ -16,9 +16,18 @@ from routers.lesson_router import router as lesson_router
 from fastapi import Request
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
+from routers.auth_router import router as auth_router
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
+from contextlib import asynccontextmanager
+from core.redis_config import redis_client
+
 limiter = Limiter(key_func=get_remote_address, default_limits=["100/minute"])
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    app.state.redis = redis_client
+    yield
+
 app = FastAPI(
     title="Spark ❇️ API",
     description="Backend API для образовательной P2P-платформы Spark. Zero-bullshit, только знания.",
@@ -26,11 +35,13 @@ app = FastAPI(
     contact={
         "name": "Timur",
         "url": "https://t.me/spark_app_edu",
-    }
+    },
+    lifespan=lifespan
 )
 app.include_router(user_router)
 app.include_router(main_page_router)
 app.include_router(lesson_router)
+app.include_router(auth_router)
 
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)

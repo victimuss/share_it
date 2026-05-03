@@ -1,1 +1,21 @@
 
+2026-05-03 15:05:25 | WARNING  | routers.auth_router:request_challenge:35 - Login attempt for non-existent ID: 42
+2026-05-03 15:06:44 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:09:55 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:10:55 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:11:29 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:12:02 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:18:33 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:19:51 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:23:03 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:25:50 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:27:15 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:28:01 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:28:02 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_c80cb7
+2026-05-03 15:30:29 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:31:32 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:33:34 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:33:36 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_573e3f
+2026-05-03 15:34:23 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
+2026-05-03 15:34:25 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_d5612c
+2026-05-03 18:27:13 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_16ebfe
