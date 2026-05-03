@@ -27,6 +27,17 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+          
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        
 
     steps:
     # Шаг 1: Скачиваем твой код из репозитория
@@ -58,8 +69,7 @@ jobs:
         SECRET_KEY: "super_secret_ci_key"
         # Для moto endpoint_url должен быть пустым/None, чтобы тесты не ломились в локальный MinIO
         MINIO_URL: "" 
-      working-directory: ./back-end
       run: |
         # Запускаем все тесты в папке
-        python create_tables.py
-        python -m pytest tests/ -v
+        python back-end/create_tables.py
+        python -m pytest back-end/tests/ -v
