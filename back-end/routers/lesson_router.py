@@ -25,10 +25,11 @@ import json
 from cloud_storage.s3main import upload_image_to_cloud,delete_image_from_cloud
 import base64
 from core.logging import logger
-
+import tempfile
+from routers.tasks.media_tasks import upload_to_minio, delete_from_minio
+from routers.tasks.censore_tasks import checker_lesson
 
 router = APIRouter(prefix="/lessons")
-
 
 async def get_current_active_user(user=Depends(get_current_user)):
     if not user:
@@ -114,17 +115,16 @@ async def upload_banner(lesson_id: int, sheet_id: int, current_user=Depends(get_
         return {"error":'Модерация не пройдена', "reason": res_data.get("reason")}
     file_ext = file.filename.split(".")[-1]
     temp_file_name = f"{uuid.uuid4()}.{file_ext}"
-    temp_file_path = os.path.join(TEMP_DIR, temp_file_name)
+    temp_file_path = os.path.join(tempfile.gettempdir(), temp_file_name)
 
     await file.seek(0)
 
     with open(temp_file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-
-    upload_to_minio_task.delay(temp_file_path, sheet_id)
+    result = upload_to_minio.delay(temp_file_path, sheet_id)
 
     return {
-        "status": "processing", 
+        "status": "success", 
         "message": "Изображение прошло модерацию и загружается",
         "banner_url": None 
     }
@@ -137,7 +137,7 @@ async def delete_banner(sheet_id: int, current_user=Depends(get_current_active_u
                 select(LessonSheet.image_public_id)
                 .join(Lesson, Lesson.id == LessonSheet.content_id)
                 .where(LessonSheet.id == sheet_id)
-                .where(Lesson.author_id == current_user.id)
+                .where(Lesson.author_id == current_user)
             )
             image_public_id = result.scalar_one_or_none()
 
@@ -146,7 +146,7 @@ async def delete_banner(sheet_id: int, current_user=Depends(get_current_active_u
                     status_code=status.HTTP_404_NOT_FOUND, 
                     detail="Изображение не найдено или у вас нет прав на его удаление"
                 )
-            delete_from_minio_task.delay(image_public_id)
+            delete_from_minio.delay(image_public_id)
             await session.execute(
                 update(LessonSheet)
                 .where(LessonSheet.id == sheet_id)
@@ -155,7 +155,7 @@ async def delete_banner(sheet_id: int, current_user=Depends(get_current_active_u
             await session.commit()
             return {"status": "success", "message": "Image deleted successfully"}
     except Exception as e:
-        logger.error(f"Ошибка S3: {e}, user_name: {current_user.user_name}")
+        logger.error(f"Ошибка S3: {e}, user_id: {current_user}")
         return {"status": "error", "message": "Failed to delete image"}
 
 @router.post("/update_sheet")

@@ -16,8 +16,11 @@ class S3Storage:
         return self.session.client("s3", **self.config)
 
     async def upload_file(self, local_path: str, object_name: str, bucket_name: str = None):
+        print(f"ПЫТАЮСЬ ЗАГРУЗИТЬ ФАЙЛ: {local_path}")
+        print(f"РАЗМЕР ФАЙЛА: {os.path.getsize(local_path)} байт")
         bucket = bucket_name or settings.S3_BUCKET_NAME
-        
+        print(f"ВЕДЁТСЯ ЗАГРУЗКА: {object_name}")
+
         async with self.get_client() as s3:
             with open(local_path, "rb") as file_data:
                 await s3.put_object(
@@ -26,7 +29,7 @@ class S3Storage:
                     Body=file_data,
                     ContentType="image/jpeg" 
                 )
-        
+        print(f"ФАЙЛ УСПЕШНО ЗАГРУЖЕН В MINIO!")
         return f"{settings.S3_ENDPOINT}/{bucket}/{object_name}"
 
     async def delete_file(self, object_name: str, bucket_name: str = None):

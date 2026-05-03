@@ -26,7 +26,7 @@ from core.logging import logger
 async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
     async with async_session() as session:
         tags_subquery = (
-            select(func.group_concat(LessonTag.tag, ', '))
+            select(func.string_agg(LessonTag.tag, ', '))
             .where(LessonTag.lesson_id == Lesson.id)
             .scalar_subquery()
         )
@@ -64,7 +64,7 @@ async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
 async def get_lesson_by_id_for_edit(lesson_id: int, user_id: int) -> Optional[Lesson]:
     async with async_session() as session:
         tags_subquery = (
-            select(func.group_concat(LessonTag.tag, ', '))
+            select(func.string_agg(LessonTag.tag, ', '))
             .where(LessonTag.lesson_id == Lesson.id)
             .scalar_subquery()
         )
@@ -590,7 +590,7 @@ async def checker(lesson_id: int, max_retries: int = 3):
                 raw_result = chat_completion.choices[0].message.content
                 moderation_result = json.loads(raw_result)
                 
-                new_status = "APPROVED" if moderation_result.get("status") else "REJECTED"
+                new_status = "ACTIVE" if moderation_result.get("status") else "REJECTED"
                 
                 await session.execute(
                     update(Lesson)

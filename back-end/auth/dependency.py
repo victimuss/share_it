@@ -15,6 +15,7 @@ from databases.users_db.users_db import User
 from sqlalchemy import select
 
 
+
 async def get_current_user(
     token: str = Depends(oauth2_scheme), 
     db: AsyncSession = Depends(get_db)
@@ -25,8 +26,8 @@ async def get_current_user(
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        user_id: str = payload.get("sub") 
+        payload = decode_token(token)
+        user_id: int = int(payload.get("sub") )
         if user_id is None:
             raise credentials_exception
     except JWTError:
@@ -38,7 +39,7 @@ async def get_current_user(
     
     if user is None:
         raise credentials_exception
-    return user
+    return user_id
     
     
     

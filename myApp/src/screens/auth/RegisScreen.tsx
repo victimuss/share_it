@@ -32,7 +32,7 @@ export const RegisScreen = () => {
                 return;
             }
             setLoading(true);
-            await Regis({ user_name: name, email, hashed_password: password });
+            await Regis({ user_name: name, email, password: password });
             Alert.alert('Успех', 'Вы успешно зарегистрировались!');
             // Навигация на главный экран или другой экран после успешной регистрации
             navigation.navigate('Login', { email: email });

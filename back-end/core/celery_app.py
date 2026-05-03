@@ -4,6 +4,7 @@ from core.config import settings
 celery_app = Celery(
     "worker",
     broker=settings.CELERY_BROKER_URL,
+    include=["routers.tasks.media_tasks", "routers.tasks.censore_tasks"]
 )
 
 celery_app.conf.update(
@@ -12,8 +13,7 @@ celery_app.conf.update(
     accept_content=["json"],
     timezone="UTC",
     enable_utc=True,
-    worker_prefetch_multiplier=1 
+    worker_prefetch_multiplier=1,
+    worker_enable_remote_control=False,
+    worker_send_task_events=False,
 )
-
-
-celery_app.autodiscover_tasks(["routers.tasks"])  

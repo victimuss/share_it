@@ -1,26 +1,22 @@
 from celery import Celery
 import os
-from databases.schemas.schemas_lessons import LessonSheet
+import asyncio
 from core.config import settings
-from cloud_storage import s3_storage
-from cloud_storage import s3_storage
+from core.s3_client import s3_storage
 from databases.main_databases import async_session
 from sqlalchemy import update
 from uuid import uuid4
 from core.logging import logger
+from databases.lesson_db.lesson_db import LessonSheet
+from celery import shared_task
 
-celery = Celery(
-    'media_tasks',
-    broker=settings.CELERY_BROKER_URL,
-    result_backend=settings.REDIS_URL
-)
+from core.celery_app import celery_app
 
-@celery.task(name='upload_to_minio')
 @logger.catch
-async def upload_to_minio(file_path: str, sheet_id: int):
+async def _async_upload_to_minio(file_path: str, sheet_id: int):
     file_name = os.path.basename(file_path)
     object_name = f"lessons/{sheet_id}/{file_name}"
-    
+    print('пытаюсь загрузить в бакет')
     try:
         image_url = await s3_storage.upload_file(file_path, object_name, settings.S3_BUCKET_NAME)
 
@@ -38,7 +34,12 @@ async def upload_to_minio(file_path: str, sheet_id: int):
         if os.path.exists(file_path):
             os.remove(file_path)
 
-@celery.task(name='delete_from_minio')
+@celery_app.task(name='upload_to_minio')
+@logger.catch
+def upload_to_minio(file_path: str, sheet_id: int):
+    asyncio.run(_async_upload_to_minio(file_path, sheet_id))
+
+@celery_app.task(name='delete_from_minio')
 @logger.catch
 async def delete_from_minio(object_name: str):
     try:

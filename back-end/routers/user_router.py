@@ -31,7 +31,7 @@ async def auth_us(us_data: UserCreate):
     try:
         new_user = await add_user(us_data)
         return new_user
-    except ValueError as e:  # ловим дубли / уникальные ограничения
+    except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.post("/login", response_model=TokenOut)
@@ -87,8 +87,6 @@ async def get_last_lessions(current_user =  Depends(get_current_active_user)):
     last_lesson = await get_last_lession(current_user)
     if last_lesson: 
         return({"last_lession": last_lesson})
-    else:
-        raise HTTPException(status_code=404, detail="Последний урок не найден")
 
 @router.post('/user_lessons')
 async def get_user_lessons(user_id: int):    

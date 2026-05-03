@@ -27,7 +27,7 @@ export interface RefreshResponse {
 export interface RegisRequest {
     user_name: string,
     email: string,
-    hashed_password: string
+    password: string
 }
 
 export interface RegisResponse {
