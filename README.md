@@ -49,14 +49,29 @@
 ---
 
 ## 🗓 Дорожная карта (Roadmap)
-- [x] Интеграция ИИ-ассистентов (Gemini/Groq).
-- [x] Переход на микросервисную архитектуру (внедрение Celery, RabbitMQ, Redis).
-- [x] Миграция с SQLite на PostgreSQL + Alembic.
-- [x] Переход на собственное S3-совместимое хранилище (MinIO).
-- [ ] Переход на Zero-Knowledge Proof авторизацию через Telegram бота (авторизация без хранения паролей).
-- [x] Настройка централизованного логирования (Logging).
-- [x] Покрытие бизнес-логики и воркеров тестами (Pytest).
-- [x] Настройка CI/CD пайплайнов.
+
+### 🏗 Infrastructure & Backend (Done)
+- [x] **AI Integration**: Интеграция Gemini/Groq для генерации контента.
+- [x] **Architecture**: Переход на микросервисы (Celery, RabbitMQ, Redis).
+- [x] **Database**: Миграция с SQLite на PostgreSQL + Alembic.
+- [x] **Storage**: Собственное S3-совместимое хранилище (MinIO).
+- [x] **Quality Assurance**: Покрытие бизнес-логики и воркеров тестами (Pytest).
+- [x] **DevOps**: Настройка CI/CD пайплайнов (GitHub Actions) и централизованного логирования.
+
+### 🔐 Authentication & Security (In Progress)
+- [ ] **ECC Auth**: Zero-Knowledge Proof авторизация (ECC подпись) — *Бэкенд готов, внедряем на Mobile*.
+- [ ] **Telegram Bot**: Авторизация и уведомления через официального бота.
+- [ ] **Sentry**: Вынос логирования ошибок в Sentry для мониторинга в реальном времени.
+
+### 📱 Frontend & UI/UX (Next Steps)
+- [ ] **Global**: Мультиязычность (i18next: RU/EN).
+- [ ] **Design**: Темная тема и система дизайн-токенов.
+- [ ] **Animations**: Плавные интерфейсные анимации (Reanimated 3).
+- [ ] **Offline Mode**: Обработка состояния сети через `netinfo` и кэширование данных.
+
+### 🛠 Admin & Maintenance
+- [ ] **Admin Panel**: Управление данными через FastAPI Admin.
+- [ ] **Backup System**: Bash-скрипты для автоматического бэкапа БД и S3 хранилища.
 
 ---
 
