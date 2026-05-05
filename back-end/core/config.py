@@ -38,6 +38,9 @@ class Settings(BaseSettings):
     G_KEY: str = ""
     NONCE_EXPIRE: int = 60
 
+    #Sentry
+    SENTRY_DNS: str = ""
+
     #Telegram
     BOT_TOKEN: str = ""
     

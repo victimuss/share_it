@@ -262,7 +262,6 @@ export default function ZkpAuthScreen() {
                                 onPress={handleLogin}
                             >
                                 <Text style={styles.loginButtonText}>Войти</Text>
-                                {/* иконка стрелки — замени на <Ionicons name="arrow-forward" /> */}
                                 <View style={styles.loginButtonIconWrapper} />
                             </TouchableOpacity>
                         </View>

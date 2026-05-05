@@ -21,6 +21,8 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
 from contextlib import asynccontextmanager
 from core.redis_config import redis_client
+from core.config import settings
+import sentry_sdk
 
 limiter = Limiter(key_func=get_remote_address, default_limits=["100/minute"])
 @asynccontextmanager
@@ -28,6 +30,13 @@ async def lifespan(app: FastAPI):
     app.state.redis = redis_client
     yield
 
+
+sentry_sdk.init(
+    dsn=settings.SENTRY_DNS,
+    send_default_pii=True,
+    traces_sample_rate=1.0,
+    profiles_sample_rate=1.0,
+)
 app = FastAPI(
     title="Spark ❇️ API",
     description="Backend API для образовательной P2P-платформы Spark. Zero-bullshit, только знания.",
@@ -64,7 +73,10 @@ if __name__ == "__main__":
 async def root():
     return {"message": "Hello World"}
 
-    
+@app.get("/sentry-debug")
+async def trigger_error():
+    raise ValueError("Test Error")
+
 @app.on_event("startup")
 async def startup_event():
     print("""

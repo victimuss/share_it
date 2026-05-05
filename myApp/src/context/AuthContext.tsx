@@ -23,7 +23,7 @@ export interface User {
 interface AuthContextType {
   user: User | null;
   accessToken: string | null;
-  loginWithCrypto: () => Promise<void>;
+  loginWithCrypto: (mnemonic?: string) => Promise<void>;
   registerWithCrypto: () => Promise<string>;
   logout: () => Promise<void>;
   refreshToken: () => Promise<void>;
@@ -66,7 +66,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (res.refresh_token) await AsyncStorage.setItem("refresh_token", res.refresh_token);
   };
 
-  const loginWithCrypto = async () => {
+  const loginWithCrypto = async (mnemonic?: string) => {
+    if (mnemonic) {
+      await CryptoService.restoreFromMnemonic(mnemonic);
+    }
     const pubkey = await CryptoService.getPublicKey();
     if (!pubkey) throw new Error("Ключи не найдены. Требуется регистрация.");
 
@@ -86,7 +89,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const registerWithCrypto = async (): Promise<string> => {
     const { mnemonic, publicKey } = await CryptoService.generateAndSaveIdentity();
-    await loginWithCrypto();
+    await loginWithCrypto(mnemonic);
 
     return mnemonic;
   };
