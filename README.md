@@ -59,7 +59,7 @@
 - [x] **DevOps**: Настройка CI/CD пайплайнов (GitHub Actions) и централизованного логирования.
 
 ### 🔐 Authentication & Security (In Progress)
-- [x] **ECC Auth**: Zero-Knowledge Proof авторизация (ECC подпись) — *Бэкенд готов, внедряем на Mobile*.
+- [x] **ECC Auth**: Zero-Knowledge Proof авторизация (ECC подпись)
 - [ ] **Telegram Bot**: Авторизация и уведомления через официального бота.
 - [ ] **Sentry**: Вынос логирования ошибок в Sentry для мониторинга в реальном времени.
 
