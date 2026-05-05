@@ -8,6 +8,12 @@ class Settings(BaseSettings):
     
     # База данных
     DATABASE_URL: str = "postgresql+asyncpg://admin:root@127.0.0.1:5432/my_project"
+    DB_USER: str = "admin"
+    DB_PASS: str = "root"      
+    DB_HOST: str = "127.0.0.1"
+    DB_NAME: str = "my_project"         
+    BACKUP_DIR: str = "E:/backups"    
+    DAYS_TO_KEEP: int = 7           
 
     #Redis
     REDIS_URL: str = "redis://127.0.0.1:6379/0"
