@@ -61,7 +61,7 @@
 ### 🔐 Authentication & Security (In Progress)
 - [x] **ECC Auth**: Zero-Knowledge Proof авторизация (ECC подпись)
 - [ ] **Telegram Bot**: Авторизация и уведомления через официального бота.
-- [ ] **Sentry**: Вынос логирования ошибок в Sentry для мониторинга в реальном времени.
+- [x] **Sentry**: Вынос логирования ошибок в Sentry для мониторинга в реальном времени.
 
 ### 📱 Frontend & UI/UX (Next Steps)
 - [ ] **Global**: Мультиязычность (i18next: RU/EN).
@@ -70,7 +70,7 @@
 - [ ] **Offline Mode**: Обработка состояния сети через `netinfo` и кэширование данных.
 
 ### 🛠 Admin & Maintenance
-- [ ] **Admin Panel**: Управление данными через FastAPI Admin.
+- [x] **Admin Panel**: Управление данными через FastAPI Admin.
 - [ ] **Backup System**: Bash-скрипты для автоматического бэкапа БД и S3 хранилища.
 
 ---
