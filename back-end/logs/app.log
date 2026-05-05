@@ -2809,3 +2809,19 @@ RuntimeError: Event loop is closed
 2026-05-03 18:33:49 | INFO     | routers.auth_router:verify_challenge:114 - New user 84 registered
 2026-05-03 18:47:30 | INFO     | routers.auth_router:request_challenge:42 - Challenge (login) for ID 11 generated
 2026-05-03 18:47:30 | INFO     | routers.auth_router:verify_challenge:114 - New user 85 registered
+2026-05-05 15:44:10 | INFO     | routers.auth_router:request_challenge:58 - Challenge (reg) for new PK generated
+2026-05-05 15:55:14 | INFO     | routers.auth_router:request_challenge:42 - Challenge (login) for ID 92 generated
+2026-05-05 16:06:52 | INFO     | routers.auth_router:request_challenge:58 - Challenge (reg) for new PK generated
+2026-05-05 16:08:07 | INFO     | routers.auth_router:request_challenge:58 - Challenge (reg) for new PK generated
+2026-05-05 16:13:55 | INFO     | routers.auth_router:request_challenge:58 - Challenge (reg) for new PK generated
+2026-05-05 16:13:55 | INFO     | routers.auth_router:verify_challenge:115 - New user 95 registered
+2026-05-05 16:15:20 | INFO     | routers.auth_router:request_challenge:58 - Challenge (reg) for new PK generated
+2026-05-05 16:15:20 | INFO     | routers.auth_router:verify_challenge:115 - New user 96 registered
+2026-05-05 16:17:31 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0x944f93145E455...
+2026-05-05 16:17:31 | INFO     | routers.auth_router:verify_challenge:72 - New user 97 registered via ZKP
+2026-05-05 16:20:43 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0x944f93145E455...
+2026-05-05 16:20:43 | INFO     | routers.auth_router:verify_challenge:74 - User 97 logged in via ZKP
+2026-05-05 16:26:05 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0x944f93145E455...
+2026-05-05 16:26:05 | INFO     | routers.auth_router:verify_challenge:74 - User 97 logged in via ZKP
+2026-05-05 16:27:40 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0x944f93145E455...
+2026-05-05 16:27:40 | INFO     | routers.auth_router:verify_challenge:74 - User 97 logged in via ZKP

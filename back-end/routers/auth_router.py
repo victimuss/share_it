@@ -4,8 +4,9 @@ import uuid
 from core.redis_config import redis_client
 from core.logging import logger
 from core.config import settings
-from databases.users_db.users_db import User
-from sqlalchemy import select
+from databases.users_db.users_db import User, UserLesson
+from databases.lesson_db.lesson_db import Lesson
+from sqlalchemy import select, func
 from databases.main_databases import async_session, get_db
 from fastapi import Depends
 from utils import crypto
@@ -19,107 +20,81 @@ NONCE_EXPIRE = settings.NONCE_EXPIRE
 @logger.catch
 @router.post("/request_challenge")
 async def request_challenge(
-    user_id: int = Query(None),
-    public_key: str = Query(None),
+    public_key: str = Query(...),
     db: AsyncSession = Depends(get_db)
 ):
-    auth_logger = logger
+    if not public_key:
+        raise HTTPException(status_code=400, detail="Нужен public_key")
+
     nonce = str(uuid.uuid4())
+    redis_key = f"auth:nonce:pk:{public_key}"
+    await redis.setex(redis_key, 60, nonce)
+    logger.info(f"Challenge generated for PK: {public_key[:15]}...")
+    return {"nonce": nonce}
 
-    #  ЛОГИН (Уже есть в БД)
-    if user_id:
-        # Ищем только поле public_key, чтобы не тянуть весь объект юзера
-        result = await db.execute(select(User.public_key).where(User.id == user_id))
-        stored_pubkey = result.scalar_one_or_none()
-
-        if not stored_pubkey:
-            auth_logger.warning(f"Login attempt for non-existent ID: {user_id}")
-            raise HTTPException(status_code=404, detail="Пользователь не найден или не настроен ключ")
-
-        redis_key = f"auth:nonce:id:{user_id}"
-        await redis.setex(redis_key, 60, nonce)
-        
-        auth_logger.info(f"Challenge (login) for ID {user_id} generated")
-        return {"nonce": nonce, "user_id": user_id}
-
-    # РЕГИСТРАЦИЯ (Новый юзер)
-    elif public_key:
-        # Проверяем, не занят ли уже такой ключ (важно для уникальности)
-        result = await db.execute(select(User.id).where(User.public_key == public_key))
-        existing_id = result.scalar_one_or_none()
-        
-        if existing_id:
-            auth_logger.error(f"Registration attempt with existing PK: {public_key[:15]}...")
-            raise HTTPException(status_code=400, detail="Этот ключ уже зарегистрирован")
-
-        redis_key = f"auth:nonce:pk:{public_key}"
-        await redis.setex(redis_key, 60, nonce)
-        
-        auth_logger.info(f"Challenge (reg) for new PK generated")
-        return {"nonce": nonce}
-
-    raise HTTPException(status_code=400, detail="Нужен user_id или public_key")
 
 class VerifyRequest(BaseModel):
-    user_id: int | None = None
-    public_key: str | None = None
+    public_key: str
     nonce: str
     signature: str
+
 
 @router.post("/verify_challenge")
 async def verify_challenge(
     data: VerifyRequest,
     db: AsyncSession = Depends(get_db)
 ):
-    redis_key = f"auth:nonce:id:{data.user_id}" if data.user_id else f"auth:nonce:pk:{data.public_key}"
+    redis_key = f"auth:nonce:pk:{data.public_key}"
     stored_nonce = await redis.get(redis_key)
 
     if not stored_nonce or stored_nonce != data.nonce:
         raise HTTPException(status_code=400, detail="Nonce не найден или протух")
 
-
-    current_public_key = data.public_key
-    if not current_public_key:
-        raise HTTPException(status_code=400, detail="Public key is missing")
-
-    if data.user_id:
-        result = await db.execute(select(User.public_key).where(User.id == data.user_id))
-        current_public_key = result.scalar_one_or_none()
-        if not current_public_key:
-            raise HTTPException(status_code=404, detail="User not found")
-
-
-    is_valid = crypto.verify_signature(current_public_key, data.nonce, data.signature)
+    is_valid = crypto.verify_signature(data.public_key, data.nonce, data.signature)
     if not is_valid:
         raise HTTPException(status_code=401, detail="Invalid signature")
 
- 
-    target_user_id = data.user_id
-    if not target_user_id:
-        existing = await db.execute(select(User.id).where(User.public_key == data.public_key))
-        if existing.scalar_one_or_none():
-            raise HTTPException(status_code=400, detail="This PK is already registered")
+    result = await db.execute(select(User).where(User.public_key == data.public_key))
+    current_user = result.scalar_one_or_none()
 
-        new_user = User(
+    if not current_user:
+        # Создаем нового пользователя
+        current_user = User(
             public_key=data.public_key,
-            user_name=f"pilot-{data.public_key[:6]}",
-            email=f"pilot-{data.public_key[:6]}@pilot.com",
+            user_name=f"pilot-{data.public_key[2:8]}",
+            email=f"pilot-{data.public_key[2:8]}@pilot.com",
             tag=f"@{uuid.uuid4().hex[:6]}",
             hashed_password=""
         )
-        db.add(new_user)
+        db.add(current_user)
         await db.commit()
-        await db.refresh(new_user)
-        target_user_id = new_user.id
-        logger.info(f"New user {target_user_id} registered")
-
+        await db.refresh(current_user)
+        logger.info(f"New user {current_user.id} registered via ZKP")
+    else:
+        logger.info(f"User {current_user.id} logged in via ZKP")
 
     await redis.delete(redis_key)
 
-    token_data = {"sub": str(target_user_id)}
+    us_likes = await db.execute(
+        select(func.sum(Lesson.likes)).where(Lesson.author_id == current_user.id))
+    us_lessons = await db.execute(
+        select(func.count(Lesson.id)).where(Lesson.author_id == current_user.id))
+    us_learn_lessons = await db.execute(
+        select(func.count(UserLesson.id)).where(UserLesson.user_id == current_user.id))
+
+    token_data = {"sub": str(current_user.id)}
     return {
         "access_token": create_access_token(data=token_data),
         "token_type": "bearer",
-        "user_id": target_user_id
+        "user_id": current_user.id,
+        "user": {
+            "user_name": current_user.user_name,
+            "tag": current_user.tag,
+            "avatar": current_user.avatar,
+            "telegram": current_user.telegram,
+            "site": current_user.site
+        },
+        "us_likes": us_likes.scalar() or 0,
+        "us_lessons": us_lessons.scalar() or 0,
+        "us_learn_lessons": us_learn_lessons.scalar() or 0
     }
-    

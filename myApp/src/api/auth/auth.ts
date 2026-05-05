@@ -1,5 +1,5 @@
 import { api } from "../api";
-import { LoginRequest, AuthResponse, RegisRequest, RegisResponse, RefreshResponse } from "../../types/auth";
+import { LoginRequest, AuthResponse, RegisRequest, RegisResponse, RefreshResponse, CryptoRequestChallenge, CryptoResponseChallenge, CryptoRequestVerify, CryptoResponseVerify } from "../../types/auth";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ref } from "react";
 export const Login = async (data: LoginRequest): Promise<AuthResponse> => {
@@ -32,3 +32,16 @@ export const Refresh = async (): Promise<RefreshResponse> => {
   return res;
 };
 
+export const CryptoChallengeReq = async (data: CryptoRequestChallenge): Promise<CryptoResponseChallenge> => {
+  const params = new URLSearchParams();
+  if (data.user_id !== undefined) params.append("user_id", data.user_id.toString());
+  if (data.public_key !== undefined) params.append("public_key", data.public_key);
+  
+  const response = await api.post<CryptoResponseChallenge>(`auth/request_challenge?${params.toString()}`, {});
+  return response;
+};
+
+export const CryptoVerifyReq = async (data: CryptoRequestVerify): Promise<CryptoResponseVerify> => {
+  const response = await api.post<CryptoResponseVerify>(`auth/verify_challenge`, data);
+  return response;
+}; 

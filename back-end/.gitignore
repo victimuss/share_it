@@ -20,3 +20,5 @@ db.sqlite3
 .idea/
 
 migrations
+*.log
+logs/app.log

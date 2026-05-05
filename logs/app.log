@@ -19,3 +19,4 @@
 2026-05-03 15:34:23 | INFO     | routers.auth_router:request_challenge:41 - Challenge (login) for ID 11 generated
 2026-05-03 15:34:25 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_d5612c
 2026-05-03 18:27:13 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_16ebfe
+2026-05-03 18:59:22 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_32e242

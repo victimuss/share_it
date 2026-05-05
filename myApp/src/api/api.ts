@@ -8,7 +8,7 @@ import { AxiosRequestConfig } from "axios";
 export const api = {
   post: async <T = any>(url: string, body: any, config?: AxiosRequestConfig): Promise<T> => {
     try {
-      const response = await apiInstance.post<T>(url, body);
+      const response = await apiInstance.post<T>(url, body, config);
       return response.data;
     } catch (error) {
       console.error(`Ошибка POST запроса ${url}:`, error);

@@ -1,5 +1,7 @@
-from fastapi import FastAPI, HTTPException                                                      
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.encoders import jsonable_encoder
+import json
 import uvicorn
 from datetime import timezone, datetime
 from pydantic import BaseModel
@@ -38,7 +40,7 @@ async def popular_lessons(type: Optional[str] = None):
     lessons = await get_popular_lessons(type=type)
     if lessons is None:
         raise HTTPException(status_code=404, detail="Популярные уроки не найдены")
-    await redis_client.set(cache_key, json.dumps(lessons), ex=60*60*24)
+    await redis_client.set(cache_key, json.dumps(jsonable_encoder(lessons)), ex=60*60*24)
     return {'popularLessons':lessons}
 
 
@@ -53,7 +55,7 @@ async def new_lessons(type: Optional[str] = None):
     lessons = await get_new_lessons(type=type)
     if lessons is None:
         raise HTTPException(status_code=404, detail="Новые уроки не найдены")
-    await redis_client.set(cache_key, json.dumps(lessons), ex=60*60*24)
+    await redis_client.set(cache_key, json.dumps(jsonable_encoder(lessons)), ex=60*60*24)
     return {'recentLessons':lessons}
 
 
