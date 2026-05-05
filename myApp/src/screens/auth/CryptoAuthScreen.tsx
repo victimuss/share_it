@@ -238,9 +238,13 @@ export default function ZkpAuthScreen() {
                             <TouchableOpacity
                                 style={styles.pasteButton}
                                 activeOpacity={0.85}
-                                onPress={() => getPublicKey()}
+                                onPress={async () => {
+                                    getPublicKey();
+                                    setInputKey(await Clipboard.getStringAsync());
+                                }
+                                }
                             >
-                                {/* иконка вставки — замени на <Ionicons name="clipboard-outline" /> */}
+
                                 <View style={styles.pasteIconWrapper}
                                 >
                                     <CopyIcon></CopyIcon>
