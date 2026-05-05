@@ -23,6 +23,10 @@ from contextlib import asynccontextmanager
 from core.redis_config import redis_client
 from core.config import settings
 import sentry_sdk
+from core.authentication_backend import authentication_backend
+from sqladmin import Admin, ModelView
+from starlette.middleware.sessions import SessionMiddleware
+from databases.main_databases import engine
 
 limiter = Limiter(key_func=get_remote_address, default_limits=["100/minute"])
 @asynccontextmanager
@@ -55,6 +59,7 @@ app.include_router(auth_router)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.add_middleware(SlowAPIMiddleware)
+app.add_middleware(SessionMiddleware, secret_key=settings.ADMIN_SECRET_KEY)
 
 app.add_middleware(
     CORSMiddleware,
@@ -65,6 +70,21 @@ app.add_middleware(
     allow_headers=["*"],  # Разрешаем все заголовки
     expose_headers=["*"]
 )
+
+admin = Admin(app, engine,
+authentication_backend=authentication_backend)
+class UserAdmin(ModelView, model=User):
+    column_list = [User.id, User.user_name, User.email, User.public_key]
+    column_searchable_list = [User.user_name, User.email, User.public_key]
+    icon = "fa-solid fa-user"
+
+class LessonAdmin(ModelView, model=Lesson):
+    column_list = [Lesson.id, Lesson.lesson_name, Lesson.status, Lesson.level, Lesson.type]
+    column_searchable_list = [Lesson.status, Lesson.level, Lesson.type]
+    icon = "fa-solid fa-book"
+
+admin.add_view(UserAdmin)
+admin.add_view(LessonAdmin)
 
 if __name__ == "__main__":
     uvicorn.run('main:app', host='0.0.0.0', port = 8000, reload = True)

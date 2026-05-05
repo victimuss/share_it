@@ -43,6 +43,10 @@ class Settings(BaseSettings):
 
     #Telegram
     BOT_TOKEN: str = ""
+
+    #Admin
+    ADMIN_SECRET_KEY: str = ""
+    ADMIN_SECRET_KEY_HASH: str = "$2b$12$wP5NBMXar9njCK2Ax6Acwe7GMGXbZ30Zch6SzWMLv8Oeth7us11li"
     
     # Дополнительные API ключи
     GROQ_API_KEY: str = ""
