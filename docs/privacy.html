@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Политика конфиденциальности | Spark Edu</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #2d3748;
+            --accent-color: #4c51bf;
+            --secondary-color: #718096;
+            --border-color: #e2e8f0;
+            --code-bg: #f7fafc;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            margin-top: 30px;
+            color: var(--accent-color);
+        }
+
+        section {
+            margin-bottom: 25px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9em;
+        }
+
+        .highlight {
+            background-color: #fffaf0;
+            border-left: 4px solid #ed8936;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Политика конфиденциальности Spark Edu</h1>
+        <p>Последнее обновление: 2026-05-06</p>
+    </header>
+
+    <section>
+        <h2>1. Термины и определения</h2>
+        <ul>
+            <li><strong>Spark Edu</strong> — образовательная платформа, включающая веб-интерфейс и Telegram-бота.</li>
+            <li><strong>Разработчик</strong> — команда Spark Edu, обеспечивающая поддержку и развитие сервиса.</li>
+            <li><strong>Сторонний сервис</strong> — Telegram-бот <code>@spark_edu_bot</code>, используемый для отправки уведомлений.</li>
+            <li><strong>Пользователь</strong> — лицо, привязавшее свой аккаунт Spark Edu к Telegram-боту.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>2. Сбор персональных данных</h2>
+        <p>Мы собираем только минимально необходимый набор данных для обеспечения работы сервиса уведомлений:</p>
+        <ul>
+            <li><strong>Telegram Chat ID:</strong> уникальный идентификатор вашего чата для технической возможности отправки сообщений.</li>
+            <li><strong>User ID:</strong> идентификатор вашего профиля Spark Edu, передаваемый через защищенный токен (JWT) при регистрации.</li>
+            <li><strong>Предпочтения по категориям:</strong> данные о подписках на типы контента (напр. <code>code</code>, <code>language</code>).</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>3. Обработка и использование данных</h2>
+        <p>Ваши данные обрабатываются исключительно в следующих целях:</p>
+        <ul>
+            <li><strong>Модерация:</strong> уведомление автора о результатах проверки контента AI-системой (Llama 3.3).</li>
+            <li><strong>Рассылки:</strong> оповещение о выходе новых лекций в выбранных вами категориях.</li>
+            <li><strong>Техподдержка:</strong> идентификация пользователя при возникновении технических проблем.</li>
+        </ul>
+        <div class="highlight">
+            Мы не продаем и не передаем ваши персональные данные третьим лицам для рекламных или маркетинговых целей.
+        </div>
+    </section>
+
+    <section>
+        <h2>4. Защита и хранение</h2>
+        <ul>
+            <li>Все данные хранятся в защищенной базе данных <strong>PostgreSQL</strong>.</li>
+            <li>Доступ к данным ограничен и осуществляется только через защищенные внутренние API-запросы.</li>
+            <li>При удалении подписки или отвязке бота данные о связи профиля с Telegram удаляются из системы безвозвратно.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>5. Права пользователя</h2>
+        <p>Вы имеете полное право:</p>
+        <ul>
+            <li>В любой момент отозвать согласие, удалив бота или отвязав аккаунт на сайте.</li>
+            <li>Запросить информацию о хранящихся данных через команду <code>/help</code> или <code>/developer_info</code>.</li>
+            <li>Требовать полного удаления информации (право на забвение).</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Spark Edu. Сделано с помощью чистого CSS и прямых рук. 🏎️💨</p>
+    </footer>
+</div>
+
+</body>
+</html>
