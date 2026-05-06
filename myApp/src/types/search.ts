@@ -19,6 +19,7 @@ export interface Lesson {
     likes: number;
     students_count: number;
     updated_at: string;
+    moderation_note: string | null;
 }
 
 export interface SearchLessonsResponse {

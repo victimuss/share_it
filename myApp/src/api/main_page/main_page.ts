@@ -1,4 +1,4 @@
-import { AuthorRequest, AuthorResponce, CurrentLessonRequest, CurrentLessonResponse, curretLessonResponce, LessonRequest, PopularLessonsResponce, RecentLessonsResponce } from "@/src/types/main_page";
+import { AuthorRequest, AuthorResponce, CurrentLessonRequest, CurrentLessonResponse, curretLessonResponce, LessonRequest, PopularLessonsResponce, RecentLessonsResponce, TelegramLinkResponse } from "@/src/types/main_page";
 import { api } from "../api";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -46,3 +46,12 @@ export const getAuthor = async (data: string): Promise<string> => {
   }
 };
 
+export const LinkTelegram = async (): Promise<TelegramLinkResponse> => {
+  try {
+    const response = await api.post<TelegramLinkResponse>(`auth/telegram`, {});
+    return response;
+  } catch (error) {
+    console.error(`Ошибка запроса ссылки телеграмма:`, error);
+    throw error;
+  }
+};

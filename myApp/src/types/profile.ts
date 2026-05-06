@@ -47,6 +47,7 @@ export interface Lesson {
     author_id: number
     sheet_counts: number
     updated_at: string
+    moderation_note: string | null;
 }
 export interface LearnedLessonsResponce {
     learnLessons: UserLesson[]

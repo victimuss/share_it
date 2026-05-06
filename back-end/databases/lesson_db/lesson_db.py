@@ -33,6 +33,7 @@ class Lesson(Base):
     rank: Mapped[float] = mapped_column(Float, default=0.0)
     rank_count: Mapped[int] = mapped_column(Integer, default=0)
     likes: Mapped[int] = mapped_column(Integer, default=0)
+    moderation_note: Mapped[str] = mapped_column(String(255), nullable=True)
     author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     author: Mapped["User"] = relationship(back_populates="lessons")
     users_lesson: Mapped[List["UserLesson"]] = relationship(

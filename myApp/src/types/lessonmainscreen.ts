@@ -25,6 +25,7 @@ export interface PersonalLessonOut {
     created_at: string;
     updated_at: string;
     author_name: string;
+    moderation_note: string | null;
 }
 
 export interface LikeRequest {

@@ -2845,3 +2845,43 @@ RuntimeError: Event loop is closed
 2026-05-05 21:45:31 | INFO     | routers.auth_router:verify_challenge:74 - User 101 logged in via ZKP
 2026-05-05 21:48:39 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0x8C763736309c7...
 2026-05-05 21:48:39 | INFO     | routers.auth_router:verify_challenge:74 - User 101 logged in via ZKP
+2026-05-06 16:07:19 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-06 16:07:20 | INFO     | routers.auth_router:verify_challenge:72 - New user 102 registered via ZKP
+2026-05-06 16:38:17 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-06 16:38:17 | INFO     | routers.auth_router:verify_challenge:74 - User 102 logged in via ZKP
+2026-05-06 17:03:37 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-06 17:03:37 | INFO     | routers.auth_router:verify_challenge:74 - User 102 logged in via ZKP
+2026-05-06 17:06:47 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-06 17:06:47 | INFO     | routers.auth_router:verify_challenge:74 - User 102 logged in via ZKP
+2026-05-06 17:09:57 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-06 17:09:57 | INFO     | routers.auth_router:verify_challenge:74 - User 102 logged in via ZKP
+2026-05-06 20:12:39 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-06 20:12:39 | INFO     | routers.auth_router:verify_challenge:74 - User 102 logged in via ZKP
+2026-05-06 20:28:35 | INFO     | routers.auth_router:request_challenge:32 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-06 20:28:35 | INFO     | routers.auth_router:verify_challenge:74 - User 102 logged in via ZKP
+2026-05-06 20:39:20 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 1: https://t.me/assist_me_please_P_bot?start=41782986
+2026-05-06 20:42:14 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-06 20:42:15 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-06 20:43:48 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-06 20:43:48 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-06 20:46:47 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=91f9e830
+2026-05-06 20:47:11 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=826ad7aa
+2026-05-06 21:00:16 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=29abc223
+2026-05-06 21:03:06 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=f3b630c6
+2026-05-06 21:05:37 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=b6cc0427
+2026-05-06 21:08:07 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=46366457
+2026-05-06 21:11:49 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=dfb24eec
+2026-05-06 21:15:09 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=9ee722ab
+2026-05-06 21:16:21 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=709d56c1
+2026-05-06 21:16:48 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=f090574a
+2026-05-06 21:18:50 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=bde4eb22
+2026-05-06 21:19:26 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=0976117f
+2026-05-06 21:21:22 | INFO     | routers.auth_router:telegram:110 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=2ed57bbf
+2026-05-06 21:22:11 | INFO     | routers.auth_router:telegram:110 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=bf1e0f2a
+2026-05-06 21:22:28 | INFO     | routers.auth_router:telegram:110 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=b5a72b40
+2026-05-06 21:23:03 | INFO     | routers.auth_router:telegram:110 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=be82c02b
+2026-05-06 21:25:19 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=d19a5242
+2026-05-06 21:26:06 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=15b16fb6
+2026-05-06 21:29:38 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=16b2da2b
+2026-05-06 21:38:21 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=ebde3ce7
+2026-05-06 21:40:14 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=71ef7a81

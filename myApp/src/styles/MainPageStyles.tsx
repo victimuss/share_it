@@ -502,4 +502,160 @@ export const homeStyles = StyleSheet.create({
         color: COLORS.textSecondary,
         textAlign: 'center',
     } as TextStyle,
+
+    // ─── Модалка уведомлений Telegram ────────────────────────────────
+    /** Полупрозрачный оверлей */
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.45)',
+        justifyContent: 'flex-end',
+    } as ViewStyle,
+
+    /** Нижний шит */
+    modalSheet: {
+        backgroundColor: COLORS.surface,
+        borderTopLeftRadius: 28,
+        borderTopRightRadius: 28,
+        paddingTop: SPACING.md,
+        paddingBottom: SPACING.xxxl,
+        paddingHorizontal: SPACING.xl,
+        shadowColor: COLORS.shadow,
+        shadowOffset: { width: 0, height: -6 },
+        shadowOpacity: 0.12,
+        shadowRadius: 20,
+        elevation: 20,
+    } as ViewStyle,
+
+    /** Тащилка шита */
+    modalDragHandle: {
+        width: 40,
+        height: 4,
+        backgroundColor: COLORS.border,
+        borderRadius: RADIUS.full,
+        alignSelf: 'center',
+        marginBottom: SPACING.xl,
+    } as ViewStyle,
+
+    /** Строка с иконкой колокольчика */
+    modalIconRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: SPACING.lg,
+        gap: SPACING.md,
+    } as ViewStyle,
+
+    /** Круг с иконкой */
+    modalIconCircle: {
+        width: 52,
+        height: 52,
+        borderRadius: RADIUS.full,
+        backgroundColor: COLORS.indigoSoft,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1.5,
+        borderColor: COLORS.indigoBorder,
+    } as ViewStyle,
+
+    /** Заголовок модалки */
+    modalTitle: {
+        ...FONTS.h2,
+        fontSize: 20,
+        color: COLORS.text,
+        flex: 1,
+    } as TextStyle,
+
+    /** Описание */
+    modalDescription: {
+        ...FONTS.regular,
+        color: COLORS.textSecondary,
+        lineHeight: 22,
+        marginBottom: SPACING.xl,
+    } as TextStyle,
+
+    /** Список фич */
+    modalFeatureList: {
+        gap: SPACING.sm,
+        marginBottom: SPACING.xl,
+    } as ViewStyle,
+
+    /** Строка одной фичи */
+    modalFeatureRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: SPACING.md,
+        backgroundColor: COLORS.background,
+        borderRadius: RADIUS.lg,
+        paddingVertical: SPACING.sm,
+        paddingHorizontal: SPACING.md,
+    } as ViewStyle,
+
+    /** Текст фичи */
+    modalFeatureText: {
+        ...FONTS.regular,
+        color: COLORS.text,
+        flex: 1,
+    } as TextStyle,
+
+    /** Синяя кнопка Telegram */
+    modalTelegramButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: SPACING.sm,
+        backgroundColor: COLORS.telegramBlue,
+        borderRadius: RADIUS.xl,
+        paddingVertical: SPACING.lg,
+        marginBottom: SPACING.md,
+        shadowColor: COLORS.telegramBlue,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.3,
+        shadowRadius: 12,
+        elevation: 6,
+    } as ViewStyle,
+
+    /** Текст кнопки Telegram */
+    modalTelegramButtonText: {
+        ...FONTS.semibold,
+        color: COLORS.surface,
+        fontSize: 15,
+    } as TextStyle,
+
+    /** Строка с политикой конфиденциальности */
+    modalPolicyRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 2,
+        marginBottom: SPACING.lg,
+    } as ViewStyle,
+
+    /** Текст в строке политики */
+    modalPolicyText: {
+        ...FONTS.regular,
+        color: COLORS.textSecondary,
+        fontSize: 12,
+        textAlign: 'center',
+    } as TextStyle,
+
+    /** Ссылка политики конфиденциальности */
+    modalPolicyLink: {
+        ...FONTS.regular,
+        color: COLORS.primary,
+        fontSize: 12,
+        fontWeight: '600' as const,
+        textDecorationLine: 'underline',
+    } as TextStyle,
+
+    /** Кнопка «Не сейчас» */
+    modalSkipButton: {
+        alignItems: 'center',
+        paddingVertical: SPACING.sm,
+    } as ViewStyle,
+
+    modalSkipText: {
+        ...FONTS.regular,
+        color: COLORS.textSecondary,
+        fontSize: 13,
+    } as TextStyle,
 });

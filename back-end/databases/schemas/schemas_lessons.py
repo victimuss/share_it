@@ -42,6 +42,7 @@ class LessonOut(BaseModel):
     created_at: datetime
     updated_at: datetime
     is_active: bool
+    moderation_note: Optional[str]
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -121,6 +122,7 @@ class PersonalLessonOut(BaseModel):
     created_at: datetime
     updated_at: datetime
     rank: float
+    moderation_note: Optional[str]
 
     model_config = ConfigDict(from_attributes=True)
     @field_validator('author', mode='before')
@@ -195,6 +197,7 @@ class madeLessons(BaseModel):
     updated_at: datetime
     rank: float
     is_active: bool
+    moderation_note: Optional[str]
 
 
 class learnLessons(BaseModel):

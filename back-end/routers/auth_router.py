@@ -13,6 +13,7 @@ from utils import crypto
 from sqlalchemy.ext.asyncio import AsyncSession
 from auth.jwt_tokens import create_access_token
 from pydantic import BaseModel
+from auth.dependency import get_current_user
 
 router = APIRouter(prefix="/auth")
 redis = redis_client
@@ -98,3 +99,11 @@ async def verify_challenge(
         "us_lessons": us_lessons.scalar() or 0,
         "us_learn_lessons": us_learn_lessons.scalar() or 0
     }
+
+@router.post("/telegram")
+async def telegram(user_id = Depends(get_current_user)):
+    short_code = str(uuid.uuid4())[:8]
+    await redis.setex(f"telegram:{short_code}", 60, str(user_id))
+    bot_username = "assist_me_please_P_bot"
+    logger.info(f"Telegram link generated for user {user_id}: https://t.me/{bot_username}?start={short_code}")
+    return {"tg_url": f"https://t.me/{bot_username}?start={short_code}"}

@@ -591,13 +591,15 @@ async def checker(lesson_id: int, max_retries: int = 3):
                 moderation_result = json.loads(raw_result)
                 
                 new_status = "ACTIVE" if moderation_result.get("status") else "REJECTED"
-                
+                error_loc = moderation_result.get('error_location', 'Неизвестно')
+                error_reason = moderation_result.get('reason', 'Без причины')
+                note_text = f"{error_loc}: {error_reason}"
                 await session.execute(
                     update(Lesson)
                     .where(Lesson.id == lesson_id)
                     .values(
                         status=new_status,
-                        # moderation_note=moderation_result.get("reason", "") if new_status == "rejected" else None
+                        moderation_note=note_text if new_status == "REJECTED" else None
                     )
                 )
                 await session.commit()

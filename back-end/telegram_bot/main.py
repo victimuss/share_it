@@ -14,9 +14,14 @@ async def main():
     bot = Bot(token=str(os.getenv('BOT_TOKEN')))
     dp = Dispatcher()
 
+    # Import all database models so SQLAlchemy can resolve relationships
+    import databases.users_db.users_db
+    import databases.lesson_db.lesson_db
+    import databases.bot_db.bot_db
+
     dp.include_router(start.router)
 
-    logging.info("Бот для анонимной регистрации запущен...")
+    logging.info("Бот для уведомлений запущен...")
     await dp.start_polling(bot)
 
 if __name__ == "__main__":

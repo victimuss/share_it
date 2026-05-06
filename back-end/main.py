@@ -27,6 +27,8 @@ from core.authentication_backend import authentication_backend
 from sqladmin import Admin, ModelView
 from starlette.middleware.sessions import SessionMiddleware
 from databases.main_databases import engine
+from core.exceptions import SparkException
+from fastapi.responses import JSONResponse
 
 limiter = Limiter(key_func=get_remote_address, default_limits=["100/minute"])
 @asynccontextmanager
@@ -41,6 +43,7 @@ sentry_sdk.init(
     traces_sample_rate=1.0,
     profiles_sample_rate=1.0,
 )
+
 app = FastAPI(
     title="Spark ❇️ API",
     description="Backend API для образовательной P2P-платформы Spark. Zero-bullshit, только знания.",
@@ -70,6 +73,33 @@ app.add_middleware(
     allow_headers=["*"],  # Разрешаем все заголовки
     expose_headers=["*"]
 )
+
+@app.exception_handler(SparkException)
+async def spark_exception_handler(request: Request, exc: SparkException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "success": False,
+            "error": {
+                "code": exc.code,
+                "message": exc.message
+            }
+        }
+    )
+
+@app.exception_handler(Exception)
+async def universal_exception_handler(request: Request, exc: Exception):
+    sentry_sdk.capture_exception(exc)
+    return JSONResponse(
+        status_code=500,
+        content={
+            "success": False,
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Internal server error"
+            }
+        }
+    )
 
 admin = Admin(app, engine,
 authentication_backend=authentication_backend)

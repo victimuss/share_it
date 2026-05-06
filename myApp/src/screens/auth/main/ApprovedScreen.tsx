@@ -11,13 +11,13 @@ export const ApprovedScreen = () => {
         <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
             <View style={styles.content}>
                 <View style={styles.iconCircle}>
-                    <Text style={styles.icon}>✅</Text>
+                    <Text style={styles.icon}>⏳</Text>
                 </View>
-                <Text style={styles.text}>Урок опубликован!</Text>
-                <Text style={styles.subtext}>Поздравляем! Ваш урок успешно прошел модерацию и теперь доступен для всех пользователей.</Text>
+                <Text style={styles.text}>Урок отправлен на модерацию!</Text>
+                <Text style={styles.subtext}>В ближайшее время наш специалист проверит ваш урок и опубликует его.</Text>
             </View>
             <View style={styles.footer}>
-                <Pressable 
+                <Pressable
                     style={styles.button}
                     onPress={() => navigation.navigate('MainTabs')}
                 >

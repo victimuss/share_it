@@ -40,6 +40,8 @@ const COLORS = {
   successLight: '#D1FAE5',
   // Светло-янтарный фон для intermediate/warning чипов
   warningLight: '#FEF3C7',
+  // Официальный синий Telegram
+  telegramBlue: '#2AABEE',
 };
 
 // Типографика на шрифте Inter

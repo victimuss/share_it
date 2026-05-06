@@ -20,3 +20,37 @@
 2026-05-03 15:34:25 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_d5612c
 2026-05-03 18:27:13 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_16ebfe
 2026-05-03 18:59:22 | INFO     | routers.user_router:login_user:46 - Успешный вход пользователя. user_name: test_login_32e242
+2026-05-06 21:16:23 | INFO     | telegram_bot.handlers.start:start_command:17 - None
+2026-05-06 21:16:23 | INFO     | telegram_bot.handlers.start:start_command:18 - 709d56c1
+2026-05-06 21:16:50 | INFO     | telegram_bot.handlers.start:start_command:17 - None
+2026-05-06 21:16:50 | INFO     | telegram_bot.handlers.start:start_command:18 - f090574a
+2026-05-06 21:17:55 | INFO     | telegram_bot.handlers.start:start_command:17 - None
+2026-05-06 21:17:55 | INFO     | telegram_bot.handlers.start:start_command:18 - None
+2026-05-06 21:17:58 | INFO     | telegram_bot.handlers.start:start_command:17 - None
+2026-05-06 21:17:58 | INFO     | telegram_bot.handlers.start:start_command:18 - None
+2026-05-06 21:19:13 | INFO     | telegram_bot.handlers.start:start_command:17 - None
+2026-05-06 21:19:13 | INFO     | telegram_bot.handlers.start:start_command:18 - bde4eb22
+2026-05-06 21:19:13 | INFO     | telegram_bot.handlers.start:start_command:17 - None
+2026-05-06 21:19:13 | INFO     | telegram_bot.handlers.start:start_command:18 - None
+2026-05-06 21:19:27 | INFO     | telegram_bot.handlers.start:start_command:17 - None
+2026-05-06 21:19:27 | INFO     | telegram_bot.handlers.start:start_command:18 - 0976117f
+2026-05-06 21:21:29 | INFO     | telegram_bot.handlers.start:start_command:17 - None
+2026-05-06 21:21:29 | INFO     | telegram_bot.handlers.start:start_command:18 - 2ed57bbf
+2026-05-06 21:22:12 | INFO     | telegram_bot.handlers.start:start_command:17 - 102
+2026-05-06 21:22:12 | INFO     | telegram_bot.handlers.start:start_command:18 - bf1e0f2a
+2026-05-06 21:22:29 | INFO     | telegram_bot.handlers.start:start_command:17 - 102
+2026-05-06 21:22:29 | INFO     | telegram_bot.handlers.start:start_command:18 - b5a72b40
+2026-05-06 21:23:04 | INFO     | telegram_bot.handlers.start:start_command:18 - 102
+2026-05-06 21:23:04 | INFO     | telegram_bot.handlers.start:start_command:19 - be82c02b
+2026-05-06 21:25:21 | INFO     | telegram_bot.handlers.start:start_command:18 - 102
+2026-05-06 21:25:21 | INFO     | telegram_bot.handlers.start:start_command:19 - d19a5242
+2026-05-06 21:25:50 | INFO     | telegram_bot.handlers.start:start_command:18 - None
+2026-05-06 21:25:50 | INFO     | telegram_bot.handlers.start:start_command:19 - None
+2026-05-06 21:26:09 | INFO     | telegram_bot.handlers.start:start_command:18 - 102
+2026-05-06 21:26:09 | INFO     | telegram_bot.handlers.start:start_command:19 - 15b16fb6
+2026-05-06 21:29:40 | INFO     | telegram_bot.handlers.start:start_command:18 - 102
+2026-05-06 21:29:40 | INFO     | telegram_bot.handlers.start:start_command:19 - 16b2da2b
+2026-05-06 21:38:23 | INFO     | telegram_bot.handlers.start:start_command:18 - 102
+2026-05-06 21:38:23 | INFO     | telegram_bot.handlers.start:start_command:19 - ebde3ce7
+2026-05-06 21:40:29 | INFO     | telegram_bot.handlers.start:start_command:18 - 102
+2026-05-06 21:40:29 | INFO     | telegram_bot.handlers.start:start_command:19 - 71ef7a81

@@ -139,11 +139,12 @@ export const NewSheetScreen = () => {
             let ModerResponse;
             if (isEdit) {
                 ModerResponse = await Publish(currentLessonId || 0);
+                console.log(ModerResponse);
             }
             else {
                 ModerResponse = await Publish(lessonId || 0);
             }
-            if (ModerResponse.status === 'success') {
+            if (ModerResponse.status) {
                 setIsModerating(false);
                 setApproved(true);
                 clearStore();

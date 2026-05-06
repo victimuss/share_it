@@ -64,6 +64,7 @@ export interface LessonOut {
     created_at: string;
     updated_at: string;
     is_active: boolean;
+    moderation_note: string | null;
 }
 
 export interface SheetOut {

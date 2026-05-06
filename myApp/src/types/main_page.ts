@@ -16,6 +16,7 @@ export interface Lesson {
   likes: number;
   students_count: number;
   updated_at: string;
+  moderation_note: string | null;
 }
 
 export interface LastLession {
@@ -62,3 +63,7 @@ export interface CurrentLessonRequest {
 export type SearchStackParamList = {
   Search: { search: string } | undefined;
 };
+
+export interface TelegramLinkResponse {
+  tg_url: string;
+}

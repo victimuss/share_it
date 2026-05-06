@@ -26,6 +26,7 @@ import { useMemo } from 'react';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { DeleteLessonAPI } from "@/src/api/create_lesson/delete_lesson";
+import { Background } from "@react-navigation/elements";
 
 export const MyLessonsScreen = () => {
     const [activeTab, setActiveTab] = useState('created');
@@ -361,6 +362,13 @@ export const MyLessonsScreen = () => {
                                             {selectedLesson.status === 'ACTIVE' ? 'Active' : (selectedLesson.status === 'REJECTED' ? 'Rejected' : 'Draft')}
                                         </Text>
                                     </View>
+                                    {selectedLesson.status === 'REJECTED' && (
+                                        <View style={[styles.statusBadge, { backgroundColor: COLORS.warningLight }]}>
+                                            <Text style={styles.statusRejectedText}>
+                                                {selectedLesson.moderation_note}
+                                            </Text>
+                                        </View>
+                                    )}
                                 </View>
                             </View>
                         )}
