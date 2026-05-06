@@ -71,7 +71,7 @@
 
 ### 🛠 Admin & Maintenance
 - [x] **Admin Panel**: Управление данными через FastAPI Admin.
-- [ ] **Backup System**: Bash-скрипты для автоматического бэкапа БД и S3 хранилища.
+- [x] **Backup System**: Bash-скрипты для автоматического бэкапа БД и S3 хранилища.
 
 ---
 
