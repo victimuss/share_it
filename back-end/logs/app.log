@@ -2885,3 +2885,10 @@ RuntimeError: Event loop is closed
 2026-05-06 21:29:38 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=16b2da2b
 2026-05-06 21:38:21 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=ebde3ce7
 2026-05-06 21:40:14 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=71ef7a81
+2026-05-06 22:33:32 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0x8828D59F206D0...
+2026-05-06 22:33:32 | INFO     | routers.auth_router:verify_challenge:73 - New user 103 registered via ZKP
+2026-05-06 22:33:45 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 103: https://t.me/assist_me_please_P_bot?start=6b9e3112
+2026-05-06 22:37:47 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0x8828D59F206D0...
+2026-05-06 22:37:47 | INFO     | routers.auth_router:verify_challenge:75 - User 103 logged in via ZKP
+2026-05-06 22:59:05 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0x8828D59F206D0...
+2026-05-06 22:59:05 | INFO     | routers.auth_router:verify_challenge:75 - User 103 logged in via ZKP

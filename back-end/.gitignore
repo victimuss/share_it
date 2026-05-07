@@ -19,6 +19,5 @@ db.sqlite3
 .vscode/
 .idea/
 
-migrations
 *.log
 logs/app.log
