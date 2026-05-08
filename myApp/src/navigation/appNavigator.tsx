@@ -7,6 +7,8 @@ import { NewLessonScreen } from '../screens/auth/main/NewLesson/NewLessonScreen'
 import { NewSheetScreen } from '../screens/auth/main/NewLesson/NewSheetScreen';
 import LessonMainScreen from '../screens/Lesson/LessonMainPage';
 import SheetScreen from '../screens/Lesson/SheetScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import * as Linking from 'expo-linking';
 
 export type RootStackParamList = {
   MainTabs: undefined;

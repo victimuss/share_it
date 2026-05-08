@@ -13,4 +13,4 @@ export const AuthNavigator = () => {
       <Stack.Screen name="Register" component={ZkpAuthScreen} />
     </Stack.Navigator>
   );
-}; 1
+}; 

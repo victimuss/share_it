@@ -28,6 +28,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   refreshToken: () => Promise<void>;
   edit: (user_name: string, description: string, tag: string, site: string, telegram: string, avatar: string) => void;
+  isLoading: boolean;
 }
 
 const defaultContext: AuthContextType = {
@@ -38,6 +39,7 @@ const defaultContext: AuthContextType = {
   logout: async () => { },
   refreshToken: async () => { },
   edit: () => { },
+  isLoading: true,
 };
 
 export const TotalclearStore = () => {
@@ -50,6 +52,7 @@ export const AuthContext = createContext<AuthContextType>(defaultContext);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const edit = (user_name: string, description: string, tag: string, site: string, telegram: string, avatar: string) => {
     setUser(prev => prev ? { ...prev, name: user_name, description, tag, site, telegram, avatar } : null);
@@ -64,6 +67,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     });
     await AsyncStorage.setItem("access_token", res.access_token);
     if (res.refresh_token) await AsyncStorage.setItem("refresh_token", res.refresh_token);
+    setIsLoading(false);
   };
 
   const loginWithCrypto = async (mnemonic?: string) => {
@@ -100,16 +104,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     TotalclearStore();
     await AsyncStorage.removeItem("access_token");
     await AsyncStorage.removeItem("refresh_token");
+    setIsLoading(false);
   };
 
   const refreshToken = async () => {
     try {
       const savedRefresh = await AsyncStorage.getItem("refresh_token");
-      if (!savedRefresh) return;
+      if (!savedRefresh) {
+        setIsLoading(false);
+        return;
+      }
 
       const res: RefreshResponse = await Refresh();
       setAccessToken(res.access_token);
       await AsyncStorage.setItem("access_token", res.access_token);
+      setIsLoading(false);
     } catch (err) {
       await logout();
     }
@@ -120,7 +129,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, loginWithCrypto, registerWithCrypto, logout, refreshToken, edit }}>
+    <AuthContext.Provider value={{ user, accessToken, loginWithCrypto, registerWithCrypto, logout, refreshToken, edit, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

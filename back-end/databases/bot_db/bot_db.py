@@ -37,6 +37,7 @@ class UserNotifications(Base, AsyncAttrs):
         DateTime, default=get_utcnow, onupdate=get_utcnow
     )
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    user: Mapped["User"] = relationship(back_populates="user_notifications")
 
     __table_args__ = (
         UniqueConstraint("user_id", "category", name="uq_user_category"),

@@ -33,6 +33,7 @@ class User(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=get_utcnow)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=get_utcnow, onupdate=get_utcnow)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    user_notifications: Mapped[List["UserNotifications"]] = relationship(back_populates="user")
 
     
 class UserLesson(Base):

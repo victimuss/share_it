@@ -35,6 +35,7 @@ export const MainScreen = () => {
     language: <LanguageIcon size={50} />,
     business: <BusinessIcon size={50} />,
   };
+  const linkTo = require('@react-navigation/native').useLinkTo();
   const options: Intl.DateTimeFormatOptions = {
     weekday: 'long',   // день недели полностью
     day: 'numeric',    // число месяца
@@ -90,6 +91,30 @@ export const MainScreen = () => {
   }, []);
   useEffect(() => {
     fetchData();
+
+    // ЖЕЛЕЗОБЕТОННЫЙ ПЕРЕХВАТЧИК ССЫЛОК
+    const handleDeepLink = (url: string | null) => {
+      if (!url) return;
+      console.log("ПЕРЕХВАЧЕНА ССЫЛКА:", url);
+      const expoLinking = require('expo-linking');
+      const parsed = expoLinking.parse(url);
+      if (parsed.path && parsed.path.includes('lesson/')) {
+        const lessonIdStr = parsed.path.split('lesson/')[1];
+        if (lessonIdStr) {
+          const lessonId = parseInt(lessonIdStr, 10);
+          console.log("ПРИНУДИТЕЛЬНЫЙ ПЕРЕХОД НА УРОК:", lessonId);
+          setTimeout(() => {
+            (navigator as any).navigate('LessonMainScreen', { lessonId });
+          }, 500); // Даем экрану отрендериться
+        }
+      }
+    };
+
+    const expoLinking = require('expo-linking');
+    expoLinking.getInitialURL().then(handleDeepLink);
+    const sub = expoLinking.addEventListener('url', ({ url }: { url: string }) => handleDeepLink(url));
+    
+    return () => sub.remove();
   }, [user, activeFilter]);
 
   const formattedDate = new Intl.DateTimeFormat('ru-RU', options).format(date);
@@ -141,6 +166,17 @@ export const MainScreen = () => {
               </Text>
             </View>
             <View style={homeStyles.headerRight}>
+              <Pressable style={homeStyles.notificationButton}
+                onPress={() => {
+                  try {
+                    const url = require('expo-linking').createURL('lesson/1');
+                    Linking.openURL(url).catch(e => Alert.alert('Error', e.message));
+                  } catch (err) {
+                    Alert.alert('Ошибка', String(err));
+                  }
+                }}>
+                <Text style={{ color: 'white', fontSize: 10 }}>LINK</Text>
+              </Pressable>
               <Pressable style={homeStyles.notificationButton}
                 onPress={() => setShowTgModal(true)}>
                 <BellIcon></BellIcon>

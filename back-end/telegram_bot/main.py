@@ -14,7 +14,6 @@ async def main():
     bot = Bot(token=str(os.getenv('BOT_TOKEN')))
     dp = Dispatcher()
 
-    # Import all database models so SQLAlchemy can resolve relationships
     import databases.users_db.users_db
     import databases.lesson_db.lesson_db
     import databases.bot_db.bot_db
