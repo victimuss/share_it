@@ -6,6 +6,10 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from core.config import settings
 from telegram_bot.handlers import start
+from telegram_bot.handlers import caterory_handles
+from telegram_bot.handlers import language_handler
+from telegram_bot.handlers import support_handler
+
 
 async def main():
     logging.basicConfig(level=logging.INFO)
@@ -19,6 +23,9 @@ async def main():
     import databases.bot_db.bot_db
 
     dp.include_router(start.router)
+    dp.include_router(caterory_handles.router)
+    dp.include_router(language_handler.router)
+    dp.include_router(support_handler.router)
 
     logging.info("Бот для уведомлений запущен...")
     await dp.start_polling(bot)

@@ -1,0 +1,3 @@
+2026-05-09 19:56:14 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-09 19:56:14 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-09 19:56:19 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=2173bf4a
