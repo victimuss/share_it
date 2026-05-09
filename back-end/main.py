@@ -127,6 +127,15 @@ async def root():
 async def trigger_error():
     raise ValueError("Test Error")
 
+from fastapi.responses import RedirectResponse
+
+@app.get("/api/redirect/lesson/{lesson_id}")
+async def redirect_to_lesson(lesson_id: int):
+    # Перенаправляем пользователя из браузера (после клика в ТГ) в приложение Expo
+    # Используем тот же IP, что и в уроках
+    expo_url = f"exp://10.171.36.68:8081/--/lesson/{lesson_id}"
+    return RedirectResponse(url=expo_url)
+
 @app.on_event("startup")
 async def startup_event():
     print("""

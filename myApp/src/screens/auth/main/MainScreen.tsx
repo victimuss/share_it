@@ -92,20 +92,27 @@ export const MainScreen = () => {
   useEffect(() => {
     fetchData();
 
-    // ЖЕЛЕЗОБЕТОННЫЙ ПЕРЕХВАТЧИК ССЫЛОК
     const handleDeepLink = (url: string | null) => {
       if (!url) return;
       console.log("ПЕРЕХВАЧЕНА ССЫЛКА:", url);
       const expoLinking = require('expo-linking');
       const parsed = expoLinking.parse(url);
-      if (parsed.path && parsed.path.includes('lesson/')) {
-        const lessonIdStr = parsed.path.split('lesson/')[1];
-        if (lessonIdStr) {
-          const lessonId = parseInt(lessonIdStr, 10);
+      const path = parsed.path ? parsed.path.replace(/^\/?--\//, '') : '';
+      console.log("ОЧИЩЕННЫЙ ПУТЬ:", path);
+
+      if (path === 'my-lessons') {
+        console.log("ПРИНУДИТЕЛЬНЫЙ ПЕРЕХОД НА МОИ УРОКИ");
+        setTimeout(() => {
+          (navigator as any).navigate('MainTabs', { screen: 'MyLessons' });
+        }, 500); // Даем экрану отрендериться
+      } else {
+        const match = path.match(/lessons?\/(\d+)/);
+        if (match && match[1]) {
+          const lessonId = parseInt(match[1], 10);
           console.log("ПРИНУДИТЕЛЬНЫЙ ПЕРЕХОД НА УРОК:", lessonId);
           setTimeout(() => {
             (navigator as any).navigate('LessonMainScreen', { lessonId });
-          }, 500); // Даем экрану отрендериться
+          }, 500);
         }
       }
     };
@@ -113,7 +120,7 @@ export const MainScreen = () => {
     const expoLinking = require('expo-linking');
     expoLinking.getInitialURL().then(handleDeepLink);
     const sub = expoLinking.addEventListener('url', ({ url }: { url: string }) => handleDeepLink(url));
-    
+
     return () => sub.remove();
   }, [user, activeFilter]);
 
@@ -170,9 +177,9 @@ export const MainScreen = () => {
                 onPress={() => {
                   try {
                     const url = require('expo-linking').createURL('lesson/1');
-                    Linking.openURL(url).catch(e => Alert.alert('Error', e.message));
+                    require('expo-linking').openURL(url);
                   } catch (err) {
-                    Alert.alert('Ошибка', String(err));
+                    console.error("Ошибка при открытии ссылки", err);
                   }
                 }}>
                 <Text style={{ color: 'white', fontSize: 10 }}>LINK</Text>

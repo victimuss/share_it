@@ -56,3 +56,5 @@
 2026-05-06 21:40:29 | INFO     | telegram_bot.handlers.start:start_command:19 - 71ef7a81
 2026-05-06 22:33:50 | INFO     | telegram_bot.handlers.start:start_command:18 - 103
 2026-05-06 22:33:50 | INFO     | telegram_bot.handlers.start:start_command:19 - 6b9e3112
+2026-05-09 12:12:37 | INFO     | telegram_bot.handlers.start:start_command:18 - 102
+2026-05-09 12:12:37 | INFO     | telegram_bot.handlers.start:start_command:19 - 5ac0e097

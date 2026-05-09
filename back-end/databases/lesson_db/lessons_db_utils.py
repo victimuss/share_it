@@ -21,6 +21,7 @@ from google.genai import types
 import json
 from cloud_storage.s3main import delete_image_from_cloud_for_DB
 import base64
+from routers.tasks.notification_tasks import dispatch_notifications
 from core.logging import logger
 
 async def get_lesson_by_id(lesson_id: int, user_id: int) -> Optional[Lesson]:
@@ -525,11 +526,13 @@ from groq import AsyncGroq
 client = AsyncGroq(api_key=settings.GROQ_API_KEY)
 
 async def checker(lesson_id: int, max_retries: int = 3):
+    backend_ip = "10.171.36.68"
     async with async_session() as session:
         lesson_res = await session.execute(select(Lesson).where(Lesson.id == lesson_id))
         lesson = lesson_res.scalar_one_or_none()
         
         if not lesson:
+            dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")
             return json.dumps({"status": False, "reason": "Урок не найден"}, ensure_ascii=False)
 
         sheets_res = await session.execute(
@@ -540,6 +543,7 @@ async def checker(lesson_id: int, max_retries: int = 3):
         sheets = sheets_res.scalars().all()
 
     if not sheets:
+        dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}") # TODO: change link for real
         return json.dumps({"status": False, "reason": "Урок пуст, нечего проверять"}, ensure_ascii=False)
 
     full_text = "--- ОБЩИЕ ДАННЫЕ УРОКА ---\n"
@@ -603,13 +607,16 @@ async def checker(lesson_id: int, max_retries: int = 3):
                     )
                 )
                 await session.commit()
+                dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")
                 return moderation_result
 
             except Exception as e:
+                dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")  
                 logger.error(f"Ошибка модерации: {e}, lesson_id: {lesson_id}")
                 await asyncio.sleep(5)
-        
-            return {"status": False, "reason": "Ошибка после всех попыток"}
+                
+    dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")    
+    return {"status": False, "reason": "Ошибка после всех попыток"}
 
 async def media_checker(image_data: bytes, image_type: str):
     base64_image = base64.b64encode(image_data).decode('utf-8')

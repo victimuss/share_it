@@ -3,9 +3,9 @@ import * as Linking from 'expo-linking';
 export const linking = {
   prefixes: [
     Linking.createURL('/'),
-    Linking.createURL('--/'),
     'https://sparkedu.com',
     'sparkedu://',
+    '', // Важно: разрешает React Navigation принимать чистые пути
   ],
   config: {
     screens: {
@@ -19,6 +19,8 @@ export const linking = {
       NewSheetScreen: 'lesson/:lessonId/sheet/new',
 
       MainTabs: {
+        path: '',
+        initialRouteName: 'Home',
         screens: {
           Home: 'home',
           Search: 'search',
@@ -27,24 +29,5 @@ export const linking = {
         },
       },
     },
-  },
-  async getInitialURL() {
-    const url = await Linking.getInitialURL();
-    if (url != null) {
-      return url;
-    }
-    return null;
-  },
-  subscribe(listener: (url: string) => void) {
-    const onReceiveURL = ({ url }: { url: string }) => {
-      console.log("ПРИШЛА ССЫЛКА:", url);
-      listener(url);
-    };
-
-    const subscription = Linking.addEventListener('url', onReceiveURL);
-
-    return () => {
-      subscription.remove();
-    };
   },
 };
