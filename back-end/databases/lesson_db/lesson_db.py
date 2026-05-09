@@ -17,6 +17,9 @@ from sqlalchemy import (
 from sqlalchemy.dialects.postgresql import ARRAY
 from datetime import datetime, timezone
 from databases.databases_compile import Base
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 def get_utcnow():
     return datetime.now(timezone.utc).replace(tzinfo=None)
@@ -61,6 +64,10 @@ class Lesson(Base):
         back_populates="lesson",
         cascade="all, delete-orphan"
     )
+
+    @property
+    def url(self) -> str:
+        return f"{os.getenv('BASE_URL')}/--/lesson/{self.id}"
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=get_utcnow
