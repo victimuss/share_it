@@ -81,12 +81,14 @@ async def _safe_send_message(chat_id: int, message_text: str, url: Optional[str]
             kb = get_last_lessons(lessons)
     elif url:
         kb = get_lesson_kb(url)
+    async with Bot(token=settings.BOT_TOKEN) as local_bot:
+        try:
+            await local_bot.send_message(chat_id, message_text, reply_markup=kb)
+        except Exception as e:
+            logger.error(f"Failed to send message to chat_id {chat_id}: {e}")
+            raise e
+    
 
-    try:
-        await tg_bot.send_message(chat_id, message_text, reply_markup=kb)
-    except Exception as e:
-        logger.error(f"Failed to send message to chat_id {chat_id}: {e}")
-        raise e
 @celery_app.task(name="start_mass_mailing")
 def start_mass_mailing():
     asyncio.run(_async_mass_mailing_logic())

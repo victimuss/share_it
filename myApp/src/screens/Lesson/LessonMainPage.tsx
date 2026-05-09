@@ -19,7 +19,7 @@ import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
 export const LessonMainScreen = () => {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     type LessonScreenRouteProp = RouteProp<RootStackParamList, 'LessonMainScreen'>;
     const route = useRoute<LessonScreenRouteProp>();
     const lesson_id = route.params.lessonId;
@@ -111,7 +111,7 @@ export const LessonMainScreen = () => {
                         </View>
                     </Pressable>
                     <Pressable style={styles.heroMoreButton}
-                        onPress={() => { Alert.alert('Скоро', 'Функция будет доступна в будущем') }}>
+                        onPress={() => { Alert.alert(t('screens.lessonMain.soon'), t('screens.lessonMain.soonMsg')) }}>
                         <View style={styles.heroMoreIconWrapper}>
                             <LessonMoreIcon />
                         </View>
@@ -131,24 +131,24 @@ export const LessonMainScreen = () => {
                     <View>
                         <View style={styles.metricIconWrapper}></View>
                         <Text style={styles.authorName}>{currentLesson?.author_name}</Text>
-                        <Text style={styles.authorMeta}>Опубликовано {createdAt}</Text>
+                        <Text style={styles.authorMeta}>{t('screens.lessonMain.published')} {createdAt}</Text>
                     </View>
                 </View>
                 <View style={styles.metricsRow}>
                     <View style={styles.metricItem}>
                         <LessonFileIcon style={{ marginBottom: 4 }} />
                         <Text style={styles.metricValue}>{currentLesson?.lesson.sheet_counts}</Text>
-                        <Text style={styles.metricLabel}>страниц</Text>
+                        <Text style={styles.metricLabel}>{t('screens.lessonMain.pages')}</Text>
                     </View>
                     <View style={styles.metricItem}>
                         <LessonUsersIcon style={{ marginBottom: 4 }} />
                         <Text style={styles.metricValue}>{currentLesson?.lesson.students_count}</Text>
-                        <Text style={styles.metricLabel}>студентов</Text>
+                        <Text style={styles.metricLabel}>{t('screens.lessonMain.students')}</Text>
                     </View>
                     <View style={styles.metricItem}>
                         <LessonStarIcon style={{ marginBottom: 4 }} />
                         <Text style={styles.metricValue}>{rating}</Text>
-                        <Text style={styles.metricLabel}>рейтинг</Text>
+                        <Text style={styles.metricLabel}>{t('screens.lessonMain.rating')}</Text>
                     </View>
                 </View>
                 <View style={styles.descriptionContainer}>
@@ -169,15 +169,15 @@ export const LessonMainScreen = () => {
                             </View>
                         </View>
                         <View style={styles.resumeInfo}>
-                            <Text style={styles.resumeTitle}>Продолжить с страницы {currentLesson?.progress}</Text>
-                            <Text style={styles.resumeSubtitle}>Осталось {currentLesson?.lesson.sheet_counts - currentLesson?.progress || 0} страниц</Text>
+                            <Text style={styles.resumeTitle}>{t('screens.lessonMain.resumeFromPage')} {currentLesson?.progress}</Text>
+                            <Text style={styles.resumeSubtitle}>{t('screens.lessonMain.pagesLeft', { count: currentLesson?.lesson.sheet_counts - currentLesson?.progress || 0 })}</Text>
                             <View style={styles.resumeProgressTrack}>
                                 <View style={[styles.progressStripFill, { width: `${currentLesson?.progress / currentLesson?.lesson.sheet_counts * 100 || 0}%` }]}></View>
                             </View>
                         </View>
                     </View>)}
                 <View style={styles.ratingCard}>
-                    <Text style={styles.ratingCardTitle}>Понравился урок?</Text>
+                    <Text style={styles.ratingCardTitle}>{t('screens.lessonMain.didYouLike')}</Text>
                     <View style={styles.ratingRow}>
                         <Pressable style={isLiked ? styles.likeButtonPressed : styles.likeButton}
                             onPress={() => {
@@ -215,10 +215,10 @@ export const LessonMainScreen = () => {
                 <View style={styles.ctaContainer}>
                     <Pressable style={styles.startButton}
                         onPress={() => navigation.navigate('LessonPage', { lessonId: currentLesson?.lesson.id, isEdit: false })}>
-                        <Text style={styles.startButtonText}>Продолжить обучение</Text>
+                        <Text style={styles.startButtonText}>{t('screens.lessonMain.continueBtn')}</Text>
                     </Pressable>
                     <Pressable style={styles.exitButton} onPress={() => navigation.goBack()}>
-                        <Text style={styles.exitButtonText}>Выйти из урока</Text>
+                        <Text style={styles.exitButtonText}>{t('screens.lessonMain.exitBtn')}</Text>
                     </Pressable>
                 </View>
             </ScrollView>

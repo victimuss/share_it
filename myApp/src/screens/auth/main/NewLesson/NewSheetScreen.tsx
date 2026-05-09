@@ -20,15 +20,17 @@ import * as ImagePicker from 'expo-image-picker';
 import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { GetLessonByIdAPI, GetSheetApi, GetSheetApiForEdit } from "@/src/api/lessonmain/lessonmain";
 
+import { useTranslation } from "react-i18next";
 
-const typesData = [
-    { label: 'Theory', value: 'THEORY', icon: '📖', description: 'Текст, советы и предупреждения ' },
-    { label: 'Quiz', value: 'QUIZ', icon: '❓', description: 'Вопрос с вариантами ответа' },
-    { label: 'Video', value: 'VIDEO', icon: '📹', description: 'Видео с описанием' },
-    { label: 'Picture', value: 'PICTURE', icon: '🖼️', description: 'Изображение' },]
+const typesData = (t: any) => [
+    { label: t('screens.newSheet.typeTheory'), value: 'THEORY', icon: '📖', description: t('screens.newSheet.theoryDesc') },
+    { label: t('screens.newSheet.typeQuiz'), value: 'QUIZ', icon: '❓', description: t('screens.newSheet.quizDesc') },
+    { label: t('screens.newSheet.typeVideo'), value: 'VIDEO', icon: '📹', description: t('screens.newSheet.videoDesc') },
+    { label: t('screens.newSheet.typePicture'), value: 'PICTURE', icon: '🖼️', description: t('screens.newSheet.pictureDesc') },]
 
 
 export const NewSheetScreen = () => {
+    const { t } = useTranslation();
     const {
         sheets,
         currentIndex,
@@ -74,12 +76,12 @@ export const NewSheetScreen = () => {
                 await saveCurrentSheet();
             }
             else {
-                Alert.alert('Ошибка', 'Сначала введите заголовок листа');
+                Alert.alert('Ошибка', t('screens.newSheet.errorTitleEmpty'));
                 setLoading(false);
                 return;
             }
             if (currentSheet.serverId === null) {
-                Alert.alert('Ошибка загрузки', 'Попробуйте снова');
+                Alert.alert(t('screens.newSheet.errorUpload'), t('screens.newSheet.tryAgain'));
                 setLoading(false);
                 return;
             }
@@ -106,12 +108,13 @@ export const NewSheetScreen = () => {
             updateSheetField('picture_url', '');
         } else {
             setLoading(false);
-            Alert.alert('Ошибка', 'Ошибка удаления изображения');
+            Alert.alert('Ошибка', t('screens.newSheet.errorDeleteImg'));
         }
     };
 
 
-    const renderTypesItem = (item: typeof typesData[0]) => {
+    const types = typesData(t);
+    const renderTypesItem = (item: typeof types[0]) => {
         return (
             <View style={styles.typeOption}>
                 <View style={styles.typeOptionDot}>
@@ -160,7 +163,7 @@ export const NewSheetScreen = () => {
             if (error.response?.data?.detail) {
                 setModerateError(error.response.data.detail.reason || error.response.data.detail.message);
             } else {
-                setModerateError("Ошибка запроса публикации");
+                setModerateError(t('screens.newSheet.errorPublish'));
                 console.error(`Ошибка запроса публикации урока:`, error);
             }
         }
@@ -179,7 +182,7 @@ export const NewSheetScreen = () => {
             } else {
                 setIsModerating(false);
                 setRejected(true);
-                setModerateError(response.reason || 'Ошибка модерации');
+                setModerateError(response.reason || t('screens.newSheet.errorModeration'));
             }
         } catch (error: any) {
             setIsModerating(false);
@@ -188,7 +191,7 @@ export const NewSheetScreen = () => {
             if (error.response?.data?.detail) {
                 setModerateError(error.response.data.detail.reason || error.response.data.detail.message);
             } else {
-                setModerateError("Ошибка запроса загрузки баннера урока");
+                setModerateError(t('screens.newSheet.errorBannerLoad'));
                 console.error(`Ошибка запроса загрузки баннера урока:`, error);
             }
         }
@@ -259,11 +262,11 @@ export const NewSheetScreen = () => {
                     >
                         <CloseIcon></CloseIcon>
                     </Pressable>
-                    <Text style={styles.headerTitle}>{isEdit ? 'Новая страница' : 'Редактировать урок'}</Text>
+                    <Text style={styles.headerTitle}>{isEdit ? t('screens.newSheet.newPageTitle') : t('screens.newSheet.editLessonTitle')}</Text>
                     <Pressable style={styles.publishButton}
                         onPress={handlePublish}
                     >
-                        <Text style={styles.publishButtonText}>{isEdit ? 'Опубликовать' : 'Сохранить'}</Text>
+                        <Text style={styles.publishButtonText}>{isEdit ? t('screens.newSheet.publishBtn') : t('screens.newSheet.saveBtn')}</Text>
                     </Pressable>
                 </View>
             </View>
@@ -301,12 +304,12 @@ export const NewSheetScreen = () => {
             >
                 <KeyboardAvoidingView style={styles.pageContent}>
                     <View style={styles.fieldHeader}>
-                        <Text style={styles.fieldLabel}>Название страницы</Text>
+                        <Text style={styles.fieldLabel}>{t('screens.newSheet.pageNameLabel')}</Text>
                         <Text style={styles.charCount}>{currentSheet.sheet_header?.length || 0}/50</Text>
                     </View>
                     <TextInput
                         style={styles.input}
-                        placeholder="Название этой страницы..."
+                        placeholder={t('screens.newSheet.pageNamePlaceholder')}
                         value={currentSheet.sheet_header}
                         onChangeText={(text) => updateSheetField('sheet_header', text)}
                         placeholderTextColor={COLORS.textSecondary}
@@ -314,14 +317,14 @@ export const NewSheetScreen = () => {
 
                     />
                     <View style={styles.fieldHeader}>
-                        <Text style={styles.fieldLabel}>Тип страницы</Text>
+                        <Text style={styles.fieldLabel}>{t('screens.newSheet.pageTypeLabel')}</Text>
                     </View>
                     <Dropdown
                         style={[
                             styles.typeSelector,
                             isFocus && styles.typeSelectorOpen
                         ]}
-                        data={typesData}
+                        data={types}
                         containerStyle={styles.typeDropdown}
                         labelField="label"
                         valueField="value"
@@ -329,7 +332,7 @@ export const NewSheetScreen = () => {
                         onChange={item => {
                             updateSheetField('sheetType', item.value as any);
                         }}
-                        placeholder="Выберите тип"
+                        placeholder={t('screens.newSheet.typePlaceholder')}
                         activeColor="#EEF2FF"
                         dropdownPosition="bottom"
                         maxHeight={300}
@@ -337,7 +340,7 @@ export const NewSheetScreen = () => {
                         onBlur={() => setIsFocus(false)}
                         renderItem={renderTypesItem}
                         renderLeftIcon={() => {
-                            const selectedItemType = typesData.find(d => d.value === currentSheet.sheetType.toUpperCase());
+                            const selectedItemType = types.find(d => d.value === currentSheet.sheetType.toUpperCase());
                             if (selectedItemType) {
                                 return (
                                     <View style={styles.typeOptionDot}>
@@ -352,12 +355,12 @@ export const NewSheetScreen = () => {
                 {(currentSheet.sheetType === 'THEORY') && (
                     <KeyboardAvoidingView style={styles.pageContent}>
                         <KeyboardAvoidingView style={styles.fieldHeader}>
-                            <Text style={styles.fieldLabel}>Текст</Text>
+                            <Text style={styles.fieldLabel}>{t('screens.newSheet.textLabel')}</Text>
                             <Text style={styles.charCount}>{currentSheet.content?.length || 0}/500</Text>
                         </KeyboardAvoidingView>
                         <TextInput
                             style={styles.textArea}
-                            placeholder="Содержание страницы..."
+                            placeholder={t('screens.newSheet.textPlaceholder')}
                             placeholderTextColor={COLORS.textSecondary}
                             maxLength={500}
                             value={currentSheet.content}
@@ -366,12 +369,12 @@ export const NewSheetScreen = () => {
                         <View style={styles.calloutRow}>
                             <View style={styles.calloutCardAdvice}>
                                 <View style={styles.calloutHeader}>
-                                    <Text style={styles.calloutTitleAdvice}>💡 Совет</Text>
+                                    <Text style={styles.calloutTitleAdvice}>{t('screens.newSheet.adviceTitle')}</Text>
                                     <Text style={styles.charCount}>{currentSheet.content_advice?.length || 0}/75</Text>
                                 </View>
                                 <TextInput
                                     style={styles.calloutInput}
-                                    placeholder="Необязательно..."
+                                    placeholder={t('screens.newSheet.optionalPlaceholder')}
                                     placeholderTextColor={COLORS.textSecondary}
                                     maxLength={75}
                                     value={currentSheet.content_advice}
@@ -380,12 +383,12 @@ export const NewSheetScreen = () => {
                             </View>
                             <View style={styles.calloutCardWarning}>
                                 <View style={styles.calloutHeader}>
-                                    <Text style={styles.calloutTitleWarning}>⚠️ Важно</Text>
+                                    <Text style={styles.calloutTitleWarning}>{t('screens.newSheet.warningTitle')}</Text>
                                     <Text style={styles.charCount}>{currentSheet.content_danger?.length || 0}/75</Text>
                                 </View>
                                 <TextInput
                                     style={styles.calloutInput}
-                                    placeholder="Необязательно..."
+                                    placeholder={t('screens.newSheet.optionalPlaceholder')}
                                     placeholderTextColor={COLORS.textSecondary}
                                     maxLength={75}
                                     value={currentSheet.content_danger}
@@ -399,7 +402,7 @@ export const NewSheetScreen = () => {
                 {(currentSheet.sheetType === 'VIDEO') && (
                     <KeyboardAvoidingView style={styles.pageContent}>
                         <View style={styles.fieldHeader}>
-                            <Text style={styles.fieldLabel}>Ссылка на видео</Text>
+                            <Text style={styles.fieldLabel}>{t('screens.newSheet.videoUrlLabel')}</Text>
                         </View>
                         <TextInput
                             style={styles.input}
@@ -410,12 +413,12 @@ export const NewSheetScreen = () => {
 
                         />
                         <View style={styles.fieldHeader}>
-                            <Text style={styles.fieldLabel}>Комментарий</Text>
+                            <Text style={styles.fieldLabel}>{t('screens.newSheet.videoCommentLabel')}</Text>
                             <Text style={styles.charCount}>{currentSheet.description_for_video_or_picture?.length || 0}/50</Text>
                         </View>
                         <TextInput
                             style={styles.input}
-                            placeholder="Коротко о видео..."
+                            placeholder={t('screens.newSheet.videoCommentPlaceholder')}
                             placeholderTextColor={COLORS.textSecondary}
                             maxLength={50}
                             value={currentSheet.description_for_video_or_picture}
@@ -427,19 +430,19 @@ export const NewSheetScreen = () => {
                 {(currentSheet.sheetType === 'QUIZ') && (
                     <KeyboardAvoidingView style={styles.pageContent}>
                         <View style={styles.fieldHeader}>
-                            <Text style={styles.fieldLabel}>Вопрос</Text>
+                            <Text style={styles.fieldLabel}>{t('screens.newSheet.questionLabel')}</Text>
                             <Text style={styles.charCount}>{currentSheet.question_text?.length || 0}/150</Text>
                         </View>
                         <TextInput
                             style={styles.input}
-                            placeholder="Введи вопрос..."
+                            placeholder={t('screens.newSheet.questionPlaceholder')}
                             placeholderTextColor={COLORS.textSecondary}
                             maxLength={150}
                             value={currentSheet.question_text}
                             onChangeText={(text) => updateSheetField('question_text', text)}
                         />
                         <View style={styles.fieldHeader}>
-                            <Text style={styles.fieldLabel}>Ответы</Text>
+                            <Text style={styles.fieldLabel}>{t('screens.newSheet.answersLabel')}</Text>
                         </View>
                         {currentSheet.quiz_options?.map((option: any, index: number) => (
                             <View key={index} style={styles.answerRow}>
@@ -459,7 +462,7 @@ export const NewSheetScreen = () => {
                                 </Pressable>
                                 <TextInput
                                     style={[styles.answerInput, option.is_correct && styles.answerInputCorrect]}
-                                    placeholder={`Ответ ${index + 1}...`}
+                                    placeholder={t('screens.newSheet.answerPlaceholder', { number: index + 1 })}
                                     placeholderTextColor={COLORS.textSecondary}
                                     maxLength={100}
                                     value={option.option}
@@ -489,7 +492,7 @@ export const NewSheetScreen = () => {
                                     updateSheetField('quiz_options', newOptions);
                                 }}
                             >
-                                <Text style={styles.addAnswerText}>+ Добавить вариант</Text>
+                                <Text style={styles.addAnswerText}>{t('screens.newSheet.addOptionBtn')}</Text>
                             </Pressable>
                         )}
                     </KeyboardAvoidingView>
@@ -498,12 +501,12 @@ export const NewSheetScreen = () => {
                 {(currentSheet.sheetType === 'PICTURE') && (
                     <KeyboardAvoidingView style={styles.pageContent}>
                         <View style={styles.fieldHeader}>
-                            <Text style={styles.fieldLabel}>Комментарий</Text>
+                            <Text style={styles.fieldLabel}>{t('screens.newSheet.photoCommentLabel')}</Text>
                             <Text style={styles.charCount}>{currentSheet.description_for_video_or_picture?.length || 0}/50</Text>
                         </View>
                         <TextInput
                             style={styles.input}
-                            placeholder="Коротко о фото..."
+                            placeholder={t('screens.newSheet.photoCommentPlaceholder')}
                             placeholderTextColor={COLORS.textSecondary}
                             maxLength={50}
                             value={currentSheet.description_for_video_or_picture}
@@ -519,7 +522,7 @@ export const NewSheetScreen = () => {
                                 </Pressable>
                                 <Text style={{ color: "#FF6666", marginVertical: 0, marginStart: 80 }}
                                     onPress={() => handleDeleteImage()}
-                                >Удалить изображение</Text>
+                                >{t('screens.newSheet.deleteImageBtn')}</Text>
                             </View>
 
                         ) : (
@@ -529,8 +532,8 @@ export const NewSheetScreen = () => {
                                         <PictureIcon />
                                     </View>
                                 </View>
-                                <Text style={styles.uploadHintAccent}>Нажми для загрузки</Text>
-                                <Text style={styles.uploadHint}>PNG, JPG до 10 MB</Text>
+                                <Text style={styles.uploadHintAccent}>{t('screens.newSheet.uploadHintAccent')}</Text>
+                                <Text style={styles.uploadHint}>{t('screens.newSheet.uploadLimit')}</Text>
                             </Pressable>
 
                         )}
@@ -546,7 +549,7 @@ export const NewSheetScreen = () => {
                 <Pressable style={currentSheet.isSaving || isInvalid() ? styles.savePageButtonDisabled : styles.savePageButton}
                     disabled={currentSheet.isSaving || isInvalid()}
                     onPress={async () => await saveCurrentSheet()}>
-                    <Text style={styles.savePageButtonText}>Cохранить страницу</Text>
+                    <Text style={styles.savePageButtonText}>{t('screens.newSheet.savePageBtn')}</Text>
                 </Pressable>
             </View>
         </SafeAreaView >

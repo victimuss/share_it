@@ -13,8 +13,10 @@ import { LessonArrowLeftIcon, LessonArrowRightIcon, LessonBookmarkIcon } from '@
 import { SheetCard } from './SheetCard';
 import { COLORS } from '@/src/styles/root';
 import { SetProgressAPI } from '@/src/api/lessonmain/lessonmain';
+import { useTranslation } from "react-i18next";
 
 export const SheetScreen = () => {
+    const { t } = useTranslation();
     type LessonScreenRouteProp = RouteProp<RootStackParamList, 'LessonPage'>;
     const route = useRoute<LessonScreenRouteProp>();
     const { sheets, total, currentIndex, lesson_name, isLoading, completed_steps, setCurrentIndex, loadLesson } = useSheetStore();
@@ -64,7 +66,7 @@ export const SheetScreen = () => {
                 </Pressable>
                 <Text style={styles.headerTitle}>{lesson_name}</Text>
                 <Pressable style={styles.bookmarkButton}
-                    onPress={() => { Alert.alert('Скоро', 'Функция будет доступна в будущем') }}>
+                    onPress={() => { Alert.alert(t('screens.lessonMain.soon'), t('screens.lessonMain.soonMsg')) }}>
                     <View style={styles.bookmarkIconWrapper}>
                         <LessonBookmarkIcon />
                     </View>
@@ -77,7 +79,7 @@ export const SheetScreen = () => {
                     ))}
                 </View>
                 <View style={styles.progressLabels}>
-                    <Text style={styles.progressLabelLeft}>Страница {currentIndex + 1} из {total}</Text>
+                    <Text style={styles.progressLabelLeft}>{t('screens.sheet.pageOf', { current: currentIndex + 1, total })}</Text>
                     <Text style={styles.progressLabelRight}>{progress}%</Text>
                 </View>
             </View>
@@ -92,7 +94,7 @@ export const SheetScreen = () => {
                     }}>
                     <LessonArrowLeftIcon />
                     <Text style={styles.prevButtonText}>
-                        Назад
+                        {t('screens.sheet.prevBtn')}
                     </Text>
                 </Pressable>
                 {currentIndex === total - 1 ? (
@@ -104,7 +106,7 @@ export const SheetScreen = () => {
                             }
                         }}>
                         <Text style={styles.finishButtonText}>
-                            Завершить
+                            {t('screens.sheet.finishBtn')}
                         </Text>
                     </Pressable>
                 ) : (
@@ -117,7 +119,7 @@ export const SheetScreen = () => {
                             }
                         }}>
                         <Text style={styles.nextButtonText}>
-                            Дальше
+                            {t('screens.sheet.nextBtn')}
                         </Text>
                         <LessonArrowRightIcon color={COLORS.surface} />
                     </Pressable>

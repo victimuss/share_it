@@ -14,11 +14,12 @@ import { useRoute, RouteProp } from "@react-navigation/native";
 import { GetLessonByIdAPI, GetSheetApiForEdit } from "@/src/api/lessonmain/lessonmain";
 import { EditLessonAPI } from "@/src/api/create_lesson/edit_lesson";
 import { GetMyLessonForEditAPI } from "@/src/api/lessonmain/mylesson";
+import { useTranslation } from "react-i18next";
 
-const difficultyData = [
-    { label: 'Beginner', value: 'Beginner', subtitle: 'С нуля', icon: '🌱', bg: COLORS.successLight },
-    { label: 'Intermediate', value: 'Intermediate', subtitle: 'Есть база', icon: '⚡', bg: COLORS.warningLight },
-    { label: 'Advanced', value: 'Advanced', subtitle: 'Экспертам', icon: '🔥', bg: COLORS.errorLight },
+const difficultyData = (t: any) => [
+    { label: 'Beginner', value: 'Beginner', subtitle: t('screens.newLesson.diffBeginner'), icon: '🌱', bg: COLORS.successLight },
+    { label: 'Intermediate', value: 'Intermediate', subtitle: t('screens.newLesson.diffIntermediate'), icon: '⚡', bg: COLORS.warningLight },
+    { label: 'Advanced', value: 'Advanced', subtitle: t('screens.newLesson.diffAdvanced'), icon: '🔥', bg: COLORS.errorLight },
 ];
 
 const typesData = [
@@ -29,6 +30,7 @@ const typesData = [
 ]
 
 export const NewLessonScreen = () => {
+    const { t } = useTranslation();
     const [difficulty, setDifficulty] = useState<string | null>(null);
     const [isFocus, setIsFocus] = useState(false);
     const [type, setType] = useState<string | null>(null);
@@ -60,7 +62,9 @@ export const NewLessonScreen = () => {
         setTagInput('');
     };
 
-    const renderDifficultyItem = (item: typeof difficultyData[0]) => {
+    const diffData = difficultyData(t);
+
+    const renderDifficultyItem = (item: typeof diffData[0]) => {
         return (
             <View style={styles.dropdownOption}>
                 <View style={[styles.optionDot, { backgroundColor: item.bg }]}>
@@ -157,14 +161,14 @@ export const NewLessonScreen = () => {
                             <CloseIcon />
                         </Pressable>
                     </View>
-                    <Text style={styles.headerTitle}>{isEdit ? 'Редактировать урок' : 'Создать урок'}</Text>
+                    <Text style={styles.headerTitle}>{isEdit ? t('screens.newLesson.editTitle') : t('screens.newLesson.createTitle')}</Text>
                 </View>
             </View>
             <ScrollView style={styles.formContainer}>
                 <View style={styles.selectorsRow}>
                     <View style={styles.selectorCell}>
                         <Text style={styles.fieldLabel}>
-                            Сложность
+                            {t('screens.newLesson.difficultyLabel')}
                         </Text>
                         <Dropdown
                             style={[
@@ -172,10 +176,10 @@ export const NewLessonScreen = () => {
                                 isFocus && styles.selectorOpen
                             ]}
                             containerStyle={styles.dropdownList}
-                            data={difficultyData}
+                            data={diffData}
                             labelField="label"
                             valueField="value"
-                            placeholder="Сложность"
+                            placeholder={t('screens.newLesson.difficultyLabel')}
                             placeholderStyle={styles.selectorPlaceholder}
                             selectedTextStyle={styles.selectorValue}
                             activeColor="#EEF2FF"
@@ -188,7 +192,7 @@ export const NewLessonScreen = () => {
                             }}
                             renderItem={renderDifficultyItem}
                             renderLeftIcon={() => {
-                                const selectedItem = difficultyData.find(d => d.value === difficulty);
+                                const selectedItem = diffData.find(d => d.value === difficulty);
                                 if (selectedItem) {
                                     return (
                                         <View style={[styles.optionDot, { backgroundColor: selectedItem.bg, marginRight: 8, width: 28, height: 28 }]}>
@@ -202,7 +206,7 @@ export const NewLessonScreen = () => {
                     </View>
                     <View style={styles.selectorCell}>
                         <Text style={styles.fieldLabel}>
-                            Категория
+                            {t('screens.newLesson.categoryLabel')}
                         </Text>
                         <Dropdown
                             style={[
@@ -213,7 +217,7 @@ export const NewLessonScreen = () => {
                             data={typesData}
                             labelField="label"
                             valueField="value"
-                            placeholder="Тип урока"
+                            placeholder={t('screens.newLesson.typePlaceholder')}
                             placeholderStyle={styles.selectorPlaceholder}
                             selectedTextStyle={styles.selectorValue}
                             activeColor="#EEF2FF"
@@ -242,7 +246,7 @@ export const NewLessonScreen = () => {
                 <View style={styles.fieldGroup}>
                     <View style={styles.fieldHeader}>
                         <Text style={styles.fieldLabel}>
-                            Название *
+                            {t('screens.newLesson.nameLabel')}
                         </Text>
                         <Text style={title.length > 200 ? styles.charCountLimit : title.length > 150 ? styles.charCountWarn : styles.charCount}>
                             {title.length}/255
@@ -250,7 +254,7 @@ export const NewLessonScreen = () => {
                     </View>
                     <TextInput
                         style={styles.input}
-                        placeholder="Название урока"
+                        placeholder={t('screens.newLesson.namePlaceholder')}
                         placeholderTextColor={COLORS.textSecondary}
                         value={title}
                         onChangeText={setTitle}
@@ -260,7 +264,7 @@ export const NewLessonScreen = () => {
                 <View style={styles.fieldGroup}>
                     <View style={styles.fieldHeader}>
                         <Text style={styles.fieldLabel}>
-                            Описание *
+                            {t('screens.newLesson.descLabel')}
                         </Text>
                         <Text style={description.length > 200 ? styles.charCountLimit : description.length > 150 ? styles.charCountWarn : styles.charCount}>
                             {description.length}/255
@@ -268,7 +272,7 @@ export const NewLessonScreen = () => {
                     </View>
                     <TextInput
                         style={styles.input}
-                        placeholder="Описание урока"
+                        placeholder={t('screens.newLesson.descPlaceholder')}
                         placeholderTextColor={COLORS.textSecondary}
                         value={description}
                         onChangeText={setDescription}
@@ -290,7 +294,7 @@ export const NewLessonScreen = () => {
                         }
                     }}
                 >
-                    <Text style={styles.saveButtonText}>Сохранить и продолжить</Text>
+                    <Text style={styles.saveButtonText}>{t('screens.newLesson.saveContinueBtn')}</Text>
                 </Pressable>
             </View>
             <Modal
@@ -302,7 +306,7 @@ export const NewLessonScreen = () => {
                     <View style={styles.handle} />
                     <View style={styles.tagsSheet}>
                         <View style={styles.tagsHeader}>
-                            <Text style={styles.tagsHeaderTitle}>Добавьте теги</Text>
+                            <Text style={styles.tagsHeaderTitle}>{t('screens.newLesson.tagsTitle')}</Text>
                             <View style={styles.closeIconWrapper}>
                                 <Pressable style={styles.closeButton}
                                     onPress={() => setIsModalVisible(false)}>
@@ -315,14 +319,14 @@ export const NewLessonScreen = () => {
                                 <View style={styles.hintIconWrapper}>
                                     <Text>💡</Text>
                                 </View>
-                                <Text style={styles.tagsHintText}>Теги помогают другим пользователям находить твой урок через поиск. Добавь до 5 ключевых слов, которые лучше всего описывают содержание — например, «useState», «async/await», «flexbox».</Text>
+                                <Text style={styles.tagsHintText}>{t('screens.newLesson.tagsHint')}</Text>
                             </View>
                             <View style={styles.tagsCounter}>
-                                <Text style={styles.tagsCounterText}>Добавлено {tags.length} из 5</Text>
+                                <Text style={styles.tagsCounterText}>{t('screens.newLesson.tagsCount', { count: tags.length })}</Text>
                             </View>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Введи тег..."
+                                placeholder={t('screens.newLesson.tagInputPlaceholder')}
                                 placeholderTextColor={COLORS.textSecondary}
                                 value={tagInput}
                                 onChangeText={setTagInput}
@@ -350,14 +354,14 @@ export const NewLessonScreen = () => {
                                         navigation.navigate('NewSheetScreen');
                                     }}
                                 >
-                                    <Text style={styles.doneButtonText}>Продолжить</Text>
+                                    <Text style={styles.doneButtonText}>{t('screens.newLesson.continueBtn')}</Text>
                                 </Pressable>
                                 <Pressable style={styles.skipButton}
                                     onPress={() => {
                                         navigation.navigate('NewSheetScreen', { lessonId: currentLessonId });
                                     }}
                                 >
-                                    <Text style={styles.skipButtonText}>Пропустить</Text>
+                                    <Text style={styles.skipButtonText}>{t('screens.newLesson.skipBtn')}</Text>
                                 </Pressable>
                             </View>
                         </View>

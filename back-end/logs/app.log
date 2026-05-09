@@ -1,3 +1,1087 @@
 2026-05-09 19:56:14 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
 2026-05-09 19:56:14 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
 2026-05-09 19:56:19 | INFO     | routers.auth_router:telegram:108 - Telegram link generated for user 102: https://t.me/assist_me_please_P_bot?start=2173bf4a
+2026-05-09 20:11:52 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-09 20:11:52 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-09 20:16:27 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-09 20:16:27 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-09 20:16:53 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-09 20:16:53 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-09 20:19:42 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-09 20:19:42 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-09 20:32:54 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-09 20:32:54 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-09 20:39:17 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-09 20:39:17 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-09 20:42:25 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-09 20:42:25 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-09 20:47:24 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-09 20:47:24 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-09 20:57:13 | ERROR    | routers.tasks.notification_tasks:_safe_send_message:88 - Failed to send message to chat_id 1399867473: Event loop is closed
+2026-05-09 20:57:13 | ERROR    | routers.tasks.notification_tasks:send_single_tg_message:70 - Failed to send message to chat_id 1399867473: Event loop is closed
+2026-05-09 20:57:13 | ERROR    | celery.app.trace:__protected_call__:858 - An error has been caught in function '__protected_call__', process 'MainProcess' (14332), thread 'MainThread' (23296):
+Traceback (most recent call last):
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 65, in send_single_tg_message
+    asyncio.run(_safe_send_message(chat_id, message_text, url, lesson_ids))
+    │       │   │                  │        │             │    └ None
+    │       │   │                  │        │             └ 'http://10.171.36.68:8080/api/redirect/lesson/54'
+    │       │   │                  │        └ 'Ваш урок получил новый статус, ознакомьтесь с ним.'
+    │       │   │                  └ 1399867473
+    │       │   └ <function _safe_send_message at 0x0000021D0E3531A0>
+    │       └ <function run at 0x0000021D04F3E0C0>
+    └ <module 'asyncio' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           │      │   └ <coroutine object _safe_send_message at 0x0000021D0E6BBE20>
+           │      └ <function Runner.run at 0x0000021D04F75760>
+           └ <asyncio.runners.Runner object at 0x0000021D0E6BBAD0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │                        └ <Task finished name='Task-29' coro=<_safe_send_message() done, defined at E:\dev\share_it\back-end\routers\tasks\notification...
+           │    └ None
+           └ <asyncio.runners.Runner object at 0x0000021D0E6BBAD0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           │      └ <method 'result' of '_asyncio.Task' objects>
+           └ <Task finished name='Task-29' coro=<_safe_send_message() done, defined at E:\dev\share_it\back-end\routers\tasks\notification...
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 89, in _safe_send_message
+    raise e
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 86, in _safe_send_message
+    await tg_bot.send_message(chat_id, message_text, reply_markup=kb)
+          │      │            │        │                          └ InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Перейти к уроку', url='http://10.171.36.68:8080/api/redirec...
+          │      │            │        └ 'Ваш урок получил новый статус, ознакомьтесь с ним.'
+          │      │            └ 1399867473
+          │      └ <function Bot.send_message at 0x0000021D0B7A5120>
+          └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\bot.py", line 2850, in send_message
+    return await self(call, request_timeout=request_timeout)
+                 │    │                     └ None
+                 │    └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+                 └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\bot.py", line 478, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+                 │    │       │     │               └ None
+                 │    │       │     └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+                 │    │       └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+                 │    └ <aiogram.client.session.aiohttp.AiohttpSession object at 0x0000021D0E33C440>
+                 └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\session\base.py", line 254, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+           │    │                   │          │    └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+           │    │                   │          └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+           │    │                   └ functools.partial(<bound method AiohttpSession.make_request of <aiogram.client.session.aiohttp.AiohttpSession object at 0x000...
+           │    └ ~TelegramType
+           └ <function cast at 0x0000021D01D4CD60>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    async with session.post(
+               │       └ <function ClientSession.post at 0x0000021D07CDC4A0>
+               └ <aiohttp.client.ClientSession object at 0x0000021D0E5BDD30>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1425, in __aenter__
+    self._resp: _RetType = await self._coro
+    │    │                       │    └ <member '_coro' of '_BaseRequestContextManager' objects>
+    │    │                       └ <aiohttp.client._BaseRequestContextManager object at 0x0000021D0E6698A0>
+    │    └ <member '_resp' of '_BaseRequestContextManager' objects>
+    └ <aiohttp.client._BaseRequestContextManager object at 0x0000021D0E6698A0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 579, in _request
+    handle = tm.start()
+             │  └ <function TimeoutHandle.start at 0x0000021D07B3BD80>
+             └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0E63F680>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\helpers.py", line 587, in start
+    return self._loop.call_at(when, self.__call__)
+           │    │             │     │    └ <function TimeoutHandle.__call__ at 0x0000021D07B3BEC0>
+           │    │             │     └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0E63F680>
+           │    │             └ 33776
+           │    └ <member '_loop' of 'TimeoutHandle' objects>
+           └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0E63F680>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 812, in call_at
+    self._check_closed()
+    │    └ <function BaseEventLoop._check_closed at 0x0000021D04F6EAC0>
+    └ <_WindowsSelectorEventLoop running=False closed=True debug=False>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 556, in _check_closed
+    raise RuntimeError('Event loop is closed')
+
+RuntimeError: Event loop is closed
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Scripts\celery.exe\__main__.py", line 7, in <module>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\__main__.py", line 15, in main
+    sys.exit(_main())
+    │   │    └ <function main at 0x0000021D061920C0>
+    │   └ <built-in function exit>
+    └ <module 'sys' (built-in)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\bin\celery.py", line 227, in main
+    return celery(auto_envvar_prefix="CELERY")
+           └ <DYMGroup celery>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\click\core.py", line 1462, in __call__
+    return self.main(*args, **kwargs)
+           │    │     │       └ {'auto_envvar_prefix': 'CELERY'}
+           │    │     └ ()
+           │    └ <function Command.main at 0x0000021D044BD1C0>
+           └ <DYMGroup celery>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\click\core.py", line 1383, in main
+    rv = self.invoke(ctx)
+         │    │      └ <click.core.Context object at 0x0000021D060A30E0>
+         │    └ <function Group.invoke at 0x0000021D044BE0C0>
+         └ <DYMGroup celery>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\click\core.py", line 1850, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+           │               │       │       │      └ <click.core.Context object at 0x0000021D06489F90>
+           │               │       │       └ <function Command.invoke at 0x0000021D044BCEA0>
+           │               │       └ <CeleryDaemonCommand worker>
+           │               └ <click.core.Context object at 0x0000021D06489F90>
+           └ <function Group.invoke.<locals>._process_result at 0x0000021D045B74C0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\click\core.py", line 1246, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           │   │      │    │           │   └ {'loglevel': 20, 'pool': <class 'celery.concurrency.solo.TaskPool'>, 'without_mingle': True, 'without_gossip': True, 'hostnam...
+           │   │      │    │           └ <click.core.Context object at 0x0000021D06489F90>
+           │   │      │    └ <function worker at 0x0000021D0559C4A0>
+           │   │      └ <CeleryDaemonCommand worker>
+           │   └ <function Context.invoke at 0x0000021D044BC0E0>
+           └ <click.core.Context object at 0x0000021D06489F90>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\click\core.py", line 814, in invoke
+    return callback(*args, **kwargs)
+           │         │       └ {'loglevel': 20, 'pool': <class 'celery.concurrency.solo.TaskPool'>, 'without_mingle': True, 'without_gossip': True, 'hostnam...
+           │         └ ()
+           └ <function worker at 0x0000021D0559C4A0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\click\decorators.py", line 34, in new_func
+    return f(get_current_context(), *args, **kwargs)
+           │ │                       │       └ {'loglevel': 20, 'pool': <class 'celery.concurrency.solo.TaskPool'>, 'without_mingle': True, 'without_gossip': True, 'hostnam...
+           │ │                       └ ()
+           │ └ <function get_current_context at 0x0000021D0448E340>
+           └ <function worker at 0x0000021D0559C400>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\bin\base.py", line 158, in caller
+    return f(ctx, *args, **kwargs)
+           │ │     │       └ {'loglevel': 20, 'pool': <class 'celery.concurrency.solo.TaskPool'>, 'without_mingle': True, 'without_gossip': True, 'hostnam...
+           │ │     └ ()
+           │ └ <click.core.Context object at 0x0000021D06489F90>
+           └ <function worker at 0x0000021D0559C360>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\bin\worker.py", line 367, in worker
+    worker.start()
+    │      └ <function WorkController.start at 0x0000021D054B4540>
+    └ <Worker: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\worker.py", line 203, in start
+    self.blueprint.start(self)
+    │    │         │     └ <Worker: celery@DESKTOP-V9VEJ4N (running)>
+    │    │         └ <function Blueprint.start at 0x0000021D054A8180>
+    │    └ <celery.worker.worker.WorkController.Blueprint object at 0x0000021D0E4D2E40>
+    └ <Worker: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\bootsteps.py", line 116, in start
+    step.start(parent)
+    │    │     └ <Worker: celery@DESKTOP-V9VEJ4N (running)>
+    │    └ <function StartStopStep.start at 0x0000021D054A9440>
+    └ <step: Consumer>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\bootsteps.py", line 365, in start
+    return self.obj.start()
+           │    │   └ <function Consumer.start at 0x0000021D0E547380>
+           │    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+           └ <step: Consumer>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 346, in start
+    blueprint.start(self)
+    │         │     └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+    │         └ <function Blueprint.start at 0x0000021D054A8180>
+    └ <celery.worker.consumer.consumer.Consumer.Blueprint object at 0x0000021D0E54DE80>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\bootsteps.py", line 116, in start
+    step.start(parent)
+    │    │     └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+    │    └ <function Evloop.start at 0x0000021D0E56C720>
+    └ <step: event loop>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 788, in start
+    c.loop(*c.loop_args())
+    │ │     │ └ <function Consumer.loop_args at 0x0000021D0E547880>
+    │ │     └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+    │ └ <function synloop at 0x0000021D0E546AC0>
+    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\loops.py", line 168, in synloop
+    _loop_cycle()
+    └ <function synloop.<locals>._loop_cycle at 0x0000021D0E5DA340>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\loops.py", line 157, in _loop_cycle
+    connection.drain_events(timeout=2.0)
+    │          └ <function Connection.drain_events at 0x0000021D042DDE40>
+    └ <Connection: amqp://guest:**@127.0.0.1:5672// at 0x21d0e55d810>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\kombu\connection.py", line 343, in drain_events
+    return self.transport.drain_events(self.connection, **kwargs)
+           │    │                      │    │             └ {'timeout': 2.0}
+           │    │                      │    └ <property object at 0x0000021D042F0130>
+           │    │                      └ <Connection: amqp://guest:**@127.0.0.1:5672// at 0x21d0e55d810>
+           │    └ <property object at 0x0000021D042F01D0>
+           └ <Connection: amqp://guest:**@127.0.0.1:5672// at 0x21d0e55d810>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\kombu\transport\pyamqp.py", line 171, in drain_events
+    return connection.drain_events(**kwargs)
+           │          │              └ {'timeout': 2.0}
+           │          └ <function Connection.drain_events at 0x0000021D029B7F60>
+           └ <AMQP Connection: 127.0.0.1:5672// using <TCPTransport: 127.0.0.1:63912 -> 127.0.0.1:5672 at 0x21d0e57bd50> at 0x21d0e522c80>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\amqp\connection.py", line 526, in drain_events
+    while not self.blocking_read(timeout):
+              │    │             └ 2.0
+              │    └ <function Connection.blocking_read at 0x0000021D029C4040>
+              └ <AMQP Connection: 127.0.0.1:5672// using <TCPTransport: 127.0.0.1:63912 -> 127.0.0.1:5672 at 0x21d0e57bd50> at 0x21d0e522c80>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\amqp\connection.py", line 532, in blocking_read
+    return self.on_inbound_frame(frame)
+           │    │                └ (3, 1, b'[[1399867473, "\\u0412\\u0430\\u0448 \\u0443\\u0440\\u043e\\u043a \\u043f\\u043e\\u043b\\u0443\\u0447\\u0438\\u043b ...
+           │    └ <property object at 0x0000021D029C0130>
+           └ <AMQP Connection: 127.0.0.1:5672// using <TCPTransport: 127.0.0.1:63912 -> 127.0.0.1:5672 at 0x21d0e57bd50> at 0x21d0e522c80>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\amqp\method_framing.py", line 77, in on_frame
+    callback(channel, msg.frame_method, msg.frame_args, msg)
+    │        │        │   │             │   │           └ <amqp.basic_message.Message object at 0x0000021D0E57BAD0>
+    │        │        │   │             │   └ <member 'frame_args' of 'GenericContent' objects>
+    │        │        │   │             └ <amqp.basic_message.Message object at 0x0000021D0E57BAD0>
+    │        │        │   └ <member 'frame_method' of 'GenericContent' objects>
+    │        │        └ <amqp.basic_message.Message object at 0x0000021D0E57BAD0>
+    │        └ 1
+    └ <bound method Connection.on_inbound_method of <AMQP Connection: 127.0.0.1:5672// using <TCPTransport: 127.0.0.1:63912 -> 127....
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\amqp\connection.py", line 538, in on_inbound_method
+    return self.channels[channel_id].dispatch_method(
+           │    │        └ 1
+           │    └ {0: <AMQP Connection: 127.0.0.1:5672// using <TCPTransport: 127.0.0.1:63912 -> 127.0.0.1:5672 at 0x21d0e57bd50> at 0x21d0e522...
+           └ <AMQP Connection: 127.0.0.1:5672// using <TCPTransport: 127.0.0.1:63912 -> 127.0.0.1:5672 at 0x21d0e57bd50> at 0x21d0e522c80>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\amqp\abstract_channel.py", line 156, in dispatch_method
+    listener(*args)
+    │         └ ['None1', 6, False, '', 'celery', <amqp.basic_message.Message object at 0x0000021D0E57BAD0>]
+    └ <bound method Channel._on_basic_deliver of <kombu.transport.pyamqp.Channel object at 0x0000021D0E5232A0>>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\amqp\channel.py", line 1629, in _on_basic_deliver
+    fun(msg)
+    │   └ <amqp.basic_message.Message object at 0x0000021D0E57BAD0>
+    └ <bound method Consumer._receive_callback of <Consumer: [<Queue celery -> <Exchange celery(direct) bound to chan:1> -> celery ...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\kombu\messaging.py", line 668, in _receive_callback
+    return on_m(message) if on_m else self.receive(decoded, message)
+           │    │           │         │    │       │        └ <Message object at 0x21d0e5983b0 with details {'state': 'RECEIVED', 'content_type': 'application/json', 'delivery_tag': 6, 'b...
+           │    │           │         │    │       └ None
+           │    │           │         │    └ <function Consumer.receive at 0x0000021D04E1CCC0>
+           │    │           │         └ <Consumer: [<Queue celery -> <Exchange celery(direct) bound to chan:1> -> celery bound to chan:1>, <Queue celery@DESKTOP-V9VE...
+           │    │           └ <function Consumer.create_task_handler.<locals>.on_task_received at 0x0000021D0E5DA3E0>
+           │    └ <Message object at 0x21d0e5983b0 with details {'state': 'RECEIVED', 'content_type': 'application/json', 'delivery_tag': 6, 'b...
+           └ <function Consumer.create_task_handler.<locals>.on_task_received at 0x0000021D0E5DA3E0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 694, in on_task_received
+    strategy(
+    └ <function default.<locals>.task_message_handler at 0x0000021D0E5D9260>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\strategy.py", line 203, in task_message_handler
+    return limit_task(req, bucket, 1)
+           │          │    └ <kombu.utils.limits.TokenBucket object at 0x0000021D0E54DD30>
+           │          └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+           └ <bound method Consumer._limit_task of <Consumer: celery@DESKTOP-V9VEJ4N (running)>>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 323, in _limit_task
+    return self._schedule_bucket_request(bucket)
+           │    │                        └ <kombu.utils.limits.TokenBucket object at 0x0000021D0E54DD30>
+           │    └ <function Consumer._schedule_bucket_request at 0x0000021D0E5471A0>
+           └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 306, in _schedule_bucket_request
+    self._limit_move_to_pool(request)
+    │    │                   └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+    │    └ <function Consumer._limit_move_to_pool at 0x0000021D0E547100>
+    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 295, in _limit_move_to_pool
+    self.on_task_request(request)
+    │    │               └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+    │    └ <bound method WorkController._process_task of <Worker: celery@DESKTOP-V9VEJ4N (running)>>
+    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\worker.py", line 226, in _process_task
+    req.execute_using_pool(self.pool)
+    │   │                  │    └ <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>
+    │   │                  └ <Worker: celery@DESKTOP-V9VEJ4N (running)>
+    │   └ <function create_request_cls.<locals>.Request.execute_using_pool at 0x0000021D0E5D9300>
+    └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\request.py", line 770, in execute_using_pool
+    result = apply_async(
+             └ <bound method BasePool.apply_async of <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\concurrency\base.py", line 153, in apply_async
+    return self.on_apply(target, args, kwargs,
+           │    │        │       │     └ {}
+           │    │        │       └ ('send_single_tg_message', 'bb98f83e-d7ff-43c7-8f5e-52317c8aea56', {'argsrepr': "(1399867473, 'Ваш урок получил новый статус,...
+           │    │        └ <function fast_trace_task at 0x0000021D05539940>
+           │    └ <function apply_target at 0x0000021D0440CCC0>
+           └ <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\concurrency\base.py", line 30, in apply_target
+    ret = target(*args, **kwargs)
+          │       │       └ {}
+          │       └ ('send_single_tg_message', 'bb98f83e-d7ff-43c7-8f5e-52317c8aea56', {'argsrepr': "(1399867473, 'Ваш урок получил новый статус,...
+          └ <function fast_trace_task at 0x0000021D05539940>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 773, in fast_trace_task
+    R, I, T, Rstr = tasks[task].__trace__(
+                    │     └ 'send_single_tg_message'
+                    └ {'celery.map': <@task: celery.map of worker at 0x21d063e7e00>, 'celery.backend_cleanup': <@task: celery.backend_cleanup of wo...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 585, in trace_task
+    R = retval = fun(*args, **kwargs)
+                 │    │       └ {}
+                 │    └ [1399867473, 'Ваш урок получил новый статус, ознакомьтесь с ним.', 'http://10.171.36.68:8080/api/redirect/lesson/54']
+                 └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+> File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 858, in __protected_call__
+    return self.run(*args, **kwargs)
+           │    │    │       └ {}
+           │    │    └ (1399867473, 'Ваш урок получил новый статус, ознакомьтесь с ним.', 'http://10.171.36.68:8080/api/redirect/lesson/54')
+           │    └ <function send_single_tg_message at 0x0000021D0E353240>
+           └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 72, in send_single_tg_message
+    raise self.retry(exc=e, countdown=delay)
+          │    │                      └ 1
+          │    └ <function Task.retry at 0x0000021D05525940>
+          └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\task.py", line 790, in retry
+    raise ret
+          └ Retry(Retry(...), RuntimeError('Event loop is closed'), 1)
+
+celery.exceptions.Retry: Retry in 1s: RuntimeError('Event loop is closed')
+2026-05-09 20:57:15 | ERROR    | routers.tasks.notification_tasks:_safe_send_message:88 - Failed to send message to chat_id 1399867473: Event loop is closed
+2026-05-09 20:57:15 | ERROR    | routers.tasks.notification_tasks:send_single_tg_message:70 - Failed to send message to chat_id 1399867473: Event loop is closed
+2026-05-09 20:57:15 | ERROR    | celery.app.trace:__protected_call__:858 - An error has been caught in function '__protected_call__', process 'MainProcess' (14332), thread 'Timer-1' (17352):
+Traceback (most recent call last):
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 65, in send_single_tg_message
+    asyncio.run(_safe_send_message(chat_id, message_text, url, lesson_ids))
+    │       │   │                  │        │             │    └ None
+    │       │   │                  │        │             └ 'http://10.171.36.68:8080/api/redirect/lesson/54'
+    │       │   │                  │        └ 'Ваш урок получил новый статус, ознакомьтесь с ним.'
+    │       │   │                  └ 1399867473
+    │       │   └ <function _safe_send_message at 0x0000021D0E3531A0>
+    │       └ <function run at 0x0000021D04F3E0C0>
+    └ <module 'asyncio' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           │      │   └ <coroutine object _safe_send_message at 0x0000021D0E7FD000>
+           │      └ <function Runner.run at 0x0000021D04F75760>
+           └ <asyncio.runners.Runner object at 0x0000021D0E73ACF0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │                        └ <Task finished name='Task-32' coro=<_safe_send_message() done, defined at E:\dev\share_it\back-end\routers\tasks\notification...
+           │    └ None
+           └ <asyncio.runners.Runner object at 0x0000021D0E73ACF0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           │      └ <method 'result' of '_asyncio.Task' objects>
+           └ <Task finished name='Task-32' coro=<_safe_send_message() done, defined at E:\dev\share_it\back-end\routers\tasks\notification...
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 89, in _safe_send_message
+    raise e
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 86, in _safe_send_message
+    await tg_bot.send_message(chat_id, message_text, reply_markup=kb)
+          │      │            │        │                          └ InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Перейти к уроку', url='http://10.171.36.68:8080/api/redirec...
+          │      │            │        └ 'Ваш урок получил новый статус, ознакомьтесь с ним.'
+          │      │            └ 1399867473
+          │      └ <function Bot.send_message at 0x0000021D0B7A5120>
+          └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\bot.py", line 2850, in send_message
+    return await self(call, request_timeout=request_timeout)
+                 │    │                     └ None
+                 │    └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+                 └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\bot.py", line 478, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+                 │    │       │     │               └ None
+                 │    │       │     └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+                 │    │       └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+                 │    └ <aiogram.client.session.aiohttp.AiohttpSession object at 0x0000021D0E33C440>
+                 └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\session\base.py", line 254, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+           │    │                   │          │    └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+           │    │                   │          └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+           │    │                   └ functools.partial(<bound method AiohttpSession.make_request of <aiogram.client.session.aiohttp.AiohttpSession object at 0x000...
+           │    └ ~TelegramType
+           └ <function cast at 0x0000021D01D4CD60>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    async with session.post(
+               │       └ <function ClientSession.post at 0x0000021D07CDC4A0>
+               └ <aiohttp.client.ClientSession object at 0x0000021D0E5BDD30>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1425, in __aenter__
+    self._resp: _RetType = await self._coro
+    │    │                       │    └ <member '_coro' of '_BaseRequestContextManager' objects>
+    │    │                       └ <aiohttp.client._BaseRequestContextManager object at 0x0000021D0E7EB0D0>
+    │    └ <member '_resp' of '_BaseRequestContextManager' objects>
+    └ <aiohttp.client._BaseRequestContextManager object at 0x0000021D0E7EB0D0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 579, in _request
+    handle = tm.start()
+             │  └ <function TimeoutHandle.start at 0x0000021D07B3BD80>
+             └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0E9F9380>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\helpers.py", line 587, in start
+    return self._loop.call_at(when, self.__call__)
+           │    │             │     │    └ <function TimeoutHandle.__call__ at 0x0000021D07B3BEC0>
+           │    │             │     └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0E9F9380>
+           │    │             └ 33778
+           │    └ <member '_loop' of 'TimeoutHandle' objects>
+           └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0E9F9380>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 812, in call_at
+    self._check_closed()
+    │    └ <function BaseEventLoop._check_closed at 0x0000021D04F6EAC0>
+    └ <_WindowsSelectorEventLoop running=False closed=True debug=False>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 556, in _check_closed
+    raise RuntimeError('Event loop is closed')
+
+RuntimeError: Event loop is closed
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\threading.py", line 1012, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x0000021D02107F60>
+    └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\threading.py", line 1041, in _bootstrap_inner
+    self.run()
+    │    └ <function Timer.run at 0x0000021D0457EA20>
+    └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\utils\timer2.py", line 85, in run
+    delay = self._next_entry()
+            │    └ <function Timer._next_entry at 0x0000021D0457EAC0>
+            └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\utils\timer2.py", line 76, in _next_entry
+    return self.schedule.apply_entry(entry)
+           │    │        │           └ <TimerEntry: _schedule_bucket_request(*(<kombu.utils.limits.TokenBucket object at 0x0000021D0E54DD30>,), **{})
+           │    │        └ <function Timer.apply_entry at 0x0000021D045B4220>
+           │    └ <kombu.asynchronous.timer.Timer object at 0x0000021D0E54C440>
+           └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\kombu\asynchronous\timer.py", line 177, in apply_entry
+    entry()
+    └ <TimerEntry: _schedule_bucket_request(*(<kombu.utils.limits.TokenBucket object at 0x0000021D0E54DD30>,), **{})
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\kombu\asynchronous\timer.py", line 70, in __call__
+    return self.fun(*self.args, **self.kwargs)
+           │    │    │    │       │    └ <member 'kwargs' of 'Entry' objects>
+           │    │    │    │       └ <TimerEntry: _schedule_bucket_request(*(<kombu.utils.limits.TokenBucket object at 0x0000021D0E54DD30>,), **{})
+           │    │    │    └ <member 'args' of 'Entry' objects>
+           │    │    └ <TimerEntry: _schedule_bucket_request(*(<kombu.utils.limits.TokenBucket object at 0x0000021D0E54DD30>,), **{})
+           │    └ <member 'fun' of 'Entry' objects>
+           └ <TimerEntry: _schedule_bucket_request(*(<kombu.utils.limits.TokenBucket object at 0x0000021D0E54DD30>,), **{})
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 306, in _schedule_bucket_request
+    self._limit_move_to_pool(request)
+    │    │                   └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+    │    └ <function Consumer._limit_move_to_pool at 0x0000021D0E547100>
+    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 295, in _limit_move_to_pool
+    self.on_task_request(request)
+    │    │               └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+    │    └ <bound method WorkController._process_task of <Worker: celery@DESKTOP-V9VEJ4N (running)>>
+    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\worker.py", line 226, in _process_task
+    req.execute_using_pool(self.pool)
+    │   │                  │    └ <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>
+    │   │                  └ <Worker: celery@DESKTOP-V9VEJ4N (running)>
+    │   └ <function create_request_cls.<locals>.Request.execute_using_pool at 0x0000021D0E5D9300>
+    └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\request.py", line 770, in execute_using_pool
+    result = apply_async(
+             └ <bound method BasePool.apply_async of <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\concurrency\base.py", line 153, in apply_async
+    return self.on_apply(target, args, kwargs,
+           │    │        │       │     └ {}
+           │    │        │       └ ('send_single_tg_message', 'bb98f83e-d7ff-43c7-8f5e-52317c8aea56', {'argsrepr': "(1399867473, 'Ваш урок получил новый статус,...
+           │    │        └ <function fast_trace_task at 0x0000021D05539940>
+           │    └ <function apply_target at 0x0000021D0440CCC0>
+           └ <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\concurrency\base.py", line 30, in apply_target
+    ret = target(*args, **kwargs)
+          │       │       └ {}
+          │       └ ('send_single_tg_message', 'bb98f83e-d7ff-43c7-8f5e-52317c8aea56', {'argsrepr': "(1399867473, 'Ваш урок получил новый статус,...
+          └ <function fast_trace_task at 0x0000021D05539940>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 773, in fast_trace_task
+    R, I, T, Rstr = tasks[task].__trace__(
+                    │     └ 'send_single_tg_message'
+                    └ {'celery.map': <@task: celery.map of worker at 0x21d063e7e00>, 'celery.backend_cleanup': <@task: celery.backend_cleanup of wo...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 585, in trace_task
+    R = retval = fun(*args, **kwargs)
+                 │    │       └ {}
+                 │    └ [1399867473, 'Ваш урок получил новый статус, ознакомьтесь с ним.', 'http://10.171.36.68:8080/api/redirect/lesson/54']
+                 └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+> File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 858, in __protected_call__
+    return self.run(*args, **kwargs)
+           │    │    │       └ {}
+           │    │    └ (1399867473, 'Ваш урок получил новый статус, ознакомьтесь с ним.', 'http://10.171.36.68:8080/api/redirect/lesson/54')
+           │    └ <function send_single_tg_message at 0x0000021D0E353240>
+           └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 72, in send_single_tg_message
+    raise self.retry(exc=e, countdown=delay)
+          │    │                      └ 2
+          │    └ <function Task.retry at 0x0000021D05525940>
+          └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\task.py", line 790, in retry
+    raise ret
+          └ Retry(Retry(...), RuntimeError('Event loop is closed'), 2)
+
+celery.exceptions.Retry: Retry in 2s: RuntimeError('Event loop is closed')
+2026-05-09 20:57:17 | ERROR    | routers.tasks.notification_tasks:_safe_send_message:88 - Failed to send message to chat_id 1399867473: Event loop is closed
+2026-05-09 20:57:17 | ERROR    | routers.tasks.notification_tasks:send_single_tg_message:70 - Failed to send message to chat_id 1399867473: Event loop is closed
+2026-05-09 20:57:17 | ERROR    | celery.app.trace:__protected_call__:858 - An error has been caught in function '__protected_call__', process 'MainProcess' (14332), thread 'Timer-1' (17352):
+Traceback (most recent call last):
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 65, in send_single_tg_message
+    asyncio.run(_safe_send_message(chat_id, message_text, url, lesson_ids))
+    │       │   │                  │        │             │    └ None
+    │       │   │                  │        │             └ 'http://10.171.36.68:8080/api/redirect/lesson/54'
+    │       │   │                  │        └ 'Ваш урок получил новый статус, ознакомьтесь с ним.'
+    │       │   │                  └ 1399867473
+    │       │   └ <function _safe_send_message at 0x0000021D0E3531A0>
+    │       └ <function run at 0x0000021D04F3E0C0>
+    └ <module 'asyncio' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           │      │   └ <coroutine object _safe_send_message at 0x0000021D0E7FDA20>
+           │      └ <function Runner.run at 0x0000021D04F75760>
+           └ <asyncio.runners.Runner object at 0x0000021D0E739480>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │                        └ <Task finished name='Task-35' coro=<_safe_send_message() done, defined at E:\dev\share_it\back-end\routers\tasks\notification...
+           │    └ None
+           └ <asyncio.runners.Runner object at 0x0000021D0E739480>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           │      └ <method 'result' of '_asyncio.Task' objects>
+           └ <Task finished name='Task-35' coro=<_safe_send_message() done, defined at E:\dev\share_it\back-end\routers\tasks\notification...
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 89, in _safe_send_message
+    raise e
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 86, in _safe_send_message
+    await tg_bot.send_message(chat_id, message_text, reply_markup=kb)
+          │      │            │        │                          └ InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Перейти к уроку', url='http://10.171.36.68:8080/api/redirec...
+          │      │            │        └ 'Ваш урок получил новый статус, ознакомьтесь с ним.'
+          │      │            └ 1399867473
+          │      └ <function Bot.send_message at 0x0000021D0B7A5120>
+          └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\bot.py", line 2850, in send_message
+    return await self(call, request_timeout=request_timeout)
+                 │    │                     └ None
+                 │    └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+                 └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\bot.py", line 478, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+                 │    │       │     │               └ None
+                 │    │       │     └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+                 │    │       └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+                 │    └ <aiogram.client.session.aiohttp.AiohttpSession object at 0x0000021D0E33C440>
+                 └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\session\base.py", line 254, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+           │    │                   │          │    └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+           │    │                   │          └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+           │    │                   └ functools.partial(<bound method AiohttpSession.make_request of <aiogram.client.session.aiohttp.AiohttpSession object at 0x000...
+           │    └ ~TelegramType
+           └ <function cast at 0x0000021D01D4CD60>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    async with session.post(
+               │       └ <function ClientSession.post at 0x0000021D07CDC4A0>
+               └ <aiohttp.client.ClientSession object at 0x0000021D0E5BDD30>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1425, in __aenter__
+    self._resp: _RetType = await self._coro
+    │    │                       │    └ <member '_coro' of '_BaseRequestContextManager' objects>
+    │    │                       └ <aiohttp.client._BaseRequestContextManager object at 0x0000021D0E7EB1C0>
+    │    └ <member '_resp' of '_BaseRequestContextManager' objects>
+    └ <aiohttp.client._BaseRequestContextManager object at 0x0000021D0E7EB1C0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 579, in _request
+    handle = tm.start()
+             │  └ <function TimeoutHandle.start at 0x0000021D07B3BD80>
+             └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0EA14440>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\helpers.py", line 587, in start
+    return self._loop.call_at(when, self.__call__)
+           │    │             │     │    └ <function TimeoutHandle.__call__ at 0x0000021D07B3BEC0>
+           │    │             │     └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0EA14440>
+           │    │             └ 33780
+           │    └ <member '_loop' of 'TimeoutHandle' objects>
+           └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0EA14440>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 812, in call_at
+    self._check_closed()
+    │    └ <function BaseEventLoop._check_closed at 0x0000021D04F6EAC0>
+    └ <_WindowsSelectorEventLoop running=False closed=True debug=False>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 556, in _check_closed
+    raise RuntimeError('Event loop is closed')
+
+RuntimeError: Event loop is closed
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\threading.py", line 1012, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x0000021D02107F60>
+    └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\threading.py", line 1041, in _bootstrap_inner
+    self.run()
+    │    └ <function Timer.run at 0x0000021D0457EA20>
+    └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\utils\timer2.py", line 85, in run
+    delay = self._next_entry()
+            │    └ <function Timer._next_entry at 0x0000021D0457EAC0>
+            └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\utils\timer2.py", line 76, in _next_entry
+    return self.schedule.apply_entry(entry)
+           │    │        │           └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+           │    │        └ <function Timer.apply_entry at 0x0000021D045B4220>
+           │    └ <kombu.asynchronous.timer.Timer object at 0x0000021D0E54C440>
+           └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\kombu\asynchronous\timer.py", line 177, in apply_entry
+    entry()
+    └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\kombu\asynchronous\timer.py", line 70, in __call__
+    return self.fun(*self.args, **self.kwargs)
+           │    │    │    │       │    └ <member 'kwargs' of 'Entry' objects>
+           │    │    │    │       └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+           │    │    │    └ <member 'args' of 'Entry' objects>
+           │    │    └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+           │    └ <member 'fun' of 'Entry' objects>
+           └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 328, in _limit_post_eta
+    return self._schedule_bucket_request(bucket)
+           │    │                        └ <kombu.utils.limits.TokenBucket object at 0x0000021D0E54DD30>
+           │    └ <function Consumer._schedule_bucket_request at 0x0000021D0E5471A0>
+           └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 306, in _schedule_bucket_request
+    self._limit_move_to_pool(request)
+    │    │                   └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+    │    └ <function Consumer._limit_move_to_pool at 0x0000021D0E547100>
+    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 295, in _limit_move_to_pool
+    self.on_task_request(request)
+    │    │               └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+    │    └ <bound method WorkController._process_task of <Worker: celery@DESKTOP-V9VEJ4N (running)>>
+    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\worker.py", line 226, in _process_task
+    req.execute_using_pool(self.pool)
+    │   │                  │    └ <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>
+    │   │                  └ <Worker: celery@DESKTOP-V9VEJ4N (running)>
+    │   └ <function create_request_cls.<locals>.Request.execute_using_pool at 0x0000021D0E5D9300>
+    └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\request.py", line 770, in execute_using_pool
+    result = apply_async(
+             └ <bound method BasePool.apply_async of <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\concurrency\base.py", line 153, in apply_async
+    return self.on_apply(target, args, kwargs,
+           │    │        │       │     └ {}
+           │    │        │       └ ('send_single_tg_message', 'bb98f83e-d7ff-43c7-8f5e-52317c8aea56', {'argsrepr': "(1399867473, 'Ваш урок получил новый статус,...
+           │    │        └ <function fast_trace_task at 0x0000021D05539940>
+           │    └ <function apply_target at 0x0000021D0440CCC0>
+           └ <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\concurrency\base.py", line 30, in apply_target
+    ret = target(*args, **kwargs)
+          │       │       └ {}
+          │       └ ('send_single_tg_message', 'bb98f83e-d7ff-43c7-8f5e-52317c8aea56', {'argsrepr': "(1399867473, 'Ваш урок получил новый статус,...
+          └ <function fast_trace_task at 0x0000021D05539940>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 773, in fast_trace_task
+    R, I, T, Rstr = tasks[task].__trace__(
+                    │     └ 'send_single_tg_message'
+                    └ {'celery.map': <@task: celery.map of worker at 0x21d063e7e00>, 'celery.backend_cleanup': <@task: celery.backend_cleanup of wo...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 585, in trace_task
+    R = retval = fun(*args, **kwargs)
+                 │    │       └ {}
+                 │    └ [1399867473, 'Ваш урок получил новый статус, ознакомьтесь с ним.', 'http://10.171.36.68:8080/api/redirect/lesson/54']
+                 └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+> File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 858, in __protected_call__
+    return self.run(*args, **kwargs)
+           │    │    │       └ {}
+           │    │    └ (1399867473, 'Ваш урок получил новый статус, ознакомьтесь с ним.', 'http://10.171.36.68:8080/api/redirect/lesson/54')
+           │    └ <function send_single_tg_message at 0x0000021D0E353240>
+           └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 72, in send_single_tg_message
+    raise self.retry(exc=e, countdown=delay)
+          │    │                      └ 4
+          │    └ <function Task.retry at 0x0000021D05525940>
+          └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\task.py", line 790, in retry
+    raise ret
+          └ Retry(Retry(...), RuntimeError('Event loop is closed'), 4)
+
+celery.exceptions.Retry: Retry in 4s: RuntimeError('Event loop is closed')
+2026-05-09 20:57:21 | ERROR    | routers.tasks.notification_tasks:_safe_send_message:88 - Failed to send message to chat_id 1399867473: Event loop is closed
+2026-05-09 20:57:21 | ERROR    | routers.tasks.notification_tasks:send_single_tg_message:70 - Failed to send message to chat_id 1399867473: Event loop is closed
+2026-05-09 20:57:21 | ERROR    | celery.app.trace:__protected_call__:858 - An error has been caught in function '__protected_call__', process 'MainProcess' (14332), thread 'Timer-1' (17352):
+Traceback (most recent call last):
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 65, in send_single_tg_message
+    asyncio.run(_safe_send_message(chat_id, message_text, url, lesson_ids))
+    │       │   │                  │        │             │    └ None
+    │       │   │                  │        │             └ 'http://10.171.36.68:8080/api/redirect/lesson/54'
+    │       │   │                  │        └ 'Ваш урок получил новый статус, ознакомьтесь с ним.'
+    │       │   │                  └ 1399867473
+    │       │   └ <function _safe_send_message at 0x0000021D0E3531A0>
+    │       └ <function run at 0x0000021D04F3E0C0>
+    └ <module 'asyncio' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           │      │   └ <coroutine object _safe_send_message at 0x0000021D0E7FE200>
+           │      └ <function Runner.run at 0x0000021D04F75760>
+           └ <asyncio.runners.Runner object at 0x0000021D0E891250>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │                        └ <Task finished name='Task-38' coro=<_safe_send_message() done, defined at E:\dev\share_it\back-end\routers\tasks\notification...
+           │    └ None
+           └ <asyncio.runners.Runner object at 0x0000021D0E891250>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           │      └ <method 'result' of '_asyncio.Task' objects>
+           └ <Task finished name='Task-38' coro=<_safe_send_message() done, defined at E:\dev\share_it\back-end\routers\tasks\notification...
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 89, in _safe_send_message
+    raise e
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 86, in _safe_send_message
+    await tg_bot.send_message(chat_id, message_text, reply_markup=kb)
+          │      │            │        │                          └ InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Перейти к уроку', url='http://10.171.36.68:8080/api/redirec...
+          │      │            │        └ 'Ваш урок получил новый статус, ознакомьтесь с ним.'
+          │      │            └ 1399867473
+          │      └ <function Bot.send_message at 0x0000021D0B7A5120>
+          └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\bot.py", line 2850, in send_message
+    return await self(call, request_timeout=request_timeout)
+                 │    │                     └ None
+                 │    └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+                 └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\bot.py", line 478, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+                 │    │       │     │               └ None
+                 │    │       │     └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+                 │    │       └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+                 │    └ <aiogram.client.session.aiohttp.AiohttpSession object at 0x0000021D0E33C440>
+                 └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\session\base.py", line 254, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+           │    │                   │          │    └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+           │    │                   │          └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+           │    │                   └ functools.partial(<bound method AiohttpSession.make_request of <aiogram.client.session.aiohttp.AiohttpSession object at 0x000...
+           │    └ ~TelegramType
+           └ <function cast at 0x0000021D01D4CD60>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    async with session.post(
+               │       └ <function ClientSession.post at 0x0000021D07CDC4A0>
+               └ <aiohttp.client.ClientSession object at 0x0000021D0E5BDD30>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1425, in __aenter__
+    self._resp: _RetType = await self._coro
+    │    │                       │    └ <member '_coro' of '_BaseRequestContextManager' objects>
+    │    │                       └ <aiohttp.client._BaseRequestContextManager object at 0x0000021D0EA001F0>
+    │    └ <member '_resp' of '_BaseRequestContextManager' objects>
+    └ <aiohttp.client._BaseRequestContextManager object at 0x0000021D0EA001F0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 579, in _request
+    handle = tm.start()
+             │  └ <function TimeoutHandle.start at 0x0000021D07B3BD80>
+             └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0EA15800>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\helpers.py", line 587, in start
+    return self._loop.call_at(when, self.__call__)
+           │    │             │     │    └ <function TimeoutHandle.__call__ at 0x0000021D07B3BEC0>
+           │    │             │     └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0EA15800>
+           │    │             └ 33784
+           │    └ <member '_loop' of 'TimeoutHandle' objects>
+           └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0EA15800>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 812, in call_at
+    self._check_closed()
+    │    └ <function BaseEventLoop._check_closed at 0x0000021D04F6EAC0>
+    └ <_WindowsSelectorEventLoop running=False closed=True debug=False>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 556, in _check_closed
+    raise RuntimeError('Event loop is closed')
+
+RuntimeError: Event loop is closed
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\threading.py", line 1012, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x0000021D02107F60>
+    └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\threading.py", line 1041, in _bootstrap_inner
+    self.run()
+    │    └ <function Timer.run at 0x0000021D0457EA20>
+    └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\utils\timer2.py", line 85, in run
+    delay = self._next_entry()
+            │    └ <function Timer._next_entry at 0x0000021D0457EAC0>
+            └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\utils\timer2.py", line 76, in _next_entry
+    return self.schedule.apply_entry(entry)
+           │    │        │           └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+           │    │        └ <function Timer.apply_entry at 0x0000021D045B4220>
+           │    └ <kombu.asynchronous.timer.Timer object at 0x0000021D0E54C440>
+           └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\kombu\asynchronous\timer.py", line 177, in apply_entry
+    entry()
+    └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\kombu\asynchronous\timer.py", line 70, in __call__
+    return self.fun(*self.args, **self.kwargs)
+           │    │    │    │       │    └ <member 'kwargs' of 'Entry' objects>
+           │    │    │    │       └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+           │    │    │    └ <member 'args' of 'Entry' objects>
+           │    │    └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+           │    └ <member 'fun' of 'Entry' objects>
+           └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 328, in _limit_post_eta
+    return self._schedule_bucket_request(bucket)
+           │    │                        └ <kombu.utils.limits.TokenBucket object at 0x0000021D0E54DD30>
+           │    └ <function Consumer._schedule_bucket_request at 0x0000021D0E5471A0>
+           └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 306, in _schedule_bucket_request
+    self._limit_move_to_pool(request)
+    │    │                   └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+    │    └ <function Consumer._limit_move_to_pool at 0x0000021D0E547100>
+    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 295, in _limit_move_to_pool
+    self.on_task_request(request)
+    │    │               └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+    │    └ <bound method WorkController._process_task of <Worker: celery@DESKTOP-V9VEJ4N (running)>>
+    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\worker.py", line 226, in _process_task
+    req.execute_using_pool(self.pool)
+    │   │                  │    └ <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>
+    │   │                  └ <Worker: celery@DESKTOP-V9VEJ4N (running)>
+    │   └ <function create_request_cls.<locals>.Request.execute_using_pool at 0x0000021D0E5D9300>
+    └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\request.py", line 770, in execute_using_pool
+    result = apply_async(
+             └ <bound method BasePool.apply_async of <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\concurrency\base.py", line 153, in apply_async
+    return self.on_apply(target, args, kwargs,
+           │    │        │       │     └ {}
+           │    │        │       └ ('send_single_tg_message', 'bb98f83e-d7ff-43c7-8f5e-52317c8aea56', {'argsrepr': "(1399867473, 'Ваш урок получил новый статус,...
+           │    │        └ <function fast_trace_task at 0x0000021D05539940>
+           │    └ <function apply_target at 0x0000021D0440CCC0>
+           └ <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\concurrency\base.py", line 30, in apply_target
+    ret = target(*args, **kwargs)
+          │       │       └ {}
+          │       └ ('send_single_tg_message', 'bb98f83e-d7ff-43c7-8f5e-52317c8aea56', {'argsrepr': "(1399867473, 'Ваш урок получил новый статус,...
+          └ <function fast_trace_task at 0x0000021D05539940>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 773, in fast_trace_task
+    R, I, T, Rstr = tasks[task].__trace__(
+                    │     └ 'send_single_tg_message'
+                    └ {'celery.map': <@task: celery.map of worker at 0x21d063e7e00>, 'celery.backend_cleanup': <@task: celery.backend_cleanup of wo...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 585, in trace_task
+    R = retval = fun(*args, **kwargs)
+                 │    │       └ {}
+                 │    └ [1399867473, 'Ваш урок получил новый статус, ознакомьтесь с ним.', 'http://10.171.36.68:8080/api/redirect/lesson/54']
+                 └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+> File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 858, in __protected_call__
+    return self.run(*args, **kwargs)
+           │    │    │       └ {}
+           │    │    └ (1399867473, 'Ваш урок получил новый статус, ознакомьтесь с ним.', 'http://10.171.36.68:8080/api/redirect/lesson/54')
+           │    └ <function send_single_tg_message at 0x0000021D0E353240>
+           └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 72, in send_single_tg_message
+    raise self.retry(exc=e, countdown=delay)
+          │    │                      └ 8
+          │    └ <function Task.retry at 0x0000021D05525940>
+          └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\task.py", line 790, in retry
+    raise ret
+          └ Retry(Retry(...), RuntimeError('Event loop is closed'), 8)
+
+celery.exceptions.Retry: Retry in 8s: RuntimeError('Event loop is closed')
+2026-05-09 20:57:29 | ERROR    | routers.tasks.notification_tasks:_safe_send_message:88 - Failed to send message to chat_id 1399867473: Event loop is closed
+2026-05-09 20:57:29 | ERROR    | routers.tasks.notification_tasks:send_single_tg_message:70 - Failed to send message to chat_id 1399867473: Event loop is closed
+2026-05-09 20:57:29 | ERROR    | celery.app.trace:__protected_call__:858 - An error has been caught in function '__protected_call__', process 'MainProcess' (14332), thread 'Timer-1' (17352):
+Traceback (most recent call last):
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 65, in send_single_tg_message
+    asyncio.run(_safe_send_message(chat_id, message_text, url, lesson_ids))
+    │       │   │                  │        │             │    └ None
+    │       │   │                  │        │             └ 'http://10.171.36.68:8080/api/redirect/lesson/54'
+    │       │   │                  │        └ 'Ваш урок получил новый статус, ознакомьтесь с ним.'
+    │       │   │                  └ 1399867473
+    │       │   └ <function _safe_send_message at 0x0000021D0E3531A0>
+    │       └ <function run at 0x0000021D04F3E0C0>
+    └ <module 'asyncio' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           │      │   └ <coroutine object _safe_send_message at 0x0000021D0E7FE560>
+           │      └ <function Runner.run at 0x0000021D04F75760>
+           └ <asyncio.runners.Runner object at 0x0000021D0E891650>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │                        └ <Task finished name='Task-41' coro=<_safe_send_message() done, defined at E:\dev\share_it\back-end\routers\tasks\notification...
+           │    └ None
+           └ <asyncio.runners.Runner object at 0x0000021D0E891650>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           │      └ <method 'result' of '_asyncio.Task' objects>
+           └ <Task finished name='Task-41' coro=<_safe_send_message() done, defined at E:\dev\share_it\back-end\routers\tasks\notification...
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 89, in _safe_send_message
+    raise e
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 86, in _safe_send_message
+    await tg_bot.send_message(chat_id, message_text, reply_markup=kb)
+          │      │            │        │                          └ InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Перейти к уроку', url='http://10.171.36.68:8080/api/redirec...
+          │      │            │        └ 'Ваш урок получил новый статус, ознакомьтесь с ним.'
+          │      │            └ 1399867473
+          │      └ <function Bot.send_message at 0x0000021D0B7A5120>
+          └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\bot.py", line 2850, in send_message
+    return await self(call, request_timeout=request_timeout)
+                 │    │                     └ None
+                 │    └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+                 └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\bot.py", line 478, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+                 │    │       │     │               └ None
+                 │    │       │     └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+                 │    │       └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+                 │    └ <aiogram.client.session.aiohttp.AiohttpSession object at 0x0000021D0E33C440>
+                 └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\session\base.py", line 254, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+           │    │                   │          │    └ SendMessage(chat_id=1399867473, text='Ваш урок получил новый статус, ознакомьтесь с ним.', business_connection_id=None, messa...
+           │    │                   │          └ <aiogram.client.bot.Bot object at 0x0000021D0E33C2F0>
+           │    │                   └ functools.partial(<bound method AiohttpSession.make_request of <aiogram.client.session.aiohttp.AiohttpSession object at 0x000...
+           │    └ ~TelegramType
+           └ <function cast at 0x0000021D01D4CD60>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    async with session.post(
+               │       └ <function ClientSession.post at 0x0000021D07CDC4A0>
+               └ <aiohttp.client.ClientSession object at 0x0000021D0E5BDD30>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1425, in __aenter__
+    self._resp: _RetType = await self._coro
+    │    │                       │    └ <member '_coro' of '_BaseRequestContextManager' objects>
+    │    │                       └ <aiohttp.client._BaseRequestContextManager object at 0x0000021D0E7EB550>
+    │    └ <member '_resp' of '_BaseRequestContextManager' objects>
+    └ <aiohttp.client._BaseRequestContextManager object at 0x0000021D0E7EB550>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 579, in _request
+    handle = tm.start()
+             │  └ <function TimeoutHandle.start at 0x0000021D07B3BD80>
+             └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0EA07A40>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\helpers.py", line 587, in start
+    return self._loop.call_at(when, self.__call__)
+           │    │             │     │    └ <function TimeoutHandle.__call__ at 0x0000021D07B3BEC0>
+           │    │             │     └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0EA07A40>
+           │    │             └ 33792
+           │    └ <member '_loop' of 'TimeoutHandle' objects>
+           └ <aiohttp.helpers.TimeoutHandle object at 0x0000021D0EA07A40>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 812, in call_at
+    self._check_closed()
+    │    └ <function BaseEventLoop._check_closed at 0x0000021D04F6EAC0>
+    └ <_WindowsSelectorEventLoop running=False closed=True debug=False>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 556, in _check_closed
+    raise RuntimeError('Event loop is closed')
+
+RuntimeError: Event loop is closed
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\threading.py", line 1012, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x0000021D02107F60>
+    └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\threading.py", line 1041, in _bootstrap_inner
+    self.run()
+    │    └ <function Timer.run at 0x0000021D0457EA20>
+    └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\utils\timer2.py", line 85, in run
+    delay = self._next_entry()
+            │    └ <function Timer._next_entry at 0x0000021D0457EAC0>
+            └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\utils\timer2.py", line 76, in _next_entry
+    return self.schedule.apply_entry(entry)
+           │    │        │           └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+           │    │        └ <function Timer.apply_entry at 0x0000021D045B4220>
+           │    └ <kombu.asynchronous.timer.Timer object at 0x0000021D0E54C440>
+           └ <Timer(Timer-1, started daemon 17352)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\kombu\asynchronous\timer.py", line 177, in apply_entry
+    entry()
+    └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\kombu\asynchronous\timer.py", line 70, in __call__
+    return self.fun(*self.args, **self.kwargs)
+           │    │    │    │       │    └ <member 'kwargs' of 'Entry' objects>
+           │    │    │    │       └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+           │    │    │    └ <member 'args' of 'Entry' objects>
+           │    │    └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+           │    └ <member 'fun' of 'Entry' objects>
+           └ <TimerEntry: _limit_post_eta(*(<Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок ...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 328, in _limit_post_eta
+    return self._schedule_bucket_request(bucket)
+           │    │                        └ <kombu.utils.limits.TokenBucket object at 0x0000021D0E54DD30>
+           │    └ <function Consumer._schedule_bucket_request at 0x0000021D0E5471A0>
+           └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 306, in _schedule_bucket_request
+    self._limit_move_to_pool(request)
+    │    │                   └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+    │    └ <function Consumer._limit_move_to_pool at 0x0000021D0E547100>
+    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\consumer\consumer.py", line 295, in _limit_move_to_pool
+    self.on_task_request(request)
+    │    │               └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+    │    └ <bound method WorkController._process_task of <Worker: celery@DESKTOP-V9VEJ4N (running)>>
+    └ <Consumer: celery@DESKTOP-V9VEJ4N (running)>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\worker.py", line 226, in _process_task
+    req.execute_using_pool(self.pool)
+    │   │                  │    └ <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>
+    │   │                  └ <Worker: celery@DESKTOP-V9VEJ4N (running)>
+    │   └ <function create_request_cls.<locals>.Request.execute_using_pool at 0x0000021D0E5D9300>
+    └ <Request: send_single_tg_message[bb98f83e-d7ff-43c7-8f5e-52317c8aea56] (1399867473, 'Ваш урок получил новый статус, ознакомьт...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\worker\request.py", line 770, in execute_using_pool
+    result = apply_async(
+             └ <bound method BasePool.apply_async of <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\concurrency\base.py", line 153, in apply_async
+    return self.on_apply(target, args, kwargs,
+           │    │        │       │     └ {}
+           │    │        │       └ ('send_single_tg_message', 'bb98f83e-d7ff-43c7-8f5e-52317c8aea56', {'argsrepr': "(1399867473, 'Ваш урок получил новый статус,...
+           │    │        └ <function fast_trace_task at 0x0000021D05539940>
+           │    └ <function apply_target at 0x0000021D0440CCC0>
+           └ <celery.concurrency.solo.TaskPool object at 0x0000021D0E54C590>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\concurrency\base.py", line 30, in apply_target
+    ret = target(*args, **kwargs)
+          │       │       └ {}
+          │       └ ('send_single_tg_message', 'bb98f83e-d7ff-43c7-8f5e-52317c8aea56', {'argsrepr': "(1399867473, 'Ваш урок получил новый статус,...
+          └ <function fast_trace_task at 0x0000021D05539940>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 773, in fast_trace_task
+    R, I, T, Rstr = tasks[task].__trace__(
+                    │     └ 'send_single_tg_message'
+                    └ {'celery.map': <@task: celery.map of worker at 0x21d063e7e00>, 'celery.backend_cleanup': <@task: celery.backend_cleanup of wo...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 585, in trace_task
+    R = retval = fun(*args, **kwargs)
+                 │    │       └ {}
+                 │    └ [1399867473, 'Ваш урок получил новый статус, ознакомьтесь с ним.', 'http://10.171.36.68:8080/api/redirect/lesson/54']
+                 └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+> File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\trace.py", line 858, in __protected_call__
+    return self.run(*args, **kwargs)
+           │    │    │       └ {}
+           │    │    └ (1399867473, 'Ваш урок получил новый статус, ознакомьтесь с ним.', 'http://10.171.36.68:8080/api/redirect/lesson/54')
+           │    └ <function send_single_tg_message at 0x0000021D0E353240>
+           └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+
+  File "E:\dev\share_it\back-end\routers\tasks\notification_tasks.py", line 72, in send_single_tg_message
+    raise self.retry(exc=e, countdown=delay)
+          │    │                      └ 16
+          │    └ <function Task.retry at 0x0000021D05525940>
+          └ <@task: send_single_tg_message of worker at 0x21d063e7e00>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\celery\app\task.py", line 790, in retry
+    raise ret
+          └ Retry(Retry(...), RuntimeError('Event loop is closed'), 16)
+
+celery.exceptions.Retry: Retry in 16s: RuntimeError('Event loop is closed')
+2026-05-09 21:07:15 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-09 21:07:16 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP

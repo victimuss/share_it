@@ -300,7 +300,7 @@ export const MyLessonsScreen = () => {
                             >
                                 <View style={[styles.filterChipDot, { backgroundColor: COLORS.success }]} />
                                 <Text style={filters === 'active' ? styles.filterChipTextActive : styles.filterChipText}>
-                                    {activeTab === 'created' ? 'Active' : t('screens.myLessons.filterInProgress')}
+                                    {activeTab === 'created' ? t('screens.myLessons.filters.active') : t('screens.myLessons.filters.inProgress')}
                                 </Text>
                             </Pressable>
                             <Pressable
@@ -309,7 +309,7 @@ export const MyLessonsScreen = () => {
                             >
                                 <View style={[styles.filterChipDot, { backgroundColor: COLORS.textSecondary }]} />
                                 <Text style={filters === 'draft' ? styles.filterChipTextActive : styles.filterChipText}>
-                                    {activeTab === 'created' ? 'Draft' : t('screens.myLessons.filterCompleted')}
+                                    {activeTab === 'created' ? t('screens.myLessons.filters.drafts') : t('screens.myLessons.filters.completed')}
                                 </Text>
                             </Pressable>
                             {activeTab === 'created' && (
