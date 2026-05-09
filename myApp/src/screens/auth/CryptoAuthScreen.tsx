@@ -17,6 +17,8 @@ import { LockIcon, CheckmarkIcon, CopyIcon } from '../../SVG/CryptoAuthSVG';
 import CryptoService from '../../utils/CryptoServices';
 import { useAuth } from '@/src/context/AuthContext';
 import * as Clipboard from 'expo-clipboard';
+import { LanguageSwitcher } from '@/src/components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 // ─── Типы ─────────────────────────────────────────────────────────
 type Tab = 'register' | 'login';
 
@@ -37,6 +39,7 @@ export default function ZkpAuthScreen() {
     const [inputKey, setInputKey] = useState<string>('');
     const [copied, setCopied] = useState(false);
     const { loginWithCrypto } = useAuth()
+    const { t } = useTranslation();
 
 
     const handleGenerate = async () => {
@@ -60,13 +63,16 @@ export default function ZkpAuthScreen() {
             await CryptoService.restoreFromMnemonic(inputKey);
             await loginWithCrypto();
         } catch (error) {
-            Alert.alert("Ошибка", "Не удалось войти. Проверьте правильность seed-фразы.");
+            Alert.alert(t('screens.cryptoAuth.errorTitle'), t('screens.cryptoAuth.errorMsg'));
             console.error(error);
         }
     };
 
     return (
         <SafeAreaView style={styles.safeArea}>
+            <View style={{ position: 'absolute', top: 10, right: 10, zIndex: 10 }}>
+                <LanguageSwitcher />
+            </View>
             <ScrollView
                 contentContainerStyle={styles.scrollContent}
                 showsVerticalScrollIndicator={false}
@@ -84,15 +90,15 @@ export default function ZkpAuthScreen() {
                         </View>
                     </View>
 
-                    <Text style={styles.heroTitle}>Spark Education</Text>
+                    <Text style={styles.heroTitle}>{t('screens.cryptoAuth.heroTitle')}</Text>
                     <Text style={styles.heroSubtitle}>
-                        Вход без пароля — твой ключ хранится только у тебя
+                        {t('screens.cryptoAuth.heroSubtitle')}
                     </Text>
                 </View>
 
                 {/* ── ZKP-пояснение ─────────────────────────────────────── */}
                 <View style={styles.zkpCard}>
-                    <Text style={styles.zkpCardTitle}>Что такое ZKP-вход?</Text>
+                    <Text style={styles.zkpCardTitle}>{t('screens.cryptoAuth.zkpTitle')}</Text>
 
                     <View style={styles.zkpCardRow}>
                         {/* иконка галочки */}
@@ -100,7 +106,7 @@ export default function ZkpAuthScreen() {
                             <CheckmarkIcon />
                         </View>
                         <Text style={styles.zkpCardText}>
-                            Твой ключ не передаётся на сервер — только математическое доказательство
+                            {t('screens.cryptoAuth.zkp1')}
                         </Text>
                     </View>
 
@@ -109,7 +115,7 @@ export default function ZkpAuthScreen() {
                             <CheckmarkIcon />
                         </View>
                         <Text style={styles.zkpCardText}>
-                            Никаких паролей и email — полная анонимность
+                            {t('screens.cryptoAuth.zkp2')}
                         </Text>
                     </View>
 
@@ -118,7 +124,7 @@ export default function ZkpAuthScreen() {
                             <CheckmarkIcon />
                         </View>
                         <Text style={styles.zkpCardText}>
-                            Сохрани ключ — восстановить его нельзя
+                            {t('screens.cryptoAuth.zkp3')}
                         </Text>
                     </View>
                 </View>
@@ -131,7 +137,7 @@ export default function ZkpAuthScreen() {
                         activeOpacity={0.85}
                     >
                         <Text style={[styles.tabButtonText, activeTab === 'register' && styles.tabButtonTextActive]}>
-                            Первый раз
+                            {t('screens.cryptoAuth.tabRegister')}
                         </Text>
                     </TouchableOpacity>
 
@@ -141,7 +147,7 @@ export default function ZkpAuthScreen() {
                         activeOpacity={0.85}
                     >
                         <Text style={[styles.tabButtonText, activeTab === 'login' && styles.tabButtonTextActive]}>
-                            Войти
+                            {t('screens.cryptoAuth.tabLogin')}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -149,9 +155,9 @@ export default function ZkpAuthScreen() {
                 {/* ── Вкладка «Первый раз» ──────────────────────────────── */}
                 {activeTab === 'register' && (
                     <View style={styles.sectionCard}>
-                        <Text style={styles.sectionCardTitle}>Сгенерировать ключ</Text>
+                        <Text style={styles.sectionCardTitle}>{t('screens.cryptoAuth.genTitle')}</Text>
                         <Text style={styles.sectionCardSubtitle}>
-                            Мы создадим уникальный криптографический ключ — это твой аккаунт
+                            {t('screens.cryptoAuth.genSubtitle')}
                         </Text>
 
                         <TouchableOpacity
@@ -162,7 +168,7 @@ export default function ZkpAuthScreen() {
                             {/* иконка щита — замени на <Ionicons name="shield-checkmark" /> */}
                             <View style={styles.generateButtonIconWrapper} />
                             <Text style={styles.generateButtonText}>
-                                {generatedKey ? 'Сгенерировать другой' : 'Сгенерировать ключ'}
+                                {generatedKey ? t('screens.cryptoAuth.genBtnAgain') : t('screens.cryptoAuth.genBtn')}
                             </Text>
                         </TouchableOpacity>
 
@@ -178,7 +184,7 @@ export default function ZkpAuthScreen() {
                                                 <CopyIcon />
                                             </View>
                                             <Text style={styles.copyButtonText}>
-                                                {copied ? 'Скопировано ✓' : 'Копировать'}
+                                                {copied ? t('screens.cryptoAuth.copiedBtn') : t('screens.cryptoAuth.copyBtn')}
                                             </Text>
                                         </TouchableOpacity>
                                     </View>
@@ -192,8 +198,7 @@ export default function ZkpAuthScreen() {
                                     {/* иконка треугольника — замени на <Ionicons name="warning-outline" /> */}
                                     <View style={styles.keyWarningIconWrapper} />
                                     <Text style={styles.keyWarningText}>
-                                        Сохрани ключ в безопасное место. Мы не можем восстановить его —
-                                        если потеряешь, потеряешь доступ к аккаунту.
+                                        {t('screens.cryptoAuth.warning')}
                                     </Text>
                                 </View>
 
@@ -206,7 +211,7 @@ export default function ZkpAuthScreen() {
                                 >
                                     {/* иконка входа — замени на <Ionicons name="log-in-outline" /> */}
                                     <View style={styles.generateButtonIconWrapper} />
-                                    <Text style={styles.generateButtonText}>Войти с этим ключом</Text>
+                                    <Text style={styles.generateButtonText}>{t('screens.cryptoAuth.loginWithKey')}</Text>
                                 </TouchableOpacity>
                             </>
                         )}
@@ -216,9 +221,9 @@ export default function ZkpAuthScreen() {
                 {/* ── Вкладка «Войти» ───────────────────────────────────── */}
                 {activeTab === 'login' && (
                     <View style={styles.sectionCard}>
-                        <Text style={styles.sectionCardTitle}>Введи свой ключ</Text>
+                        <Text style={styles.sectionCardTitle}>{t('screens.cryptoAuth.enterKeyTitle')}</Text>
                         <Text style={styles.sectionCardSubtitle}>
-                            Вставь сохранённый приватный ключ для входа в аккаунт
+                            {t('screens.cryptoAuth.enterKeySubtitle')}
                         </Text>
 
                         <TextInput
@@ -249,7 +254,7 @@ export default function ZkpAuthScreen() {
                                 >
                                     <CopyIcon></CopyIcon>
                                 </View>
-                                <Text style={styles.pasteButtonText}>Вставить</Text>
+                                <Text style={styles.pasteButtonText}>{t('screens.cryptoAuth.paste')}</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
@@ -261,7 +266,7 @@ export default function ZkpAuthScreen() {
                                 activeOpacity={0.85}
                                 onPress={handleLogin}
                             >
-                                <Text style={styles.loginButtonText}>Войти</Text>
+                                <Text style={styles.loginButtonText}>{t('screens.cryptoAuth.loginBtn')}</Text>
                                 <View style={styles.loginButtonIconWrapper} />
                             </TouchableOpacity>
                         </View>
@@ -271,9 +276,7 @@ export default function ZkpAuthScreen() {
                 {/* ── Подвал ────────────────────────────────────────────── */}
                 <View style={styles.footer}>
                     <Text style={styles.footerText}>
-                        Защищено протоколом{' '}
-                        <Text style={styles.footerAccent}>Zero-Knowledge Proof</Text>
-                        {'\n'}Сервер никогда не видит твой ключ
+                        {t('screens.cryptoAuth.footer')}
                     </Text>
                 </View>
 

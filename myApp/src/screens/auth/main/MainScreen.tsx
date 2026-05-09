@@ -15,7 +15,10 @@ import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
 import { TelegramNotificationModal } from "@/src/components/TelegramNotificationModal";
+import { useTranslation } from "react-i18next";
+
 export const MainScreen = () => {
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const id = user ? user.id : 0 <CurrentLessonRequest | null>(null);
   const [activeFilter, setActiveFilter] = useState<LessonType>(null)
@@ -62,7 +65,7 @@ export const MainScreen = () => {
       console.log('Популярные:', popResponse, 'Недавние:', recResponse);
     } catch (err: any) {
       console.error('Ошибка при загрузке уроков:', err);
-      setError('Не удалось загрузить уроки. Попробуйте позже.');
+      setError(t('screens.main.errors.loadFailed'));
     } finally {
       setLoading(false);
     }
@@ -79,7 +82,7 @@ export const MainScreen = () => {
       console.log('ПОПУДЯ', current)
     } catch (err: any) {
       console.error(err);
-      setError('Не удалось загрузить уроки. Попробуйте позже.');
+      setError(t('screens.main.errors.loadFailed'));
     } finally {
       setLoading(false);
     }
@@ -124,7 +127,7 @@ export const MainScreen = () => {
     return () => sub.remove();
   }, [user, activeFilter]);
 
-  const formattedDate = new Intl.DateTimeFormat('ru-RU', options).format(date);
+  const formattedDate = new Intl.DateTimeFormat(i18n.language || 'ru-RU', options).format(date);
   if (error) {
     return (
       <View>
@@ -156,7 +159,7 @@ export const MainScreen = () => {
               onRefresh={onRefresh}
               colors={[COLORS.accent]}
               tintColor={COLORS.accent}
-              title="Обновляем..."
+              title={t('screens.main.refresh')}
               titleColor={COLORS.accent}
             />
           }>
@@ -166,10 +169,10 @@ export const MainScreen = () => {
                 {formattedDate}
               </Text>
               <Text style={homeStyles.greetingText}>
-                Привет, {user?.name || 'Гость'}
+                {t('screens.main.greeting')}{user?.name || t('screens.main.guest')}
               </Text>
               <Text style={homeStyles.greetingSubtext}>
-                Что изучим сегодня?
+                {t('screens.main.whatToLearn')}
               </Text>
             </View>
             <View style={homeStyles.headerRight}>
@@ -200,7 +203,7 @@ export const MainScreen = () => {
             <View style={homeStyles.searchContainer}>
               <TextInput
                 style={homeStyles.searchInput}
-                placeholder="Найти урок или навык..."
+                placeholder={t('screens.main.searchPlaceholder')}
                 placeholderTextColor={'#6B7280'}
                 returnKeyType="search"
                 onSubmitEditing={(e) => (navigator as any).navigate('Search', { search: e.nativeEvent.text })}
@@ -218,7 +221,7 @@ export const MainScreen = () => {
                 ]}
                 onPress={() => handleFilterChange(null)}
               >
-                <Text style={activeFilter === null ? homeStyles.chipTextActive : homeStyles.chipText}>Все</Text>
+                <Text style={activeFilter === null ? homeStyles.chipTextActive : homeStyles.chipText}>{t('screens.main.filters.all')}</Text>
               </Pressable>
               <Pressable
                 style={({ pressed }) => [
@@ -228,7 +231,7 @@ export const MainScreen = () => {
                 ]}
                 onPress={() => handleFilterChange('code')}
               >
-                <Text style={activeFilter === 'code' ? homeStyles.chipTextActive : homeStyles.chipText}>Код</Text>
+                <Text style={activeFilter === 'code' ? homeStyles.chipTextActive : homeStyles.chipText}>{t('screens.main.filters.code')}</Text>
               </Pressable>
               <Pressable
                 style={({ pressed }) => [
@@ -238,7 +241,7 @@ export const MainScreen = () => {
                 ]}
                 onPress={() => handleFilterChange('design')}
               >
-                <Text style={activeFilter === 'design' ? homeStyles.chipTextActive : homeStyles.chipText}>Дизайн</Text>
+                <Text style={activeFilter === 'design' ? homeStyles.chipTextActive : homeStyles.chipText}>{t('screens.main.filters.design')}</Text>
               </Pressable>
               <Pressable
                 style={({ pressed }) => [
@@ -248,7 +251,7 @@ export const MainScreen = () => {
                 ]}
                 onPress={() => handleFilterChange('language')}
               >
-                <Text style={activeFilter === 'language' ? homeStyles.chipTextActive : homeStyles.chipText}>Языки</Text>
+                <Text style={activeFilter === 'language' ? homeStyles.chipTextActive : homeStyles.chipText}>{t('screens.main.filters.language')}</Text>
               </Pressable>
               <Pressable
                 style={({ pressed }) => [
@@ -258,16 +261,16 @@ export const MainScreen = () => {
                 ]}
                 onPress={() => handleFilterChange('business')}
               >
-                <Text style={activeFilter === 'business' ? homeStyles.chipTextActive : homeStyles.chipText}>Бизнес</Text>
+                <Text style={activeFilter === 'business' ? homeStyles.chipTextActive : homeStyles.chipText}>{t('screens.main.filters.business')}</Text>
               </Pressable>
             </ScrollView>
           </View>
           <View style={homeStyles.section}>
             <View style={homeStyles.sectionHeader}>
-              <Text style={homeStyles.sectionTitle}>Популярное</Text>
+              <Text style={homeStyles.sectionTitle}>{t('screens.main.popularTitle')}</Text>
               <Pressable>
                 <Text style={homeStyles.seeAllText}
-                  onPress={(pressed) => navigator.navigate('Search')}>Все→</Text>
+                  onPress={(pressed) => navigator.navigate('Search')}>{t('screens.main.seeAll')}</Text>
               </Pressable>
             </View>
             <FlatList
@@ -278,7 +281,7 @@ export const MainScreen = () => {
               contentContainerStyle={homeStyles.featuredScrollContent}
               renderItem={({ item }: { item: any }) => {
                 const less = item.lesson || item;
-                const authorName = item.author ? item.author : 'Неизвестен';
+                const authorName = item.author ? item.author : t('screens.main.unknownAuthor');
                 return (
                   <Pressable style={homeStyles.featuredCard}
                     onPress={() => navigator.navigate('LessonMainScreen', { lessonId: less.id })}>
@@ -294,7 +297,7 @@ export const MainScreen = () => {
                     </View>
                     <View style={homeStyles.featureCardContainer}>
                       <Text style={homeStyles.featuredCardTitle}>{less.lesson_name}</Text>
-                      <Text style={homeStyles.featuredCardAuthor}> {authorName} · {less.students_count} обучаются</Text>
+                      <Text style={homeStyles.featuredCardAuthor}> {authorName} · {less.students_count} {t('screens.main.studentsCount')}</Text>
                     </View>
                   </Pressable>
                 );
@@ -303,14 +306,14 @@ export const MainScreen = () => {
           </View>
           <View style={homeStyles.section}>
             <View style={homeStyles.sectionHeader}>
-              <Text style={homeStyles.sectionTitle}>Продолжить обучение</Text>
+              <Text style={homeStyles.sectionTitle}>{t('screens.main.continueLearning')}</Text>
             </View>
             {current?.last_lession?.last_lession ? (
               <Pressable style={homeStyles.progressCard}
                 onPress={() => navigator.navigate('LessonMainScreen', { lessonId: current?.last_lession?.lesson.id })}>
                 <View style={homeStyles.progressCardHeader}>
                   <PlayIcon></PlayIcon>
-                  <Text style={homeStyles.progressCardTitle}>{current?.last_lession?.lesson?.lesson_name || 'Нет текущего урока'}</Text>
+                  <Text style={homeStyles.progressCardTitle}>{current?.last_lession?.lesson?.lesson_name || t('screens.main.noCurrentLesson')}</Text>
                   <Text style={homeStyles.progressLabel}>{Math.ceil((current.last_lession?.last_lession?.completed_steps / current?.last_lession?.lesson.sheet_counts) * 100) || 0}%</Text>
                 </View>
                 <View style={homeStyles.progressTrack}>
@@ -322,16 +325,16 @@ export const MainScreen = () => {
               </Pressable>
             ) : (
               <View style={homeStyles.progressCard}>
-                <Text style={homeStyles.progressCardTitle} >Нет текущего урока</Text>
+                <Text style={homeStyles.progressCardTitle} >{t('screens.main.noCurrentLesson')}</Text>
               </View>
             )}
           </View>
           <View style={homeStyles.section}>
             <View style={homeStyles.sectionHeader}>
-              <Text style={homeStyles.sectionTitle}>Новые уроки</Text>
+              <Text style={homeStyles.sectionTitle}>{t('screens.main.newLessonsTitle')}</Text>
               <Pressable>
                 <Text style={homeStyles.seeAllText}
-                  onPress={(pressed) => navigator.navigate('Search')}>Все→</Text>
+                  onPress={(pressed) => navigator.navigate('Search')}>{t('screens.main.seeAll')}</Text>
               </Pressable>
             </View>
             <View>
@@ -354,12 +357,12 @@ export const MainScreen = () => {
                         </View>
                       </View>
                       <View style={homeStyles.lessonCardFooter}>
-                        <Text style={homeStyles.lessonCardLikes}> {item.author ? item.author : 'Неизвестен'} · ❤️ {less.likes}</Text>
+                        <Text style={homeStyles.lessonCardLikes}> {item.author ? item.author : t('screens.main.unknownAuthor')} · ❤️ {less.likes}</Text>
                       </View>
                     </View>
                     <Pressable style={homeStyles.studyButton}
                       onPress={() => navigator.navigate('LessonMainScreen', { lessonId: less.id })}>
-                      <Text style={homeStyles.studyButtonText}>Изучить</Text>
+                      <Text style={homeStyles.studyButtonText}>{t('screens.main.studyButton')}</Text>
                     </Pressable>
                   </View>
                 );

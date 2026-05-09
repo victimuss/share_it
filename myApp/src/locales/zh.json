@@ -1,0 +1,264 @@
+{
+  "screens": {
+    "profile": {
+      "errors": {
+        "loadData": "无法加载数据",
+        "loadLessons": "无法加载课程。请稍后再试。",
+        "nameTooShort": "名称必须至少包含3个字符",
+        "editFailed": "编辑失败。请稍后再试。",
+        "errorTitle": "错误",
+        "fillAllFields": "请填写所有字段"
+      },
+      "alerts": {
+        "addSuccess": "添加成功",
+        "editSuccess": "修改成功",
+        "comingSoonTitle": "敬请期待",
+        "comingSoonText": "此功能将在未来推出",
+        "draftResetTitle": "草稿已重置",
+        "draftResetText": "所有未保存的更改已被删除。"
+      },
+      "refresh": "正在刷新...",
+      "editProfile": "编辑个人资料",
+      "changePhoto": "更改照片",
+      "form": {
+        "mainTitle": "基本信息",
+        "nameLabel": "姓名",
+        "namePlaceholder": "您的姓名",
+        "descriptionLabel": "描述",
+        "descriptionPlaceholder": "描述",
+        "tagLabel": "标签",
+        "tagPlaceholder": "标签",
+        "contactsTitle": "联系方式",
+        "siteLabel": "网站",
+        "telegramLabel": "Telegram"
+      },
+      "buttons": {
+        "save": "保存",
+        "logout": "退出登录",
+        "resetDraft": "重置草稿"
+      },
+      "stats": {
+        "createdLessons": "创建的课程",
+        "studying": "学习中",
+        "likes": "点赞数"
+      },
+      "skills": {
+        "title": "我的技能",
+        "addBtn": "+ 添加",
+        "newSkillTitle": "新技能",
+        "skillNameLabel": "技能名称",
+        "skillNamePlaceholder": "例如：React, Figma, Python...",
+        "levelLabel": "熟练程度",
+        "levels": {
+          "beginnerTitle": "初学者",
+          "beginnerSubtitle": "了解基础，正在学习",
+          "intermediateTitle": "中级",
+          "intermediateSubtitle": "能在实践中自信应用",
+          "advancedTitle": "高级",
+          "advancedSubtitle": "专家水平，可指导他人"
+        }
+      },
+      "tabs": {
+        "created": "已创建",
+        "studying": "学习中",
+        "completed": "已完成"
+      }
+    },
+    "login": {
+      "title": "登录",
+      "emailPlaceholder": "邮箱",
+      "passwordPlaceholder": "密码",
+      "loginButton": "登录",
+      "forgotPassword": "忘记密码？",
+      "register": "没有账户？注册",
+      "loading": "加载中...",
+      "errors": {
+        "emptyFieldsTitle": "错误",
+        "emptyFieldsMsg": "请填写所有字段",
+        "invalidEmailTitle": "错误",
+        "invalidEmailMsg": "邮箱格式无效。示例: user@example.com",
+        "loginFailedStr": "登录错误。检查您的详细信息并重试。",
+        "loginFailedTitle": "登录错误",
+        "loginFailedMsg": "登录失败。"
+      },
+      "alerts": {
+        "successTitle": "成功",
+        "successMsg": "您已成功登录！"
+      }
+    },
+    "register": {
+      "title": "注册",
+      "emailPlaceholder": "邮箱",
+      "passwordPlaceholder": "密码",
+      "namePlaceholder": "姓名",
+      "registerButton": "注册",
+      "login": "已有账户？登录",
+      "legalText1": "注册即表示您同意",
+      "legalText2": "隐私政策",
+      "loading": "加载中...",
+      "errors": {
+        "emptyFieldsTitle": "错误",
+        "emptyFieldsMsg": "请填写所有字段",
+        "invalidEmailTitle": "错误",
+        "invalidEmailMsg": "邮箱格式无效。示例: user@example.com",
+        "regisFailedStr": "注册错误。检查您的详细信息并重试。",
+        "regisFailedTitle": "注册错误",
+        "regisFailedMsg": "注册失败。",
+        "linkFailed": "无法打开链接："
+      },
+      "alerts": {
+        "successTitle": "成功",
+        "successMsg": "您已成功注册！"
+      }
+    },
+    "main": {
+      "errors": {
+        "loadFailed": "加载课程失败。请稍后再试。"
+      },
+      "refresh": "刷新中...",
+      "greeting": "你好，",
+      "guest": "访客",
+      "whatToLearn": "今天学点什么？",
+      "searchPlaceholder": "搜索课程或技能...",
+      "filters": {
+        "all": "全部",
+        "code": "编程",
+        "design": "设计",
+        "language": "语言",
+        "business": "商业"
+      },
+      "popularTitle": "热门",
+      "seeAll": "查看全部→",
+      "unknownAuthor": "未知",
+      "studentsCount": "人正在学习",
+      "continueLearning": "继续学习",
+      "noCurrentLesson": "当前无课程",
+      "newLessonsTitle": "新课程",
+      "studyButton": "学习"
+    },
+    "myLessons": {
+      "loadFailed": "加载数据失败",
+      "lessonsCount": " 节课",
+      "pages": " 页",
+      "completedBadge": "已完成",
+      "continueBtn": "继续",
+      "repeatBtn": "重做",
+      "emptyTitle": "暂无课程",
+      "emptyCreated": "您还没有创建任何课程。是时候分享您的知识了！",
+      "emptyLearning": "您还没有开始学习任何课程。在搜索中寻找有趣的内容。",
+      "findLessonsBtn": "查找课程",
+      "title": "我的课程",
+      "tabCreated": "已创建",
+      "tabLearning": "学习中",
+      "filterAll": "全部",
+      "filterInProgress": "进行中",
+      "filterCompleted": "已完成",
+      "filterRejected": "已拒绝",
+      "found": "找到：",
+      "actionView": "查看",
+      "actionViewSub": "作为读者打开",
+      "actionEdit": "编辑",
+      "actionEditSub": "更改内容和设置",
+      "actionDelete": "删除课程",
+      "actionDeleteSub": "此操作无法撤销",
+      "alertSuccessTitle": "成功",
+      "alertSuccessMsg": "课程已删除",
+      "filters": {
+        "all": "全部",
+        "active": "活跃",
+        "drafts": "草稿",
+        "rejected": "已拒绝",
+        "completed": "已完成",
+        "inProgress": "进行中"
+      },
+      "empty": {
+        "created": "您还没有创建任何课程",
+        "learning": "您还没有开始任何课程",
+        "subtitle": "去目录里找些有趣的东西吧！"
+      },
+      "tabs": {
+        "created": "已创建",
+        "learning": "学习中"
+      },
+      "modal": {
+        "edit": "编辑",
+        "preview": "预览",
+        "stats": "统计",
+        "delete": "删除"
+      }
+    },
+    "search": {
+      "title": "搜索",
+      "searchPlaceholder": "寻找课程、作者或主题...",
+      "recentSearch": "最近搜索",
+      "popularTags": "热门标签",
+      "foundResults": "找到",
+      "results": "个结果",
+      "filtersTitle": "过滤器",
+      "resetBtn": "重置",
+      "difficulty": "难度",
+      "category": "类别",
+      "unknownAuthor": "未知",
+      "studyBtn": "学习",
+      "prevPage": "‹ 上一页",
+      "nextPage": "下一页 ›",
+      "pageInfo1": "第",
+      "pageInfo2": "页，共",
+      "emptyTitle": "还没有找到任何内容",
+      "emptySubtitle": "尝试更改您的查询或检查拼写"
+    },
+    "cryptoAuth": {
+      "errorTitle": "错误",
+      "errorMsg": "登录失败。请检查您的助记词。",
+      "heroTitle": "Spark Education",
+      "heroSubtitle": "无密码登录 — 您的密钥仅由您保存",
+      "zkpTitle": "什么是 ZKP 登录？",
+      "zkp1": "您的密钥永远不会发送到服务器 — 只有一个数学证明",
+      "zkp2": "没有密码和电子邮件 — 完全匿名",
+      "zkp3": "保存密钥 — 无法恢复",
+      "tabRegister": "第一次",
+      "tabLogin": "登录",
+      "genTitle": "生成密钥",
+      "genSubtitle": "我们将创建一个独特的加密密钥 — 这是您的帐户",
+      "genBtn": "生成密钥",
+      "genBtnAgain": "生成另一个",
+      "copyBtn": "复制",
+      "copiedBtn": "已复制 ✓",
+      "warning": "将密钥保存在安全的地方。我们无法恢复它 — 如果您丢失了它，您将失去对帐户的访问权限。",
+      "loginWithKey": "使用此密钥登录",
+      "enterKeyTitle": "输入您的密钥",
+      "enterKeySubtitle": "粘贴您保存的私钥以登录您的帐户",
+      "paste": "粘贴",
+      "loginBtn": "登录",
+      "footer": "受零知识证明协议保护。服务器永远不会看到您的密钥"
+    }
+  },
+  "components": {
+    "telegramModal": {
+      "eyebrow": "Spark Edu · 通知",
+      "title": "连接 Telegram机器人",
+      "description": "无需打开应用即可随时了解平台事件 — 通知将直接发送到Telegram。",
+      "feature1Title": "新课程",
+      "feature1Subtitle": "根据您的兴趣和标签",
+      "feature2Title": "审核状态",
+      "feature2Subtitle": "已批准、已拒绝或审核中",
+      "feature3Title": "本周热门",
+      "feature3Subtitle": "平台上最受欢迎的课程",
+      "policyText": "激活机器人即表示您同意",
+      "policyLink": "隐私政策",
+      "openBtn": "打开 Telegram 机器人",
+      "skipBtn": "以后再说"
+    },
+    "languageSwitcher": {
+      "title": "选择语言"
+    }
+  },
+  "navigation": {
+    "tabs": {
+      "home": "首页",
+      "search": "搜索",
+      "myLessons": "课程",
+      "profile": "个人资料"
+    }
+  }
+}

@@ -21,7 +21,11 @@ import { RefreshControl } from 'react-native';
 import { lessonEditorStyles } from "@/src/styles/NewSheetStyles";
 import { useLessonStore } from "@/src/context/useLessonStore";
 import { useSheetStore } from "@/src/context/useSheetStore";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from '@/src/components/LanguageSwitcher';
+
 export const ProfileScreen = () => {
+    const { t } = useTranslation();
     const { user, edit, logout } = useAuth();
     const [loading, setLoading] = useState(true);
     const [newSkillname, setNewSkillname] = useState('')
@@ -90,7 +94,7 @@ export const ProfileScreen = () => {
             setMyLessons(getMyLessons || { lessons: [] });
         } catch (err: any) {
             console.error(err);
-            setError('Не удалось загрузить данные');
+            setError(t('screens.profile.errors.loadData'));
         } finally {
             setLoading(false);
         }
@@ -100,13 +104,13 @@ export const ProfileScreen = () => {
         setLoading(true);
         try {
             const skillResponse = user ? await NewSkillapi({ skill_name: newSkillname, level: newSkillLevel }) : null
-            Alert.alert('Успешно добавлено')
+            Alert.alert(t('screens.profile.alerts.addSuccess'))
             fetchData()
             setNewSkillname('')
             showskillModal(false)
         } catch (err: any) {
             console.error(err);
-            setError('Не удалось загрузить уроки. Попробуйте позже.');
+            setError(t('screens.profile.errors.loadLessons'));
         } finally {
             setLoading(false);
         }
@@ -116,20 +120,20 @@ export const ProfileScreen = () => {
     const EditUserFetch = async () => {
         setLoading(true)
         if (editUserName.length <= 3) {
-            Alert.alert('Имя должно быть не менее 3 символов')
+            Alert.alert(t('screens.profile.errors.nameTooShort'))
             return
         }
         try {
             const editResponse = user ? await EditUserAPI({ user_name: editUserName, description: editDescription, tag: editTag, site: editSite, telegram: editTelegram, avatar: editAvatar }) : null
             // Обновляем данные в AuthContext — все экраны, читающие user, обновятся мгновенно
             edit(editUserName, editDescription, editTag, editSite, editTelegram, editAvatar)
-            Alert.alert('Успешно изменено')
+            Alert.alert(t('screens.profile.alerts.editSuccess'))
             fetchData()
             showeditModal(false)
         } catch (err: any) {
             console.error(err);
-            setError('Не удалось изменить. Попробуйте позже.');
-            Alert.alert('Ошибка', 'Не удалось изменить. Попробуйте позже.')
+            setError(t('screens.profile.errors.editFailed'));
+            Alert.alert(t('screens.profile.errors.errorTitle'), t('screens.profile.errors.editFailed'))
         } finally {
             setLoading(false);
         }
@@ -138,7 +142,7 @@ export const ProfileScreen = () => {
         setRefreshing(true);
         await fetchData();
         setRefreshing(false);
-    }, []);
+    }, [t]);
     useEffect(() => {
         fetchData();
     }, [user]);
@@ -156,11 +160,14 @@ export const ProfileScreen = () => {
                         onRefresh={onRefresh}
                         colors={[COLORS.accent]}
                         tintColor={COLORS.accent}
-                        title="Обновляем..."
+                        title={t('screens.profile.refresh')}
                         titleColor={COLORS.accent}
                     />
                 }>
                 <View style={profileStyles.coverBanner}>
+                    <View style={{ position: 'absolute', top: 16, right: 16, zIndex: 10 }}>
+                        <LanguageSwitcher />
+                    </View>
                 </View>
                 <View style={profileStyles.profileHeaderContainer}>
                     <View style={profileStyles.avatarWrapper}>
@@ -181,7 +188,7 @@ export const ProfileScreen = () => {
                     </Text>
                     <Pressable style={profileStyles.editButton}
                         onPress={() => showeditModal(true)}>
-                        <Text style={profileStyles.editButtonText}>Редактировать профиль</Text>
+                        <Text style={profileStyles.editButtonText}>{t('screens.profile.editProfile')}</Text>
                     </Pressable>
                     <Modal
                         visible={editModal}
@@ -195,7 +202,7 @@ export const ProfileScreen = () => {
                                 </View>
                                 <View style={profileStyles.header}>
                                     <Text style={profileStyles.headerTitle}>
-                                        Редактировать профиль
+                                        {t('screens.profile.editProfile')}
                                     </Text>
                                     <Pressable style={profileStyles.closeButton}
                                         onPress={() => { showeditModal(false); setNewSkillname('') }}>
@@ -218,59 +225,59 @@ export const ProfileScreen = () => {
                                                 </View>
                                             </View>
                                             <Text style={profileStyles.avatarChangeText}
-                                                onPress={() => { Alert.alert('Скоро', 'Функция будет доступна в будущем') }}
+                                                onPress={() => { Alert.alert(t('screens.profile.alerts.comingSoonTitle'), t('screens.profile.alerts.comingSoonText')) }}
                                                 numberOfLines={1}>
-                                                Изменить фото
+                                                {t('screens.profile.changePhoto')}
                                             </Text>
                                         </View>
                                     </View>
                                     <View>
                                         <Text style={profileStyles.formGroupTitle}>
-                                            Основное
+                                            {t('screens.profile.form.mainTitle')}
                                         </Text>
                                         <View>
                                             <Text style={profileStyles.inputLabel}>
-                                                Имя
+                                                {t('screens.profile.form.nameLabel')}
                                             </Text>
                                             <TextInput
                                                 style={profileStyles.input}
                                                 value={editUserName}
                                                 onChangeText={setEditUserName}
-                                                placeholder='Ваше имя'
+                                                placeholder={t('screens.profile.form.namePlaceholder')}
                                                 placeholderTextColor={COLORS.textSecondary}
                                             />
                                         </View>
                                         <View>
                                             <Text style={profileStyles.inputLabel}>
-                                                Описание
+                                                {t('screens.profile.form.descriptionLabel')}
                                             </Text>
                                             <TextInput
                                                 style={profileStyles.input}
                                                 value={editDescription}
                                                 onChangeText={setEditDescription}
-                                                placeholder={'Описание'}
+                                                placeholder={t('screens.profile.form.descriptionPlaceholder')}
                                                 placeholderTextColor={COLORS.textSecondary}
                                             />
                                         </View>
                                         <View>
                                             <Text style={profileStyles.inputLabel}>
-                                                Тег
+                                                {t('screens.profile.form.tagLabel')}
                                             </Text>
                                             <TextInput
                                                 style={profileStyles.input}
                                                 value={editTag}
                                                 onChangeText={setEditTag}
-                                                placeholder={'Тег'}
+                                                placeholder={t('screens.profile.form.tagPlaceholder')}
                                                 placeholderTextColor={COLORS.textSecondary}
                                             />
                                         </View>
                                         <View style={profileStyles.formDivider} />
                                         <Text style={profileStyles.formGroupTitle}>
-                                            Контакты
+                                            {t('screens.profile.form.contactsTitle')}
                                         </Text>
                                         <View>
                                             <Text style={profileStyles.inputLabel}>
-                                                Сайт
+                                                {t('screens.profile.form.siteLabel')}
                                             </Text>
                                             <TextInput
                                                 style={profileStyles.input}
@@ -282,7 +289,7 @@ export const ProfileScreen = () => {
                                         </View>
                                         <View>
                                             <Text style={profileStyles.inputLabel}>
-                                                Телеграм
+                                                {t('screens.profile.form.telegramLabel')}
                                             </Text>
                                             <TextInput
                                                 style={profileStyles.input}
@@ -299,19 +306,19 @@ export const ProfileScreen = () => {
                                         disabled={(editUserName.length <= 3)}
                                         onPress={() => { EditUserFetch(); }}>
                                         <Text style={profileStyles.saveButtonText}>
-                                            Сохранить
+                                            {t('screens.profile.buttons.save')}
                                         </Text>
                                     </Pressable>
                                     <Pressable style={{ backgroundColor: 'red', height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
                                         onPress={() => { logout(); }}>
                                         <Text style={[{ color: COLORS.text, fontSize: 16, fontWeight: '600' }]}>
-                                            Выйти
+                                            {t('screens.profile.buttons.logout')}
                                         </Text>
                                     </Pressable>
-                                    <Pressable style={{ backgroundColor: 'red', height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
-                                        onPress={() => { useLessonStore.getState().clearStore(); useSheetStore.getState().clearLesson(); Alert.alert('Черновик сброшен', 'Все несохраненные изменения были удалены.') }}>
+                                    <Pressable style={{ backgroundColor: 'red', height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginTop: 10 }}
+                                        onPress={() => { useLessonStore.getState().clearStore(); useSheetStore.getState().clearLesson(); Alert.alert(t('screens.profile.alerts.draftResetTitle'), t('screens.profile.alerts.draftResetText')) }}>
                                         <Text style={[{ color: COLORS.text, fontSize: 16, fontWeight: '600' }]}>
-                                            Cбросить черновик
+                                            {t('screens.profile.buttons.resetDraft')}
                                         </Text>
                                     </Pressable>
                                 </View>
@@ -322,25 +329,25 @@ export const ProfileScreen = () => {
                 <View style={profileStyles.statsRow}>
                     <View style={profileStyles.statItem}>
                         <Text style={profileStyles.statValue}>{myLessons?.lessons.length}</Text>
-                        <Text style={profileStyles.statLabel}>Создал уроков</Text>
+                        <Text style={profileStyles.statLabel}>{t('screens.profile.stats.createdLessons')}</Text>
                     </View>
                     <View style={profileStyles.statItem}>
                         <Text style={profileStyles.statValue}>{Lessons?.lessons.length}</Text>
-                        <Text style={profileStyles.statLabel}>Изучаю</Text>
+                        <Text style={profileStyles.statLabel}>{t('screens.profile.stats.studying')}</Text>
                     </View>
                     <View style={profileStyles.statItem}>
                         <Text style={profileStyles.statValue}>{user?.us_likes}</Text>
-                        <Text style={profileStyles.statLabel}>Лайков</Text>
+                        <Text style={profileStyles.statLabel}>{t('screens.profile.stats.likes')}</Text>
                     </View>
                 </View>
                 <View style={profileStyles.section}>
                     <View style={profileStyles.sectionHeader}>
                         <Text style={profileStyles.sectionTitle}>
-                            Мои навыки
+                            {t('screens.profile.skills.title')}
                         </Text>
                         <Pressable>
                             <Text style={profileStyles.sectionAction}
-                                onPress={((pressed) => showskillModal(true))}>+ Добавить</Text>
+                                onPress={((pressed) => showskillModal(true))}>{t('screens.profile.skills.addBtn')}</Text>
                         </Pressable>
                     </View>
                     <Modal
@@ -354,7 +361,7 @@ export const ProfileScreen = () => {
                                 </View>
                                 <View style={profileStyles.header}>
                                     <Text style={profileStyles.headerTitle}>
-                                        Новый навык
+                                        {t('screens.profile.skills.newSkillTitle')}
                                     </Text>
                                     <Pressable style={profileStyles.closeButton}
                                         onPress={() => { showskillModal(false); setNewSkillname('') }}>
@@ -366,7 +373,7 @@ export const ProfileScreen = () => {
                                 <ScrollView style={profileStyles.scrollContent}
                                     showsVerticalScrollIndicator={false}>
                                     <KeyboardAvoidingView style={profileStyles.inputGroup}>
-                                        <Text style={profileStyles.inputLabel}> Название навыка</Text>
+                                        <Text style={profileStyles.inputLabel}> {t('screens.profile.skills.skillNameLabel')}</Text>
                                         <Text style={newSkillname.length >= 20 ? profileStyles.charCounterWarn : profileStyles.charCounter}>{newSkillname.length}/25</Text>
                                         <TextInput
                                             style={[
@@ -378,15 +385,15 @@ export const ProfileScreen = () => {
                                             onBlur={() => setIsFocused(false)}
                                             maxLength={25}
 
-                                            placeholder="Например, React, Figma, Python...">
+                                            placeholder={t('screens.profile.skills.skillNamePlaceholder')}>
                                         </TextInput>
                                         {(newSkillError) && (
                                             <Text style={profileStyles.errorText}>
-                                                Заполните все поля
+                                                {t('screens.profile.errors.fillAllFields')}
                                             </Text>
                                         )}
                                         <Text style={profileStyles.levelLabel}>
-                                            Уровень владения
+                                            {t('screens.profile.skills.levelLabel')}
                                         </Text>
                                         <View style={profileStyles.levelList}>
                                             <Pressable onPress={() => setNewSkillLevel('beginner')}
@@ -397,8 +404,8 @@ export const ProfileScreen = () => {
                                                     </View>
                                                 </View>
                                                 <View style={profileStyles.levelCardText}>
-                                                    <Text style={profileStyles.levelCardTitle}>Beginner</Text>
-                                                    <Text style={profileStyles.levelCardSubtitle}>Знаком с основами, изучаю</Text>
+                                                    <Text style={profileStyles.levelCardTitle}>{t('screens.profile.skills.levels.beginnerTitle')}</Text>
+                                                    <Text style={profileStyles.levelCardSubtitle}>{t('screens.profile.skills.levels.beginnerSubtitle')}</Text>
                                                 </View>
                                                 <View style={newSkillLevel == 'beginner' ? profileStyles.radioOuterActive : profileStyles.radioOuter}>
                                                     {(newSkillLevel == 'beginner') && (
@@ -415,8 +422,8 @@ export const ProfileScreen = () => {
                                                     </View>
                                                 </View>
                                                 <View style={profileStyles.levelCardText}>
-                                                    <Text style={profileStyles.levelCardTitle}>Intermediate</Text>
-                                                    <Text style={profileStyles.levelCardSubtitle}>Уверенно применяю на практике</Text>
+                                                    <Text style={profileStyles.levelCardTitle}>{t('screens.profile.skills.levels.intermediateTitle')}</Text>
+                                                    <Text style={profileStyles.levelCardSubtitle}>{t('screens.profile.skills.levels.intermediateSubtitle')}</Text>
                                                 </View>
                                                 <View style={newSkillLevel == 'intermediate' ? profileStyles.radioOuterActive : profileStyles.radioOuter}>
                                                     {(newSkillLevel == 'intermediate') && (
@@ -433,8 +440,8 @@ export const ProfileScreen = () => {
                                                     </View>
                                                 </View>
                                                 <View style={profileStyles.levelCardText}>
-                                                    <Text style={profileStyles.levelCardTitle}>Advanced</Text>
-                                                    <Text style={profileStyles.levelCardSubtitle}>Экспертный уровень, обучаю других</Text>
+                                                    <Text style={profileStyles.levelCardTitle}>{t('screens.profile.skills.levels.advancedTitle')}</Text>
+                                                    <Text style={profileStyles.levelCardSubtitle}>{t('screens.profile.skills.levels.advancedSubtitle')}</Text>
                                                 </View>
                                                 <View style={newSkillLevel == 'advanced' ? profileStyles.radioOuterActive : profileStyles.radioOuter}>
                                                     {(newSkillLevel == 'advanced') && (
@@ -450,7 +457,7 @@ export const ProfileScreen = () => {
                                         disabled={(newSkillname.length == 0)}
                                         onPress={() => { NewSkillAdd(); }}>
                                         <Text style={profileStyles.saveButtonText}>
-                                            Сохранить
+                                            {t('screens.profile.buttons.save')}
                                         </Text>
                                     </Pressable>
                                     <Pressable>
@@ -478,16 +485,16 @@ export const ProfileScreen = () => {
                 <View style={profileStyles.tabsContainer}>
                     <Pressable style={activeTab === 'myLessons' ? profileStyles.tabActive : profileStyles.tab}
                         onPress={() => { setActivebTab('myLessons') }}>
-                        <Text style={activeTab === 'myLessons' ? profileStyles.tabTextActive : profileStyles.tabText}>Создал({myLessons.lessons.length})</Text>
+                        <Text style={activeTab === 'myLessons' ? profileStyles.tabTextActive : profileStyles.tabText}>{t('screens.profile.tabs.created')}({myLessons.lessons.length})</Text>
                     </Pressable>
                     <Pressable style={activeTab === 'Lessons' ? profileStyles.tabActive : profileStyles.tab}
                         onPress={() => { setActivebTab('Lessons') }}>
 
-                        <Text style={activeTab === 'Lessons' ? profileStyles.tabTextActive : profileStyles.tabText}>Изучаю({Lessons.learnLessons.length})</Text>
+                        <Text style={activeTab === 'Lessons' ? profileStyles.tabTextActive : profileStyles.tabText}>{t('screens.profile.tabs.studying')}({Lessons.learnLessons.length})</Text>
                     </Pressable>
                     <Pressable style={activeTab === 'completedLessons' ? profileStyles.tabActive : profileStyles.tab}
                         onPress={() => { setActivebTab('completedLessons') }}>
-                        <Text style={activeTab === 'completedLessons' ? profileStyles.tabTextActive : profileStyles.tabText}>Завершил({completedLessons.learnLessons.length})</Text>
+                        <Text style={activeTab === 'completedLessons' ? profileStyles.tabTextActive : profileStyles.tabText}>{t('screens.profile.tabs.completed')}({completedLessons.learnLessons.length})</Text>
                     </Pressable>
                 </View>
                 <View style={profileStyles.section}>
@@ -530,4 +537,3 @@ export const ProfileScreen = () => {
         </SafeAreaView >
     )
 }
-

@@ -1,0 +1,264 @@
+{
+  "screens": {
+    "profile": {
+      "errors": {
+        "loadData": "Не удалось загрузить данные",
+        "loadLessons": "Не удалось загрузить уроки. Попробуйте позже.",
+        "nameTooShort": "Имя должно быть не менее 3 символов",
+        "editFailed": "Не удалось изменить. Попробуйте позже.",
+        "errorTitle": "Ошибка",
+        "fillAllFields": "Заполните все поля"
+      },
+      "alerts": {
+        "addSuccess": "Успешно добавлено",
+        "editSuccess": "Успешно изменено",
+        "comingSoonTitle": "Скоро",
+        "comingSoonText": "Функция будет доступна в будущем",
+        "draftResetTitle": "Черновик сброшен",
+        "draftResetText": "Все несохраненные изменения были удалены."
+      },
+      "refresh": "Обновляем...",
+      "editProfile": "Редактировать профиль",
+      "changePhoto": "Изменить фото",
+      "form": {
+        "mainTitle": "Основное",
+        "nameLabel": "Имя",
+        "namePlaceholder": "Ваше имя",
+        "descriptionLabel": "Описание",
+        "descriptionPlaceholder": "Описание",
+        "tagLabel": "Тег",
+        "tagPlaceholder": "Тег",
+        "contactsTitle": "Контакты",
+        "siteLabel": "Сайт",
+        "telegramLabel": "Телеграм"
+      },
+      "buttons": {
+        "save": "Сохранить",
+        "logout": "Выйти",
+        "resetDraft": "Cбросить черновик"
+      },
+      "stats": {
+        "createdLessons": "Создал уроков",
+        "studying": "Изучаю",
+        "likes": "Лайков"
+      },
+      "skills": {
+        "title": "Мои навыки",
+        "addBtn": "+ Добавить",
+        "newSkillTitle": "Новый навык",
+        "skillNameLabel": "Название навыка",
+        "skillNamePlaceholder": "Например, React, Figma, Python...",
+        "levelLabel": "Уровень владения",
+        "levels": {
+          "beginnerTitle": "Beginner",
+          "beginnerSubtitle": "Знаком с основами, изучаю",
+          "intermediateTitle": "Intermediate",
+          "intermediateSubtitle": "Уверенно применяю на практике",
+          "advancedTitle": "Advanced",
+          "advancedSubtitle": "Экспертный уровень, обучаю других"
+        }
+      },
+      "tabs": {
+        "created": "Создал",
+        "studying": "Изучаю",
+        "completed": "Завершил"
+      }
+    },
+    "login": {
+      "title": "Вход",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Пароль",
+      "loginButton": "Войти",
+      "forgotPassword": "Забыли пароль?",
+      "register": "Нет аккаунта? Зарегистрироваться",
+      "loading": "Загрузка...",
+      "errors": {
+        "emptyFieldsTitle": "Ошибка",
+        "emptyFieldsMsg": "Заполните все поля",
+        "invalidEmailTitle": "Ошибка",
+        "invalidEmailMsg": "Неверный формат email. Пример: user@example.com",
+        "loginFailedStr": "Ошибка входа. Проверьте свои данные и попробуйте снова.",
+        "loginFailedTitle": "Ошибка входа",
+        "loginFailedMsg": "Не удалось войти."
+      },
+      "alerts": {
+        "successTitle": "Успех",
+        "successMsg": "Вы успешно вошли в систему!"
+      }
+    },
+    "register": {
+      "title": "Регистрация",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Пароль",
+      "namePlaceholder": "Имя",
+      "registerButton": "Зарегистрироваться",
+      "login": "Есть аккаунт? Войти",
+      "legalText1": "Регистрируясь, вы соглашаетесь с ",
+      "legalText2": "Политикой конфиденциальности",
+      "loading": "Загрузка...",
+      "errors": {
+        "emptyFieldsTitle": "Ошибка",
+        "emptyFieldsMsg": "Заполните все поля",
+        "invalidEmailTitle": "Ошибка",
+        "invalidEmailMsg": "Неверный формат email. Пример: user@example.com",
+        "regisFailedStr": "Ошибка регистрации. Проверьте свои данные и попробуйте снова.",
+        "regisFailedTitle": "Ошибка регистрации",
+        "regisFailedMsg": "Не удалось зарегистрироваться.",
+        "linkFailed": "Не удалось открыть ссылку: "
+      },
+      "alerts": {
+        "successTitle": "Успех",
+        "successMsg": "Вы успешно зарегистрировались!"
+      }
+    },
+    "main": {
+      "errors": {
+        "loadFailed": "Не удалось загрузить уроки. Попробуйте позже."
+      },
+      "refresh": "Обновляем...",
+      "greeting": "Привет, ",
+      "guest": "Гость",
+      "whatToLearn": "Что изучим сегодня?",
+      "searchPlaceholder": "Найти урок или навык...",
+      "filters": {
+        "all": "Все",
+        "code": "Код",
+        "design": "Дизайн",
+        "language": "Языки",
+        "business": "Бизнес"
+      },
+      "popularTitle": "Популярное",
+      "seeAll": "Все→",
+      "unknownAuthor": "Неизвестен",
+      "studentsCount": "обучаются",
+      "continueLearning": "Продолжить обучение",
+      "noCurrentLesson": "Нет текущего урока",
+      "newLessonsTitle": "Новые уроки",
+      "studyButton": "Изучить"
+    },
+    "myLessons": {
+      "loadFailed": "Не удалось загрузить данные",
+      "lessonsCount": " уроков",
+      "pages": " стр.",
+      "completedBadge": "Пройдено",
+      "continueBtn": "Продолжить",
+      "repeatBtn": "Пройти заново",
+      "emptyTitle": "Уроков пока нет",
+      "emptyCreated": "Вы еще не создали ни одного урока. Пора поделиться знаниями!",
+      "emptyLearning": "Вы еще не начали изучать ни один урок. Найдите что-нибудь интересное в поиске.",
+      "findLessonsBtn": "Найти уроки",
+      "title": "Мои уроки",
+      "tabCreated": "Созданные",
+      "tabLearning": "Изучаю",
+      "filterAll": "Все",
+      "filterInProgress": "В процессе",
+      "filterCompleted": "Завершенные",
+      "filterRejected": "Отклоненные",
+      "found": "Найдено: ",
+      "actionView": "Просмотреть",
+      "actionViewSub": "Открыть как читатель",
+      "actionEdit": "Редактировать",
+      "actionEditSub": "Изменить контент и настройки",
+      "actionDelete": "Удалить урок",
+      "actionDeleteSub": "Это действие нельзя отменить",
+      "alertSuccessTitle": "Успешно",
+      "alertSuccessMsg": "Урок удален",
+      "filters": {
+        "all": "Все",
+        "active": "Активные",
+        "drafts": "Черновики",
+        "rejected": "Отклонены",
+        "completed": "Пройденные",
+        "inProgress": "В процессе"
+      },
+      "empty": {
+        "created": "Вы ещё не создали ни одного урока",
+        "learning": "Вы ещё не начали проходить уроки",
+        "subtitle": "Перейдите в каталог, чтобы найти что-то интересное!"
+      },
+      "tabs": {
+        "created": "Созданные",
+        "learning": "Изучаемые"
+      },
+      "modal": {
+        "edit": "Редактировать",
+        "preview": "Предпросмотр",
+        "stats": "Статистика",
+        "delete": "Удалить"
+      }
+    },
+    "search": {
+      "title": "Поиск",
+      "searchPlaceholder": "Найти курс, автора или тему...",
+      "recentSearch": "Недавние запросы",
+      "popularTags": "Популярные теги",
+      "foundResults": "Найдено",
+      "results": "результата",
+      "filtersTitle": "Фильтры",
+      "resetBtn": "Сбросить",
+      "difficulty": "Сложность",
+      "category": "Категория",
+      "unknownAuthor": "Неизвестен",
+      "studyBtn": "Изучить",
+      "prevPage": "‹ Пред",
+      "nextPage": "След ›",
+      "pageInfo1": "Страница",
+      "pageInfo2": "из",
+      "emptyTitle": "Пока ничего не найдено",
+      "emptySubtitle": "Попробуйте изменить запрос или проверить написание"
+    },
+    "cryptoAuth": {
+      "errorTitle": "Ошибка",
+      "errorMsg": "Не удалось войти. Проверьте правильность seed-фразы.",
+      "heroTitle": "Spark Education",
+      "heroSubtitle": "Вход без пароля — твой ключ хранится только у тебя",
+      "zkpTitle": "Что такое ZKP-вход?",
+      "zkp1": "Твой ключ не передаётся на сервер — только математическое доказательство",
+      "zkp2": "Никаких паролей и email — полная анонимность",
+      "zkp3": "Сохрани ключ — восстановить его нельзя",
+      "tabRegister": "Первый раз",
+      "tabLogin": "Войти",
+      "genTitle": "Сгенерировать ключ",
+      "genSubtitle": "Мы создадим уникальный криптографический ключ — это твой аккаунт",
+      "genBtn": "Сгенерировать ключ",
+      "genBtnAgain": "Сгенерировать другой",
+      "copyBtn": "Копировать",
+      "copiedBtn": "Скопировано ✓",
+      "warning": "Сохрани ключ в безопасное место. Мы не можем восстановить его — если потеряешь, потеряешь доступ к аккаунту.",
+      "loginWithKey": "Войти с этим ключом",
+      "enterKeyTitle": "Введи свой ключ",
+      "enterKeySubtitle": "Вставь сохранённый приватный ключ для входа в аккаунт",
+      "paste": "Вставить",
+      "loginBtn": "Войти",
+      "footer": "Защищено протоколом Zero-Knowledge Proof. Сервер никогда не видит твой ключ"
+    }
+  },
+  "components": {
+    "telegramModal": {
+      "eyebrow": "Spark Edu · Уведомления",
+      "title": "Подключите Telegram-бота",
+      "description": "Будьте в курсе событий платформы, не открывая приложение — уведомления придут прямо в Telegram.",
+      "feature1Title": "Новые уроки",
+      "feature1Subtitle": "По вашим интересам и тегам",
+      "feature2Title": "Статус модерации",
+      "feature2Subtitle": "Одобрен, отклонён или на проверке",
+      "feature3Title": "Топ недели",
+      "feature3Subtitle": "Самые популярные уроки платформы",
+      "policyText": "Активируя бота, вы соглашаетесь с ",
+      "policyLink": "политикой конфиденциальности",
+      "openBtn": "Открыть Telegram-бота",
+      "skipBtn": "Не сейчас"
+    },
+    "languageSwitcher": {
+      "title": "Выберите язык"
+    }
+  },
+  "navigation": {
+    "tabs": {
+      "home": "Главная",
+      "search": "Поиск",
+      "myLessons": "Уроки",
+      "profile": "Профиль"
+    }
+  }
+}

@@ -27,8 +27,10 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { DeleteLessonAPI } from "@/src/api/create_lesson/delete_lesson";
 import { Background } from "@react-navigation/elements";
+import { useTranslation } from "react-i18next";
 
 export const MyLessonsScreen = () => {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('created');
     const [filters, setFilters] = useState('all');
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -72,7 +74,7 @@ export const MyLessonsScreen = () => {
             console.log('myLessons: ', myLessons);
         } catch (err: any) {
             console.error(err);
-            setError('Не удалось загрузить данные');
+            setError(t('screens.myLessons.loadFailed'));
         } finally {
             setLoading(false);
         }
@@ -109,7 +111,7 @@ export const MyLessonsScreen = () => {
             return (
                 <View style={styles.sectionHeader}>
                     <Text style={styles.sectionTitle}>{item.title}</Text>
-                    <Text style={styles.sectionCount}>{item.count} урока</Text>
+                    <Text style={styles.sectionCount}>{item.count}{t('screens.myLessons.lessonsCount')}</Text>
                 </View>
             );
         }
@@ -138,7 +140,7 @@ export const MyLessonsScreen = () => {
                                 <Text style={[styles.tagText, { color: categoryStyle.text }]}>{lesson.type}</Text>
                             </View>
                             {!isLearning && (
-                                <Text style={[styles.lessonMetaText, { marginLeft: 4 }]}>{lesson.sheet_counts || 0} стр.</Text>
+                                <Text style={[styles.lessonMetaText, { marginLeft: 4 }]}>{lesson.sheet_counts || 0}{t('screens.myLessons.pages')}</Text>
                             )}
                         </View>
                     </View>
@@ -146,14 +148,14 @@ export const MyLessonsScreen = () => {
                     {isLearning ? (
                         item.status === 'COMPLETED' ? (
                             <View style={styles.completedBadge}>
-                                <Text style={styles.completedBadgeText}>✓ Завершено</Text>
+                                <Text style={styles.completedBadgeText}>{t('screens.myLessons.completedBadge')}</Text>
                             </View>
                         ) : (
                             <Pressable
                                 style={styles.continueButton}
                                 onPress={() => navigation.navigate('LessonPage' as never, { lessonId: lesson.id } as never)}
                             >
-                                <Text style={styles.continueButtonText}>Продолжить</Text>
+                                <Text style={styles.continueButtonText}>{t('screens.myLessons.continueBtn')}</Text>
                             </Pressable>
                         )
                     ) : (
@@ -186,7 +188,7 @@ export const MyLessonsScreen = () => {
                                 {Math.round((item.completed_steps / (lesson.sheet_counts || 1)) * 100)}%
                             </Text>
                             <Text style={styles.progressLabel}>
-                                {item.completed_steps}/{lesson.sheet_counts} стр.
+                                {item.completed_steps}/{lesson.sheet_counts}{t('screens.myLessons.pages')}
                             </Text>
                         </View>
                         {item.status === 'COMPLETED' && (
@@ -194,7 +196,7 @@ export const MyLessonsScreen = () => {
                                 style={[styles.repeatButton, { marginLeft: 'auto' }]}
                                 onPress={() => navigation.navigate('LessonMainScreen' as never, { lessonId: lesson.id } as never)}
                             >
-                                <Text style={styles.repeatButtonText}>Повторить</Text>
+                                <Text style={styles.repeatButtonText}>{t('screens.myLessons.repeatBtn')}</Text>
                                 <Text style={{ color: COLORS.primary, fontSize: 16 }}>→</Text>
                             </Pressable>
                         )}
@@ -210,7 +212,7 @@ export const MyLessonsScreen = () => {
                                 { backgroundColor: lesson.status === 'ACTIVE' ? COLORS.success : (lesson.status === 'REJECTED' ? COLORS.error : COLORS.textSecondary) }
                             ]} />
                             <Text style={lesson.status === 'ACTIVE' ? styles.statusActiveText : (lesson.status === 'REJECTED' ? styles.statusRejectedText : styles.statusDraftText)}>
-                                {lesson.status === 'ACTIVE' ? 'Active' : (lesson.status === 'REJECTED' ? 'Rejected' : 'Draft')}
+                                {lesson.status === 'ACTIVE' ? t('screens.myLessons.filters.active') : (lesson.status === 'REJECTED' ? t('screens.myLessons.filters.rejected') : t('screens.myLessons.filters.drafts'))}
                             </Text>
                         </View>
                         <View style={styles.lessonStats}>
@@ -232,14 +234,14 @@ export const MyLessonsScreen = () => {
             <View style={styles.emptyIconCircle}>
                 <LessonInfoIcon />
             </View>
-            <Text style={styles.emptyTitle}>Уроков пока нет</Text>
+            <Text style={styles.emptyTitle}>{t('screens.myLessons.emptyTitle')}</Text>
             <Text style={styles.emptySubtitle}>
                 {activeTab === 'created'
-                    ? 'Вы еще не создали ни одного урока. Пора поделиться знаниями!'
-                    : 'Вы еще не начали изучать ни один урок. Найдите что-нибудь интересное в поиске.'}
+                    ? t('screens.myLessons.emptyCreated')
+                    : t('screens.myLessons.emptyLearning')}
             </Text>
             <Pressable style={styles.emptyButton} onPress={() => navigation.navigate('Search' as never)}>
-                <Text style={styles.emptyButtonText}>Найти уроки</Text>
+                <Text style={styles.emptyButtonText}>{t('screens.myLessons.findLessonsBtn')}</Text>
             </Pressable>
         </View>
     );
@@ -264,19 +266,19 @@ export const MyLessonsScreen = () => {
                 ListHeaderComponent={
                     <View>
                         <View style={styles.header}>
-                            <Text style={styles.headerTitle}>Мои уроки</Text>
+                            <Text style={styles.headerTitle}>{t('screens.myLessons.title')}</Text>
                             <View style={styles.tabsRow}>
                                 <Pressable
                                     style={activeTab === 'created' ? styles.tabActive : styles.tab}
                                     onPress={() => { setActiveTab('created'); setFilters('all'); }}
                                 >
-                                    <Text style={activeTab === 'created' ? styles.tabTextActive : styles.tabText}>Созданные</Text>
+                                    <Text style={activeTab === 'created' ? styles.tabTextActive : styles.tabText}>{t('screens.myLessons.tabCreated')}</Text>
                                 </Pressable>
                                 <Pressable
                                     style={activeTab === 'learning' ? styles.tabActive : styles.tab}
                                     onPress={() => { setActiveTab('learning'); setFilters('all'); }}
                                 >
-                                    <Text style={activeTab === 'learning' ? styles.tabTextActive : styles.tabText}>Изучаю</Text>
+                                    <Text style={activeTab === 'learning' ? styles.tabTextActive : styles.tabText}>{t('screens.myLessons.tabLearning')}</Text>
                                 </Pressable>
                             </View>
                         </View>
@@ -290,7 +292,7 @@ export const MyLessonsScreen = () => {
                                 style={filters === 'all' ? styles.filterChipActive : styles.filterChip}
                                 onPress={() => setFilters('all')}
                             >
-                                <Text style={filters === 'all' ? styles.filterChipTextActive : styles.filterChipText}>Все</Text>
+                                <Text style={filters === 'all' ? styles.filterChipTextActive : styles.filterChipText}>{t('screens.myLessons.filterAll')}</Text>
                             </Pressable>
                             <Pressable
                                 style={filters === 'active' ? styles.filterChipActive : styles.filterChip}
@@ -298,7 +300,7 @@ export const MyLessonsScreen = () => {
                             >
                                 <View style={[styles.filterChipDot, { backgroundColor: COLORS.success }]} />
                                 <Text style={filters === 'active' ? styles.filterChipTextActive : styles.filterChipText}>
-                                    {activeTab === 'created' ? 'Active' : 'В процессе'}
+                                    {activeTab === 'created' ? 'Active' : t('screens.myLessons.filterInProgress')}
                                 </Text>
                             </Pressable>
                             <Pressable
@@ -307,7 +309,7 @@ export const MyLessonsScreen = () => {
                             >
                                 <View style={[styles.filterChipDot, { backgroundColor: COLORS.textSecondary }]} />
                                 <Text style={filters === 'draft' ? styles.filterChipTextActive : styles.filterChipText}>
-                                    {activeTab === 'created' ? 'Draft' : 'Завершенные'}
+                                    {activeTab === 'created' ? 'Draft' : t('screens.myLessons.filterCompleted')}
                                 </Text>
                             </Pressable>
                             {activeTab === 'created' && (
@@ -317,7 +319,7 @@ export const MyLessonsScreen = () => {
                                 >
                                     <View style={[styles.filterChipDot, { backgroundColor: COLORS.error }]} />
                                     <Text style={filters === 'rejected' ? styles.filterChipTextActive : styles.filterChipText}>
-                                        Отклоненные
+                                        {t('screens.myLessons.filterRejected')}
                                     </Text>
                                 </Pressable>
                             )}
@@ -325,7 +327,7 @@ export const MyLessonsScreen = () => {
 
                         <View style={styles.resultsRow}>
                             <Text style={styles.resultsText}>
-                                Найдено: <Text style={styles.resultsBold}>{currentData.length}</Text>
+                                {t('screens.myLessons.found')}<Text style={styles.resultsBold}>{currentData.length}</Text>
                             </Text>
                         </View>
                     </View>
@@ -359,7 +361,7 @@ export const MyLessonsScreen = () => {
                                     ]}>
                                         <View style={[styles.statusDot, { backgroundColor: selectedLesson.status === 'ACTIVE' ? COLORS.success : (selectedLesson.status === 'REJECTED' ? COLORS.error : COLORS.textSecondary) }]} />
                                         <Text style={selectedLesson.status === 'ACTIVE' ? styles.statusActiveText : (selectedLesson.status === 'REJECTED' ? styles.statusRejectedText : styles.statusDraftText)}>
-                                            {selectedLesson.status === 'ACTIVE' ? 'Active' : (selectedLesson.status === 'REJECTED' ? 'Rejected' : 'Draft')}
+                                            {selectedLesson.status === 'ACTIVE' ? t('screens.myLessons.filters.active') : (selectedLesson.status === 'REJECTED' ? t('screens.myLessons.filters.rejected') : t('screens.myLessons.filters.drafts'))}
                                         </Text>
                                     </View>
                                     {selectedLesson.status === 'REJECTED' && (
@@ -383,8 +385,8 @@ export const MyLessonsScreen = () => {
                                     </View>
                                 </View>
                                 <View>
-                                    <Text style={styles.dialogActionTitle}>Просмотреть</Text>
-                                    <Text style={styles.dialogActionSubtitle}>Открыть как читатель</Text>
+                                    <Text style={styles.dialogActionTitle}>{t('screens.myLessons.actionView')}</Text>
+                                    <Text style={styles.dialogActionSubtitle}>{t('screens.myLessons.actionViewSub')}</Text>
                                 </View>
                             </Pressable>
 
@@ -407,8 +409,8 @@ export const MyLessonsScreen = () => {
                                     </View>
                                 </View>
                                 <View>
-                                    <Text style={styles.dialogActionTitle}>Редактировать</Text>
-                                    <Text style={styles.dialogActionSubtitle}>Изменить контент и настройки</Text>
+                                    <Text style={styles.dialogActionTitle}>{t('screens.myLessons.actionEdit')}</Text>
+                                    <Text style={styles.dialogActionSubtitle}>{t('screens.myLessons.actionEditSub')}</Text>
                                 </View>
                             </Pressable>
 
@@ -418,7 +420,7 @@ export const MyLessonsScreen = () => {
                                 if (selectedLesson.id) {
                                     DeleteLesson(selectedLesson.id);
                                     setIsVisibleModal(false);
-                                    Alert.alert("Успешно", "Урок удален");
+                                    Alert.alert(t('screens.myLessons.alertSuccessTitle'), t('screens.myLessons.alertSuccessMsg'));
                                 } else {
                                     console.warn("Нет ID урока для удаления");
                                 }
@@ -429,8 +431,8 @@ export const MyLessonsScreen = () => {
                                     </View>
                                 </View>
                                 <View>
-                                    <Text style={[styles.dialogActionTitle, styles.dialogActionDeleteTitle]}>Удалить урок</Text>
-                                    <Text style={styles.dialogActionSubtitle}>Это действие нельзя отменить</Text>
+                                    <Text style={[styles.dialogActionTitle, styles.dialogActionDeleteTitle]}>{t('screens.myLessons.actionDelete')}</Text>
+                                    <Text style={styles.dialogActionSubtitle}>{t('screens.myLessons.actionDeleteSub')}</Text>
                                 </View>
                             </Pressable>
                         </View>

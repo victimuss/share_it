@@ -1,0 +1,264 @@
+{
+  "screens": {
+    "profile": {
+      "errors": {
+        "loadData": "Failed to load data",
+        "loadLessons": "Failed to load lessons. Please try again later.",
+        "nameTooShort": "Name must be at least 3 characters long",
+        "editFailed": "Failed to edit. Please try again later.",
+        "errorTitle": "Error",
+        "fillAllFields": "Please fill in all fields"
+      },
+      "alerts": {
+        "addSuccess": "Successfully added",
+        "editSuccess": "Successfully changed",
+        "comingSoonTitle": "Coming soon",
+        "comingSoonText": "This feature will be available in the future",
+        "draftResetTitle": "Draft reset",
+        "draftResetText": "All unsaved changes have been deleted."
+      },
+      "refresh": "Refreshing...",
+      "editProfile": "Edit Profile",
+      "changePhoto": "Change photo",
+      "form": {
+        "mainTitle": "General",
+        "nameLabel": "Name",
+        "namePlaceholder": "Your name",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "Description",
+        "tagLabel": "Tag",
+        "tagPlaceholder": "Tag",
+        "contactsTitle": "Contacts",
+        "siteLabel": "Website",
+        "telegramLabel": "Telegram"
+      },
+      "buttons": {
+        "save": "Save",
+        "logout": "Log out",
+        "resetDraft": "Reset draft"
+      },
+      "stats": {
+        "createdLessons": "Created lessons",
+        "studying": "Studying",
+        "likes": "Likes"
+      },
+      "skills": {
+        "title": "My skills",
+        "addBtn": "+ Add",
+        "newSkillTitle": "New skill",
+        "skillNameLabel": "Skill name",
+        "skillNamePlaceholder": "E.g. React, Figma, Python...",
+        "levelLabel": "Proficiency level",
+        "levels": {
+          "beginnerTitle": "Beginner",
+          "beginnerSubtitle": "Familiar with basics, currently learning",
+          "intermediateTitle": "Intermediate",
+          "intermediateSubtitle": "Applying confidently in practice",
+          "advancedTitle": "Advanced",
+          "advancedSubtitle": "Expert level, teaching others"
+        }
+      },
+      "tabs": {
+        "created": "Created",
+        "studying": "Studying",
+        "completed": "Completed"
+      }
+    },
+    "login": {
+      "title": "Log in",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Password",
+      "loginButton": "Log in",
+      "forgotPassword": "Forgot password?",
+      "register": "No account? Register",
+      "loading": "Loading...",
+      "errors": {
+        "emptyFieldsTitle": "Error",
+        "emptyFieldsMsg": "Please fill in all fields",
+        "invalidEmailTitle": "Error",
+        "invalidEmailMsg": "Invalid email format. Example: user@example.com",
+        "loginFailedStr": "Login error. Check your details and try again.",
+        "loginFailedTitle": "Login error",
+        "loginFailedMsg": "Failed to log in."
+      },
+      "alerts": {
+        "successTitle": "Success",
+        "successMsg": "You have successfully logged in!"
+      }
+    },
+    "register": {
+      "title": "Registration",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Password",
+      "namePlaceholder": "Name",
+      "registerButton": "Register",
+      "login": "Already have an account? Log in",
+      "legalText1": "By registering, you agree to the ",
+      "legalText2": "Privacy Policy",
+      "loading": "Loading...",
+      "errors": {
+        "emptyFieldsTitle": "Error",
+        "emptyFieldsMsg": "Please fill in all fields",
+        "invalidEmailTitle": "Error",
+        "invalidEmailMsg": "Invalid email format. Example: user@example.com",
+        "regisFailedStr": "Registration error. Check your details and try again.",
+        "regisFailedTitle": "Registration error",
+        "regisFailedMsg": "Failed to register.",
+        "linkFailed": "Failed to open link: "
+      },
+      "alerts": {
+        "successTitle": "Success",
+        "successMsg": "You have successfully registered!"
+      }
+    },
+    "main": {
+      "errors": {
+        "loadFailed": "Failed to load lessons. Please try again later."
+      },
+      "refresh": "Refreshing...",
+      "greeting": "Hello, ",
+      "guest": "Guest",
+      "whatToLearn": "What shall we learn today?",
+      "searchPlaceholder": "Search for a lesson or skill...",
+      "filters": {
+        "all": "All",
+        "code": "Code",
+        "design": "Design",
+        "language": "Languages",
+        "business": "Business"
+      },
+      "popularTitle": "Popular",
+      "seeAll": "See all→",
+      "unknownAuthor": "Unknown",
+      "studentsCount": "learning",
+      "continueLearning": "Continue learning",
+      "noCurrentLesson": "No current lesson",
+      "newLessonsTitle": "New lessons",
+      "studyButton": "Study"
+    },
+    "myLessons": {
+      "loadFailed": "Failed to load data",
+      "lessonsCount": " lessons",
+      "pages": " p.",
+      "completedBadge": "Completed",
+      "continueBtn": "Continue",
+      "repeatBtn": "Retake",
+      "emptyTitle": "No lessons yet",
+      "emptyCreated": "You havent created any lessons yet. Time to share your knowledge!",
+      "emptyLearning": "You havent started learning any lessons yet. Find something interesting in search.",
+      "findLessonsBtn": "Find lessons",
+      "title": "My Lessons",
+      "tabCreated": "Created",
+      "tabLearning": "Learning",
+      "filterAll": "All",
+      "filterInProgress": "In progress",
+      "filterCompleted": "Completed",
+      "filterRejected": "Rejected",
+      "found": "Found: ",
+      "actionView": "View",
+      "actionViewSub": "Open as reader",
+      "actionEdit": "Edit",
+      "actionEditSub": "Change content and settings",
+      "actionDelete": "Delete lesson",
+      "actionDeleteSub": "This action cannot be undone",
+      "alertSuccessTitle": "Success",
+      "alertSuccessMsg": "Lesson deleted",
+      "filters": {
+        "all": "All",
+        "active": "Active",
+        "drafts": "Drafts",
+        "rejected": "Rejected",
+        "completed": "Completed",
+        "inProgress": "In Progress"
+      },
+      "empty": {
+        "created": "You have not created any lessons yet",
+        "learning": "You have not started any lessons yet",
+        "subtitle": "Go to the catalog to find something interesting!"
+      },
+      "tabs": {
+        "created": "Created",
+        "learning": "Learning"
+      },
+      "modal": {
+        "edit": "Edit",
+        "preview": "Preview",
+        "stats": "Statistics",
+        "delete": "Delete"
+      }
+    },
+    "search": {
+      "title": "Search",
+      "searchPlaceholder": "Find a course, author or topic...",
+      "recentSearch": "Recent searches",
+      "popularTags": "Popular tags",
+      "foundResults": "Found",
+      "results": "results",
+      "filtersTitle": "Filters",
+      "resetBtn": "Reset",
+      "difficulty": "Difficulty",
+      "category": "Category",
+      "unknownAuthor": "Unknown",
+      "studyBtn": "Study",
+      "prevPage": "‹ Prev",
+      "nextPage": "Next ›",
+      "pageInfo1": "Page",
+      "pageInfo2": "of",
+      "emptyTitle": "Nothing found yet",
+      "emptySubtitle": "Try changing your query or check spelling"
+    },
+    "cryptoAuth": {
+      "errorTitle": "Error",
+      "errorMsg": "Login failed. Check your seed phrase.",
+      "heroTitle": "Spark Education",
+      "heroSubtitle": "Passwordless login — your key is stored only by you",
+      "zkpTitle": "What is ZKP login?",
+      "zkp1": "Your key is never sent to the server — only a mathematical proof",
+      "zkp2": "No passwords and emails — complete anonymity",
+      "zkp3": "Save the key — it cannot be recovered",
+      "tabRegister": "First time",
+      "tabLogin": "Login",
+      "genTitle": "Generate key",
+      "genSubtitle": "We will create a unique cryptographic key — this is your account",
+      "genBtn": "Generate key",
+      "genBtnAgain": "Generate another",
+      "copyBtn": "Copy",
+      "copiedBtn": "Copied ✓",
+      "warning": "Save the key in a safe place. We cannot recover it — if you lose it, you lose access to your account.",
+      "loginWithKey": "Login with this key",
+      "enterKeyTitle": "Enter your key",
+      "enterKeySubtitle": "Paste your saved private key to login to your account",
+      "paste": "Paste",
+      "loginBtn": "Login",
+      "footer": "Protected by Zero-Knowledge Proof protocol. The server never sees your key"
+    }
+  },
+  "components": {
+    "telegramModal": {
+      "eyebrow": "Spark Edu · Notifications",
+      "title": "Connect Telegram Bot",
+      "description": "Stay up to date with platform events without opening the app — notifications will come directly to Telegram.",
+      "feature1Title": "New lessons",
+      "feature1Subtitle": "Based on your interests and tags",
+      "feature2Title": "Moderation status",
+      "feature2Subtitle": "Approved, rejected, or pending",
+      "feature3Title": "Top of the week",
+      "feature3Subtitle": "Most popular lessons on the platform",
+      "policyText": "By activating the bot, you agree to the ",
+      "policyLink": "privacy policy",
+      "openBtn": "Open Telegram Bot",
+      "skipBtn": "Not now"
+    },
+    "languageSwitcher": {
+      "title": "Select language"
+    }
+  },
+  "navigation": {
+    "tabs": {
+      "home": "Home",
+      "search": "Search",
+      "myLessons": "Lessons",
+      "profile": "Profile"
+    }
+  }
+}

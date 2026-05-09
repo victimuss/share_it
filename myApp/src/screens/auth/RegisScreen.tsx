@@ -12,7 +12,11 @@ import { RegisResponse } from '../../types/auth';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../../navigation/types';
 import { useAuth } from '@/src/context/AuthContext';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from '@/src/components/LanguageSwitcher';
+
 export const RegisScreen = () => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
     const [name, setName] = useState('');
@@ -23,23 +27,23 @@ export const RegisScreen = () => {
     const handleRegis = async () => {
         try {
             if (!email || !password || !name) {
-                Alert.alert('Ошибка', 'Заполните все поля');
+                Alert.alert(t('screens.register.errors.emptyFieldsTitle'), t('screens.register.errors.emptyFieldsMsg'));
                 return;
             }
 
             if (!email.match(/^\S+@\S+\.\S+$/)) {
-                Alert.alert('Ошибка', 'Неверный формат email. Пример: user@example.com');
+                Alert.alert(t('screens.register.errors.invalidEmailTitle'), t('screens.register.errors.invalidEmailMsg'));
                 return;
             }
             setLoading(true);
             await Regis({ user_name: name, email, password: password });
-            Alert.alert('Успех', 'Вы успешно зарегистрировались!');
+            Alert.alert(t('screens.register.alerts.successTitle'), t('screens.register.alerts.successMsg'));
             // Навигация на главный экран или другой экран после успешной регистрации
             navigation.navigate('Login', { email: email });
         } catch (err: any) {
-            setError('Ошибка регистрации. Проверьте свои данные и попробуйте снова.');
+            setError(t('screens.register.errors.regisFailedStr'));
             console.error('Ошибка регистрации:', err);
-            Alert.alert('Ошибка регистрации', err?.message || 'Не удалось зарегистрироваться.');
+            Alert.alert(t('screens.register.errors.regisFailedTitle'), err?.message || t('screens.register.errors.regisFailedMsg'));
         } finally {
             setLoading(false);
         }
@@ -51,29 +55,32 @@ export const RegisScreen = () => {
         if (supported) {
             await Linking.openURL(url);
         } else {
-            Alert.alert(`Не удалось открыть ссылку: ${url}`);
+            Alert.alert(`${t('screens.register.errors.linkFailed')}${url}`);
         }
     };
     return (
         <SafeAreaView style={authStyles.container}>
             <ScrollView contentContainerStyle={authStyles.scrollContainer}>
-                <Text style={authStyles.title}>Регистрация</Text>
+                <View style={{ position: 'absolute', top: 10, right: 10, zIndex: 10 }}>
+                    <LanguageSwitcher />
+                </View>
+                <Text style={authStyles.title}>{t('screens.register.title')}</Text>
                 <TextInput
                     style={authStyles.input}
-                    placeholder="Email"
+                    placeholder={t('screens.register.emailPlaceholder')}
                     value={email}
                     onChangeText={setEmail}
                 />
                 <TextInput
                     style={authStyles.input}
-                    placeholder="Пароль"
+                    placeholder={t('screens.register.passwordPlaceholder')}
                     value={password}
                     onChangeText={setPassword}
                     secureTextEntry
                 />
                 <TextInput
                     style={authStyles.input}
-                    placeholder="Имя"
+                    placeholder={t('screens.register.namePlaceholder')}
                     value={name}
                     onChangeText={setName}
                 />
@@ -88,18 +95,18 @@ export const RegisScreen = () => {
                     onPress={handleRegis}
                 >
                     <Text style={authStyles.buttonText}>
-                        {loading ? 'Загрузка...' : 'Зарегистрироваться'}
+                        {loading ? t('screens.register.loading') : t('screens.register.registerButton')}
                     </Text>
                 </Pressable>
                 <Pressable style={authStyles.secondaryButton}>
                     <Text style={authStyles.secondaryButtonText}
                         onPress={() => navigation.navigate('Login')}>
-                        Есть аккаунт? Войти</Text>
+                        {t('screens.register.login')}</Text>
                 </Pressable>
                 <Text style={authStyles.legalText}>
-                    Регистрируясь, вы соглашаетесь с{' '}
+                    {t('screens.register.legalText1')}
                     <Text style={authStyles.link} onPress={openPrivacyPolicy}>
-                        Политикой конфиденциальности
+                        {t('screens.register.legalText2')}
                     </Text>
                 </Text>
                 {error && (
@@ -109,7 +116,7 @@ export const RegisScreen = () => {
                 )}
                 {loading && (
                     <View style={authStyles.loadingContainer}>
-                        <Text style={authStyles.loadingText}>Загрузка...</Text>
+                        <Text style={authStyles.loadingText}>{t('screens.register.loading')}</Text>
                     </View>
                 )}
             </ScrollView>

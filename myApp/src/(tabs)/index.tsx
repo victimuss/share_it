@@ -1,3 +1,4 @@
+import '../i18n';
 import React, { FC, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
@@ -15,6 +16,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AuthNavigator } from '../navigation/AuthNavigator';
 import { AuthProvider } from '../context/AuthContext';
 import { RootNavigator } from '../navigation/RootNavigator';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../i18n';
 
 
 // Не скрываем splash screen сразу
@@ -51,9 +54,11 @@ const App: FC = () => {
 
   return (
     <AuthProvider>
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
+      <I18nextProvider i18n={i18n}>
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
+      </I18nextProvider>
     </AuthProvider>
   );
 };

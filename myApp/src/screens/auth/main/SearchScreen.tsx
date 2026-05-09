@@ -15,6 +15,7 @@ import { Tag } from "@/src/types/search";
 import { PopularTags, SearchLessons } from "@/src/api/search/search";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 const getPaginationItems = (currentPage: number, maxPage: number) => {
     const pages: (number | string)[] = [];
@@ -33,6 +34,7 @@ const getPaginationItems = (currentPage: number, maxPage: number) => {
 };
 
 export const SearchScreen = () => {
+    const { t } = useTranslation();
     type SearchScreenRouteProp = RouteProp<SearchStackParamList, 'Search'>;
     const route = useRoute<SearchScreenRouteProp>();
     const searchFromMainPage = route.params?.search;
@@ -133,7 +135,7 @@ export const SearchScreen = () => {
             <ScrollView
                 style={searchStyles.scrollContainer}>
                 <View style={searchStyles.header}>
-                    <Text style={searchStyles.headerTitle}>Поиск</Text>
+                    <Text style={searchStyles.headerTitle}>{t('screens.search.title')}</Text>
                     <View style={searchStyles.searchContainer}>
                         <View style={searchStyles.searchIconWrapper}>
                             <SearchIcon />
@@ -143,7 +145,7 @@ export const SearchScreen = () => {
                             onChangeText={(text) => { setSearch(text); fetchFindResult(text); }}
                             onSubmitEditing={() => saveRecentSearch(search)}
                             style={searchStyles.searchInput}
-                            placeholder="Найти курс, автора или тему..."
+                            placeholder={t('screens.search.searchPlaceholder')}
                             placeholderTextColor={COLORS.textLight}
                         />
                         {(search?.length || 0) > 0 && (
@@ -155,7 +157,7 @@ export const SearchScreen = () => {
                 </View>
                 {(search?.length <= 0 && recentSearch.length > 0) && (
                     <View style={searchStyles.section}>
-                        <Text style={searchStyles.sectionTitle}>Недавние запросы</Text>
+                        <Text style={searchStyles.sectionTitle}>{t('screens.search.recentSearch')}</Text>
                         <View style={searchStyles.chipsWrap}>
                             {recentSearch.map((searchItem, index) => (
                                 <Pressable key={index} style={searchStyles.recentChip}
@@ -171,7 +173,7 @@ export const SearchScreen = () => {
                 )}
                 {search?.length <= 0 && (
                     <View style={searchStyles.section}>
-                        <Text style={searchStyles.sectionTitle}>Популярные теги</Text>
+                        <Text style={searchStyles.sectionTitle}>{t('screens.search.popularTags')}</Text>
                         <View style={searchStyles.chipsWrap}>
                             {(popularTags || []).map((tag: any) => {
                                 const tagStr = typeof tag === 'string' ? tag : tag?.tag || '';
@@ -186,15 +188,15 @@ export const SearchScreen = () => {
                     </View>
                 )}
                 {(search?.length || 0) > 0 && (
-                    <><><View style={searchStyles.section}>
+                    <><View style={searchStyles.section}>
                         <View style={searchStyles.resultsHeader}>
-                            <Text style={searchStyles.resultsCount}>Найдено {findResult.length} результата</Text>
+                            <Text style={searchStyles.resultsCount}>{t('screens.search.foundResults')} {findResult.length} {t('screens.search.results')}</Text>
                             <Pressable style={searchStyles.filterButton}
                                 onPress={() => { setModalVisible(true) }}>
                                 <View style={searchStyles.filterButtonIconWrapper}>
                                     <FilterIcon color={COLORS.text} size={14} />
                                 </View>
-                                <Text style={searchStyles.filterButtonText}>Фильтры</Text>
+                                <Text style={searchStyles.filterButtonText}>{t('screens.search.filtersTitle')}</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -208,7 +210,7 @@ export const SearchScreen = () => {
                                 <View style={searchStyles.sheet}>
                                     <View style={searchStyles.handle} />
                                     <View style={searchStyles.headerModal}>
-                                        <Text style={searchStyles.headerTitleModal}>Фильтры</Text>
+                                        <Text style={searchStyles.headerTitleModal}>{t('screens.search.filtersTitle')}</Text>
                                         <Pressable onPress={() => { setModalVisible(false); setLevel(''); }}>
                                             <View style={searchStyles.clearButton}>
                                                 <CloseIcon />
@@ -220,19 +222,19 @@ export const SearchScreen = () => {
                                                 setModalVisible(false);
                                                 fetchFindResult(search, currentpage, '');
                                             }}>
-                                            Сбросить
+                                            {t('screens.search.resetBtn')}
                                         </Text>
                                     </View>
                                     <ScrollView contentContainerStyle={searchStyles.scrollContent}>
                                         <View style={searchStyles.filterSection}>
                                             <View style={searchStyles.filterSectionHeader}>
-                                                <Text style={searchStyles.filterSectionTitle}>Сложность</Text>
+                                                <Text style={searchStyles.filterSectionTitle}>{t('screens.search.difficulty')}</Text>
                                                 <Text style={searchStyles.resetButtonText}
                                                     onPress={() => {
                                                         setLevel('');
                                                         fetchFindResult(search, currentpage, '');
                                                     }}>
-                                                    Сбросить
+                                                    {t('screens.search.resetBtn')}
                                                 </Text>
                                             </View>
                                             <View style={searchStyles.chipsWrap}>
@@ -252,13 +254,13 @@ export const SearchScreen = () => {
                                         </View>
                                         <View style={searchStyles.filterSection}>
                                             <View style={searchStyles.filterSectionHeader}>
-                                                <Text style={searchStyles.filterSectionTitle}>Категория</Text>
+                                                <Text style={searchStyles.filterSectionTitle}>{t('screens.search.category')}</Text>
                                                 <Text style={searchStyles.resetButtonText}
                                                     onPress={() => {
                                                         setType(null);
                                                         fetchFindResult(search, currentpage, level, null);
                                                     }}>
-                                                    Сбросить
+                                                    {t('screens.search.resetBtn')}
                                                 </Text>
                                             </View>
                                             <View style={searchStyles.chipsWrap}>
@@ -304,17 +306,17 @@ export const SearchScreen = () => {
                                                 </View>
                                             </View>
                                             <View style={homeStyles.lessonCardFooter}>
-                                                <Text style={homeStyles.lessonCardLikes}> {item.author ? item.author : 'Неизвестен'} · ❤️ {less.likes}</Text>
+                                                <Text style={homeStyles.lessonCardLikes}> {item.author ? item.author : t('screens.search.unknownAuthor')} · ❤️ {less.likes}</Text>
                                             </View>
                                         </View>
                                         <Pressable style={homeStyles.studyButton}
                                             onPress={() => navigator.navigate('LessonMainScreen', { lessonId: less.id })}>
-                                            <Text style={homeStyles.studyButtonText}>Изучить</Text>
+                                            <Text style={homeStyles.studyButtonText}>{t('screens.search.studyBtn')}</Text>
                                         </Pressable>
                                     </View>
                                 );
                             })}
-                        </View></><View style={{ alignItems: 'center' }}>
+                        </View><View style={{ alignItems: 'center' }}>
                             <View style={searchStyles.paginationContainer}>
                                 <Pressable
                                     style={[searchStyles.pageArrowButton, currentpage === 1 && searchStyles.pageArrowButtonDisabled]}
@@ -325,7 +327,7 @@ export const SearchScreen = () => {
                                         fetchFindResult(search, next);
                                     }}
                                 >
-                                    <Text style={searchStyles.pageArrowText}>‹ Пред</Text>
+                                    <Text style={searchStyles.pageArrowText}>{t('screens.search.prevPage')}</Text>
                                 </Pressable>
 
                                 {getPaginationItems(currentpage, maxpage).map((item, index) => {
@@ -357,17 +359,17 @@ export const SearchScreen = () => {
                                         fetchFindResult(search, next);
                                     }}
                                 >
-                                    <Text style={searchStyles.pageArrowText}>След ›</Text>
+                                    <Text style={searchStyles.pageArrowText}>{t('screens.search.nextPage')}</Text>
                                 </Pressable>
                             </View>
-                            <Text style={searchStyles.pageInfo}>Страница {currentpage} из {maxpage}</Text>
+                            <Text style={searchStyles.pageInfo}>{t('screens.search.pageInfo1')} {currentpage} {t('screens.search.pageInfo2')} {maxpage}</Text>
                         </View></>
                 )}
                 {findResult.length <= 0 && (
                     <View style={searchStyles.emptyState}>
                         <View style={searchStyles.emptyIconWrapper}><SearchIcon size={30} color={COLORS.textLight} /></View>
-                        <Text style={searchStyles.emptyTitle}>Пока ничего не найдено</Text>
-                        <Text style={searchStyles.emptySubtitle}>Попробуйте изменить запрос или проверить написание</Text>
+                        <Text style={searchStyles.emptyTitle}>{t('screens.search.emptyTitle')}</Text>
+                        <Text style={searchStyles.emptySubtitle}>{t('screens.search.emptySubtitle')}</Text>
                     </View>
                 )}
             </ScrollView>

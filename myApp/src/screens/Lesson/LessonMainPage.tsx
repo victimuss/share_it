@@ -14,10 +14,12 @@ import { LessonBackIcon, LessonMoreIcon, LessonFileIcon, LessonUsersIcon, Lesson
 import { PersonalLessonOut, PersonalLessonResponse } from "@/src/types/lessonmainscreen";
 import { GetLessonByIdAPI, LikeLessonAPI, RankLessonAPI } from "@/src/api/lessonmain/lessonmain";
 import { useRoute, RouteProp } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
 export const LessonMainScreen = () => {
+    const { i18n } = useTranslation();
     type LessonScreenRouteProp = RouteProp<RootStackParamList, 'LessonMainScreen'>;
     const route = useRoute<LessonScreenRouteProp>();
     const lesson_id = route.params.lessonId;
@@ -44,7 +46,8 @@ export const LessonMainScreen = () => {
                 day: 'numeric',
                 month: 'long',
             };
-            setCreatedAt(date.toLocaleDateString('ru-RU', options));
+            const lang = i18n ? i18n.language : 'ru-RU';
+            setCreatedAt(date.toLocaleDateString(lang, options));
             setRating(response?.lesson.rank_count > 0 ? Math.round(response?.lesson.rank / response?.lesson.rank_count) : 0)
             console.log(response)
         } catch (error) {

@@ -1,0 +1,264 @@
+{
+  "screens": {
+    "profile": {
+      "errors": {
+        "loadData": "No se pudieron cargar los datos",
+        "loadLessons": "No se pudieron cargar las lecciones. Por favor, inténtelo de nuevo más tarde.",
+        "nameTooShort": "El nombre debe tener al menos 3 caracteres",
+        "editFailed": "No se pudo editar. Por favor, inténtelo de nuevo más tarde.",
+        "errorTitle": "Error",
+        "fillAllFields": "Por favor, rellene todos los campos"
+      },
+      "alerts": {
+        "addSuccess": "Añadido con éxito",
+        "editSuccess": "Cambiado con éxito",
+        "comingSoonTitle": "Próximamente",
+        "comingSoonText": "Esta función estará disponible en el futuro",
+        "draftResetTitle": "Borrador restablecido",
+        "draftResetText": "Se han eliminado todos los cambios no guardados."
+      },
+      "refresh": "Actualizando...",
+      "editProfile": "Editar perfil",
+      "changePhoto": "Cambiar foto",
+      "form": {
+        "mainTitle": "General",
+        "nameLabel": "Nombre",
+        "namePlaceholder": "Tu nombre",
+        "descriptionLabel": "Descripción",
+        "descriptionPlaceholder": "Descripción",
+        "tagLabel": "Etiqueta",
+        "tagPlaceholder": "Etiqueta",
+        "contactsTitle": "Contactos",
+        "siteLabel": "Sitio web",
+        "telegramLabel": "Telegram"
+      },
+      "buttons": {
+        "save": "Guardar",
+        "logout": "Cerrar sesión",
+        "resetDraft": "Restablecer borrador"
+      },
+      "stats": {
+        "createdLessons": "Lecciones creadas",
+        "studying": "Estudiando",
+        "likes": "Me gusta"
+      },
+      "skills": {
+        "title": "Mis habilidades",
+        "addBtn": "+ Añadir",
+        "newSkillTitle": "Nueva habilidad",
+        "skillNameLabel": "Nombre de la habilidad",
+        "skillNamePlaceholder": "Ej. React, Figma, Python...",
+        "levelLabel": "Nivel de competencia",
+        "levels": {
+          "beginnerTitle": "Principiante",
+          "beginnerSubtitle": "Familiarizado con lo básico, aprendiendo",
+          "intermediateTitle": "Intermedio",
+          "intermediateSubtitle": "Aplicando con confianza en la práctica",
+          "advancedTitle": "Avanzado",
+          "advancedSubtitle": "Nivel experto, enseñando a otros"
+        }
+      },
+      "tabs": {
+        "created": "Creado",
+        "studying": "Estudiando",
+        "completed": "Completado"
+      }
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "emailPlaceholder": "Correo electrónico",
+      "passwordPlaceholder": "Contraseña",
+      "loginButton": "Iniciar sesión",
+      "forgotPassword": "¿Olvidó su contraseña?",
+      "register": "¿No tienes cuenta? Regístrate",
+      "loading": "Cargando...",
+      "errors": {
+        "emptyFieldsTitle": "Error",
+        "emptyFieldsMsg": "Por favor, rellene todos los campos",
+        "invalidEmailTitle": "Error",
+        "invalidEmailMsg": "Formato de correo electrónico no válido. Ejemplo: user@example.com",
+        "loginFailedStr": "Error de inicio de sesión. Compruebe sus datos e inténtelo de nuevo.",
+        "loginFailedTitle": "Error de inicio de sesión",
+        "loginFailedMsg": "No se pudo iniciar sesión."
+      },
+      "alerts": {
+        "successTitle": "Éxito",
+        "successMsg": "¡Has iniciado sesión con éxito!"
+      }
+    },
+    "register": {
+      "title": "Registro",
+      "emailPlaceholder": "Correo electrónico",
+      "passwordPlaceholder": "Contraseña",
+      "namePlaceholder": "Nombre",
+      "registerButton": "Registrarse",
+      "login": "¿Ya tienes cuenta? Iniciar sesión",
+      "legalText1": "Al registrarte, aceptas la ",
+      "legalText2": "Política de privacidad",
+      "loading": "Cargando...",
+      "errors": {
+        "emptyFieldsTitle": "Error",
+        "emptyFieldsMsg": "Por favor, rellene todos los campos",
+        "invalidEmailTitle": "Error",
+        "invalidEmailMsg": "Formato de correo electrónico no válido. Ejemplo: user@example.com",
+        "regisFailedStr": "Error de registro. Compruebe sus datos e inténtelo de nuevo.",
+        "regisFailedTitle": "Error de registro",
+        "regisFailedMsg": "No se pudo registrar.",
+        "linkFailed": "No se pudo abrir el enlace: "
+      },
+      "alerts": {
+        "successTitle": "Éxito",
+        "successMsg": "¡Te has registrado con éxito!"
+      }
+    },
+    "main": {
+      "errors": {
+        "loadFailed": "Error al cargar las lecciones. Por favor, inténtelo de nuevo más tarde."
+      },
+      "refresh": "Actualizando...",
+      "greeting": "Hola, ",
+      "guest": "Invitado",
+      "whatToLearn": "¿Qué aprenderemos hoy?",
+      "searchPlaceholder": "Buscar una lección o habilidad...",
+      "filters": {
+        "all": "Todos",
+        "code": "Código",
+        "design": "Diseño",
+        "language": "Idiomas",
+        "business": "Negocios"
+      },
+      "popularTitle": "Popular",
+      "seeAll": "Ver todo→",
+      "unknownAuthor": "Desconocido",
+      "studentsCount": "aprendiendo",
+      "continueLearning": "Continuar aprendiendo",
+      "noCurrentLesson": "No hay lección actual",
+      "newLessonsTitle": "Nuevas lecciones",
+      "studyButton": "Estudiar"
+    },
+    "myLessons": {
+      "loadFailed": "Error al cargar los datos",
+      "lessonsCount": " lecciones",
+      "pages": " p.",
+      "completedBadge": "Completado",
+      "continueBtn": "Continuar",
+      "repeatBtn": "Rehacer",
+      "emptyTitle": "Aún no hay lecciones",
+      "emptyCreated": "Aún no has creado ninguna lección. ¡Es hora de compartir tus conocimientos!",
+      "emptyLearning": "Aún no has empezado a estudiar ninguna lección. Encuentra algo interesante en la búsqueda.",
+      "findLessonsBtn": "Encontrar lecciones",
+      "title": "Mis Lecciones",
+      "tabCreated": "Creadas",
+      "tabLearning": "Estudiando",
+      "filterAll": "Todos",
+      "filterInProgress": "En progreso",
+      "filterCompleted": "Completados",
+      "filterRejected": "Rechazados",
+      "found": "Encontrado: ",
+      "actionView": "Ver",
+      "actionViewSub": "Abrir como lector",
+      "actionEdit": "Editar",
+      "actionEditSub": "Cambiar contenido y ajustes",
+      "actionDelete": "Eliminar lección",
+      "actionDeleteSub": "Esta acción no se puede deshacer",
+      "alertSuccessTitle": "Éxito",
+      "alertSuccessMsg": "Lección eliminada",
+      "filters": {
+        "all": "Todos",
+        "active": "Activos",
+        "drafts": "Borradores",
+        "rejected": "Rechazados",
+        "completed": "Completados",
+        "inProgress": "En curso"
+      },
+      "empty": {
+        "created": "Aun no has creado ninguna leccion",
+        "learning": "Aun no has comenzado ninguna leccion",
+        "subtitle": "¡Ve al catalogo para encontrar algo interesante!"
+      },
+      "tabs": {
+        "created": "Creados",
+        "learning": "Estudiando"
+      },
+      "modal": {
+        "edit": "Editar",
+        "preview": "Vista previa",
+        "stats": "Estadisticas",
+        "delete": "Eliminar"
+      }
+    },
+    "search": {
+      "title": "Buscar",
+      "searchPlaceholder": "Buscar un curso, autor o tema...",
+      "recentSearch": "Búsquedas recientes",
+      "popularTags": "Etiquetas populares",
+      "foundResults": "Encontrado",
+      "results": "resultados",
+      "filtersTitle": "Filtros",
+      "resetBtn": "Reiniciar",
+      "difficulty": "Dificultad",
+      "category": "Categoría",
+      "unknownAuthor": "Desconocido",
+      "studyBtn": "Estudiar",
+      "prevPage": "‹ Ant",
+      "nextPage": "Sig ›",
+      "pageInfo1": "Página",
+      "pageInfo2": "de",
+      "emptyTitle": "Aún no se ha encontrado nada",
+      "emptySubtitle": "Intenta cambiar tu consulta o revisar la ortografía"
+    },
+    "cryptoAuth": {
+      "errorTitle": "Error",
+      "errorMsg": "Error al iniciar sesión. Compruebe su frase semilla.",
+      "heroTitle": "Spark Education",
+      "heroSubtitle": "Inicio de sesión sin contraseña: su clave solo la almacena usted",
+      "zkpTitle": "¿Qué es el inicio de sesión ZKP?",
+      "zkp1": "Su clave nunca se envía al servidor, solo una prueba matemática",
+      "zkp2": "Sin contraseñas ni correos electrónicos: anonimato completo",
+      "zkp3": "Guarde la clave, no se puede recuperar",
+      "tabRegister": "Primera vez",
+      "tabLogin": "Iniciar sesión",
+      "genTitle": "Generar clave",
+      "genSubtitle": "Crearemos una clave criptográfica única: esta es su cuenta",
+      "genBtn": "Generar clave",
+      "genBtnAgain": "Generar otra",
+      "copyBtn": "Copiar",
+      "copiedBtn": "Copiado ✓",
+      "warning": "Guarde la clave en un lugar seguro. No podemos recuperarla; si la pierde, perderá el acceso a su cuenta.",
+      "loginWithKey": "Iniciar sesión con esta clave",
+      "enterKeyTitle": "Introduce tu clave",
+      "enterKeySubtitle": "Pega tu clave privada guardada para iniciar sesión en tu cuenta",
+      "paste": "Pegar",
+      "loginBtn": "Iniciar sesión",
+      "footer": "Protegido por el protocolo Zero-Knowledge Proof. El servidor nunca ve su clave"
+    }
+  },
+  "components": {
+    "telegramModal": {
+      "eyebrow": "Spark Edu · Notificaciones",
+      "title": "Conectar el Bot de Telegram",
+      "description": "Mantente al tanto de los eventos de la plataforma sin abrir la aplicación; las notificaciones llegarán directamente a Telegram.",
+      "feature1Title": "Nuevas lecciones",
+      "feature1Subtitle": "Basado en tus intereses y etiquetas",
+      "feature2Title": "Estado de moderación",
+      "feature2Subtitle": "Aprobado, rechazado o pendiente",
+      "feature3Title": "Top de la semana",
+      "feature3Subtitle": "Las lecciones más populares",
+      "policyText": "Al activar el bot, aceptas la ",
+      "policyLink": "política de privacidad",
+      "openBtn": "Abrir Bot de Telegram",
+      "skipBtn": "Ahora no"
+    },
+    "languageSwitcher": {
+      "title": "Seleccionar idioma"
+    }
+  },
+  "navigation": {
+    "tabs": {
+      "home": "Inicio",
+      "search": "Buscar",
+      "myLessons": "Lecciones",
+      "profile": "Perfil"
+    }
+  }
+}

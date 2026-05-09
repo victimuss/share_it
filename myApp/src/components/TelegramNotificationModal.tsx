@@ -13,6 +13,7 @@ import { COLORS } from '@/src/styles/root';
 import { tgModalStyles as s } from '@/src/styles/TelegramModalStyles';
 import { useAuth } from '../context/AuthContext';
 import { LinkTelegram } from '../api/main_page/main_page';
+import { useTranslation } from 'react-i18next';
 
 const PRIVACY_POLICY_URL = 'https://victimuss.github.io/spark_edu/privacy.html';
 const TelegramPlaneIcon = () => (
@@ -45,23 +46,7 @@ const BellIconLarge = () => (
 
 // ─── Feature data ─────────────────────────────────────────────────────────────
 
-const FEATURES = [
-  {
-    emoji: '📚',
-    title: 'Новые уроки',
-    subtitle: 'По вашим интересам и тегам',
-  },
-  {
-    emoji: '✅',
-    title: 'Статус модерации',
-    subtitle: 'Одобрен, отклонён или на проверке',
-  },
-  {
-    emoji: '🔥',
-    title: 'Топ недели',
-    subtitle: 'Самые популярные уроки платформы',
-  },
-];
+// ─── Feature data moved inside component ──────────────────────────────────────────────
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -76,8 +61,27 @@ export const TelegramNotificationModal: React.FC<Props> = ({
   onActivate,
   onSkip,
 }) => {
+  const { t } = useTranslation();
   const slideAnim = useRef(new Animated.Value(400)).current;
   const pulseAnim = useRef(new Animated.Value(1)).current;
+
+  const FEATURES = [
+    {
+      emoji: '📚',
+      title: t('components.telegramModal.feature1Title'),
+      subtitle: t('components.telegramModal.feature1Subtitle'),
+    },
+    {
+      emoji: '✅',
+      title: t('components.telegramModal.feature2Title'),
+      subtitle: t('components.telegramModal.feature2Subtitle'),
+    },
+    {
+      emoji: '🔥',
+      title: t('components.telegramModal.feature3Title'),
+      subtitle: t('components.telegramModal.feature3Subtitle'),
+    },
+  ];
 
   useEffect(() => {
     if (visible) {
@@ -147,14 +151,14 @@ export const TelegramNotificationModal: React.FC<Props> = ({
                 <BellIconLarge />
               </Animated.View>
               <View style={s.heroText}>
-                <Text style={s.eyebrow}>Spark Edu · Уведомления</Text>
-                <Text style={s.title}>Подключите{'\n'}Telegram-бота</Text>
+                <Text style={s.eyebrow}>{t('components.telegramModal.eyebrow')}</Text>
+                <Text style={s.title}>{t('components.telegramModal.title')}</Text>
               </View>
             </View>
 
             {/* Description */}
             <Text style={s.description}>
-              Будьте в курсе событий платформы, не открывая приложение — уведомления придут прямо в Telegram.
+              {t('components.telegramModal.description')}
             </Text>
 
             {/* Features */}
@@ -174,9 +178,9 @@ export const TelegramNotificationModal: React.FC<Props> = ({
 
             {/* Privacy policy */}
             <View style={s.policyRow}>
-              <Text style={s.policyText}>Активируя бота, вы соглашаетесь с </Text>
+              <Text style={s.policyText}>{t('components.telegramModal.policyText')}</Text>
               <Pressable onPress={() => Linking.openURL(PRIVACY_POLICY_URL)}>
-                <Text style={s.policyLink}>политикой конфиденциальности</Text>
+                <Text style={s.policyLink}>{t('components.telegramModal.policyLink')}</Text>
               </Pressable>
             </View>
 
@@ -188,12 +192,12 @@ export const TelegramNotificationModal: React.FC<Props> = ({
               <View style={s.tgIconWrapper}>
                 <TelegramPlaneIcon />
               </View>
-              <Text style={s.tgBtnText}>Открыть Telegram-бота</Text>
+              <Text style={s.tgBtnText}>{t('components.telegramModal.openBtn')}</Text>
             </Pressable>
 
             {/* Skip */}
             <Pressable style={s.skipBtn} onPress={handleSkip}>
-              <Text style={s.skipText}>Не сейчас</Text>
+              <Text style={s.skipText}>{t('components.telegramModal.skipBtn')}</Text>
             </Pressable>
 
           </Animated.View>

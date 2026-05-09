@@ -10,6 +10,7 @@ import { COLORS } from '../styles/root';
 import { SearchScreen } from './auth/main/SearchScreen';
 import { NewLessonScreen } from './auth/main/NewLesson/NewLessonScreen';
 import MyLessonsScreen from './auth/main/MyLessonsScreen';
+import { useTranslation } from 'react-i18next';
 
 export type BottomTabParamList = {
     Home: undefined;
@@ -22,6 +23,7 @@ export type BottomTabParamList = {
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function TabNavigator(): React.JSX.Element {
+    const { t } = useTranslation();
     return (
         <Tab.Navigator
             screenOptions={{
@@ -44,7 +46,7 @@ export default function TabNavigator(): React.JSX.Element {
                             </View>
                             <Text numberOfLines={1}
                                 style={focused ? tabBarStyles.tabLabelActive : tabBarStyles.tabLabel}>
-                                Главная
+                                {t('navigation.tabs.home')}
                             </Text>
                             <View style={focused ? tabBarStyles.activeDot : tabBarStyles.activeDotPlaceholder} />
                         </View>
@@ -66,7 +68,7 @@ export default function TabNavigator(): React.JSX.Element {
                             </View>
                             <Text numberOfLines={1}
                                 style={focused ? tabBarStyles.tabLabelActive : tabBarStyles.tabLabel}>
-                                Поиск
+                                {t('navigation.tabs.search')}
                             </Text>
                             <View style={focused ? tabBarStyles.activeDot : tabBarStyles.activeDotPlaceholder} />
                         </View>
@@ -114,7 +116,7 @@ export default function TabNavigator(): React.JSX.Element {
                                 />
                             </View>
                             <Text style={focused ? tabBarStyles.tabLabelActive : tabBarStyles.tabLabel}>
-                                Уроки
+                                {t('navigation.tabs.myLessons')}
                             </Text>
                             <View style={focused ? tabBarStyles.activeDot : tabBarStyles.activeDotPlaceholder} />
                         </View>
@@ -136,7 +138,7 @@ export default function TabNavigator(): React.JSX.Element {
                             </View>
                             <Text numberOfLines={1}
                                 style={focused ? tabBarStyles.tabLabelActive : tabBarStyles.tabLabel}>
-                                Профиль
+                                {t('navigation.tabs.profile')}
                             </Text>
                             <View style={focused ? tabBarStyles.activeDot : tabBarStyles.activeDotPlaceholder} />
                         </View>

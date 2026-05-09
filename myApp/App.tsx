@@ -1,3 +1,4 @@
+import '@/src/i18n';
 import React, { FC, useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
@@ -14,6 +15,8 @@ import { AuthProvider, useAuth } from './src/context/AuthContext';
 import { RootNavigator } from './src/navigation/RootNavigator';
 import { linking } from './src/navigation/linking';
 import * as Linking from 'expo-linking';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './src/i18n';
 
 // Не скрываем splash screen сразу
 SplashScreen.preventAutoHideAsync();
@@ -32,14 +35,15 @@ const RootStack = createNativeStackNavigator();
 
 const MainApp = () => {
   const { user, isLoading } = useAuth();
-  
+
   if (isLoading) return null;
 
   return (
-    <NavigationContainer linking={linking}>
-      <StatusBar style="auto" />
-      <RootStack.Navigator screenOptions={{ headerShown: false }}>
-        {user ? (
+    <I18nextProvider i18n={i18n}>
+      <NavigationContainer linking={linking}>
+        <StatusBar style="auto" />
+        <RootStack.Navigator screenOptions={{ headerShown: false }}>
+          {user ? (
           <>
             <RootStack.Screen name="MainTabs" component={TabNavigator} />
             <RootStack.Screen name="NewLessonScreen" component={NewLessonScreen} />
@@ -55,6 +59,7 @@ const MainApp = () => {
         )}
       </RootStack.Navigator>
     </NavigationContainer>
+    </I18nextProvider>
   );
 };
 
