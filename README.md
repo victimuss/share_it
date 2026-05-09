@@ -60,7 +60,7 @@
 
 ### 🔐 Authentication & Security (In Progress)
 - [x] **ECC Auth**: Zero-Knowledge Proof авторизация (ECC подпись)
-- [ ] **Telegram Bot**: Авторизация и уведомления через официального бота.
+- [x] **Telegram Bot**: Авторизация и уведомления через официального бота.
 - [x] **Sentry**: Вынос логирования ошибок в Sentry для мониторинга в реальном времени.
 
 ### 📱 Frontend & UI/UX (Next Steps)
