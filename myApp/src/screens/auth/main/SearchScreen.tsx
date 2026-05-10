@@ -1,14 +1,13 @@
 import { View, Text, ScrollView, Pressable, TextInput, FlatList, Modal } from "react-native";
-import { homeStyles } from "@/src/styles/MainPageStyles";
+import { homeStyles as homeStylesFn } from "@/src/styles/MainPageStyles";
 import { useAuth } from "@/src/context/AuthContext";
-import { COLORS } from "@/src/styles/root";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest, SearchStackParamList } from "@/src/types/main_page";
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
 import { useNavigation } from "expo-router";
 import { ApplicationCodeIcon, BellIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon, PlayIcon } from "@/src/SVG/MainPageSVG";
-import { searchStyles } from "@/src/styles/SearchStyles";
+import { searchStyles as searchStylesFn } from "@/src/styles/SearchStyles";
 import { SearchIcon } from "@/src/SVG/TabSVG";
 import { CloseIcon, FilterIcon } from "@/src/SVG/SearchSVG";
 import { Tag } from "@/src/types/search";
@@ -16,6 +15,8 @@ import { PopularTags, SearchLessons } from "@/src/api/search/search";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import { useStyles } from '../../../hooks/useStyles';
+import { useThemeStore } from '../../../context/useThemeStore';
 
 const getPaginationItems = (currentPage: number, maxPage: number) => {
     const pages: (number | string)[] = [];
@@ -34,6 +35,9 @@ const getPaginationItems = (currentPage: number, maxPage: number) => {
 };
 
 export const SearchScreen = () => {
+  const searchStyles = useStyles(searchStylesFn);
+  const homeStyles = useStyles(homeStylesFn);
+  const { colors } = useThemeStore(s => s.theme);
     const { t } = useTranslation();
     type SearchScreenRouteProp = RouteProp<SearchStackParamList, 'Search'>;
     const route = useRoute<SearchScreenRouteProp>();
@@ -146,7 +150,7 @@ export const SearchScreen = () => {
                             onSubmitEditing={() => saveRecentSearch(search)}
                             style={searchStyles.searchInput}
                             placeholder={t('screens.search.searchPlaceholder')}
-                            placeholderTextColor={COLORS.textLight}
+                            placeholderTextColor={colors.textLight}
                         />
                         {(search?.length || 0) > 0 && (
                             <Pressable style={searchStyles.clearButton} onPress={() => setSearch("")}>
@@ -194,7 +198,7 @@ export const SearchScreen = () => {
                             <Pressable style={searchStyles.filterButton}
                                 onPress={() => { setModalVisible(true) }}>
                                 <View style={searchStyles.filterButtonIconWrapper}>
-                                    <FilterIcon color={COLORS.text} size={14} />
+                                    <FilterIcon color={colors.text} size={14} />
                                 </View>
                                 <Text style={searchStyles.filterButtonText}>{t('screens.search.filtersTitle')}</Text>
                             </Pressable>
@@ -367,7 +371,7 @@ export const SearchScreen = () => {
                 )}
                 {findResult.length <= 0 && (
                     <View style={searchStyles.emptyState}>
-                        <View style={searchStyles.emptyIconWrapper}><SearchIcon size={30} color={COLORS.textLight} /></View>
+                        <View style={searchStyles.emptyIconWrapper}><SearchIcon size={30} color={colors.textLight} /></View>
                         <Text style={searchStyles.emptyTitle}>{t('screens.search.emptyTitle')}</Text>
                         <Text style={searchStyles.emptySubtitle}>{t('screens.search.emptySubtitle')}</Text>
                     </View>

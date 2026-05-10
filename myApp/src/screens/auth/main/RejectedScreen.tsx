@@ -1,47 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS, SPACING, FONTS, RADIUS } from '@/src/styles/root';
+import { SPACING, FONTS, RADIUS, Theme } from '@/src/styles/root';
+import { useStyles } from '../../../hooks/useStyles';
 
 interface RejectedScreenProps {
     reason?: string | null;
     onClose?: () => void;
 }
 
-export const RejectedScreen: React.FC<RejectedScreenProps> = ({ 
-    reason = "Нарушение правил платформы или генерация ИИ сочла контент небезопасным.",
-    onClose
-}) => {
-    return (
-        <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-            <View style={styles.content}>
-                <View style={styles.iconCircle}>
-                    <Text style={styles.icon}>❌</Text>
-                </View>
-                <Text style={styles.text}>Модерация не пройдена</Text>
-                <Text style={styles.subtext}>Ваш урок был отклонен нейросетью.</Text>
-                
-                <View style={styles.errorBox}>
-                    <Text style={styles.errorTitle}>Причина:</Text>
-                    <Text style={styles.errorText}>{reason}</Text>
-                </View>
-            </View>
-            <View style={styles.footer}>
-                <Pressable 
-                    style={styles.button}
-                    onPress={onClose}
-                >
-                    <Text style={styles.buttonText}>Вернуться к редактированию</Text>
-                </Pressable>
-            </View>
-        </SafeAreaView>
-    );
-};
-
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
     },
     content: {
         flex: 1,
@@ -53,7 +24,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 40,
-        backgroundColor: '#FEE2E2', // светло-красный
+        backgroundColor: theme.colors.errorLight,
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: SPACING.xl,
@@ -63,33 +34,33 @@ const styles = StyleSheet.create({
     },
     text: {
         ...FONTS.h2,
-        color: COLORS.text,
+        color: theme.colors.text,
         textAlign: 'center',
     },
     subtext: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         marginTop: SPACING.xs,
         textAlign: 'center',
         lineHeight: 22,
     },
     errorBox: {
         marginTop: SPACING.xl,
-        backgroundColor: '#FEF2F2',
+        backgroundColor: theme.colors.errorLight,
         padding: SPACING.lg,
         borderRadius: RADIUS.md,
         width: '100%',
-        borderColor: '#FECACA',
+        borderColor: theme.colors.errorBorder,
         borderWidth: 1,
     },
     errorTitle: {
         ...FONTS.semibold,
-        color: '#DC2626',
+        color: theme.colors.error,
         marginBottom: SPACING.xs,
     },
     errorText: {
         ...FONTS.regular,
-        color: '#991B1B',
+        color: theme.colors.error,
         lineHeight: 20,
     },
     footer: {
@@ -97,11 +68,11 @@ const styles = StyleSheet.create({
         paddingBottom: SPACING.xxl,
     },
     button: {
-        backgroundColor: '#EF4444', 
+        backgroundColor: theme.colors.error,
         paddingVertical: SPACING.md,
         borderRadius: RADIUS.lg,
         alignItems: 'center',
-        shadowColor: '#EF4444',
+        shadowColor: theme.colors.error,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -109,7 +80,39 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontSize: 16,
-    }
+    },
 });
+
+export const RejectedScreen: React.FC<RejectedScreenProps> = ({
+    reason = "Нарушение правил платформы или генерация ИИ сочла контент небезопасным.",
+    onClose
+}) => {
+    const styles = useStyles(createStyles);
+
+    return (
+        <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+            <View style={styles.content}>
+                <View style={styles.iconCircle}>
+                    <Text style={styles.icon}>❌</Text>
+                </View>
+                <Text style={styles.text}>Модерация не пройдена</Text>
+                <Text style={styles.subtext}>Ваш урок был отклонен нейросетью.</Text>
+
+                <View style={styles.errorBox}>
+                    <Text style={styles.errorTitle}>Причина:</Text>
+                    <Text style={styles.errorText}>{reason}</Text>
+                </View>
+            </View>
+            <View style={styles.footer}>
+                <Pressable
+                    style={styles.button}
+                    onPress={onClose}
+                >
+                    <Text style={styles.buttonText}>Вернуться к редактированию</Text>
+                </Pressable>
+            </View>
+        </SafeAreaView>
+    );
+};

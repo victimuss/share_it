@@ -1,13 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS, SPACING, FONTS, RADIUS } from '@/src/styles/root';
+import { Theme, SPACING, FONTS, RADIUS } from '@/src/styles/root';;
+import { useStyles } from '../../../hooks/useStyles';
+import { useThemeStore } from '../../../context/useThemeStore';
 interface ErrorScreenProps {
     error: string;
     onRetry?: () => void;
 }
 
 export const ErrorScreen = ({ error, onRetry }: ErrorScreenProps) => {
+  const { theme } = useThemeStore();
+  const styles = createStyles(theme);
     return (
         <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
             <View style={styles.content}>
@@ -33,11 +37,11 @@ export const ErrorScreen = ({ error, onRetry }: ErrorScreenProps) => {
     );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
         // Фон как на главном экране
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
     },
     content: {
         flex: 1,
@@ -49,34 +53,34 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.errorLight,
+        backgroundColor: theme.colors.errorLight,
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: SPACING.md,
     },
     iconText: {
         ...FONTS.bold,
-        color: COLORS.error,
+        color: theme.colors.error,
         fontSize: 40,
     },
     title: {
         ...FONTS.h2,
-        color: COLORS.text,
+        color: theme.colors.text,
         textAlign: 'center',
         marginBottom: SPACING.xs,
     },
     errorMessage: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         textAlign: 'center',
     },
     retryButton: {
         marginTop: SPACING.xxl,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         paddingVertical: SPACING.md,
         paddingHorizontal: SPACING.xl,
         borderRadius: RADIUS.lg,
-        shadowColor: COLORS.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -88,7 +92,7 @@ const styles = StyleSheet.create({
     },
     retryButtonText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontSize: 15,
     }
 });

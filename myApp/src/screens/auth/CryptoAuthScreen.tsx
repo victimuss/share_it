@@ -11,14 +11,16 @@ import {
     TextStyle,
     Alert,
 } from 'react-native';
-import { zkpAuthStyles as styles } from '../../styles/CryptoAuthStypes';
-import { COLORS, FONTS, RADIUS, SPACING } from '../../styles/root';
+import { zkpAuthStyles as zkpAuthStylesFn } from '../../styles/CryptoAuthStypes';
+import { FONTS, RADIUS, SPACING } from '../../styles/root';
 import { LockIcon, CheckmarkIcon, CopyIcon } from '../../SVG/CryptoAuthSVG';
 import CryptoService from '../../utils/CryptoServices';
 import { useAuth } from '@/src/context/AuthContext';
 import * as Clipboard from 'expo-clipboard';
 import { LanguageSwitcher } from '@/src/components/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
+import { useStyles } from '../../hooks/useStyles';
+import { useThemeStore } from '../../context/useThemeStore';
 // ─── Типы ─────────────────────────────────────────────────────────
 type Tab = 'register' | 'login';
 
@@ -34,6 +36,8 @@ async function generateMockKey(): Promise<{
 
 // ─── Компонент ────────────────────────────────────────────────────
 export default function ZkpAuthScreen() {
+  const styles = useStyles(zkpAuthStylesFn);
+  const { colors } = useThemeStore(s => s.theme);
     const [activeTab, setActiveTab] = useState<Tab>('register');
     const [generatedKey, setGeneratedKey] = useState<string>('');
     const [inputKey, setInputKey] = useState<string>('');
@@ -85,7 +89,7 @@ export default function ZkpAuthScreen() {
                         <View style={styles.logoInner}>
                             {/* иконка замка */}
                             <View style={styles.logoIconWrapper}>
-                                <LockIcon />
+                                <LockIcon color={colors.surface} />
                             </View>
                         </View>
                     </View>
@@ -103,7 +107,7 @@ export default function ZkpAuthScreen() {
                     <View style={styles.zkpCardRow}>
                         {/* иконка галочки */}
                         <View style={styles.zkpCardIconWrapper}>
-                            <CheckmarkIcon />
+                            <CheckmarkIcon color={colors.primary} />
                         </View>
                         <Text style={styles.zkpCardText}>
                             {t('screens.cryptoAuth.zkp1')}
@@ -112,7 +116,7 @@ export default function ZkpAuthScreen() {
 
                     <View style={styles.zkpCardRow}>
                         <View style={styles.zkpCardIconWrapper}>
-                            <CheckmarkIcon />
+                            <CheckmarkIcon color={colors.primary} />
                         </View>
                         <Text style={styles.zkpCardText}>
                             {t('screens.cryptoAuth.zkp2')}
@@ -121,7 +125,7 @@ export default function ZkpAuthScreen() {
 
                     <View style={[styles.zkpCardRow, styles.zkpCardRowLast]}>
                         <View style={styles.zkpCardIconWrapper}>
-                            <CheckmarkIcon />
+                            <CheckmarkIcon color={colors.primary} />
                         </View>
                         <Text style={styles.zkpCardText}>
                             {t('screens.cryptoAuth.zkp3')}
@@ -181,7 +185,7 @@ export default function ZkpAuthScreen() {
                                         <TouchableOpacity style={styles.copyButton} onPress={handleCopy}>
                                             {/* иконка копирования */}
                                             <View style={styles.copyIconWrapper}>
-                                                <CopyIcon />
+                                                <CopyIcon color={colors.primaryLight} />
                                             </View>
                                             <Text style={styles.copyButtonText}>
                                                 {copied ? t('screens.cryptoAuth.copiedBtn') : t('screens.cryptoAuth.copyBtn')}
@@ -229,7 +233,7 @@ export default function ZkpAuthScreen() {
                         <TextInput
                             style={[styles.keyInput, inputKey.length > 0 && styles.keyInputFocused]}
                             placeholder="mnemonic passphrase"
-                            placeholderTextColor={COLORS.textLight}
+                            placeholderTextColor={colors.textLight}
                             value={inputKey}
                             onChangeText={setInputKey}
                             multiline
@@ -252,7 +256,7 @@ export default function ZkpAuthScreen() {
 
                                 <View style={styles.pasteIconWrapper}
                                 >
-                                    <CopyIcon></CopyIcon>
+                                    <CopyIcon color={colors.text}></CopyIcon>
                                 </View>
                                 <Text style={styles.pasteButtonText}>{t('screens.cryptoAuth.paste')}</Text>
                             </TouchableOpacity>

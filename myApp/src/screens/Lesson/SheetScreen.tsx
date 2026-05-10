@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useRef, useState } from 'react';
 import { View, ActivityIndicator, Text, StyleSheet, FlatList, Pressable, Alert } from 'react-native';
 import { useSheetStore } from '@/src/context/useSheetStore';
 import { LoadScreen } from '../auth/main/LoadScreen';
-import { lessonSwipeViewStyles as styles } from '@/src/styles/SheetStyles';
+import { lessonSwipeViewStyles as lessonStyles } from '@/src/styles/SheetStyles';
 import { GetLessonByIdAPI } from '@/src/api/lessonmain/lessonmain';
 import { PersonalLessonResponse } from '@/src/types/lessonmainscreen';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
@@ -11,11 +11,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { CloseIcon } from '@/src/SVG/SearchSVG';
 import { LessonArrowLeftIcon, LessonArrowRightIcon, LessonBookmarkIcon } from '@/src/SVG/LessonSVG';
 import { SheetCard } from './SheetCard';
-import { COLORS } from '@/src/styles/root';
 import { SetProgressAPI } from '@/src/api/lessonmain/lessonmain';
 import { useTranslation } from "react-i18next";
+import { useStyles } from '../../hooks/useStyles';
+import { useThemeStore } from '../../context/useThemeStore';
 
 export const SheetScreen = () => {
+  const styles = useStyles(lessonStyles);
+  const { colors } = useThemeStore(s => s.theme);
     const { t } = useTranslation();
     type LessonScreenRouteProp = RouteProp<RootStackParamList, 'LessonPage'>;
     const route = useRoute<LessonScreenRouteProp>();
@@ -121,7 +124,7 @@ export const SheetScreen = () => {
                         <Text style={styles.nextButtonText}>
                             {t('screens.sheet.nextBtn')}
                         </Text>
-                        <LessonArrowRightIcon color={COLORS.surface} />
+                        <LessonArrowRightIcon color={colors.surface} />
                     </Pressable>
                 )}
             </View>

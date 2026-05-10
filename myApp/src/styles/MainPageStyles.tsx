@@ -1,13 +1,13 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { COLORS, FONTS, SPACING, RADIUS } from './root';
+import { Theme, FONTS, SPACING, RADIUS } from './root';
 
-export const homeStyles = StyleSheet.create({
+export const homeStyles = (theme: Theme) => StyleSheet.create({
 
     // ─── Основной контейнер ───────────────────────────────────────────
     /** Корневой контейнер экрана */
     container: {
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
     } as ViewStyle,
 
     /** ScrollView внутренний контейнер */
@@ -25,7 +25,7 @@ export const homeStyles = StyleSheet.create({
         paddingHorizontal: SPACING.lg,
         paddingTop: SPACING.xl,
         paddingBottom: SPACING.md,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
     } as ViewStyle,
 
     /** Левая часть шапки (текст) */
@@ -37,13 +37,13 @@ export const homeStyles = StyleSheet.create({
     /** Приветственный текст "Привет, Имя 👋" */
     greetingText: {
         ...FONTS.h2,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     /** Подзаголовок "Что изучим сегодня?" */
     greetingSubtext: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         marginTop: SPACING.xs,
     } as TextStyle,
 
@@ -59,11 +59,11 @@ export const homeStyles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
     } as ViewStyle,
 
     /** Аватар пользователя */
@@ -71,17 +71,17 @@ export const homeStyles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.primaryLight,
+        backgroundColor: theme.colors.primaryLight,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 2,
-        borderColor: COLORS.primary,
+        borderColor: theme.colors.primary,
     } as ViewStyle,
 
     /** Инициалы в аватаре */
     avatarText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontSize: FONTS.regular.fontSize,
     } as TextStyle,
 
@@ -90,22 +90,22 @@ export const homeStyles = StyleSheet.create({
     searchWrapper: {
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.md,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.border,
+        borderBottomColor: theme.colors.border,
     } as ViewStyle,
 
     /** Контейнер инпута с иконкой */
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
         borderRadius: RADIUS.lg,
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.sm,
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.04,
         shadowRadius: 4,
@@ -116,7 +116,7 @@ export const homeStyles = StyleSheet.create({
     searchInput: {
         flex: 1,
         ...FONTS.regular,
-        color: COLORS.text,
+        color: theme.colors.text,
         marginLeft: SPACING.sm,
         paddingVertical: SPACING.none,
     } as TextStyle,
@@ -134,18 +134,18 @@ export const homeStyles = StyleSheet.create({
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.xs,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
         justifyContent: 'center',
         alignItems: 'center',
     } as ViewStyle,
 
     /** Чип категории (активный) */
     chipActive: {
-        backgroundColor: COLORS.primary,
-        borderColor: COLORS.primary,
-        shadowColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
+        borderColor: theme.colors.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -155,13 +155,13 @@ export const homeStyles = StyleSheet.create({
     /** Текст чипа (неактивный) */
     chipText: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontWeight: '500' as const,
     } as TextStyle,
 
     /** Текст чипа (активный) */
     chipTextActive: {
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontWeight: '600' as const,
     } as TextStyle,
 
@@ -183,13 +183,13 @@ export const homeStyles = StyleSheet.create({
     /** Заголовок секции */
     sectionTitle: {
         ...FONTS.bold,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     /** Кнопка "Смотреть все" */
     seeAllText: {
         ...FONTS.regular,
-        color: COLORS.primary,
+        color: theme.colors.primary,
         fontWeight: '600' as const,
     } as TextStyle,
 
@@ -205,9 +205,9 @@ export const homeStyles = StyleSheet.create({
     featuredCard: {
         width: 280,
         borderRadius: RADIUS.xl,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         overflow: 'hidden',
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 8 },
         shadowOpacity: 0.1,
         shadowRadius: 16,
@@ -218,7 +218,7 @@ export const homeStyles = StyleSheet.create({
     featuredCardImage: {
         width: '100%',
         height: 140,
-        backgroundColor: COLORS.primaryLight,
+        backgroundColor: theme.colors.primaryLight,
     } as ViewStyle,
 
     /** Контент под обложкой */
@@ -238,7 +238,7 @@ export const homeStyles = StyleSheet.create({
     /** Заголовок урока на карточке */
     featuredCardTitle: {
         ...FONTS.semibold,
-        color: COLORS.text,
+        color: theme.colors.text,
         marginBottom: SPACING.xs,
     } as TextStyle,
 
@@ -247,7 +247,7 @@ export const homeStyles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         marginBottom: SPACING.xs,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderRadius: RADIUS.lg,
         padding: SPACING.md,
     } as ViewStyle,
@@ -255,19 +255,19 @@ export const homeStyles = StyleSheet.create({
     /** Автор урока */
     featuredCardAuthor: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     // ─── Карточка прогресса ("Продолжить обучение") ──────────────────
     /** Карточка с прогресс-баром */
     progressCard: {
         marginHorizontal: SPACING.lg,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderRadius: RADIUS.xl,
         padding: SPACING.lg,
         borderWidth: 1,
-        borderColor: COLORS.border,
-        shadowColor: COLORS.shadow,
+        borderColor: theme.colors.border,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.06,
         shadowRadius: 8,
@@ -285,14 +285,14 @@ export const homeStyles = StyleSheet.create({
     /** Название урока в прогресс-карточке */
     progressCardTitle: {
         ...FONTS.semibold,
-        color: COLORS.text,
+        color: theme.colors.text,
         flex: 1,
     } as TextStyle,
 
     /** Трек прогресс-бара */
     progressTrack: {
         height: 6,
-        backgroundColor: COLORS.border,
+        backgroundColor: theme.colors.border,
         borderRadius: RADIUS.full,
         overflow: 'hidden',
         marginBottom: SPACING.xs,
@@ -302,14 +302,14 @@ export const homeStyles = StyleSheet.create({
     progressFill: {
         height: '100%',
         width: '30%', // пример: 30% прогресса
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         borderRadius: RADIUS.full,
     } as ViewStyle,
 
     /** Текст "X% завершено" */
     progressLabel: {
         ...FONTS.h2,
-        color: COLORS.primary,
+        color: theme.colors.primary,
         fontSize: FONTS.small.fontSize,
     } as TextStyle,
 
@@ -320,12 +320,12 @@ export const homeStyles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: SPACING.lg,
         marginBottom: SPACING.md,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderRadius: RADIUS.lg,
         padding: SPACING.md,
         borderWidth: 1,
-        borderColor: COLORS.border,
-        shadowColor: COLORS.shadow,
+        borderColor: theme.colors.border,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.05,
         shadowRadius: 6,
@@ -337,7 +337,7 @@ export const homeStyles = StyleSheet.create({
         width: 56,
         height: 56,
         borderRadius: RADIUS.md,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: SPACING.md,
@@ -352,7 +352,7 @@ export const homeStyles = StyleSheet.create({
     /** Заголовок урока */
     lessonCardTitle: {
         ...FONTS.medium,
-        color: COLORS.text,
+        color: theme.colors.text,
         marginBottom: SPACING.xs,
     } as TextStyle,
 
@@ -374,7 +374,7 @@ export const homeStyles = StyleSheet.create({
     /** Счётчик лайков */
     lessonCardLikes: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontSize: FONTS.small.fontSize,
     } as TextStyle,
 
@@ -382,7 +382,7 @@ export const homeStyles = StyleSheet.create({
     /** Универсальный бейдж */
     badge: {
         paddingHorizontal: SPACING.sm,
-        backgroundColor: COLORS.primaryLight,
+        backgroundColor: theme.colors.primaryLight,
         paddingVertical: SPACING.s2,
         borderRadius: RADIUS.sm,
         alignSelf: 'flex-start',
@@ -398,7 +398,7 @@ export const homeStyles = StyleSheet.create({
 
     /** Бейдж категории (фиолетовый) */
     badgeCategory: {
-        backgroundColor: COLORS.indigoSoft,
+        backgroundColor: theme.colors.indigoSoft,
         paddingHorizontal: SPACING.sm,
         paddingVertical: SPACING.s2,
         marginRight: SPACING.xs,
@@ -415,7 +415,7 @@ export const homeStyles = StyleSheet.create({
 
     /** Бейдж сложности: Beginner */
     badgeBeginner: {
-        backgroundColor: COLORS.successLight,
+        backgroundColor: theme.colors.successLight,
         paddingHorizontal: SPACING.sm,
         paddingVertical: SPACING.s2,
         marginRight: SPACING.xs,
@@ -424,7 +424,7 @@ export const homeStyles = StyleSheet.create({
     } as ViewStyle,
 
     badgeBeginnerText: {
-        color: COLORS.success,
+        color: theme.colors.success,
     } as TextStyle,
 
     /** Бейдж сложности: Intermediate */
@@ -434,16 +434,16 @@ export const homeStyles = StyleSheet.create({
         marginRight: SPACING.xs,
         borderRadius: RADIUS.sm,
         alignSelf: 'flex-start',
-        backgroundColor: COLORS.warningLight,
+        backgroundColor: theme.colors.warningLight,
     } as ViewStyle,
 
     badgeIntermediateText: {
-        color: COLORS.warning,
+        color: theme.colors.warning,
     } as TextStyle,
 
     /** Бейдж сложности: Advanced */
     badgeAdvanced: {
-        backgroundColor: COLORS.errorLight,
+        backgroundColor: theme.colors.errorLight,
         paddingHorizontal: SPACING.sm,
         paddingVertical: SPACING.s2,
         marginRight: SPACING.xs,
@@ -452,19 +452,19 @@ export const homeStyles = StyleSheet.create({
     } as ViewStyle,
 
     badgeAdvancedText: {
-        color: COLORS.error,
+        color: theme.colors.error,
     } as TextStyle,
 
     // ─── Кнопка "Изучить" ────────────────────────────────────────────
     /** Кнопка на компактной карточке */
     studyButton: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         borderRadius: RADIUS.md,
         paddingVertical: SPACING.sm,
         paddingHorizontal: SPACING.md,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: COLORS.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 6,
@@ -474,7 +474,7 @@ export const homeStyles = StyleSheet.create({
     /** Текст кнопки "Изучить" */
     studyButtonText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 
@@ -490,7 +490,7 @@ export const homeStyles = StyleSheet.create({
     /** Заголовок empty state */
     emptyStateTitle: {
         ...FONTS.semibold,
-        color: COLORS.text,
+        color: theme.colors.text,
         textAlign: 'center',
         marginTop: SPACING.md,
         marginBottom: SPACING.sm,
@@ -499,7 +499,7 @@ export const homeStyles = StyleSheet.create({
     /** Описание empty state */
     emptyStateText: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         textAlign: 'center',
     } as TextStyle,
 
@@ -507,19 +507,19 @@ export const homeStyles = StyleSheet.create({
     /** Полупрозрачный оверлей */
     modalOverlay: {
         flex: 1,
-        backgroundColor: COLORS.overlay,
+        backgroundColor: theme.colors.overlay,
         justifyContent: 'flex-end',
     } as ViewStyle,
 
     /** Нижний шит */
     modalSheet: {
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderTopLeftRadius: RADIUS.xxl,
         borderTopRightRadius: RADIUS.xxl,
         paddingTop: SPACING.md,
         paddingBottom: SPACING.xxxl,
         paddingHorizontal: SPACING.xl,
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: -6 },
         shadowOpacity: 0.12,
         shadowRadius: 20,
@@ -530,7 +530,7 @@ export const homeStyles = StyleSheet.create({
     modalDragHandle: {
         width: 40,
         height: 4,
-        backgroundColor: COLORS.border,
+        backgroundColor: theme.colors.border,
         borderRadius: RADIUS.full,
         alignSelf: 'center',
         marginBottom: SPACING.xl,
@@ -549,25 +549,25 @@ export const homeStyles = StyleSheet.create({
         width: 52,
         height: 52,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.indigoSoft,
+        backgroundColor: theme.colors.indigoSoft,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1.5,
-        borderColor: COLORS.indigoBorder,
+        borderColor: theme.colors.indigoBorder,
     } as ViewStyle,
 
     /** Заголовок модалки */
     modalTitle: {
         ...FONTS.h2,
         fontSize: FONTS.xl.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
         flex: 1,
     } as TextStyle,
 
     /** Описание */
     modalDescription: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         lineHeight: 22,
         marginBottom: SPACING.xl,
     } as TextStyle,
@@ -583,7 +583,7 @@ export const homeStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: SPACING.md,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         borderRadius: RADIUS.lg,
         paddingVertical: SPACING.sm,
         paddingHorizontal: SPACING.md,
@@ -592,7 +592,7 @@ export const homeStyles = StyleSheet.create({
     /** Текст фичи */
     modalFeatureText: {
         ...FONTS.regular,
-        color: COLORS.text,
+        color: theme.colors.text,
         flex: 1,
     } as TextStyle,
 
@@ -602,11 +602,11 @@ export const homeStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: SPACING.sm,
-        backgroundColor: COLORS.telegramBlue,
+        backgroundColor: theme.colors.telegramBlue,
         borderRadius: RADIUS.xl,
         paddingVertical: SPACING.lg,
         marginBottom: SPACING.md,
-        shadowColor: COLORS.telegramBlue,
+        shadowColor: theme.colors.telegramBlue,
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.3,
         shadowRadius: 12,
@@ -616,7 +616,7 @@ export const homeStyles = StyleSheet.create({
     /** Текст кнопки Telegram */
     modalTelegramButtonText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontSize: FONTS.medium_15.fontSize,
     } as TextStyle,
 
@@ -633,7 +633,7 @@ export const homeStyles = StyleSheet.create({
     /** Текст в строке политики */
     modalPolicyText: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontSize: FONTS.small.fontSize,
         textAlign: 'center',
     } as TextStyle,
@@ -641,7 +641,7 @@ export const homeStyles = StyleSheet.create({
     /** Ссылка политики конфиденциальности */
     modalPolicyLink: {
         ...FONTS.regular,
-        color: COLORS.primary,
+        color: theme.colors.primary,
         fontSize: FONTS.small.fontSize,
         fontWeight: '600' as const,
         textDecorationLine: 'underline',
@@ -655,7 +655,7 @@ export const homeStyles = StyleSheet.create({
 
     modalSkipText: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 });

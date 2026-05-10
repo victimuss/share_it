@@ -1,13 +1,12 @@
 import { View, Text, ScrollView, Pressable, TextInput, FlatList, Dimensions, Modal, KeyboardAvoidingView, Alert } from "react-native";
-import { homeStyles } from "@/src/styles/MainPageStyles";
+import { homeStyles as homeStylesFn } from "@/src/styles/MainPageStyles";
 import { useAuth } from "@/src/context/AuthContext";
-import { COLORS } from "@/src/styles/root";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest } from "@/src/types/main_page";
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
-import { profileStyles } from "@/src/styles/ProfileStyles";
+import { profileStyles as profileStylesFn } from "@/src/styles/ProfileStyles";
 import { useNavigation } from "expo-router";
 import { LearnedLessonsResponce, MakedLessonsResponce, Skill, SkillOut, UserLesson } from "@/src/types/profile";
 import { EditUserAPI, GetUserSkills, NewSkillapi, UsersLearned, UsersMaked } from "@/src/api/main_page/profile/profile";
@@ -18,7 +17,7 @@ import { LoadScreen } from "./LoadScreen";
 import { SearchIcon } from "@/src/SVG/TabSVG";
 import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
-import { myLessonsStyles as styles } from "@/src/styles/MyLessonStyles";
+import { myLessonsStyles as myLessonsStylesFn } from "@/src/styles/MyLessonStyles";
 import { LessonEditIcon, LessonEyeIcon, LessonInfoIcon, LessonMoreIcon, LessonTrashIcon } from "@/src/SVG/LessonSVG";
 import { GetMyLessonsAPI } from "@/src/api/lessonmain/mylesson";
 import { MyLessonsResponse } from "@/src/types/mylessontype";
@@ -28,8 +27,14 @@ import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { DeleteLessonAPI } from "@/src/api/create_lesson/delete_lesson";
 import { Background } from "@react-navigation/elements";
 import { useTranslation } from "react-i18next";
+import { useStyles } from '../../../hooks/useStyles';
+import { useThemeStore } from '../../../context/useThemeStore';
 
 export const MyLessonsScreen = () => {
+  const styles = useStyles(myLessonsStylesFn);
+  const profileStyles = useStyles(profileStylesFn);
+  const homeStyles = useStyles(homeStylesFn);
+  const { colors } = useThemeStore(s => s.theme);
     const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('created');
     const [filters, setFilters] = useState('all');
@@ -164,7 +169,7 @@ export const MyLessonsScreen = () => {
                         >
 
                             <View style={styles.lessonMenuIconWrapper}>
-                                <LessonMoreIcon color={COLORS.primary} />
+                                <LessonMoreIcon color={colors.primary} />
                             </View>
                         </Pressable>
                     )}
@@ -178,13 +183,13 @@ export const MyLessonsScreen = () => {
                                     styles.progressFill,
                                     {
                                         width: `${(item.completed_steps / (lesson.sheet_counts || 1)) * 100}%`,
-                                        backgroundColor: item.status === 'COMPLETED' ? '#10B981' : COLORS.primary
+                                        backgroundColor: item.status === 'COMPLETED' ? '#10B981' : colors.primary
                                     }
                                 ]}
                             />
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginLeft: 12 }}>
-                            <Text style={[styles.progressLabel, { color: item.status === 'COMPLETED' ? '#10B981' : COLORS.primary, fontWeight: '700' }]}>
+                            <Text style={[styles.progressLabel, { color: item.status === 'COMPLETED' ? '#10B981' : colors.primary, fontWeight: '700' }]}>
                                 {Math.round((item.completed_steps / (lesson.sheet_counts || 1)) * 100)}%
                             </Text>
                             <Text style={styles.progressLabel}>
@@ -197,7 +202,7 @@ export const MyLessonsScreen = () => {
                                 onPress={() => navigation.navigate('LessonMainScreen' as never, { lessonId: lesson.id } as never)}
                             >
                                 <Text style={styles.repeatButtonText}>{t('screens.myLessons.repeatBtn')}</Text>
-                                <Text style={{ color: COLORS.primary, fontSize: 16 }}>→</Text>
+                                <Text style={{ color: colors.primary, fontSize: 16 }}>→</Text>
                             </Pressable>
                         )}
                     </View>
@@ -209,7 +214,7 @@ export const MyLessonsScreen = () => {
                         ]}>
                             <View style={[
                                 styles.statusDot,
-                                { backgroundColor: lesson.status === 'ACTIVE' ? COLORS.success : (lesson.status === 'REJECTED' ? COLORS.error : COLORS.textSecondary) }
+                                { backgroundColor: lesson.status === 'ACTIVE' ? colors.success : (lesson.status === 'REJECTED' ? colors.error : colors.textSecondary) }
                             ]} />
                             <Text style={lesson.status === 'ACTIVE' ? styles.statusActiveText : (lesson.status === 'REJECTED' ? styles.statusRejectedText : styles.statusDraftText)}>
                                 {lesson.status === 'ACTIVE' ? t('screens.myLessons.filters.active') : (lesson.status === 'REJECTED' ? t('screens.myLessons.filters.rejected') : t('screens.myLessons.filters.drafts'))}
@@ -298,7 +303,7 @@ export const MyLessonsScreen = () => {
                                 style={filters === 'active' ? styles.filterChipActive : styles.filterChip}
                                 onPress={() => setFilters('active')}
                             >
-                                <View style={[styles.filterChipDot, { backgroundColor: COLORS.success }]} />
+                                <View style={[styles.filterChipDot, { backgroundColor: colors.success }]} />
                                 <Text style={filters === 'active' ? styles.filterChipTextActive : styles.filterChipText}>
                                     {activeTab === 'created' ? t('screens.myLessons.filters.active') : t('screens.myLessons.filters.inProgress')}
                                 </Text>
@@ -307,7 +312,7 @@ export const MyLessonsScreen = () => {
                                 style={filters === 'draft' ? styles.filterChipActive : styles.filterChip}
                                 onPress={() => setFilters('draft')}
                             >
-                                <View style={[styles.filterChipDot, { backgroundColor: COLORS.textSecondary }]} />
+                                <View style={[styles.filterChipDot, { backgroundColor: colors.textSecondary }]} />
                                 <Text style={filters === 'draft' ? styles.filterChipTextActive : styles.filterChipText}>
                                     {activeTab === 'created' ? t('screens.myLessons.filters.drafts') : t('screens.myLessons.filters.completed')}
                                 </Text>
@@ -317,7 +322,7 @@ export const MyLessonsScreen = () => {
                                     style={filters === 'rejected' ? styles.filterChipActive : styles.filterChip}
                                     onPress={() => setFilters('rejected')}
                                 >
-                                    <View style={[styles.filterChipDot, { backgroundColor: COLORS.error }]} />
+                                    <View style={[styles.filterChipDot, { backgroundColor: colors.error }]} />
                                     <Text style={filters === 'rejected' ? styles.filterChipTextActive : styles.filterChipText}>
                                         {t('screens.myLessons.filterRejected')}
                                     </Text>
@@ -359,13 +364,13 @@ export const MyLessonsScreen = () => {
                                         { alignSelf: 'flex-start', marginTop: 2, transform: [{ scale: 0.85 }], marginLeft: -6 },
                                         selectedLesson.status === 'ACTIVE' ? styles.statusActive : (selectedLesson.status === 'REJECTED' ? styles.statusRejected : styles.statusDraft)
                                     ]}>
-                                        <View style={[styles.statusDot, { backgroundColor: selectedLesson.status === 'ACTIVE' ? COLORS.success : (selectedLesson.status === 'REJECTED' ? COLORS.error : COLORS.textSecondary) }]} />
+                                        <View style={[styles.statusDot, { backgroundColor: selectedLesson.status === 'ACTIVE' ? colors.success : (selectedLesson.status === 'REJECTED' ? colors.error : colors.textSecondary) }]} />
                                         <Text style={selectedLesson.status === 'ACTIVE' ? styles.statusActiveText : (selectedLesson.status === 'REJECTED' ? styles.statusRejectedText : styles.statusDraftText)}>
                                             {selectedLesson.status === 'ACTIVE' ? t('screens.myLessons.filters.active') : (selectedLesson.status === 'REJECTED' ? t('screens.myLessons.filters.rejected') : t('screens.myLessons.filters.drafts'))}
                                         </Text>
                                     </View>
                                     {selectedLesson.status === 'REJECTED' && (
-                                        <View style={[styles.statusBadge, { backgroundColor: COLORS.warningLight }]}>
+                                        <View style={[styles.statusBadge, { backgroundColor: colors.warningLight }]}>
                                             <Text style={styles.statusRejectedText}>
                                                 {selectedLesson.moderation_note}
                                             </Text>

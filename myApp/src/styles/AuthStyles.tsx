@@ -1,12 +1,12 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { COLORS, FONTS, SPACING, RADIUS } from './root';
+import { Theme, FONTS, SPACING, RADIUS } from './root';
 
-export const authStyles = StyleSheet.create({
+export const authStyles = (theme: Theme) => StyleSheet.create({
   // Основные контейнеры
   /** Основной контейнер страницы */
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.colors.background,
     paddingHorizontal: SPACING.lg,
   } as ViewStyle,
 
@@ -21,7 +21,7 @@ export const authStyles = StyleSheet.create({
   /** Заголовок страницы */
   title: {
     ...FONTS.h2,
-    color: COLORS.text,
+    color: theme.colors.text,
     marginBottom: SPACING.xl,
     textAlign: 'center',
   } as TextStyle,
@@ -40,23 +40,23 @@ export const authStyles = StyleSheet.create({
   /** Подпись над полем ввода */
   labelText: {
     ...FONTS.medium,
-    color: COLORS.text,
+    color: theme.colors.text,
     marginBottom: SPACING.sm,
   } as TextStyle,
 
   /** Поле ввода */
   input: {
-    backgroundColor: COLORS.surface,
+    backgroundColor: theme.colors.surface,
     borderWidth: 1.5,
-    borderColor: COLORS.border,
+    borderColor: theme.colors.border,
     borderRadius: RADIUS.lg,
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.md,
     marginBottom: SPACING.md,
     fontSize: FONTS.regular.fontSize,
-    color: COLORS.text,
+    color: theme.colors.text,
     fontWeight: '500' as const,
-    shadowColor: COLORS.shadow,
+    shadowColor: theme.colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
     shadowRadius: 4,
@@ -65,48 +65,48 @@ export const authStyles = StyleSheet.create({
 
   /** Поле ввода при фокусе */
   inputFocused: {
-    borderColor: COLORS.primary,
-    shadowColor: COLORS.primary,
+    borderColor: theme.colors.primary,
+    shadowColor: theme.colors.primary,
     shadowOpacity: 0.1,
   } as TextStyle,
 
   /** Поле ввода с ошибкой */
   inputError: {
-    borderColor: COLORS.error,
-    backgroundColor: COLORS.errorLight,
+    borderColor: theme.colors.error,
+    backgroundColor: theme.colors.errorLight,
   } as TextStyle,
 
   // Ошибки
   /** Текст ошибки */
   errorText: {
     ...FONTS.regular,
-    color: COLORS.error,
+    color: theme.colors.error,
     marginTop: SPACING.sm,
     marginLeft: SPACING.sm,
   } as TextStyle,
 
   /** Контейнер сообщения об ошибке */
   errorContainer: {
-    backgroundColor: COLORS.errorLight,
+    backgroundColor: theme.colors.errorLight,
     borderRadius: RADIUS.md,
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.md,
     marginBottom: SPACING.lg,
     borderLeftWidth: 4,
-    borderLeftColor: COLORS.error,
+    borderLeftColor: theme.colors.error,
   } as ViewStyle,
 
   // Кнопки
   /** Основная кнопка входа */
   button: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.colors.primary,
     borderRadius: RADIUS.lg,
     paddingVertical: SPACING.md,
     paddingHorizontal: SPACING.lg,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: SPACING.lg,
-    shadowColor: COLORS.primary,
+    shadowColor: theme.colors.primary,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.25,
     shadowRadius: 12,
@@ -115,28 +115,28 @@ export const authStyles = StyleSheet.create({
 
   /** Кнопка при нажатии */
   buttonPressed: {
-    backgroundColor: COLORS.primaryDark,
+    backgroundColor: theme.colors.primaryDark,
     shadowOpacity: 0.15,
   } as ViewStyle,
 
   /** Отключённая кнопка */
   buttonDisabled: {
-    backgroundColor: COLORS.borderDark,
+    backgroundColor: theme.colors.borderDark,
     opacity: 0.6,
   } as ViewStyle,
 
   /** Текст кнопки */
   buttonText: {
     ...FONTS.semibold,
-    color: COLORS.surface,
+    color: theme.colors.surface,
     textAlign: 'center',
   } as TextStyle,
 
   /** Вторичная кнопка регистрации */
   secondaryButton: {
-    backgroundColor: COLORS.surface,
+    backgroundColor: theme.colors.surface,
     borderWidth: 1.5,
-    borderColor: COLORS.primary,
+    borderColor: theme.colors.primary,
     borderRadius: RADIUS.lg,
     paddingVertical: SPACING.md,
     marginBottom: SPACING.md,
@@ -148,7 +148,7 @@ export const authStyles = StyleSheet.create({
   /** Текст вторичной кнопки */
   secondaryButtonText: {
     ...FONTS.semibold,
-    color: COLORS.primary,
+    color: theme.colors.primary,
     textAlign: 'center',
   } as TextStyle,
 
@@ -162,13 +162,13 @@ export const authStyles = StyleSheet.create({
   /** Текст ссылки */
   linkText: {
     ...FONTS.regular,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
     textAlign: 'center',
   } as TextStyle,
 
   /** Выделенный текст ссылки */
   linkHighlight: {
-    color: COLORS.primary,
+    color: theme.colors.primary,
     fontWeight: '600' as const,
   } as TextStyle,
 
@@ -183,16 +183,16 @@ export const authStyles = StyleSheet.create({
   /** Текст "Загрузка..." */
   loadingText: {
     ...FONTS.medium,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
   } as TextStyle,
   legalText: {
     fontSize: FONTS.small.fontSize,
-    color: COLORS.textTertiary,
+    color: theme.colors.textTertiary,
     textAlign: 'center',
     marginTop: SPACING.xl,
   } as TextStyle,
   link: {
-    color: COLORS.linkBlue,
+    color: theme.colors.linkBlue,
     textDecorationLine: 'underline',
   } as TextStyle,
 });

@@ -1,13 +1,13 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { COLORS, FONTS, SPACING, RADIUS } from './root';
+import { Theme, FONTS, SPACING, RADIUS } from './root';
 
-export const createLessonStyles = StyleSheet.create({
+export const createLessonStyles = (theme: Theme) => StyleSheet.create({
 
     // ─── Основа ──────────────────────────────────────────────────────
     /** Корневой контейнер экрана создания урока. */
     container: {
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
     } as ViewStyle,
 
     /** Внутренний контейнер скролла. */
@@ -25,9 +25,9 @@ export const createLessonStyles = StyleSheet.create({
         paddingHorizontal: SPACING.lg,
         paddingTop: SPACING.xl,
         paddingBottom: SPACING.md,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.border,
+        borderBottomColor: theme.colors.border,
     } as ViewStyle,
 
     headerLeft: {
@@ -42,11 +42,11 @@ export const createLessonStyles = StyleSheet.create({
         width: 36,
         height: 36,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
     } as ViewStyle,
 
     /** View-обёртка под иконку стрелки — добавишь сам. */
@@ -59,7 +59,7 @@ export const createLessonStyles = StyleSheet.create({
 
     headerTitle: {
         ...FONTS.bold,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     // ─── Тело формы ──────────────────────────────────────────────────
@@ -85,43 +85,43 @@ export const createLessonStyles = StyleSheet.create({
     fieldLabel: {
         ...FONTS.medium,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     /** Опциональный суффикс «*» обязательного поля. */
     fieldRequired: {
-        color: COLORS.error,
+        color: theme.colors.error,
         fontWeight: '600' as const,
     } as TextStyle,
 
     /** Счётчик символов — нейтральный. */
     charCount: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     charCountWarn: {
-        color: COLORS.warning,
+        color: theme.colors.warning,
         ...FONTS.regular,
     } as TextStyle,
 
     charCountLimit: {
-        color: COLORS.error,
+        color: theme.colors.error,
         ...FONTS.bold,
     } as TextStyle,
 
     /** Текстовое поле ввода — однострочное. */
     input: {
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
         borderRadius: RADIUS.lg,
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.md,
         ...FONTS.regular,
-        color: COLORS.text,
+        color: theme.colors.text,
         fontWeight: '500' as const,
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.04,
         shadowRadius: 4,
@@ -129,30 +129,30 @@ export const createLessonStyles = StyleSheet.create({
     } as TextStyle,
 
     inputFocused: {
-        borderColor: COLORS.primary,
-        shadowColor: COLORS.primary,
+        borderColor: theme.colors.primary,
+        shadowColor: theme.colors.primary,
         shadowOpacity: 0.1,
     } as TextStyle,
 
     inputError: {
-        borderColor: COLORS.error,
-        backgroundColor: COLORS.errorLight,
+        borderColor: theme.colors.error,
+        backgroundColor: theme.colors.errorLight,
     } as TextStyle,
 
     /** Многострочное поле (описание). */
     textArea: {
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
         borderRadius: RADIUS.lg,
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.md,
         ...FONTS.regular,
-        color: COLORS.text,
+        color: theme.colors.text,
         textAlignVertical: 'top',
         minHeight: 110,
         lineHeight: 22,
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.04,
         shadowRadius: 4,
@@ -160,8 +160,8 @@ export const createLessonStyles = StyleSheet.create({
     } as TextStyle,
 
     textAreaFocused: {
-        borderColor: COLORS.primary,
-        shadowColor: COLORS.primary,
+        borderColor: theme.colors.primary,
+        shadowColor: theme.colors.primary,
         shadowOpacity: 0.1,
     } as TextStyle,
 
@@ -169,7 +169,7 @@ export const createLessonStyles = StyleSheet.create({
     errorText: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.error,
+        color: theme.colors.error,
         marginTop: SPACING.xs,
         marginLeft: SPACING.xs,
     } as TextStyle,
@@ -180,13 +180,13 @@ export const createLessonStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
         borderRadius: RADIUS.lg,
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.md,
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.04,
         shadowRadius: 4,
@@ -198,15 +198,15 @@ export const createLessonStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1.5,
         borderRadius: RADIUS.lg,
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.md,
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
-        borderColor: COLORS.primary,
+        borderColor: theme.colors.primary,
         borderBottomLeftRadius: RADIUS.none,
         borderBottomRightRadius: RADIUS.none,
         shadowOpacity: 0,
@@ -216,13 +216,13 @@ export const createLessonStyles = StyleSheet.create({
     /** Плейсхолдер внутри селектора (ничего не выбрано). */
     selectorPlaceholder: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     /** Текст выбранной опции. */
     selectorValue: {
         ...FONTS.regular,
-        color: COLORS.text,
+        color: theme.colors.text,
         fontWeight: '500' as const,
     } as TextStyle,
 
@@ -243,14 +243,14 @@ export const createLessonStyles = StyleSheet.create({
 
     /** Список опций — стыкуется с нижней кромкой селектора. */
     dropdownList: {
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1.5,
-        borderColor: COLORS.primary,
+        borderColor: theme.colors.primary,
         borderTopWidth: 0,
         borderBottomLeftRadius: RADIUS.lg,
         borderBottomRightRadius: RADIUS.lg,
         overflow: 'hidden',
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 8 },
         shadowOpacity: 0.08,
         shadowRadius: 16,
@@ -266,12 +266,12 @@ export const createLessonStyles = StyleSheet.create({
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.md,
         borderTopWidth: 1,
-        borderTopColor: COLORS.border,
+        borderTopColor: theme.colors.border,
     } as ViewStyle,
 
     /** Активная опция (выбранная). */
     dropdownOptionActive: {
-        backgroundColor: COLORS.primarySoft,
+        backgroundColor: theme.colors.primarySoft,
     } as ViewStyle,
 
     /** Иконка-кружок слева от названия опции. */
@@ -282,23 +282,23 @@ export const createLessonStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-        backgroundColor: COLORS.indigoSoft
+        backgroundColor: theme.colors.indigoSoft
     } as ViewStyle,
 
     optionTitle: {
         ...FONTS.medium,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     optionTitleActive: {
-        color: COLORS.primary,
+        color: theme.colors.primary,
     } as TextStyle,
 
     optionSubtitle: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     /** Галочка справа на активной опции. */
@@ -307,7 +307,7 @@ export const createLessonStyles = StyleSheet.create({
         width: 20,
         height: 20,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
     } as ViewStyle,
@@ -340,10 +340,10 @@ export const createLessonStyles = StyleSheet.create({
         paddingHorizontal: SPACING.lg,
         paddingTop: SPACING.md,
         paddingBottom: SPACING.xl,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderTopWidth: 1,
-        borderTopColor: COLORS.border,
-        shadowColor: COLORS.shadow,
+        borderTopColor: theme.colors.border,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: -4 },
         shadowOpacity: 0.06,
         shadowRadius: 12,
@@ -352,14 +352,14 @@ export const createLessonStyles = StyleSheet.create({
 
     /** Кнопка «Сохранить и продолжить». */
     saveButton: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         borderRadius: RADIUS.lg,
         paddingVertical: SPACING.md,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
         gap: SPACING.sm,
-        shadowColor: COLORS.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.25,
         shadowRadius: 10,
@@ -374,16 +374,16 @@ export const createLessonStyles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         gap: SPACING.sm,
-        shadowColor: COLORS.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 6 },
         shadowRadius: 10,
-        backgroundColor: COLORS.borderDark,
+        backgroundColor: theme.colors.borderDark,
         opacity: 0.6,
     } as ViewStyle,
 
     saveButtonText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
     } as TextStyle,
 
     /** View-обёртка под иконку стрелки в кнопке. */
@@ -401,13 +401,13 @@ export const createLessonStyles = StyleSheet.create({
     /** Полупрозрачный оверлей. */
     overlay: {
         flex: 1,
-        backgroundColor: COLORS.overlay,
+        backgroundColor: theme.colors.overlay,
         justifyContent: 'flex-end',
     } as ViewStyle,
 
     /** Шторка модалки тегов. */
     tagsSheet: {
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderTopLeftRadius: RADIUS.xl,
         borderTopRightRadius: RADIUS.xl,
         paddingBottom: SPACING.xxxl,
@@ -418,7 +418,7 @@ export const createLessonStyles = StyleSheet.create({
         width: 36,
         height: 4,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.borderDark,
+        backgroundColor: theme.colors.borderDark,
         alignSelf: 'center',
         marginTop: SPACING.md,
         marginBottom: SPACING.sm,
@@ -432,12 +432,12 @@ export const createLessonStyles = StyleSheet.create({
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.md,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.border,
+        borderBottomColor: theme.colors.border,
     } as ViewStyle,
 
     tagsHeaderTitle: {
         ...FONTS.bold,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     /** Кнопка ✕ закрытия. */
@@ -445,11 +445,11 @@ export const createLessonStyles = StyleSheet.create({
         width: 32,
         height: 32,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
     } as ViewStyle,
 
     closeIconWrapper: {
@@ -470,18 +470,18 @@ export const createLessonStyles = StyleSheet.create({
     tagsHint: {
         flexDirection: 'row',
         gap: SPACING.md,
-        backgroundColor: COLORS.primarySoft,
+        backgroundColor: theme.colors.primarySoft,
         borderRadius: RADIUS.lg,
         padding: SPACING.md,
         marginBottom: SPACING.xl,
         borderLeftWidth: 3,
-        borderLeftColor: COLORS.primary,
+        borderLeftColor: theme.colors.primary,
     } as ViewStyle,
 
     tagsHintText: {
         ...FONTS.regular,
         fontSize: FONTS.sub.fontSize,
-        color: COLORS.primaryDeep,
+        color: theme.colors.primaryDeep,
         flex: 1,
         lineHeight: 20,
     } as TextStyle,
@@ -507,19 +507,19 @@ export const createLessonStyles = StyleSheet.create({
     /** Поле ввода нового тега. */
     tagInput: {
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
         borderRadius: RADIUS.lg,
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.sm,
         ...FONTS.regular,
-        color: COLORS.text,
+        color: theme.colors.text,
         fontSize: FONTS.regular.fontSize,
     } as TextStyle,
 
     tagInputFocused: {
-        borderColor: COLORS.primary,
+        borderColor: theme.colors.primary,
     } as TextStyle,
 
     /** Кнопка «+» добавления тега.
@@ -528,10 +528,10 @@ export const createLessonStyles = StyleSheet.create({
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.lg,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: COLORS.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 6,
@@ -539,7 +539,7 @@ export const createLessonStyles = StyleSheet.create({
     } as ViewStyle,
 
     tagAddButtonDisabled: {
-        backgroundColor: COLORS.borderDark,
+        backgroundColor: theme.colors.borderDark,
         shadowOpacity: 0,
         elevation: 0,
         opacity: 0.5,
@@ -547,7 +547,7 @@ export const createLessonStyles = StyleSheet.create({
 
     tagAddButtonText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontSize: FONTS.regular.fontSize,
     } as TextStyle,
 
@@ -563,19 +563,19 @@ export const createLessonStyles = StyleSheet.create({
     tagsCounterText: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     tagsCounterBold: {
         fontWeight: '600' as const,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     /** Подсказка лимита символов под инпутом. */
     tagCharHint: {
         ...FONTS.regular,
         fontSize: FONTS.xs.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         marginTop: SPACING.sm,
         marginBottom: SPACING.md,
         marginLeft: SPACING.xs,
@@ -600,16 +600,16 @@ export const createLessonStyles = StyleSheet.create({
         paddingRight: SPACING.sm,
         paddingVertical: SPACING.xs,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.primarySoft,
+        backgroundColor: theme.colors.primarySoft,
         borderWidth: 1,
-        borderColor: COLORS.indigoBorder,
+        borderColor: theme.colors.indigoBorder,
     } as ViewStyle,
 
     tagChipText: {
         fontSize: FONTS.sub.fontSize,
         fontWeight: '500' as const,
         fontFamily: 'Inter_500Medium',
-        color: COLORS.primary,
+        color: theme.colors.primary,
     } as TextStyle,
 
     /** Кнопка удаления тега внутри чипа. */
@@ -617,7 +617,7 @@ export const createLessonStyles = StyleSheet.create({
         width: 16,
         height: 16,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.indigoBorder,
+        backgroundColor: theme.colors.indigoBorder,
         alignItems: 'center',
         justifyContent: 'center',
     } as ViewStyle,
@@ -635,18 +635,18 @@ export const createLessonStyles = StyleSheet.create({
         paddingHorizontal: SPACING.lg,
         paddingTop: SPACING.md,
         borderTopWidth: 1,
-        borderTopColor: COLORS.border,
+        borderTopColor: theme.colors.border,
         gap: SPACING.sm,
     } as ViewStyle,
 
     /** Основная кнопка «Готово — опубликовать». */
     doneButton: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         borderRadius: RADIUS.lg,
         paddingVertical: SPACING.md,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: COLORS.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.25,
         shadowRadius: 10,
@@ -655,7 +655,7 @@ export const createLessonStyles = StyleSheet.create({
 
     doneButtonText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
     } as TextStyle,
 
     /** Вторичная кнопка «Пропустить». */
@@ -668,6 +668,6 @@ export const createLessonStyles = StyleSheet.create({
     skipButtonText: {
         ...FONTS.regular,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 });

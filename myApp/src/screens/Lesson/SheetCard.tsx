@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, Linking, Image, Pressable, ScrollView } from "react-native";
-import { lessonSwipeViewStyles as styles } from "@/src/styles/SheetStyles";
-import { COLORS } from "@/src/styles/root";
+import { lessonSwipeViewStyles as lessonStyles } from "@/src/styles/SheetStyles";
 import { Sheet } from "@/src/types/lessonmainscreen";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { WebView } from 'react-native-webview';
 import { LessonInfoIcon, LessonWarningIcon } from "@/src/SVG/LessonSVG";
+import { useStyles } from '../../hooks/useStyles';
+import { useThemeStore } from '../../context/useThemeStore';
+import { COLORS } from '@/src/styles/root';
 interface SheetCardProps {
     type: string;
     sheet: Sheet;
 }
-const typesData = [
-    { label: 'THEORY', value: 'Theory', icon: '📖', style: styles.typeBadgeTheory, color: COLORS.primary },
-    { label: 'QUIZ', value: 'Quiz', icon: '❓', style: styles.typeBadgeQuestion, color: COLORS.error },
-    { label: 'VIDEO', value: 'Video', icon: '🎥', style: styles.typeBadgeVideo, color: COLORS.error },
-    { label: 'PICTURE', value: 'Picture', icon: '🖼️', style: styles.typeBadgePicture, color: COLORS.warning },
-]
 
 export const SheetContent = ({ type, sheet }: SheetCardProps) => {
+  const styles = useStyles(lessonStyles);
+  const { colors } = useThemeStore(s => s.theme);
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
@@ -188,6 +186,13 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
     }
 }
 export const SheetCard = ({ type, sheet }: SheetCardProps) => {
+    const styles = useStyles(lessonStyles);
+    const typesData = [
+        { label: 'THEORY', value: 'Theory', icon: '📖', style: styles.typeBadgeTheory, color: COLORS.primary },
+        { label: 'QUIZ', value: 'Quiz', icon: '❓', style: styles.typeBadgeQuestion, color: COLORS.error },
+        { label: 'VIDEO', value: 'Video', icon: '🎥', style: styles.typeBadgeVideo, color: COLORS.error },
+        { label: 'PICTURE', value: 'Picture', icon: '🖼️', style: styles.typeBadgePicture, color: COLORS.warning },
+    ];
     return (
         <View style={styles.swipePage}>
             <View style={styles.pageScroll}>

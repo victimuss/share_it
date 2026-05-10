@@ -1,7 +1,7 @@
-import { COLORS, FONTS, SPACING, RADIUS } from './root';
+import { Theme, FONTS, SPACING, RADIUS } from './root';
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
-export const tabBarStyles = StyleSheet.create({
+export const tabBarStyles = (theme: Theme) => StyleSheet.create({
 
     // ─── Обёртка всего таб-бара ───────────────────────────────────────
     /** Корневой контейнер нижней навигации.
@@ -9,13 +9,13 @@ export const tabBarStyles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderTopWidth: 1,
-        borderTopColor: COLORS.border,
+        borderTopColor: theme.colors.border,
         paddingBottom: SPACING.lg,
         paddingTop: SPACING.sm,
         paddingHorizontal: SPACING.sm,
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: -4 },
         shadowOpacity: 0.06,
         shadowRadius: 12,
@@ -55,7 +55,7 @@ export const tabBarStyles = StyleSheet.create({
         borderRadius: RADIUS.full,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: COLORS.primarySoft,
+        backgroundColor: theme.colors.primarySoft,
     } as ViewStyle,
 
     // ─── Подпись вкладки ──────────────────────────────────────────────
@@ -67,7 +67,7 @@ export const tabBarStyles = StyleSheet.create({
         width: '100%',
         fontWeight: '400' as const,
         fontFamily: 'Inter_400Regular',
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         lineHeight: 14,
     } as TextStyle,
 
@@ -77,7 +77,7 @@ export const tabBarStyles = StyleSheet.create({
         marginTop: -SPACING.xs,
         fontSize: FONTS.tiny.fontSize,
         width: '100%',
-        color: COLORS.primary,
+        color: theme.colors.primary,
         ontWeight: '400' as const,
         fontFamily: 'Inter_400Regular',
         lineHeight: 14
@@ -102,10 +102,10 @@ export const tabBarStyles = StyleSheet.create({
         width: 56,
         height: 56,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: COLORS.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.35,
         shadowRadius: 12,
@@ -121,10 +121,10 @@ export const tabBarStyles = StyleSheet.create({
         shadowRadius: 12,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: COLORS.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 6 },
         elevation: 10,
-        backgroundColor: COLORS.primaryDark,
+        backgroundColor: theme.colors.primaryDark,
         shadowOpacity: 0.2,
     } as ViewStyle,
 
@@ -132,7 +132,7 @@ export const tabBarStyles = StyleSheet.create({
      *  Используем h1-размер из FONTS для крупного, читаемого плюса. */
     fabIcon: {
         ...FONTS.h1,
-        color: COLORS.surface,
+        color: theme.colors.surface,
         lineHeight: 56,
         marginTop: -2,
     } as TextStyle,
@@ -144,7 +144,7 @@ export const tabBarStyles = StyleSheet.create({
         width: 4,
         height: 4,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         marginTop: SPACING.s2,
     } as ViewStyle,
 
@@ -165,12 +165,12 @@ export const tabBarStyles = StyleSheet.create({
         minWidth: 16,
         height: 16,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.error,
+        backgroundColor: theme.colors.error,
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: SPACING.xs,
         borderWidth: 1.5,
-        borderColor: COLORS.surface,
+        borderColor: theme.colors.surface,
     } as ViewStyle,
 
     /** Текст внутри бейджа с числом уведомлений. */
@@ -178,7 +178,7 @@ export const tabBarStyles = StyleSheet.create({
         fontSize: FONTS.micro.fontSize,
         fontWeight: '700' as const,
         fontFamily: 'Inter_700Bold',
-        color: COLORS.surface,
+        color: theme.colors.surface,
         lineHeight: 12,
     } as TextStyle,
 });

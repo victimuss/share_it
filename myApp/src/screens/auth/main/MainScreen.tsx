@@ -1,7 +1,6 @@
 import { View, Text, ScrollView, Pressable, TextInput, FlatList, Alert, Linking } from "react-native";
-import { homeStyles } from "@/src/styles/MainPageStyles";
+import { homeStyles as homeStylesFn } from "@/src/styles/MainPageStyles";
 import { useAuth } from "@/src/context/AuthContext";
-import { COLORS } from "@/src/styles/root";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LoadScreen } from "./LoadScreen";
@@ -16,11 +15,14 @@ import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
 import { TelegramNotificationModal } from "@/src/components/TelegramNotificationModal";
 import { useTranslation } from "react-i18next";
+import { useStyles } from '../../../hooks/useStyles';
+import { useThemeStore } from '../../../context/useThemeStore';
 
 export const MainScreen = () => {
+  const homeStyles = useStyles(homeStylesFn);
+  const { colors } = useThemeStore(s => s.theme);
   const { t, i18n } = useTranslation();
   const { user } = useAuth();
-  const id = user ? user.id : 0 <CurrentLessonRequest | null>(null);
   const [activeFilter, setActiveFilter] = useState<LessonType>(null)
   const [popular, setPopular] = useState<PopularLessonsResponce | null>(null);;
   const [recent, setRecent] = useState<RecentLessonsResponce | null>(null);
@@ -157,10 +159,10 @@ export const MainScreen = () => {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-              colors={[COLORS.accent]}
-              tintColor={COLORS.accent}
+              colors={[colors.accent]}
+              tintColor={colors.accent}
               title={t('screens.main.refresh')}
-              titleColor={COLORS.accent}
+              titleColor={colors.accent}
             />
           }>
           <View style={homeStyles.header}>
@@ -189,7 +191,7 @@ export const MainScreen = () => {
               </Pressable>
               <Pressable style={homeStyles.notificationButton}
                 onPress={() => setShowTgModal(true)}>
-                <BellIcon></BellIcon>
+                <BellIcon color={colors.primary}></BellIcon>
               </Pressable>
               <Pressable style={homeStyles.avatar}
                 onPress={() => { navigator.navigate('Profile') }}>

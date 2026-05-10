@@ -2,15 +2,16 @@ import React from 'react';
 import { View, Text, Pressable, SafeAreaView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { tabBarStyles } from '../styles/TabStyles';
+import { tabBarStyles as tabBarStylesFn } from '../styles/TabStyles';
 import { MainScreen } from './auth/main/MainScreen';
 import { ProfileScreen } from './auth/main/ProfileScreen';
 import { BookIcon, HomeIcon, SearchIcon, UserIcon } from '../SVG/TabSVG';
-import { COLORS } from '../styles/root';
 import { SearchScreen } from './auth/main/SearchScreen';
 import { NewLessonScreen } from './auth/main/NewLesson/NewLessonScreen';
 import MyLessonsScreen from './auth/main/MyLessonsScreen';
 import { useTranslation } from 'react-i18next';
+import { useStyles } from '../hooks/useStyles';
+import { useThemeStore } from '../context/useThemeStore';
 
 export type BottomTabParamList = {
     Home: undefined;
@@ -23,6 +24,8 @@ export type BottomTabParamList = {
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function TabNavigator(): React.JSX.Element {
+    const tabBarStyles = useStyles(tabBarStylesFn);
+    const { colors } = useThemeStore(s => s.theme);
     const { t } = useTranslation();
     return (
         <Tab.Navigator
@@ -41,7 +44,7 @@ export default function TabNavigator(): React.JSX.Element {
                             <View style={focused ? tabBarStyles.iconWrapperActive : tabBarStyles.iconWrapper}>
                                 <HomeIcon
                                     size={24}
-                                    color={focused ? COLORS.primary : COLORS.textSecondary}
+                                    color={focused ? colors.primary : colors.textSecondary}
                                 />
                             </View>
                             <Text numberOfLines={1}
@@ -63,7 +66,7 @@ export default function TabNavigator(): React.JSX.Element {
                             <View style={focused ? tabBarStyles.iconWrapperActive : tabBarStyles.iconWrapper}>
                                 <SearchIcon
                                     size={24}
-                                    color={focused ? COLORS.primary : COLORS.textSecondary}
+                                    color={focused ? colors.primary : colors.textSecondary}
                                 />
                             </View>
                             <Text numberOfLines={1}
@@ -112,7 +115,7 @@ export default function TabNavigator(): React.JSX.Element {
                             <View style={focused ? tabBarStyles.iconWrapperActive : tabBarStyles.iconWrapper}>
                                 <BookIcon
                                     size={24}
-                                    color={focused ? COLORS.primary : COLORS.textSecondary}
+                                    color={focused ? colors.primary : colors.textSecondary}
                                 />
                             </View>
                             <Text style={focused ? tabBarStyles.tabLabelActive : tabBarStyles.tabLabel}>
@@ -133,7 +136,7 @@ export default function TabNavigator(): React.JSX.Element {
                             <View style={focused ? tabBarStyles.iconWrapperActive : tabBarStyles.iconWrapper}>
                                 <UserIcon
                                     size={24}
-                                    color={focused ? COLORS.primary : COLORS.textSecondary}
+                                    color={focused ? colors.primary : colors.textSecondary}
                                 />
                             </View>
                             <Text numberOfLines={1}

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { createLessonStyles as styles } from "@/src/styles/NewLessonStyles";
+import { createLessonStyles as createLessonStylesFn } from "@/src/styles/NewLessonStyles";
 import { CloseIcon } from "@/src/SVG/SearchSVG";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Pressable, TextInput, Modal } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
-import { COLORS } from "@/src/styles/root";
 import { AddTags, CreateLession } from "@/src/api/create_lesson/create_lesson";
 import { useNavigation } from "expo-router";
 import { RootStackParamList } from "@/src/navigation/appNavigator";
@@ -15,6 +14,9 @@ import { GetLessonByIdAPI, GetSheetApiForEdit } from "@/src/api/lessonmain/lesso
 import { EditLessonAPI } from "@/src/api/create_lesson/edit_lesson";
 import { GetMyLessonForEditAPI } from "@/src/api/lessonmain/mylesson";
 import { useTranslation } from "react-i18next";
+import { useStyles } from '../../../../hooks/useStyles';
+import { useThemeStore } from '../../../../context/useThemeStore';
+import { COLORS } from '@/src/styles/root';
 
 const difficultyData = (t: any) => [
     { label: 'Beginner', value: 'Beginner', subtitle: t('screens.newLesson.diffBeginner'), icon: '🌱', bg: COLORS.successLight },
@@ -30,6 +32,8 @@ const typesData = [
 ]
 
 export const NewLessonScreen = () => {
+  const styles = useStyles(createLessonStylesFn);
+  const { colors } = useThemeStore(s => s.theme);
     const { t } = useTranslation();
     const [difficulty, setDifficulty] = useState<string | null>(null);
     const [isFocus, setIsFocus] = useState(false);
@@ -255,7 +259,7 @@ export const NewLessonScreen = () => {
                     <TextInput
                         style={styles.input}
                         placeholder={t('screens.newLesson.namePlaceholder')}
-                        placeholderTextColor={COLORS.textSecondary}
+                        placeholderTextColor={colors.textSecondary}
                         value={title}
                         onChangeText={setTitle}
                         maxLength={255}
@@ -273,7 +277,7 @@ export const NewLessonScreen = () => {
                     <TextInput
                         style={styles.input}
                         placeholder={t('screens.newLesson.descPlaceholder')}
-                        placeholderTextColor={COLORS.textSecondary}
+                        placeholderTextColor={colors.textSecondary}
                         value={description}
                         onChangeText={setDescription}
                         maxLength={255}
@@ -327,7 +331,7 @@ export const NewLessonScreen = () => {
                             <TextInput
                                 style={styles.input}
                                 placeholder={t('screens.newLesson.tagInputPlaceholder')}
-                                placeholderTextColor={COLORS.textSecondary}
+                                placeholderTextColor={colors.textSecondary}
                                 value={tagInput}
                                 onChangeText={setTagInput}
                                 onSubmitEditing={addTag}

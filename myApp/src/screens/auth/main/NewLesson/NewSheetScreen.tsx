@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { lessonEditorStyles as styles } from "@/src/styles/NewSheetStyles";
+import { lessonEditorStyles as lessonEditorStylesFn } from "@/src/styles/NewSheetStyles";
 import { CloseIcon } from "@/src/SVG/SearchSVG";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Pressable, TextInput, Modal, Alert, KeyboardAvoidingView, Image } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
-import { COLORS } from "@/src/styles/root";
 import { AddTags, CreateLession, DeleteLessonBanner, LoadLessonBanner, Publish } from "@/src/api/create_lesson/create_lesson";
 import { NewLessonScreen } from "./NewLessonScreen";
-import { createLessonStyles } from "@/src/styles/NewLessonStyles";
+import { createLessonStyles as createLessonStylesFn } from "@/src/styles/NewLessonStyles";
 import { PictureIcon, DeleteIcon } from "@/src/SVG/NewSheetSVG";
 import { useLessonStore } from "@/src/context/useLessonStore";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -21,6 +20,8 @@ import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { GetLessonByIdAPI, GetSheetApi, GetSheetApiForEdit } from "@/src/api/lessonmain/lessonmain";
 
 import { useTranslation } from "react-i18next";
+import { useStyles } from '../../../../hooks/useStyles';
+import { useThemeStore } from '../../../../context/useThemeStore';
 
 const typesData = (t: any) => [
     { label: t('screens.newSheet.typeTheory'), value: 'THEORY', icon: '📖', description: t('screens.newSheet.theoryDesc') },
@@ -30,6 +31,9 @@ const typesData = (t: any) => [
 
 
 export const NewSheetScreen = () => {
+  const createLessonStyles = useStyles(createLessonStylesFn);
+  const styles = useStyles(lessonEditorStylesFn);
+  const { colors } = useThemeStore(s => s.theme);
     const { t } = useTranslation();
     const {
         sheets,
@@ -312,7 +316,7 @@ export const NewSheetScreen = () => {
                         placeholder={t('screens.newSheet.pageNamePlaceholder')}
                         value={currentSheet.sheet_header}
                         onChangeText={(text) => updateSheetField('sheet_header', text)}
-                        placeholderTextColor={COLORS.textSecondary}
+                        placeholderTextColor={colors.textSecondary}
                         maxLength={50}
 
                     />
@@ -361,7 +365,7 @@ export const NewSheetScreen = () => {
                         <TextInput
                             style={styles.textArea}
                             placeholder={t('screens.newSheet.textPlaceholder')}
-                            placeholderTextColor={COLORS.textSecondary}
+                            placeholderTextColor={colors.textSecondary}
                             maxLength={500}
                             value={currentSheet.content}
                             onChangeText={(text) => updateSheetField('content', text)}
@@ -375,7 +379,7 @@ export const NewSheetScreen = () => {
                                 <TextInput
                                     style={styles.calloutInput}
                                     placeholder={t('screens.newSheet.optionalPlaceholder')}
-                                    placeholderTextColor={COLORS.textSecondary}
+                                    placeholderTextColor={colors.textSecondary}
                                     maxLength={75}
                                     value={currentSheet.content_advice}
                                     onChangeText={(text) => updateSheetField('content_advice', text)}
@@ -389,7 +393,7 @@ export const NewSheetScreen = () => {
                                 <TextInput
                                     style={styles.calloutInput}
                                     placeholder={t('screens.newSheet.optionalPlaceholder')}
-                                    placeholderTextColor={COLORS.textSecondary}
+                                    placeholderTextColor={colors.textSecondary}
                                     maxLength={75}
                                     value={currentSheet.content_danger}
                                     onChangeText={(text) => updateSheetField('content_danger', text)}
@@ -407,7 +411,7 @@ export const NewSheetScreen = () => {
                         <TextInput
                             style={styles.input}
                             placeholder="https://youtube.com/..."
-                            placeholderTextColor={COLORS.textSecondary}
+                            placeholderTextColor={colors.textSecondary}
                             value={currentSheet.video_url}
                             onChangeText={(text) => updateSheetField('video_url', text)}
 
@@ -419,7 +423,7 @@ export const NewSheetScreen = () => {
                         <TextInput
                             style={styles.input}
                             placeholder={t('screens.newSheet.videoCommentPlaceholder')}
-                            placeholderTextColor={COLORS.textSecondary}
+                            placeholderTextColor={colors.textSecondary}
                             maxLength={50}
                             value={currentSheet.description_for_video_or_picture}
                             onChangeText={(text) => updateSheetField('description_for_video_or_picture', text)}
@@ -436,7 +440,7 @@ export const NewSheetScreen = () => {
                         <TextInput
                             style={styles.input}
                             placeholder={t('screens.newSheet.questionPlaceholder')}
-                            placeholderTextColor={COLORS.textSecondary}
+                            placeholderTextColor={colors.textSecondary}
                             maxLength={150}
                             value={currentSheet.question_text}
                             onChangeText={(text) => updateSheetField('question_text', text)}
@@ -456,14 +460,14 @@ export const NewSheetScreen = () => {
                                 >
                                     {option.is_correct && (
                                         <View style={styles.checkIconWrapper}>
-                                            <Text style={{ color: COLORS.surface, fontSize: 12, fontWeight: 'bold' }}>✓</Text>
+                                            <Text style={{ color: colors.surface, fontSize: 12, fontWeight: 'bold' }}>✓</Text>
                                         </View>
                                     )}
                                 </Pressable>
                                 <TextInput
                                     style={[styles.answerInput, option.is_correct && styles.answerInputCorrect]}
                                     placeholder={t('screens.newSheet.answerPlaceholder', { number: index + 1 })}
-                                    placeholderTextColor={COLORS.textSecondary}
+                                    placeholderTextColor={colors.textSecondary}
                                     maxLength={100}
                                     value={option.option}
                                     onChangeText={(text) => {
@@ -479,7 +483,7 @@ export const NewSheetScreen = () => {
                                     }}
                                     style={{ padding: 4, marginLeft: 4 }}
                                 >
-                                    <Text style={{ color: COLORS.error, fontSize: 24, lineHeight: 24 }}>×</Text>
+                                    <Text style={{ color: colors.error, fontSize: 24, lineHeight: 24 }}>×</Text>
                                 </Pressable>
                             </View>
                         ))}
@@ -507,7 +511,7 @@ export const NewSheetScreen = () => {
                         <TextInput
                             style={styles.input}
                             placeholder={t('screens.newSheet.photoCommentPlaceholder')}
-                            placeholderTextColor={COLORS.textSecondary}
+                            placeholderTextColor={colors.textSecondary}
                             maxLength={50}
                             value={currentSheet.description_for_video_or_picture}
                             onChangeText={(text) => updateSheetField('description_for_video_or_picture', text)}

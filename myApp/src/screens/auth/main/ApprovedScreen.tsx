@@ -1,10 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS, SPACING, FONTS, RADIUS } from '@/src/styles/root';
+import { Theme, SPACING, FONTS, RADIUS } from '@/src/styles/root';;
 import { useNavigation } from '@react-navigation/native';
+import { useStyles } from '../../../hooks/useStyles';
+import { useThemeStore } from '../../../context/useThemeStore';
 
 export const ApprovedScreen = () => {
+  const { theme } = useThemeStore();
+  const styles = createStyles(theme);
     const navigation = useNavigation<any>();
 
     return (
@@ -28,10 +32,10 @@ export const ApprovedScreen = () => {
     );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
     },
     content: {
         flex: 1,
@@ -43,7 +47,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 40,
-        backgroundColor: COLORS.successLight || '#D1FAE5', // Фоллбэк на случай если successLight нет
+        backgroundColor: theme.colors.successLight || '#D1FAE5', // Фоллбэк на случай если successLight нет
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: SPACING.xl,
@@ -53,12 +57,12 @@ const styles = StyleSheet.create({
     },
     text: {
         ...FONTS.h2,
-        color: COLORS.text,
+        color: theme.colors.text,
         textAlign: 'center',
     },
     subtext: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         marginTop: SPACING.md,
         textAlign: 'center',
         lineHeight: 22,
@@ -68,11 +72,11 @@ const styles = StyleSheet.create({
         paddingBottom: SPACING.xxl,
     },
     button: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         paddingVertical: SPACING.md,
         borderRadius: RADIUS.lg,
         alignItems: 'center',
-        shadowColor: COLORS.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontSize: 16,
     }
 });

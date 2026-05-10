@@ -1,22 +1,22 @@
 import { StyleSheet } from 'react-native';
-import { COLORS, FONTS, SPACING, RADIUS } from './root';
+import { Theme, FONTS, SPACING, RADIUS } from './root';
 
-export const tgModalStyles = StyleSheet.create({
+export const tgModalStyles = (theme: Theme) => StyleSheet.create({
 
     // ─── Overlay & Sheet ──────────────────────────────────────────────
     overlay: {
         flex: 1,
-        backgroundColor: COLORS.modalOverlay,
+        backgroundColor: theme.colors.modalOverlay,
         justifyContent: 'flex-end',
     },
     sheet: {
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderTopLeftRadius: RADIUS.xxxl,
         borderTopRightRadius: RADIUS.xxxl,
         paddingTop: SPACING.md,
         paddingBottom: SPACING.xxxl + SPACING.lg,
         paddingHorizontal: SPACING.xl + SPACING.sm,
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: -8 },
         shadowOpacity: 0.14,
         shadowRadius: 24,
@@ -25,7 +25,7 @@ export const tgModalStyles = StyleSheet.create({
     dragHandle: {
         width: 44,
         height: 4,
-        backgroundColor: COLORS.border,
+        backgroundColor: theme.colors.border,
         borderRadius: RADIUS.full,
         alignSelf: 'center',
         marginBottom: SPACING.xl + SPACING.sm,
@@ -42,12 +42,12 @@ export const tgModalStyles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.indigoSoft,
+        backgroundColor: theme.colors.indigoSoft,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1.5,
-        borderColor: COLORS.indigoBorder,
-        shadowColor: COLORS.primary,
+        borderColor: theme.colors.indigoBorder,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.18,
         shadowRadius: 10,
@@ -59,7 +59,7 @@ export const tgModalStyles = StyleSheet.create({
     eyebrow: {
         ...FONTS.regular,
         fontSize: FONTS.xs.fontSize,
-        color: COLORS.primary,
+        color: theme.colors.primary,
         fontWeight: '600' as const,
         textTransform: 'uppercase' as const,
         letterSpacing: 0.8,
@@ -68,14 +68,14 @@ export const tgModalStyles = StyleSheet.create({
     title: {
         ...FONTS.h2,
         fontSize: FONTS.xxl.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
         lineHeight: 28,
     },
 
     // ─── Description ──────────────────────────────────────────────────
     description: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         lineHeight: 22,
         marginBottom: SPACING.xl,
     },
@@ -88,22 +88,22 @@ export const tgModalStyles = StyleSheet.create({
     featureRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         borderRadius: RADIUS.xl,
         paddingVertical: SPACING.md,
         paddingHorizontal: SPACING.md,
         gap: SPACING.md,
         borderWidth: 1,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
     },
     featureEmojiBadge: {
         width: 40,
         height: 40,
         borderRadius: RADIUS.lg,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.06,
         shadowRadius: 4,
@@ -117,13 +117,13 @@ export const tgModalStyles = StyleSheet.create({
     },
     featureTitle: {
         ...FONTS.medium,
-        color: COLORS.text,
+        color: theme.colors.text,
         fontSize: FONTS.regular.fontSize,
         fontWeight: '600' as const,
     },
     featureSubtitle: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontSize: FONTS.small.fontSize,
         marginTop: SPACING.s1,
     },
@@ -138,12 +138,12 @@ export const tgModalStyles = StyleSheet.create({
     },
     policyText: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontSize: FONTS.small.fontSize,
     },
     policyLink: {
         ...FONTS.regular,
-        color: COLORS.primary,
+        color: theme.colors.primary,
         fontSize: FONTS.small.fontSize,
         fontWeight: '600' as const,
         textDecorationLine: 'underline' as const,
@@ -155,11 +155,11 @@ export const tgModalStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: SPACING.sm,
-        backgroundColor: COLORS.telegramBlue,
+        backgroundColor: theme.colors.telegramBlue,
         borderRadius: RADIUS.xl,
         paddingVertical: SPACING.lg,
         marginBottom: SPACING.md,
-        shadowColor: COLORS.telegramBlue,
+        shadowColor: theme.colors.telegramBlue,
         shadowOffset: { width: 0, height: 8 },
         shadowOpacity: 0.35,
         shadowRadius: 16,
@@ -174,13 +174,13 @@ export const tgModalStyles = StyleSheet.create({
         width: 32,
         height: 32,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.whiteAlpha20,
+        backgroundColor: theme.colors.whiteAlpha20,
         justifyContent: 'center',
         alignItems: 'center',
     },
     tgBtnText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontSize: FONTS.medium.fontSize,
     },
 
@@ -191,7 +191,7 @@ export const tgModalStyles = StyleSheet.create({
     },
     skipText: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontSize: FONTS.sub.fontSize,
     },
 });

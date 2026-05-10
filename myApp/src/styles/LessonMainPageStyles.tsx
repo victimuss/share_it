@@ -1,13 +1,13 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { COLORS, FONTS, SPACING, RADIUS } from './root';
+import { Theme, FONTS, SPACING, RADIUS } from './root';
 
-export const lessonLandingStyles = StyleSheet.create({
+export const lessonLandingStyles = (theme: Theme) => StyleSheet.create({
 
     // ─── Основа ──────────────────────────────────────────────────────
     /** Корневой контейнер лендинга урока. */
     container: {
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
     } as ViewStyle,
 
     scrollContent: {
@@ -20,7 +20,7 @@ export const lessonLandingStyles = StyleSheet.create({
      *  Высота фиксирована — достаточно для визуального веса. */
     heroBanner: {
         height: 200,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         justifyContent: 'flex-end',
         padding: SPACING.lg,
         position: 'relative',
@@ -34,11 +34,11 @@ export const lessonLandingStyles = StyleSheet.create({
         width: 36,
         height: 36,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.whiteAlpha20,
+        backgroundColor: theme.colors.whiteAlpha20,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: COLORS.whiteAlpha30,
+        borderColor: theme.colors.whiteAlpha30,
     } as ViewStyle,
 
     heroBackIconWrapper: {
@@ -56,11 +56,11 @@ export const lessonLandingStyles = StyleSheet.create({
         width: 36,
         height: 36,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.whiteAlpha20,
+        backgroundColor: theme.colors.whiteAlpha20,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: COLORS.whiteAlpha30,
+        borderColor: theme.colors.whiteAlpha30,
     } as ViewStyle,
 
     heroMoreIconWrapper: {
@@ -76,23 +76,23 @@ export const lessonLandingStyles = StyleSheet.create({
         paddingHorizontal: SPACING.sm,
         paddingVertical: SPACING.s3,
         borderRadius: RADIUS.sm,
-        backgroundColor: COLORS.whiteAlpha20,
+        backgroundColor: theme.colors.whiteAlpha20,
         marginBottom: SPACING.sm,
         borderWidth: 1,
-        borderColor: COLORS.whiteAlpha30,
+        borderColor: theme.colors.whiteAlpha30,
     } as ViewStyle,
 
     heroCategoryText: {
         fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
-        color: COLORS.surface,
+        color: theme.colors.surface,
     } as TextStyle,
 
     /** Заголовок урока поверх обложки. */
     heroTitle: {
         ...FONTS.h2,
-        color: COLORS.surface,
+        color: theme.colors.surface,
         lineHeight: 32,
     } as TextStyle,
 
@@ -101,12 +101,12 @@ export const lessonLandingStyles = StyleSheet.create({
      *  Показывает насколько урок уже пройден. */
     progressStrip: {
         height: 4,
-        backgroundColor: COLORS.border,
+        backgroundColor: theme.colors.border,
     } as ViewStyle,
 
     progressStripFill: {
         height: '100%',
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
     } as ViewStyle,
 
     // ─── Карточка автора ─────────────────────────────────────────────
@@ -117,16 +117,16 @@ export const lessonLandingStyles = StyleSheet.create({
         gap: SPACING.md,
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.lg,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.border,
+        borderBottomColor: theme.colors.border,
     } as ViewStyle,
 
     authorAvatar: {
         width: 40,
         height: 40,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.primaryLight,
+        backgroundColor: theme.colors.primaryLight,
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
@@ -135,7 +135,7 @@ export const lessonLandingStyles = StyleSheet.create({
     authorAvatarText: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.surface,
+        color: theme.colors.surface,
     } as TextStyle,
 
     authorInfo: {
@@ -145,14 +145,14 @@ export const lessonLandingStyles = StyleSheet.create({
     authorName: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
         marginBottom: SPACING.s2,
     } as TextStyle,
 
     authorMeta: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     /** Кнопка «Подписаться» рядом с автором. */
@@ -161,32 +161,32 @@ export const lessonLandingStyles = StyleSheet.create({
         paddingVertical: SPACING.xs,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        borderColor: COLORS.primary,
-        backgroundColor: COLORS.surface,
+        borderColor: theme.colors.primary,
+        backgroundColor: theme.colors.surface,
     } as ViewStyle,
 
     followButtonActive: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
     } as ViewStyle,
 
     followButtonText: {
         fontSize: FONTS.small.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
-        color: COLORS.primary,
+        color: theme.colors.primary,
     } as TextStyle,
 
     followButtonTextActive: {
-        color: COLORS.surface,
+        color: theme.colors.surface,
     } as TextStyle,
 
     // ─── Метрики урока ───────────────────────────────────────────────
     /** Ряд из 3 метрик: страниц / студентов / сложность. */
     metricsRow: {
         flexDirection: 'row',
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.border,
+        borderBottomColor: theme.colors.border,
     } as ViewStyle,
 
     metricItem: {
@@ -194,7 +194,7 @@ export const lessonLandingStyles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: SPACING.md,
         borderRightWidth: 1,
-        borderRightColor: COLORS.border,
+        borderRightColor: theme.colors.border,
     } as ViewStyle,
 
     metricItemLast: {
@@ -212,14 +212,14 @@ export const lessonLandingStyles = StyleSheet.create({
     metricValue: {
         ...FONTS.bold,
         fontSize: FONTS.medium.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
         marginBottom: SPACING.s1,
     } as TextStyle,
 
     metricLabel: {
         fontSize: FONTS.xs.fontSize,
         fontFamily: 'Inter_400Regular',
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         textAlign: 'center',
     } as TextStyle,
 
@@ -232,7 +232,7 @@ export const lessonLandingStyles = StyleSheet.create({
 
     descriptionText: {
         ...FONTS.regular,
-        color: COLORS.text,
+        color: theme.colors.text,
         lineHeight: 24,
     } as TextStyle,
 
@@ -249,16 +249,16 @@ export const lessonLandingStyles = StyleSheet.create({
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.xs,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.primarySoft,
+        backgroundColor: theme.colors.primarySoft,
         borderWidth: 1,
-        borderColor: COLORS.indigoBorder,
+        borderColor: theme.colors.indigoBorder,
     } as ViewStyle,
 
     tagChipText: {
         fontSize: FONTS.small.fontSize,
         fontWeight: '500' as const,
         fontFamily: 'Inter_500Medium',
-        color: COLORS.primary,
+        color: theme.colors.primary,
     } as TextStyle,
 
     // ─── Блок оценки ─────────────────────────────────────────────────
@@ -267,12 +267,12 @@ export const lessonLandingStyles = StyleSheet.create({
     ratingCard: {
         marginHorizontal: SPACING.lg,
         marginBottom: SPACING.xl,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderRadius: RADIUS.xl,
         padding: SPACING.lg,
         borderWidth: 1,
-        borderColor: COLORS.border,
-        shadowColor: COLORS.shadow,
+        borderColor: theme.colors.border,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.05,
         shadowRadius: 8,
@@ -282,7 +282,7 @@ export const lessonLandingStyles = StyleSheet.create({
     ratingCardTitle: {
         ...FONTS.semibold,
         fontSize: FONTS.medium_15.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
         marginBottom: SPACING.lg,
         textAlign: 'center',
     } as TextStyle,
@@ -305,14 +305,14 @@ export const lessonLandingStyles = StyleSheet.create({
         paddingVertical: SPACING.md,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
-        backgroundColor: COLORS.surface,
+        borderColor: theme.colors.border,
+        backgroundColor: theme.colors.surface,
     } as ViewStyle,
 
     /** Лайк активный — фон розовый. */
     likeButtonActive: {
-        borderColor: COLORS.pink200,
-        backgroundColor: COLORS.pink50,
+        borderColor: theme.colors.pink200,
+        backgroundColor: theme.colors.pink50,
     } as ViewStyle,
 
     likeButtonPressed: {
@@ -323,8 +323,8 @@ export const lessonLandingStyles = StyleSheet.create({
         paddingVertical: SPACING.md,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        borderColor: COLORS.accentDark,
-        backgroundColor: COLORS.pink100,
+        borderColor: theme.colors.accentDark,
+        backgroundColor: theme.colors.pink100,
     } as ViewStyle,
 
     likeIconWrapper: {
@@ -337,13 +337,13 @@ export const lessonLandingStyles = StyleSheet.create({
     likeCount: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     likeCountActive: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.accentDark,
+        color: theme.colors.accentDark,
     } as TextStyle,
 
     // ─── Звёздный рейтинг ────────────────────────────────────────────
@@ -370,13 +370,13 @@ export const lessonLandingStyles = StyleSheet.create({
     ratingValue: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     ratingCount: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         textAlign: 'center',
         marginTop: SPACING.sm,
     } as TextStyle,
@@ -386,7 +386,7 @@ export const lessonLandingStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: SPACING.sm,
-        backgroundColor: COLORS.text,
+        backgroundColor: theme.colors.text,
         borderRadius: RADIUS.full,
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.sm,
@@ -397,7 +397,7 @@ export const lessonLandingStyles = StyleSheet.create({
     ratingToastText: {
         ...FONTS.regular,
         fontSize: FONTS.sub.fontSize,
-        color: COLORS.surface,
+        color: theme.colors.surface,
     } as TextStyle,
 
     // ─── Прогресс-карточка (если начат) ─────────────────────────────
@@ -405,21 +405,21 @@ export const lessonLandingStyles = StyleSheet.create({
     resumeCard: {
         marginHorizontal: SPACING.lg,
         marginBottom: SPACING.xl,
-        backgroundColor: COLORS.primarySoft,
+        backgroundColor: theme.colors.primarySoft,
         borderRadius: RADIUS.xl,
         padding: SPACING.lg,
         flexDirection: 'row',
         alignItems: 'center',
         gap: SPACING.md,
         borderWidth: 1,
-        borderColor: COLORS.indigoBorder,
+        borderColor: theme.colors.indigoBorder,
     } as ViewStyle,
 
     resumeIconCircle: {
         width: 44,
         height: 44,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
@@ -439,21 +439,21 @@ export const lessonLandingStyles = StyleSheet.create({
     resumeTitle: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.primary,
+        color: theme.colors.primary,
         marginBottom: SPACING.s2,
     } as TextStyle,
 
     resumeSubtitle: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.primary,
+        color: theme.colors.primary,
         opacity: 0.8,
     } as TextStyle,
 
     /** Мини прогресс-бар внутри resumeCard. */
     resumeProgressTrack: {
         height: 4,
-        backgroundColor: COLORS.indigoBorder,
+        backgroundColor: theme.colors.indigoBorder,
         borderRadius: RADIUS.full,
         marginTop: SPACING.sm,
         overflow: 'hidden',
@@ -461,7 +461,7 @@ export const lessonLandingStyles = StyleSheet.create({
 
     resumeProgressFill: {
         height: '100%',
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         borderRadius: RADIUS.full,
     } as ViewStyle,
 
@@ -475,14 +475,14 @@ export const lessonLandingStyles = StyleSheet.create({
 
     /** Основная кнопка «Продолжить обучение» / «Начать урок». */
     startButton: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         borderRadius: RADIUS.lg,
         paddingVertical: SPACING.md,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
         gap: SPACING.sm,
-        shadowColor: COLORS.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.25,
         shadowRadius: 10,
@@ -491,7 +491,7 @@ export const lessonLandingStyles = StyleSheet.create({
 
     startButtonText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
     } as TextStyle,
 
     startButtonIconWrapper: {
@@ -512,6 +512,6 @@ export const lessonLandingStyles = StyleSheet.create({
     exitButtonText: {
         ...FONTS.regular,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 });

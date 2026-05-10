@@ -1,7 +1,6 @@
 import { View, Text, ScrollView, Pressable, TextInput, FlatList, Alert } from "react-native";
-import { homeStyles } from "@/src/styles/MainPageStyles";
+import { homeStyles as homeStylesFn } from "@/src/styles/MainPageStyles";
 import { useAuth } from "@/src/context/AuthContext";
-import { COLORS } from "@/src/styles/root";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LoadScreen } from "../auth/main/LoadScreen";
@@ -9,7 +8,7 @@ import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, Curr
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
 import { useNavigation } from "expo-router";
 import { ApplicationCodeIcon, BellIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon, PlayIcon } from "@/src/SVG/MainPageSVG";
-import { lessonLandingStyles as styles } from "@/src/styles/LessonMainPageStyles";
+import { lessonLandingStyles as lessonLandingStylesFn } from "@/src/styles/LessonMainPageStyles";
 import { LessonBackIcon, LessonMoreIcon, LessonFileIcon, LessonUsersIcon, LessonStarIcon, LessonStarFilledIcon, LessonLikeIcon, LessonDislikeIcon } from "@/src/SVG/LessonSVG";
 import { PersonalLessonOut, PersonalLessonResponse } from "@/src/types/lessonmainscreen";
 import { GetLessonByIdAPI, LikeLessonAPI, RankLessonAPI } from "@/src/api/lessonmain/lessonmain";
@@ -18,7 +17,12 @@ import { useTranslation } from "react-i18next";
 import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
+import { useStyles } from '../../hooks/useStyles';
+import { useThemeStore } from '../../context/useThemeStore';
 export const LessonMainScreen = () => {
+  const styles = useStyles(lessonLandingStylesFn);
+  const homeStyles = useStyles(homeStylesFn);
+  const { colors } = useThemeStore(s => s.theme);
     const { i18n, t } = useTranslation();
     type LessonScreenRouteProp = RouteProp<RootStackParamList, 'LessonMainScreen'>;
     const route = useRoute<LessonScreenRouteProp>();
@@ -165,7 +169,7 @@ export const LessonMainScreen = () => {
                     <View style={styles.resumeCard}>
                         <View style={styles.resumeIconCircle}>
                             <View style={styles.resumeIconWrapper}>
-                                <PlayIcon color={COLORS.surface} size={20} />
+                                <PlayIcon color={colors.surface} size={20} />
                             </View>
                         </View>
                         <View style={styles.resumeInfo}>
@@ -186,7 +190,7 @@ export const LessonMainScreen = () => {
                             }}
                         >
                             <View style={styles.likeIconWrapper}>
-                                <LessonLikeIcon color={isLiked ? '#DB2777' : COLORS.text} />
+                                <LessonLikeIcon color={isLiked ? '#DB2777' : colors.text} />
                             </View>
                             <Text style={isLiked ? styles.likeCountActive : styles.likeCount}>{currentLikes}</Text>
                         </Pressable>
@@ -202,9 +206,9 @@ export const LessonMainScreen = () => {
                                 >
                                     <View style={styles.starIconWrapper}>
                                         {currentRating >= star ? (
-                                            <LessonStarFilledIcon color={COLORS.warning} width={28} height={28} />
+                                            <LessonStarFilledIcon color={colors.warning} width={28} height={28} />
                                         ) : (
-                                            <LessonStarIcon color={COLORS.borderDark} width={28} height={28} />
+                                            <LessonStarIcon color={colors.borderDark} width={28} height={28} />
                                         )}
                                     </View>
                                 </Pressable>

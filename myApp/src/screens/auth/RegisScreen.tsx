@@ -3,7 +3,7 @@ import { View, TextInput, Button, Text, ScrollView, Linking } from 'react-native
 import { Regis } from '../../api/auth/auth';
 import { Alert } from 'react-native';
 import { saveToken } from '../../utils/storage';
-import { authStyles } from '../../styles/AuthStyles';
+import { authStyles as authStylesFn } from '../../styles/AuthStyles';
 import { TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Pressable } from 'react-native';
@@ -14,8 +14,10 @@ import { AuthStackParamList } from '../../navigation/types';
 import { useAuth } from '@/src/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '@/src/components/LanguageSwitcher';
+import { useStyles } from '../../hooks/useStyles';
 
 export const RegisScreen = () => {
+  const authStyles = useStyles(authStylesFn);
     const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')

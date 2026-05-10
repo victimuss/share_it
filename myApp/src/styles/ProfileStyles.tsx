@@ -1,12 +1,12 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { COLORS, FONTS, SPACING, RADIUS } from './root';
+import { Theme, FONTS, SPACING, RADIUS } from './root';
 
-export const profileStyles = StyleSheet.create({
+export const profileStyles = (theme: Theme) => StyleSheet.create({
 
   // ─── Основной контейнер ───────────────────────────────────────────
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.colors.background,
   } as ViewStyle,
 
   scrollContainer: {
@@ -18,16 +18,16 @@ export const profileStyles = StyleSheet.create({
   /** Цветная шапка-обложка */
   coverBanner: {
     height: 120,
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.colors.primary,
   } as ViewStyle,
 
   /** Зона аватара и имени под обложкой */
   profileHeaderContainer: {
-    backgroundColor: COLORS.surface,
+    backgroundColor: theme.colors.surface,
     alignItems: 'center',
     paddingBottom: SPACING.lg,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+    borderBottomColor: theme.colors.border,
   } as ViewStyle,
 
   /** Враппер аватара (вынесен вверх поверх обложки) */
@@ -42,9 +42,9 @@ export const profileStyles = StyleSheet.create({
     width: 88,
     height: 88,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.primaryLight,
+    backgroundColor: theme.colors.primaryLight,
     borderWidth: 4,
-    borderColor: COLORS.surface,
+    borderColor: theme.colors.surface,
     justifyContent: 'center',
     alignItems: 'center',
   } as ViewStyle,
@@ -52,7 +52,7 @@ export const profileStyles = StyleSheet.create({
   /** Инициалы в аватаре */
   avatarText: {
     ...FONTS.h2,
-    color: COLORS.surface,
+    color: theme.colors.surface,
   } as TextStyle,
 
   /** Онлайн-индикатор поверх аватара */
@@ -63,29 +63,29 @@ export const profileStyles = StyleSheet.create({
     width: 16,
     height: 16,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.success,
+    backgroundColor: theme.colors.success,
     borderWidth: 2,
-    borderColor: COLORS.surface,
+    borderColor: theme.colors.surface,
   } as ViewStyle,
 
   /** Имя пользователя */
   userName: {
     ...FONTS.h2,
-    color: COLORS.text,
+    color: theme.colors.text,
     marginBottom: SPACING.xs,
   } as TextStyle,
 
   /** @никнейм */
   userHandle: {
     ...FONTS.regular,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
     marginBottom: SPACING.md,
   } as TextStyle,
 
   /** Короткое bio */
   userBio: {
     ...FONTS.regular,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
     textAlign: 'center',
     paddingHorizontal: SPACING.xxxl,
     marginBottom: SPACING.md,
@@ -95,16 +95,16 @@ export const profileStyles = StyleSheet.create({
   /** Кнопка «Редактировать профиль» */
   editButton: {
     borderWidth: 1.5,
-    borderColor: COLORS.primary,
+    borderColor: theme.colors.primary,
     borderRadius: RADIUS.lg,
     paddingVertical: SPACING.sm,
     paddingHorizontal: SPACING.xl,
-    backgroundColor: COLORS.surface,
+    backgroundColor: theme.colors.surface,
   } as ViewStyle,
 
   editButtonText: {
     ...FONTS.semibold,
-    color: COLORS.primary,
+    color: theme.colors.primary,
     fontSize: FONTS.regular.fontSize,
   } as TextStyle,
 
@@ -112,9 +112,9 @@ export const profileStyles = StyleSheet.create({
   /** Строка из трёх метрик */
   statsRow: {
     flexDirection: 'row',
-    backgroundColor: COLORS.surface,
+    backgroundColor: theme.colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+    borderBottomColor: theme.colors.border,
     marginBottom: SPACING.xl,
   } as ViewStyle,
 
@@ -124,7 +124,7 @@ export const profileStyles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: SPACING.lg,
     borderRightWidth: 1,
-    borderRightColor: COLORS.border,
+    borderRightColor: theme.colors.border,
   } as ViewStyle,
 
   statItemLast: {
@@ -134,14 +134,14 @@ export const profileStyles = StyleSheet.create({
   /** Число метрики */
   statValue: {
     ...FONTS.bold,
-    color: COLORS.text,
+    color: theme.colors.text,
     marginBottom: SPACING.xs,
   } as TextStyle,
 
   /** Подпись метрики */
   statLabel: {
     ...FONTS.regular,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
     fontSize: FONTS.small.fontSize,
     textAlign: 'center',
   } as TextStyle,
@@ -161,12 +161,12 @@ export const profileStyles = StyleSheet.create({
 
   sectionTitle: {
     ...FONTS.bold,
-    color: COLORS.text,
+    color: theme.colors.text,
   } as TextStyle,
 
   sectionAction: {
     ...FONTS.regular,
-    color: COLORS.primary,
+    color: theme.colors.primary,
     fontWeight: '600' as const,
   } as TextStyle,
 
@@ -183,9 +183,9 @@ export const profileStyles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.indigoSoft,
+    backgroundColor: theme.colors.indigoSoft,
     borderWidth: 1,
-    borderColor: COLORS.indigoBorder,
+    borderColor: theme.colors.indigoBorder,
   } as ViewStyle,
 
   skillChipBegginer: {
@@ -195,9 +195,9 @@ export const profileStyles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.successLight,
+    backgroundColor: theme.colors.successLight,
     borderWidth: 1,
-    borderColor: COLORS.indigoBorder,
+    borderColor: theme.colors.indigoBorder,
   } as ViewStyle,
 
   skillChipIntermediate: {
@@ -207,9 +207,9 @@ export const profileStyles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.warningLight,
+    backgroundColor: theme.colors.warningLight,
     borderWidth: 1,
-    borderColor: COLORS.indigoBorder,
+    borderColor: theme.colors.indigoBorder,
   } as ViewStyle,
 
   skillChipAdvanced: {
@@ -219,16 +219,16 @@ export const profileStyles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.errorLight,
+    backgroundColor: theme.colors.errorLight,
     borderWidth: 1,
-    borderColor: COLORS.indigoBorder,
+    borderColor: theme.colors.indigoBorder,
   } as ViewStyle,
 
   skillChipText: {
     fontSize: FONTS.sub.fontSize,
     fontWeight: '500' as const,
     fontFamily: 'Inter_500Medium',
-    color: COLORS.primary,
+    color: theme.colors.primary,
   } as TextStyle,
 
   /** Кнопка добавить навык */
@@ -239,26 +239,26 @@ export const profileStyles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.surface,
+    backgroundColor: theme.colors.surface,
     borderWidth: 1.5,
-    borderColor: COLORS.border,
+    borderColor: theme.colors.border,
     borderStyle: 'dashed',
   } as ViewStyle,
 
   addSkillText: {
     fontSize: FONTS.sub.fontSize,
     fontWeight: '500' as const,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
   } as TextStyle,
 
   // ─── Вкладки ─────────────────────────────────────────────────────
   /** Контейнер вкладок */
   tabsContainer: {
     flexDirection: 'row',
-    backgroundColor: COLORS.surface,
+    backgroundColor: theme.colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
-    borderTopColor: COLORS.border,
+    borderBottomColor: theme.colors.border,
+    borderTopColor: theme.colors.border,
     borderTopWidth: 1,
     marginBottom: SPACING.md,
   } as ViewStyle,
@@ -273,7 +273,7 @@ export const profileStyles = StyleSheet.create({
   /** Активная вкладка — подчёркивание */
   tabActive: {
     borderBottomWidth: 2,
-    borderBottomColor: COLORS.primary,
+    borderBottomColor: theme.colors.primary,
     flex: 1,
     paddingVertical: SPACING.md,
     alignItems: 'center',
@@ -281,12 +281,12 @@ export const profileStyles = StyleSheet.create({
 
   tabText: {
     ...FONTS.regular,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
     fontSize: FONTS.regular.fontSize,
   } as TextStyle,
 
   tabTextActive: {
-    color: COLORS.primary,
+    color: theme.colors.primary,
     fontWeight: '600' as const,
 
   } as TextStyle,
@@ -297,12 +297,12 @@ export const profileStyles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: SPACING.lg,
     marginBottom: SPACING.md,
-    backgroundColor: COLORS.surface,
+    backgroundColor: theme.colors.surface,
     borderRadius: RADIUS.lg,
     padding: SPACING.md,
     borderWidth: 1,
-    borderColor: COLORS.border,
-    shadowColor: COLORS.shadow,
+    borderColor: theme.colors.border,
+    shadowColor: theme.colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 6,
@@ -313,7 +313,7 @@ export const profileStyles = StyleSheet.create({
     width: 52,
     height: 52,
     borderRadius: RADIUS.md,
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.colors.background,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: SPACING.md,
@@ -327,7 +327,7 @@ export const profileStyles = StyleSheet.create({
 
   lessonTitle: {
     ...FONTS.medium,
-    color: COLORS.text,
+    color: theme.colors.text,
     marginBottom: SPACING.xs,
     fontSize: FONTS.regular.fontSize,
   } as TextStyle,
@@ -343,7 +343,7 @@ export const profileStyles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.successLight,
+    backgroundColor: theme.colors.successLight,
     justifyContent: 'center',
     alignItems: 'center',
     flexShrink: 0,
@@ -367,24 +367,24 @@ export const profileStyles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: RADIUS.lg,
-    backgroundColor: COLORS.indigoSoft,
+    backgroundColor: theme.colors.indigoSoft,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: COLORS.indigoBorder,
+    borderColor: theme.colors.indigoBorder,
   } as ViewStyle,
 
   /** Залоченная ачивка */
   achievementLocked: {
-    backgroundColor: COLORS.background,
-    borderColor: COLORS.border,
+    backgroundColor: theme.colors.background,
+    borderColor: theme.colors.border,
     opacity: 0.5,
   } as ViewStyle,
 
   achievementLabel: {
     fontSize: FONTS.mini.fontSize,
     fontWeight: '500' as const,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
     textAlign: 'center',
     lineHeight: 14,
   } as TextStyle,
@@ -393,14 +393,14 @@ export const profileStyles = StyleSheet.create({
    *  Один оверлей переиспользуется для обеих модалок. */
   overlay: {
     flex: 1,
-    backgroundColor: COLORS.overlay,
+    backgroundColor: theme.colors.overlay,
     justifyContent: 'flex-end',
   } as ViewStyle,
 
   // ─── Общая шторка ────────────────────────────────────────────────
   /** Контейнер bottom sheet — скруглены только верхние углы. */
   sheet: {
-    backgroundColor: COLORS.surface,
+    backgroundColor: theme.colors.surface,
     borderTopLeftRadius: RADIUS.xl,
     borderTopRightRadius: RADIUS.xl,
     paddingBottom: SPACING.xxxl,
@@ -412,7 +412,7 @@ export const profileStyles = StyleSheet.create({
     width: 36,
     height: 4,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.borderDark,
+    backgroundColor: theme.colors.borderDark,
     alignSelf: 'center',
     marginTop: SPACING.md,
     marginBottom: SPACING.sm,
@@ -428,13 +428,13 @@ export const profileStyles = StyleSheet.create({
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.md,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+    borderBottomColor: theme.colors.border,
   } as ViewStyle,
 
   /** Заголовок модалки («Новый навык» / «Редактировать профиль»). */
   headerTitle: {
     ...FONTS.bold,
-    color: COLORS.text,
+    color: theme.colors.text,
   } as TextStyle,
 
   /** Кнопка ✕ закрытия. */
@@ -442,11 +442,11 @@ export const profileStyles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.colors.background,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: theme.colors.border,
   } as ViewStyle,
 
   /** View-обёртка под иконку ✕ — добавишь сам. */
@@ -478,7 +478,7 @@ export const profileStyles = StyleSheet.create({
   /** Лейбл над полем. */
   inputLabel: {
     ...FONTS.medium,
-    color: COLORS.text,
+    color: theme.colors.text,
     fontSize: FONTS.regular.fontSize,
     marginBottom: SPACING.sm,
   } as TextStyle,
@@ -486,16 +486,16 @@ export const profileStyles = StyleSheet.create({
   /** Текстовое поле ввода.
    *  Та же анатомия, что input в authStyles — единый язык компонентов. */
   input: {
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.colors.background,
     borderWidth: 1.5,
-    borderColor: COLORS.border,
+    borderColor: theme.colors.border,
     borderRadius: RADIUS.lg,
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.md,
     ...FONTS.regular,
-    color: COLORS.text,
+    color: theme.colors.text,
     fontWeight: '500' as const,
-    shadowColor: COLORS.shadow,
+    shadowColor: theme.colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
     shadowRadius: 4,
@@ -505,22 +505,22 @@ export const profileStyles = StyleSheet.create({
 
   /** Поле ввода в состоянии фокуса. */
   inputFocused: {
-    borderColor: COLORS.primary,
-    shadowColor: COLORS.primary,
+    borderColor: theme.colors.primary,
+    shadowColor: theme.colors.primary,
     shadowOpacity: 0.1,
   } as TextStyle,
 
   /** Поле ввода с ошибкой валидации. */
   inputError: {
-    borderColor: COLORS.error,
-    backgroundColor: COLORS.errorLight,
+    borderColor: theme.colors.error,
+    backgroundColor: theme.colors.errorLight,
   } as TextStyle,
 
   /** Текст ошибки под полем. */
   errorText: {
     ...FONTS.regular,
     fontSize: FONTS.small.fontSize,
-    color: COLORS.error,
+    color: theme.colors.error,
     marginTop: SPACING.xs,
     marginLeft: SPACING.xs,
   } as TextStyle,
@@ -530,7 +530,7 @@ export const profileStyles = StyleSheet.create({
   charCounter: {
     ...FONTS.regular,
     fontSize: FONTS.xs.fontSize,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
     textAlign: 'right',
     marginTop: -SPACING.xxl,
   } as TextStyle,
@@ -539,7 +539,7 @@ export const profileStyles = StyleSheet.create({
   charCounterWarn: {
     ...FONTS.regular,
     fontSize: FONTS.xs.fontSize,
-    color: COLORS.warning,
+    color: theme.colors.warning,
     textAlign: 'right',
     marginTop: -SPACING.xxl,
   } as TextStyle,
@@ -548,7 +548,7 @@ export const profileStyles = StyleSheet.create({
   /** Заголовок секции выбора уровня. */
   levelLabel: {
     ...FONTS.medium,
-    color: COLORS.text,
+    color: theme.colors.text,
     fontSize: FONTS.regular.fontSize,
     marginBottom: SPACING.md,
   } as TextStyle,
@@ -568,8 +568,8 @@ export const profileStyles = StyleSheet.create({
     padding: SPACING.md,
     borderRadius: RADIUS.lg,
     borderWidth: 1.5,
-    borderColor: COLORS.border,
-    backgroundColor: COLORS.surface,
+    borderColor: theme.colors.border,
+    backgroundColor: theme.colors.surface,
   } as ViewStyle,
 
   /** Активная карточка уровня — рамка цвета уровня. */
@@ -580,8 +580,8 @@ export const profileStyles = StyleSheet.create({
     padding: SPACING.md,
     borderRadius: RADIUS.lg,
     borderWidth: 1.5,
-    borderColor: COLORS.success,
-    backgroundColor: COLORS.successSoft,
+    borderColor: theme.colors.success,
+    backgroundColor: theme.colors.successSoft,
   } as ViewStyle,
 
   levelCardActiveIntermediate: {
@@ -591,8 +591,8 @@ export const profileStyles = StyleSheet.create({
     padding: SPACING.md,
     borderRadius: RADIUS.lg,
     borderWidth: 1.5,
-    borderColor: COLORS.warning,
-    backgroundColor: COLORS.warningSoft,
+    borderColor: theme.colors.warning,
+    backgroundColor: theme.colors.warningSoft,
   } as ViewStyle,
 
   levelCardActiveAdvanced: {
@@ -602,8 +602,8 @@ export const profileStyles = StyleSheet.create({
     padding: SPACING.md,
     borderRadius: RADIUS.lg,
     borderWidth: 1.5,
-    borderColor: COLORS.error,
-    backgroundColor: COLORS.red50,
+    borderColor: theme.colors.error,
+    backgroundColor: theme.colors.red50,
   } as ViewStyle,
 
   /** Круглая иконка-индикатор уровня (цветной кружок). */
@@ -623,7 +623,7 @@ export const profileStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    backgroundColor: COLORS.successLight,
+    backgroundColor: theme.colors.successLight,
   } as ViewStyle,
 
   levelDotIntermediate: {
@@ -633,7 +633,7 @@ export const profileStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    backgroundColor: COLORS.warningLight,
+    backgroundColor: theme.colors.warningLight,
   } as ViewStyle,
 
   levelDotAdvanced: {
@@ -643,7 +643,7 @@ export const profileStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    backgroundColor: COLORS.errorLight,
+    backgroundColor: theme.colors.errorLight,
   } as ViewStyle,
 
   /** View-обёртка под иконку внутри кружка — добавишь сам. */
@@ -663,7 +663,7 @@ export const profileStyles = StyleSheet.create({
   levelCardTitle: {
     ...FONTS.semibold,
     fontSize: FONTS.regular.fontSize,
-    color: COLORS.text,
+    color: theme.colors.text,
     marginBottom: SPACING.s2,
   } as TextStyle,
 
@@ -671,7 +671,7 @@ export const profileStyles = StyleSheet.create({
   levelCardSubtitle: {
     ...FONTS.regular,
     fontSize: FONTS.small.fontSize,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
     lineHeight: 16,
   } as TextStyle,
 
@@ -681,7 +681,7 @@ export const profileStyles = StyleSheet.create({
     height: 20,
     borderRadius: RADIUS.full,
     borderWidth: 2,
-    borderColor: COLORS.border,
+    borderColor: theme.colors.border,
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
@@ -695,14 +695,14 @@ export const profileStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    borderColor: COLORS.primary,
+    borderColor: theme.colors.primary,
   } as ViewStyle,
 
   radioInner: {
     width: 10,
     height: 10,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.colors.primary,
   } as ViewStyle,
 
   // ════════════════════════════════════════════════════════════════
@@ -730,7 +730,7 @@ export const profileStyles = StyleSheet.create({
    *  position absolute относительно avatarWrapper. */
   avatarCameraButton: {
     position: 'absolute',
-    shadowColor: COLORS.primary,
+    shadowColor: theme.colors.primary,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -740,9 +740,9 @@ export const profileStyles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.colors.primary,
     borderWidth: 2,
-    borderColor: COLORS.surface,
+    borderColor: theme.colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
   } as ViewStyle,
@@ -760,7 +760,7 @@ export const profileStyles = StyleSheet.create({
     ...FONTS.regular,
     alignSelf: 'center',
     fontSize: FONTS.xs.fontSize,
-    color: COLORS.primary,
+    color: theme.colors.primary,
     fontWeight: '500' as const,
   } as TextStyle,
 
@@ -768,21 +768,21 @@ export const profileStyles = StyleSheet.create({
   /** Поле ввода для bio — многострочное.
    *  textAlignVertical: 'top' — курсор начинается сверху, не по центру. */
   textArea: {
-    backgroundColor: COLORS.background,
+    backgroundColor: theme.colors.background,
     borderWidth: 1.5,
-    borderColor: COLORS.border,
+    borderColor: theme.colors.border,
     borderRadius: RADIUS.lg,
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.md,
     ...FONTS.regular,
-    color: COLORS.text,
+    color: theme.colors.text,
     minHeight: 88,
     textAlignVertical: 'top',
   } as TextStyle,
 
   textAreaFocused: {
-    borderColor: COLORS.primary,
-    shadowColor: COLORS.primary,
+    borderColor: theme.colors.primary,
+    shadowColor: theme.colors.primary,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -793,7 +793,7 @@ export const profileStyles = StyleSheet.create({
   /** Горизонтальная черта между блоками полей. */
   formDivider: {
     height: 1,
-    backgroundColor: COLORS.border,
+    backgroundColor: theme.colors.border,
     marginVertical: SPACING.lg,
   } as ViewStyle,
 
@@ -801,7 +801,7 @@ export const profileStyles = StyleSheet.create({
   formGroupTitle: {
     ...FONTS.bold,
     fontSize: FONTS.sub.fontSize,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
     textTransform: 'uppercase' as const,
     letterSpacing: 0.5,
     marginBottom: SPACING.md,
@@ -814,20 +814,20 @@ export const profileStyles = StyleSheet.create({
     paddingTop: SPACING.md,
     paddingBottom: SPACING.lg,
     borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-    backgroundColor: COLORS.surface,
+    borderTopColor: theme.colors.border,
+    backgroundColor: theme.colors.surface,
     gap: SPACING.sm,
   } as ViewStyle,
 
   /** Основная кнопка сохранения.
    *  Та же анатомия, что button в authStyles. */
   saveButton: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.colors.primary,
     borderRadius: RADIUS.lg,
     paddingVertical: SPACING.md,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: COLORS.primary,
+    shadowColor: theme.colors.primary,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.25,
     shadowRadius: 10,
@@ -840,10 +840,10 @@ export const profileStyles = StyleSheet.create({
     paddingVertical: SPACING.md,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: COLORS.primary,
+    shadowColor: theme.colors.primary,
     shadowOffset: { width: 0, height: 6 },
     shadowRadius: 10,
-    backgroundColor: COLORS.borderDark,
+    backgroundColor: theme.colors.borderDark,
     shadowOpacity: 0,
     elevation: 0,
     opacity: 0.6,
@@ -851,7 +851,7 @@ export const profileStyles = StyleSheet.create({
 
   saveButtonText: {
     ...FONTS.semibold,
-    color: COLORS.surface,
+    color: theme.colors.surface,
   } as TextStyle,
 
   /** Кнопка «Отмена» — вторичная, под кнопкой сохранения. */
@@ -864,6 +864,6 @@ export const profileStyles = StyleSheet.create({
   cancelButtonText: {
     ...FONTS.regular,
     fontSize: FONTS.regular.fontSize,
-    color: COLORS.textSecondary,
+    color: theme.colors.textSecondary,
   } as TextStyle,
 });

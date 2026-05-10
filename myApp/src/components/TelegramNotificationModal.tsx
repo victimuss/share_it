@@ -9,11 +9,13 @@ import {
   Easing,
 } from 'react-native';
 import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg';
+import { tgModalStyles as tgModalStylesFn } from '@/src/styles/TelegramModalStyles';
 import { COLORS } from '@/src/styles/root';
-import { tgModalStyles as s } from '@/src/styles/TelegramModalStyles';
 import { useAuth } from '../context/AuthContext';
 import { LinkTelegram } from '../api/main_page/main_page';
 import { useTranslation } from 'react-i18next';
+import { useStyles } from '../hooks/useStyles';
+import { useThemeStore } from '../context/useThemeStore';
 
 const PRIVACY_POLICY_URL = 'https://victimuss.github.io/spark_edu/privacy.html';
 const TelegramPlaneIcon = () => (
@@ -35,11 +37,11 @@ const TelegramPlaneIcon = () => (
   </Svg>
 );
 
-const BellIconLarge = () => (
+const BellIconLarge = ({ color }: { color: string }) => (
   <Svg width={32} height={32} viewBox="0 0 24 24" fill="none">
     <Path
       d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6V11c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"
-      fill={COLORS.primary}
+      fill={color}
     />
   </Svg>
 );
@@ -61,6 +63,8 @@ export const TelegramNotificationModal: React.FC<Props> = ({
   onActivate,
   onSkip,
 }) => {
+  const s = useStyles(tgModalStylesFn);
+  const { colors } = useThemeStore(s => s.theme);
   const { t } = useTranslation();
   const slideAnim = useRef(new Animated.Value(400)).current;
   const pulseAnim = useRef(new Animated.Value(1)).current;
@@ -148,7 +152,7 @@ export const TelegramNotificationModal: React.FC<Props> = ({
             {/* Hero */}
             <View style={s.heroRow}>
               <Animated.View style={[s.iconCircle, { transform: [{ scale: pulseAnim }] }]}>
-                <BellIconLarge />
+                <BellIconLarge color={colors.primary} />
               </Animated.View>
               <View style={s.heroText}>
                 <Text style={s.eyebrow}>{t('components.telegramModal.eyebrow')}</Text>

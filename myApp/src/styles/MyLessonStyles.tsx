@@ -1,13 +1,13 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { COLORS, FONTS, SPACING, RADIUS } from './root';
+import { Theme, FONTS, SPACING, RADIUS } from './root';
 
-export const myLessonsStyles = StyleSheet.create({
+export const myLessonsStyles = (theme: Theme) => StyleSheet.create({
 
     // ─── Основа ──────────────────────────────────────────────────────
     /** Корневой контейнер экрана. */
     container: {
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
     } as ViewStyle,
 
     scrollContent: {
@@ -17,17 +17,17 @@ export const myLessonsStyles = StyleSheet.create({
 
     // ─── Header ──────────────────────────────────────────────────────
     header: {
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         paddingTop: SPACING.xl,
         paddingHorizontal: SPACING.lg,
         paddingBottom: SPACING.none,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.border,
+        borderBottomColor: theme.colors.border,
     } as ViewStyle,
 
     headerTitle: {
         ...FONTS.h2,
-        color: COLORS.text,
+        color: theme.colors.text,
         marginBottom: SPACING.lg,
     } as TextStyle,
 
@@ -50,19 +50,19 @@ export const myLessonsStyles = StyleSheet.create({
         paddingVertical: SPACING.md,
         alignItems: 'center',
         borderBottomWidth: 2,
-        borderBottomColor: COLORS.primary,
+        borderBottomColor: theme.colors.primary,
     } as ViewStyle,
 
     tabText: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     tabTextActive: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.primary,
+        color: theme.colors.primary,
     } as TextStyle,
 
     // ─── Фильтр-чипы ─────────────────────────────────────────────────
@@ -77,9 +77,9 @@ export const myLessonsStyles = StyleSheet.create({
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.xs,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
         marginRight: SPACING.xs,
         marginLeft: SPACING.xs,
         flexDirection: 'row',
@@ -95,19 +95,19 @@ export const myLessonsStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: SPACING.xs,
-        backgroundColor: COLORS.primary,
-        borderColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
+        borderColor: theme.colors.primary,
     } as ViewStyle,
 
     filterChipText: {
         fontSize: FONTS.small.fontSize,
         fontWeight: '500' as const,
         fontFamily: 'Inter_500Medium',
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     filterChipTextActive: {
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontWeight: '600' as const,
     } as TextStyle,
 
@@ -130,12 +130,12 @@ export const myLessonsStyles = StyleSheet.create({
     resultsText: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     resultsBold: {
         fontWeight: '600' as const,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     // ─── Карточка урока (вкладка «Созданные») ────────────────────────
@@ -143,12 +143,12 @@ export const myLessonsStyles = StyleSheet.create({
     lessonCard: {
         marginHorizontal: SPACING.lg,
         marginBottom: SPACING.md,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderRadius: RADIUS.lg,
         padding: SPACING.md,
         borderWidth: 1,
-        borderColor: COLORS.border,
-        shadowColor: COLORS.shadow,
+        borderColor: theme.colors.border,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.05,
         shadowRadius: 6,
@@ -179,7 +179,7 @@ export const myLessonsStyles = StyleSheet.create({
     lessonTitle: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
         lineHeight: 20,
     } as TextStyle,
 
@@ -193,12 +193,12 @@ export const myLessonsStyles = StyleSheet.create({
     lessonMetaText: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     lessonMetaDot: {
         fontSize: FONTS.small.fontSize,
-        color: COLORS.textLight,
+        color: theme.colors.textLight,
     } as TextStyle,
 
     /** Бабл-теги (сложность, категория). */
@@ -216,14 +216,14 @@ export const myLessonsStyles = StyleSheet.create({
 
     // ─── Кнопки действий на карточке ──────────────────────────────────
     continueButton: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.lg,
     } as ViewStyle,
 
     continueButtonText: {
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontSize: FONTS.sub.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
@@ -236,7 +236,7 @@ export const myLessonsStyles = StyleSheet.create({
     } as ViewStyle,
 
     repeatButtonText: {
-        color: COLORS.primary,
+        color: theme.colors.primary,
         fontSize: FONTS.sub.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
@@ -247,11 +247,11 @@ export const myLessonsStyles = StyleSheet.create({
         width: 32,
         height: 32,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
         flexShrink: 0,
     } as ViewStyle,
 
@@ -270,7 +270,7 @@ export const myLessonsStyles = StyleSheet.create({
         marginTop: SPACING.md,
         paddingTop: SPACING.sm,
         borderTopWidth: 1,
-        borderTopColor: COLORS.border,
+        borderTopColor: theme.colors.border,
     } as ViewStyle,
 
     lessonStats: {
@@ -295,7 +295,7 @@ export const myLessonsStyles = StyleSheet.create({
     lessonStatText: {
         fontSize: FONTS.small.fontSize,
         fontFamily: 'Inter_400Regular',
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     // ─── Статус-бейджи ────────────────────────────────────────────────
@@ -310,44 +310,44 @@ export const myLessonsStyles = StyleSheet.create({
 
     /** Draft — серый. */
     statusDraft: {
-        backgroundColor: COLORS.backgroundAlt,
+        backgroundColor: theme.colors.backgroundAlt,
         borderWidth: 1,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
     } as ViewStyle,
 
     statusDraftText: {
         fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     /** Active — зелёный. */
     statusActive: {
-        backgroundColor: COLORS.successLight,
+        backgroundColor: theme.colors.successLight,
         borderWidth: 1,
-        borderColor: COLORS.successBorder,
+        borderColor: theme.colors.successBorder,
     } as ViewStyle,
 
     statusActiveText: {
         fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
-        color: COLORS.success,
+        color: theme.colors.success,
     } as TextStyle,
 
     /** Rejected — красный. */
     statusRejected: {
-        backgroundColor: COLORS.errorLight,
+        backgroundColor: theme.colors.errorLight,
         borderWidth: 1,
-        borderColor: COLORS.errorBorder,
+        borderColor: theme.colors.errorBorder,
     } as ViewStyle,
 
     statusRejectedText: {
         fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
-        color: COLORS.error,
+        color: theme.colors.error,
     } as TextStyle,
 
     /** Точка-индикатор статуса. */
@@ -361,7 +361,7 @@ export const myLessonsStyles = StyleSheet.create({
     /** Прогресс-бар внутри карточки «в процессе». */
     progressTrack: {
         height: 4,
-        backgroundColor: COLORS.border,
+        backgroundColor: theme.colors.border,
         borderRadius: RADIUS.full,
         overflow: 'hidden',
         marginTop: SPACING.sm,
@@ -370,7 +370,7 @@ export const myLessonsStyles = StyleSheet.create({
 
     progressFill: {
         height: '100%',
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         borderRadius: RADIUS.full,
     } as ViewStyle,
 
@@ -381,13 +381,13 @@ export const myLessonsStyles = StyleSheet.create({
         marginTop: SPACING.md,
         paddingTop: SPACING.sm,
         borderTopWidth: 1,
-        borderTopColor: COLORS.border,
+        borderTopColor: theme.colors.border,
     } as ViewStyle,
 
     progressLabel: {
         fontSize: FONTS.xs.fontSize,
         fontFamily: 'Inter_400Regular',
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         minWidth: 28,
         textAlign: 'right',
         flexShrink: 0,
@@ -401,9 +401,9 @@ export const myLessonsStyles = StyleSheet.create({
         paddingHorizontal: SPACING.sm,
         paddingVertical: SPACING.s3,
         borderRadius: RADIUS.sm,
-        backgroundColor: COLORS.successLight,
+        backgroundColor: theme.colors.successLight,
         borderWidth: 1,
-        borderColor: COLORS.successBorder,
+        borderColor: theme.colors.successBorder,
     } as ViewStyle,
 
     completedBadgeIconWrapper: {
@@ -417,7 +417,7 @@ export const myLessonsStyles = StyleSheet.create({
         fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
-        color: COLORS.success,
+        color: theme.colors.success,
     } as TextStyle,
 
     // ─── Разделитель секций («В процессе» / «Завершённые») ───────────
@@ -433,13 +433,13 @@ export const myLessonsStyles = StyleSheet.create({
     sectionTitle: {
         ...FONTS.bold,
         fontSize: FONTS.medium_15.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     sectionCount: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     // ─── Empty state ─────────────────────────────────────────────────
@@ -454,9 +454,9 @@ export const myLessonsStyles = StyleSheet.create({
         width: 64,
         height: 64,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: SPACING.lg,
@@ -471,14 +471,14 @@ export const myLessonsStyles = StyleSheet.create({
 
     emptyTitle: {
         ...FONTS.semibold,
-        color: COLORS.text,
+        color: theme.colors.text,
         textAlign: 'center',
         marginBottom: SPACING.sm,
     } as TextStyle,
 
     emptySubtitle: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         textAlign: 'center',
         lineHeight: 22,
         marginBottom: SPACING.xl,
@@ -488,8 +488,8 @@ export const myLessonsStyles = StyleSheet.create({
         paddingHorizontal: SPACING.xl,
         paddingVertical: SPACING.md,
         borderRadius: RADIUS.lg,
-        backgroundColor: COLORS.primary,
-        shadowColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -498,7 +498,7 @@ export const myLessonsStyles = StyleSheet.create({
 
     emptyButtonText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontSize: FONTS.regular.fontSize,
     } as TextStyle,
 
@@ -506,13 +506,13 @@ export const myLessonsStyles = StyleSheet.create({
     /** Оверлей поверх экрана. */
     dialogOverlay: {
         flex: 1,
-        backgroundColor: COLORS.overlay,
+        backgroundColor: theme.colors.overlay,
         justifyContent: 'flex-end',
     } as ViewStyle,
 
     /** Шторка диалога. */
     dialogSheet: {
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderTopLeftRadius: RADIUS.xl,
         borderTopRightRadius: RADIUS.xl,
         paddingBottom: SPACING.xxxl,
@@ -522,7 +522,7 @@ export const myLessonsStyles = StyleSheet.create({
         width: 36,
         height: 4,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.borderDark,
+        backgroundColor: theme.colors.borderDark,
         alignSelf: 'center',
         marginTop: SPACING.md,
         marginBottom: SPACING.sm,
@@ -536,7 +536,7 @@ export const myLessonsStyles = StyleSheet.create({
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.md,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.border,
+        borderBottomColor: theme.colors.border,
     } as ViewStyle,
 
     dialogPreviewThumb: {
@@ -551,13 +551,13 @@ export const myLessonsStyles = StyleSheet.create({
     dialogPreviewTitle: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     dialogPreviewMeta: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         marginTop: SPACING.s2,
     } as TextStyle,
 
@@ -594,13 +594,13 @@ export const myLessonsStyles = StyleSheet.create({
     dialogActionTitle: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     dialogActionSubtitle: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         marginTop: SPACING.s1,
     } as TextStyle,
 
@@ -612,12 +612,12 @@ export const myLessonsStyles = StyleSheet.create({
     dialogActionDeleteTitle: {
         ...FONTS.semibold,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.error,
+        color: theme.colors.error,
     } as TextStyle,
 
     dialogDivider: {
         height: 1,
-        backgroundColor: COLORS.border,
+        backgroundColor: theme.colors.border,
         marginHorizontal: SPACING.lg,
     } as ViewStyle,
 });

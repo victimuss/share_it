@@ -1,13 +1,12 @@
 import { View, Text, ScrollView, Pressable, TextInput, FlatList, Dimensions, Modal, KeyboardAvoidingView, Alert } from "react-native";
-import { homeStyles } from "@/src/styles/MainPageStyles";
+import { homeStyles as homeStylesFn } from "@/src/styles/MainPageStyles";
 import { TotalclearStore, useAuth } from "@/src/context/AuthContext";
-import { COLORS } from "@/src/styles/root";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest } from "@/src/types/main_page";
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
-import { profileStyles } from "@/src/styles/ProfileStyles";
+import { profileStyles as profileStylesFn } from "@/src/styles/ProfileStyles";
 import { useNavigation } from "expo-router";
 import { LearnedLessonsResponce, MakedLessonsResponce, Skill, SkillOut, UserLesson } from "@/src/types/profile";
 import { EditUserAPI, GetUserSkills, NewSkillapi, UsersLearned, UsersMaked } from "@/src/api/main_page/profile/profile";
@@ -18,13 +17,21 @@ import { LoadScreen } from "./LoadScreen";
 import { SearchIcon } from "@/src/SVG/TabSVG";
 import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
-import { lessonEditorStyles } from "@/src/styles/NewSheetStyles";
+import { lessonEditorStyles as lessonEditorStylesFn } from "@/src/styles/NewSheetStyles";
 import { useLessonStore } from "@/src/context/useLessonStore";
 import { useSheetStore } from "@/src/context/useSheetStore";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from '@/src/components/LanguageSwitcher';
+import { useStyles } from '../../../hooks/useStyles';
+import { useThemeStore } from '../../../context/useThemeStore';
+import Svg, { Path } from 'react-native-svg';
+import { Appearance } from 'react-native';
 
 export const ProfileScreen = () => {
+  const lessonEditorStyles = useStyles(lessonEditorStylesFn);
+  const profileStyles = useStyles(profileStylesFn);
+  const homeStyles = useStyles(homeStylesFn);
+  const { colors } = useThemeStore(s => s.theme);
     const { t } = useTranslation();
     const { user, edit, logout } = useAuth();
     const [loading, setLoading] = useState(true);
@@ -143,6 +150,14 @@ export const ProfileScreen = () => {
         await fetchData();
         setRefreshing(false);
     }, [t]);
+    const { mode, setThemeMode, theme } = useThemeStore();
+
+    const toggleTheme = () => {
+        // Определяем текущее состояние (даже если оно системное)
+        const isDark = mode === 'dark' || (mode === 'system' && Appearance.getColorScheme() === 'dark');
+        setThemeMode(isDark ? 'light' : 'dark');
+    };
+
     useEffect(() => {
         fetchData();
     }, [user]);
@@ -158,14 +173,47 @@ export const ProfileScreen = () => {
                     <RefreshControl
                         refreshing={refreshing}
                         onRefresh={onRefresh}
-                        colors={[COLORS.accent]}
-                        tintColor={COLORS.accent}
+                        colors={[colors.accent]}
+                        tintColor={colors.accent}
                         title={t('screens.profile.refresh')}
-                        titleColor={COLORS.accent}
+                        titleColor={colors.accent}
                     />
                 }>
                 <View style={profileStyles.coverBanner}>
-                    <View style={{ position: 'absolute', top: 16, right: 16, zIndex: 10 }}>
+                    <View style={{ position: 'absolute', top: 16, right: 16, zIndex: 10, flexDirection: 'row', alignItems: 'center' }}>
+                        <Pressable 
+                            onPress={toggleTheme}
+                            style={({ pressed }) => [
+                                {
+                                    width: 36,
+                                    height: 36,
+                                    borderRadius: 18,
+                                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    marginRight: 10,
+                                    opacity: pressed ? 0.7 : 1
+                                }
+                            ]}
+                        >
+                            {(mode === 'dark' || (mode === 'system' && Appearance.getColorScheme() === 'dark')) ? (
+                                <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2}>
+                                    <Path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                                </Svg>
+                            ) : (
+                                <Svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2}>
+                                    <Path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                    <Path d="M12 2v2" />
+                                    <Path d="M12 20v2" />
+                                    <Path d="M4.22 4.22l1.42 1.42" />
+                                    <Path d="M18.36 18.36l1.42 1.42" />
+                                    <Path d="M2 12h2" />
+                                    <Path d="M20 12h2" />
+                                    <Path d="M4.22 19.78l1.42-1.42" />
+                                    <Path d="M18.36 5.64l1.42-1.42" />
+                                </Svg>
+                            )}
+                        </Pressable>
                         <LanguageSwitcher />
                     </View>
                 </View>
@@ -244,7 +292,7 @@ export const ProfileScreen = () => {
                                                 value={editUserName}
                                                 onChangeText={setEditUserName}
                                                 placeholder={t('screens.profile.form.namePlaceholder')}
-                                                placeholderTextColor={COLORS.textSecondary}
+                                                placeholderTextColor={colors.textSecondary}
                                             />
                                         </View>
                                         <View>
@@ -256,7 +304,7 @@ export const ProfileScreen = () => {
                                                 value={editDescription}
                                                 onChangeText={setEditDescription}
                                                 placeholder={t('screens.profile.form.descriptionPlaceholder')}
-                                                placeholderTextColor={COLORS.textSecondary}
+                                                placeholderTextColor={colors.textSecondary}
                                             />
                                         </View>
                                         <View>
@@ -268,7 +316,7 @@ export const ProfileScreen = () => {
                                                 value={editTag}
                                                 onChangeText={setEditTag}
                                                 placeholder={t('screens.profile.form.tagPlaceholder')}
-                                                placeholderTextColor={COLORS.textSecondary}
+                                                placeholderTextColor={colors.textSecondary}
                                             />
                                         </View>
                                         <View style={profileStyles.formDivider} />
@@ -284,7 +332,7 @@ export const ProfileScreen = () => {
                                                 value={editSite}
                                                 onChangeText={setEditSite}
                                                 placeholder={'https://...'}
-                                                placeholderTextColor={COLORS.textSecondary}
+                                                placeholderTextColor={colors.textSecondary}
                                             />
                                         </View>
                                         <View>
@@ -296,7 +344,7 @@ export const ProfileScreen = () => {
                                                 value={editTelegram}
                                                 onChangeText={setEditTelegram}
                                                 placeholder={'@username'}
-                                                placeholderTextColor={COLORS.textSecondary}
+                                                placeholderTextColor={colors.textSecondary}
                                             />
                                         </View>
                                     </View>
@@ -311,13 +359,13 @@ export const ProfileScreen = () => {
                                     </Pressable>
                                     <Pressable style={{ backgroundColor: 'red', height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
                                         onPress={() => { logout(); }}>
-                                        <Text style={[{ color: COLORS.text, fontSize: 16, fontWeight: '600' }]}>
+                                        <Text style={[{ color: colors.text, fontSize: 16, fontWeight: '600' }]}>
                                             {t('screens.profile.buttons.logout')}
                                         </Text>
                                     </Pressable>
                                     <Pressable style={{ backgroundColor: 'red', height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginTop: 10 }}
                                         onPress={() => { useLessonStore.getState().clearStore(); useSheetStore.getState().clearLesson(); Alert.alert(t('screens.profile.alerts.draftResetTitle'), t('screens.profile.alerts.draftResetText')) }}>
-                                        <Text style={[{ color: COLORS.text, fontSize: 16, fontWeight: '600' }]}>
+                                        <Text style={[{ color: colors.text, fontSize: 16, fontWeight: '600' }]}>
                                             {t('screens.profile.buttons.resetDraft')}
                                         </Text>
                                     </Pressable>

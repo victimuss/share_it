@@ -3,7 +3,7 @@ import { View, TextInput, Button, Text, ScrollView } from 'react-native';
 import { Login } from '../../api/auth/auth';
 import { Alert } from 'react-native';
 import { saveToken } from '../../utils/storage';
-import { authStyles } from '../../styles/AuthStyles';
+import { authStyles as authStylesFn } from '../../styles/AuthStyles';
 import { TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Pressable } from 'react-native';
@@ -15,8 +15,10 @@ import { useRoute } from '@react-navigation/native';
 import { useAuth } from '@/src/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '@/src/components/LanguageSwitcher';
+import { useStyles } from '../../hooks/useStyles';
 
 export const LoginScreen = () => {
+  const authStyles = useStyles(authStylesFn);
     const { t } = useTranslation();
     const { login } = useAuth();
     type LoginScreenRouteProp = RouteProp<AuthStackParamList, 'Login'>;

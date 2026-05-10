@@ -1,13 +1,13 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { COLORS, FONTS, SPACING, RADIUS } from './root';
+import { Theme, FONTS, SPACING, RADIUS } from './root';
 
-export const searchStyles = StyleSheet.create({
+export const searchStyles = (theme: Theme) => StyleSheet.create({
 
     // ─── Основа ──────────────────────────────────────────────────────
     /** Корневой контейнер экрана поиска */
     container: {
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
     } as ViewStyle,
 
     /** Внутренний контейнер скролла */
@@ -19,18 +19,18 @@ export const searchStyles = StyleSheet.create({
     // ─── Header ──────────────────────────────────────────────────────
     /** Шапка экрана: заголовок + строка поиска */
     header: {
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         paddingTop: SPACING.xl,
         paddingHorizontal: SPACING.lg,
         paddingBottom: SPACING.md,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.border,
+        borderBottomColor: theme.colors.border,
     } as ViewStyle,
 
     /** Заголовок «Поиск» */
     headerTitle: {
         ...FONTS.h2,
-        color: COLORS.text,
+        color: theme.colors.text,
         marginBottom: SPACING.md,
     } as TextStyle,
 
@@ -38,14 +38,14 @@ export const searchStyles = StyleSheet.create({
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
         borderRadius: RADIUS.lg,
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.sm,
         gap: SPACING.sm,
-        shadowColor: COLORS.shadow,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.04,
         shadowRadius: 4,
@@ -54,8 +54,8 @@ export const searchStyles = StyleSheet.create({
 
     /** Строка поиска в фокусе — подсветка рамки primary */
     searchContainerFocused: {
-        borderColor: COLORS.primary,
-        shadowColor: COLORS.primary,
+        borderColor: theme.colors.primary,
+        shadowColor: theme.colors.primary,
         shadowOpacity: 0.1,
     } as ViewStyle,
 
@@ -72,7 +72,7 @@ export const searchStyles = StyleSheet.create({
     searchInput: {
         flex: 1,
         ...FONTS.regular,
-        color: COLORS.text,
+        color: theme.colors.text,
         paddingVertical: SPACING.none,
     } as TextStyle,
 
@@ -81,7 +81,7 @@ export const searchStyles = StyleSheet.create({
         width: 20,
         height: 20,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.textLight,
+        backgroundColor: theme.colors.textLight,
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
@@ -103,16 +103,16 @@ export const searchStyles = StyleSheet.create({
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.xs,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
     } as ViewStyle,
 
     /** Чип фильтра активный */
     filterChipActive: {
-        backgroundColor: COLORS.primary,
-        borderColor: COLORS.primary,
-        shadowColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
+        borderColor: theme.colors.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.18,
         shadowRadius: 8,
@@ -122,13 +122,13 @@ export const searchStyles = StyleSheet.create({
     /** Текст чипа фильтра неактивный */
     filterChipText: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontWeight: '500' as const,
     } as TextStyle,
 
     /** Текст чипа фильтра активный */
     filterChipTextActive: {
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontWeight: '600' as const,
     } as TextStyle,
 
@@ -142,7 +142,7 @@ export const searchStyles = StyleSheet.create({
     /** Заголовок секции */
     sectionTitle: {
         ...FONTS.bold,
-        color: COLORS.text,
+        color: theme.colors.text,
         marginBottom: SPACING.md,
     } as TextStyle,
 
@@ -162,15 +162,15 @@ export const searchStyles = StyleSheet.create({
         paddingRight: SPACING.sm,
         paddingVertical: SPACING.xs,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
     } as ViewStyle,
 
     /** Текст недавнего чипа */
     recentChipText: {
         ...FONTS.regular,
-        color: COLORS.text,
+        color: theme.colors.text,
         fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 
@@ -179,7 +179,7 @@ export const searchStyles = StyleSheet.create({
         width: 16,
         height: 16,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.borderDark,
+        backgroundColor: theme.colors.borderDark,
         alignItems: 'center',
         justifyContent: 'center',
     } as ViewStyle,
@@ -190,9 +190,9 @@ export const searchStyles = StyleSheet.create({
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.xs,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.primarySoft,
+        backgroundColor: theme.colors.primarySoft,
         borderWidth: 1,
-        borderColor: COLORS.indigoBorder,
+        borderColor: theme.colors.indigoBorder,
     } as ViewStyle,
 
     /** Текст популярного тега */
@@ -200,7 +200,7 @@ export const searchStyles = StyleSheet.create({
         fontSize: FONTS.sub.fontSize,
         fontWeight: '500' as const,
         fontFamily: 'Inter_500Medium',
-        color: COLORS.primary,
+        color: theme.colors.primary,
     } as TextStyle,
 
     // ─── Строка результатов ──────────────────────────────────────────
@@ -216,14 +216,14 @@ export const searchStyles = StyleSheet.create({
     /** Текст «Найдено N уроков» */
     resultsCount: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 
     /** Выделенное число в строке результатов */
     resultsCountBold: {
         ...FONTS.semibold,
-        color: COLORS.text,
+        color: theme.colors.text,
         fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 
@@ -236,14 +236,14 @@ export const searchStyles = StyleSheet.create({
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.md,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
-        backgroundColor: COLORS.surface,
+        borderColor: theme.colors.border,
+        backgroundColor: theme.colors.surface,
     } as ViewStyle,
 
     /** Текст кнопки фильтра */
     filterButtonText: {
         ...FONTS.regular,
-        color: COLORS.text,
+        color: theme.colors.text,
         fontSize: FONTS.sub.fontSize,
         fontWeight: '500' as const,
     } as TextStyle,
@@ -263,12 +263,12 @@ export const searchStyles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: SPACING.lg,
         marginBottom: SPACING.md,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderRadius: RADIUS.lg,
         padding: SPACING.md,
         borderWidth: 1,
-        borderColor: COLORS.border,
-        shadowColor: COLORS.shadow,
+        borderColor: theme.colors.border,
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.05,
         shadowRadius: 6,
@@ -280,7 +280,7 @@ export const searchStyles = StyleSheet.create({
         width: 52,
         height: 52,
         borderRadius: RADIUS.md,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: SPACING.md,
@@ -304,16 +304,16 @@ export const searchStyles = StyleSheet.create({
     /** Заголовок урока в результате */
     resultTitle: {
         ...FONTS.medium,
-        color: COLORS.text,
+        color: theme.colors.text,
         marginBottom: SPACING.xs,
         fontSize: FONTS.regular.fontSize,
     } as TextStyle,
 
     /** Подсвеченная часть заголовка (совпадение с запросом) */
     resultTitleHighlight: {
-        color: COLORS.primary,
+        color: theme.colors.primary,
         fontWeight: '700' as const,
-        backgroundColor: COLORS.primarySoft,
+        backgroundColor: theme.colors.primarySoft,
     } as TextStyle,
 
     /** Строка мета: автор · категория */
@@ -328,14 +328,14 @@ export const searchStyles = StyleSheet.create({
     /** Имя автора */
     resultAuthor: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontSize: FONTS.small.fontSize,
     } as TextStyle,
 
     /** Разделитель «·» между мета-элементами */
     resultMetaDot: {
         ...FONTS.regular,
-        color: COLORS.textLight,
+        color: theme.colors.textLight,
         fontSize: FONTS.small.fontSize,
     } as TextStyle,
 
@@ -349,7 +349,7 @@ export const searchStyles = StyleSheet.create({
     /** Счётчик лайков */
     resultLikes: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontSize: FONTS.small.fontSize,
     } as TextStyle,
 
@@ -368,9 +368,9 @@ export const searchStyles = StyleSheet.create({
         width: 72,
         height: 72,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: SPACING.lg,
@@ -379,7 +379,7 @@ export const searchStyles = StyleSheet.create({
     /** Заголовок пустого состояния */
     emptyTitle: {
         ...FONTS.semibold,
-        color: COLORS.text,
+        color: theme.colors.text,
         textAlign: 'center',
         marginBottom: SPACING.sm,
     } as TextStyle,
@@ -387,7 +387,7 @@ export const searchStyles = StyleSheet.create({
     /** Подсказка под заголовком */
     emptySubtitle: {
         ...FONTS.regular,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         textAlign: 'center',
         lineHeight: 22,
     } as TextStyle,
@@ -412,9 +412,9 @@ export const searchStyles = StyleSheet.create({
         borderRadius: RADIUS.md,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
     } as ViewStyle,
 
     /** Активная страница — заливка primary, без рамки.
@@ -426,9 +426,9 @@ export const searchStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        backgroundColor: COLORS.primary,
-        borderColor: COLORS.primary,
-        shadowColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
+        borderColor: theme.colors.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -438,21 +438,21 @@ export const searchStyles = StyleSheet.create({
     /** Страница при нажатии (pressed state).
      *  Немного темнее active — тактильный отклик. */
     pageButtonPressed: {
-        backgroundColor: COLORS.primaryDark,
-        borderColor: COLORS.primaryDark,
+        backgroundColor: theme.colors.primaryDark,
+        borderColor: theme.colors.primaryDark,
     } as ViewStyle,
 
     /** Текст номера страницы — неактивный. */
     pageButtonText: {
         ...FONTS.regular,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontWeight: '500' as const,
     } as TextStyle,
 
     /** Текст номера страницы — активный. */
     pageButtonTextActive: {
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontWeight: '600' as const,
     } as TextStyle,
 
@@ -466,9 +466,9 @@ export const searchStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: SPACING.xs,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
     } as ViewStyle,
 
     /** Стрелочная кнопка в задизейбленном состоянии.
@@ -489,7 +489,7 @@ export const searchStyles = StyleSheet.create({
     pageArrowText: {
         ...FONTS.regular,
         fontSize: FONTS.sub.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         fontWeight: '500' as const,
     } as TextStyle,
 
@@ -506,7 +506,7 @@ export const searchStyles = StyleSheet.create({
     pageDotsText: {
         ...FONTS.regular,
         fontSize: FONTS.regular.fontSize,
-        color: COLORS.textLight,
+        color: theme.colors.textLight,
         letterSpacing: 1,
     } as TextStyle,
 
@@ -515,7 +515,7 @@ export const searchStyles = StyleSheet.create({
     pageInfo: {
         ...FONTS.regular,
         fontSize: FONTS.small.fontSize,
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
         textAlign: 'center',
         marginTop: SPACING.sm,
     } as TextStyle,
@@ -524,7 +524,7 @@ export const searchStyles = StyleSheet.create({
      *  flex: 1 + justifyContent: 'flex-end' прижимает шторку к низу. */
     overlay: {
         flex: 1,
-        backgroundColor: COLORS.overlay,
+        backgroundColor: theme.colors.overlay,
         justifyContent: 'flex-end',
     } as ViewStyle,
 
@@ -532,7 +532,7 @@ export const searchStyles = StyleSheet.create({
     /** Контейнер модального окна (bottom sheet).
      *  Скруглены только верхние углы — классический паттерн шторки. */
     sheet: {
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderTopLeftRadius: RADIUS.xl,
         borderTopRightRadius: RADIUS.xl,
         paddingBottom: SPACING.xxxl,
@@ -546,7 +546,7 @@ export const searchStyles = StyleSheet.create({
         width: 36,
         height: 4,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.borderDark,
+        backgroundColor: theme.colors.borderDark,
         alignSelf: 'center',
         marginTop: SPACING.md,
         marginBottom: SPACING.sm,
@@ -562,13 +562,13 @@ export const searchStyles = StyleSheet.create({
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.md,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.border,
+        borderBottomColor: theme.colors.border,
     } as ViewStyle,
 
     /** Заголовок «Фильтры» */
     headerTitleModal: {
         ...FONTS.bold,
-        color: COLORS.text,
+        color: theme.colors.text,
     } as TextStyle,
 
     /** Кнопка «Сбросить» — текстовая, без фона.
@@ -580,7 +580,7 @@ export const searchStyles = StyleSheet.create({
 
     resetButtonText: {
         ...FONTS.regular,
-        color: COLORS.error,
+        color: theme.colors.error,
         fontWeight: '500' as const,
     } as TextStyle,
 
@@ -589,11 +589,11 @@ export const searchStyles = StyleSheet.create({
         width: 32,
         height: 32,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.background,
+        backgroundColor: theme.colors.background,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
     } as ViewStyle,
 
     /** View-обёртка под иконку ✕ — добавишь сам. */
@@ -630,14 +630,14 @@ export const searchStyles = StyleSheet.create({
     /** Название группы: «Категория», «Сложность» и т.д. */
     filterSectionTitle: {
         ...FONTS.semibold,
-        color: COLORS.text,
+        color: theme.colors.text,
         fontSize: FONTS.medium_15.fontSize,
     } as TextStyle,
 
     /** Бейдж «X выбрано» рядом с заголовком секции .
      *  Показывается только если есть активные значения. */
     filterSectionBadge: {
-        backgroundColor: COLORS.primarySoft,
+        backgroundColor: theme.colors.primarySoft,
         borderRadius: RADIUS.full,
         paddingHorizontal: SPACING.sm,
         paddingVertical: SPACING.s2,
@@ -649,7 +649,7 @@ export const searchStyles = StyleSheet.create({
         fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
-        color: COLORS.primary,
+        color: theme.colors.primary,
     } as TextStyle,
 
     // ─── Чипы выбора ─────────────────────────────────────────────────
@@ -665,9 +665,9 @@ export const searchStyles = StyleSheet.create({
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.surface,
+        backgroundColor: theme.colors.surface,
         borderWidth: 1.5,
-        borderColor: COLORS.border,
+        borderColor: theme.colors.border,
     } as ViewStyle,
 
     /** Чип-опция фильтра (выбранный).
@@ -676,9 +676,9 @@ export const searchStyles = StyleSheet.create({
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.primary,
-        borderColor: COLORS.primary,
-        shadowColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
+        borderColor: theme.colors.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.18,
         shadowRadius: 8,
@@ -689,11 +689,11 @@ export const searchStyles = StyleSheet.create({
         fontSize: FONTS.sub.fontSize,
         fontWeight: '500' as const,
         fontFamily: 'Inter_500Medium',
-        color: COLORS.textSecondary,
+        color: theme.colors.textSecondary,
     } as TextStyle,
 
     filterOptionChipTextActive: {
-        color: COLORS.surface,
+        color: theme.colors.surface,
         fontWeight: '600' as const,
     } as TextStyle,
 
@@ -704,8 +704,8 @@ export const searchStyles = StyleSheet.create({
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        borderColor: COLORS.successBorder,
-        backgroundColor: COLORS.surface,
+        borderColor: theme.colors.successBorder,
+        backgroundColor: theme.colors.surface,
     } as ViewStyle,
 
     chipBeginnerActive: {
@@ -713,9 +713,9 @@ export const searchStyles = StyleSheet.create({
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        backgroundColor: COLORS.success,
-        borderColor: COLORS.success,
-        shadowColor: COLORS.success,
+        backgroundColor: theme.colors.success,
+        borderColor: theme.colors.success,
+        shadowColor: theme.colors.success,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.18,
         shadowRadius: 8,
@@ -723,11 +723,11 @@ export const searchStyles = StyleSheet.create({
     } as ViewStyle,
 
     chipBeginnerText: {
-        color: COLORS.success,
+        color: theme.colors.success,
     } as TextStyle,
 
     chipBeginnerTextActive: {
-        color: COLORS.surface,
+        color: theme.colors.surface,
     } as TextStyle,
 
     /** Чип «Intermediate» — жёлтый неактивный. */
@@ -736,8 +736,8 @@ export const searchStyles = StyleSheet.create({
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        borderColor: COLORS.warningBorder,
-        backgroundColor: COLORS.surface,
+        borderColor: theme.colors.warningBorder,
+        backgroundColor: theme.colors.surface,
     } as ViewStyle,
 
     chipIntermediateActive: {
@@ -745,9 +745,9 @@ export const searchStyles = StyleSheet.create({
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        backgroundColor: COLORS.warning,
-        borderColor: COLORS.warning,
-        shadowColor: COLORS.warning,
+        backgroundColor: theme.colors.warning,
+        borderColor: theme.colors.warning,
+        shadowColor: theme.colors.warning,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.18,
         shadowRadius: 8,
@@ -755,11 +755,11 @@ export const searchStyles = StyleSheet.create({
     } as ViewStyle,
 
     chipIntermediateText: {
-        color: COLORS.warning,
+        color: theme.colors.warning,
     } as TextStyle,
 
     chipIntermediateTextActive: {
-        color: COLORS.surface,
+        color: theme.colors.surface,
     } as TextStyle,
 
     /** Чип «Advanced» — красный неактивный. */
@@ -768,8 +768,8 @@ export const searchStyles = StyleSheet.create({
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        borderColor: COLORS.red300,
-        backgroundColor: COLORS.surface,
+        borderColor: theme.colors.red300,
+        backgroundColor: theme.colors.surface,
     } as ViewStyle,
 
     chipAdvancedActive: {
@@ -777,9 +777,9 @@ export const searchStyles = StyleSheet.create({
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        backgroundColor: COLORS.error,
-        borderColor: COLORS.error,
-        shadowColor: COLORS.error,
+        backgroundColor: theme.colors.error,
+        borderColor: theme.colors.error,
+        shadowColor: theme.colors.error,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.18,
         shadowRadius: 8,
@@ -787,11 +787,11 @@ export const searchStyles = StyleSheet.create({
     } as ViewStyle,
 
     chipAdvancedText: {
-        color: COLORS.error,
+        color: theme.colors.error,
     } as TextStyle,
 
     chipAdvancedTextActive: {
-        color: COLORS.surface,
+        color: theme.colors.surface,
     } as TextStyle,
 
     // ─── Слайдер рейтинга ────────────────────────────────────────────
@@ -807,21 +807,21 @@ export const searchStyles = StyleSheet.create({
         flex: 1,
         height: 6,
         borderRadius: RADIUS.full,
-        backgroundColor: COLORS.border,
+        backgroundColor: theme.colors.border,
         overflow: 'hidden',
     } as ViewStyle,
 
     /** Заполненная часть трека — ширина задаётся динамически через style. */
     sliderFill: {
         height: '100%',
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         borderRadius: RADIUS.full,
     } as ViewStyle,
 
     /** Подпись текущего значения рейтинга (например «4.0+»). */
     ratingValue: {
         ...FONTS.semibold,
-        color: COLORS.primary,
+        color: theme.colors.primary,
         fontSize: FONTS.regular.fontSize,
         minWidth: 36,
         textAlign: 'right',
@@ -831,7 +831,7 @@ export const searchStyles = StyleSheet.create({
     /** Горизонтальная линия между секциями фильтров. */
     divider: {
         height: 1,
-        backgroundColor: COLORS.border,
+        backgroundColor: theme.colors.border,
         marginBottom: SPACING.xl,
     } as ViewStyle,
 
@@ -843,19 +843,19 @@ export const searchStyles = StyleSheet.create({
         paddingTop: SPACING.md,
         paddingBottom: SPACING.lg,
         borderTopWidth: 1,
-        borderTopColor: COLORS.border,
-        backgroundColor: COLORS.surface,
+        borderTopColor: theme.colors.border,
+        backgroundColor: theme.colors.surface,
     } as ViewStyle,
 
     /** Кнопка «Применить фильтры».
      *  Та же анатомия, что и основная кнопка в authStyles. */
     applyButton: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.colors.primary,
         borderRadius: RADIUS.lg,
         paddingVertical: SPACING.md,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: COLORS.primary,
+        shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.25,
         shadowRadius: 10,
@@ -864,14 +864,14 @@ export const searchStyles = StyleSheet.create({
 
     applyButtonText: {
         ...FONTS.semibold,
-        color: COLORS.surface,
+        color: theme.colors.surface,
     } as TextStyle,
 
     /** Счётчик активных фильтров в тексте кнопки — «Применить (3)».
      *  Чуть светлее основного текста, чтобы не конкурировать. */
     applyButtonCount: {
         ...FONTS.semibold,
-        color: COLORS.whiteAlpha70,
+        color: theme.colors.whiteAlpha70,
     } as TextStyle,
 });
 
