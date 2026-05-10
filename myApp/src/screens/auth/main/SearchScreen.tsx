@@ -1,4 +1,5 @@
 import { View, Text, ScrollView, Pressable, TextInput, FlatList, Modal } from "react-native";
+import { MotiView } from 'moti';
 import { homeStyles as homeStylesFn } from "@/src/styles/MainPageStyles";
 import { useAuth } from "@/src/context/AuthContext";
 import React, { useEffect, useState } from "react";
@@ -17,6 +18,8 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { useStyles } from '../../../hooks/useStyles';
 import { useThemeStore } from '../../../context/useThemeStore';
+import { SearchScreenSkeleton } from "@/src/components/MainScreenSkeleton";
+
 
 const getPaginationItems = (currentPage: number, maxPage: number) => {
     const pages: (number | string)[] = [];
@@ -53,6 +56,7 @@ export const SearchScreen = () => {
     const [maxpage, setMaxpage] = useState(1);
     const [popularTags, setPopularTags] = useState<string[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [loading, setLoading] = useState(true);
     const iconMap: Record<string, React.ReactNode> = {
         code: <ApplicationCodeIcon size={50} />,
         design: <DesignPaletteIcon size={50} />,
@@ -119,10 +123,21 @@ export const SearchScreen = () => {
             console.error("Failed to load recent searches", e);
         }
     };
+    const fetchAllData = async () => {
+        setLoading(true);
+        try {
+            await Promise.all([
+                fetchPopularTags(),
+                fetchFindResult(search, 1),
+                loadRecentSearch()
+            ]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        fetchPopularTags();
-        loadRecentSearch();
+        fetchAllData();
     }, []);
 
     useEffect(() => {
@@ -133,6 +148,10 @@ export const SearchScreen = () => {
         }
     }, [route.params?.search]);
 
+
+    if (loading) {
+        return <SearchScreenSkeleton />
+    }
 
     return (
         <SafeAreaView style={searchStyles.container} edges={['top']}>
@@ -195,12 +214,27 @@ export const SearchScreen = () => {
                     <><View style={searchStyles.section}>
                         <View style={searchStyles.resultsHeader}>
                             <Text style={searchStyles.resultsCount}>{t('screens.search.foundResults')} {findResult.length} {t('screens.search.results')}</Text>
-                            <Pressable style={searchStyles.filterButton}
+                            <Pressable 
                                 onPress={() => { setModalVisible(true) }}>
-                                <View style={searchStyles.filterButtonIconWrapper}>
-                                    <FilterIcon color={colors.text} size={14} />
-                                </View>
-                                <Text style={searchStyles.filterButtonText}>{t('screens.search.filtersTitle')}</Text>
+                                {({ pressed }) => (
+                                    <MotiView
+                                        animate={{
+                                            scale: pressed ? 0.96 : 1,
+                                            opacity: pressed ? 0.85 : 1,
+                                        }}
+                                        transition={{
+                                            type: 'spring',
+                                            damping: 10,
+                                            stiffness: 200,
+                                        }}
+                                        style={searchStyles.filterButton}
+                                    >
+                                        <View style={searchStyles.filterButtonIconWrapper}>
+                                            <FilterIcon color={colors.text} size={14} />
+                                        </View>
+                                        <Text style={searchStyles.filterButtonText}>{t('screens.search.filtersTitle')}</Text>
+                                    </MotiView>
+                                )}
                             </Pressable>
                         </View>
                     </View>
@@ -313,9 +347,25 @@ export const SearchScreen = () => {
                                                 <Text style={homeStyles.lessonCardLikes}> {item.author ? item.author : t('screens.search.unknownAuthor')} · ❤️ {less.likes}</Text>
                                             </View>
                                         </View>
-                                        <Pressable style={homeStyles.studyButton}
-                                            onPress={() => navigator.navigate('LessonMainScreen', { lessonId: less.id })}>
-                                            <Text style={homeStyles.studyButtonText}>{t('screens.search.studyBtn')}</Text>
+                                        <Pressable 
+                                            onPress={() => (navigator as any).navigate('LessonMainScreen', { lessonId: less.id })}
+                                        >
+                                            {({ pressed }) => (
+                                                <MotiView
+                                                    animate={{
+                                                        scale: pressed ? 0.94 : 1,
+                                                        opacity: pressed ? 0.85 : 1,
+                                                    }}
+                                                    transition={{
+                                                        type: 'spring',
+                                                        damping: 10,
+                                                        stiffness: 200,
+                                                    }}
+                                                    style={homeStyles.studyButton}
+                                                >
+                                                    <Text style={homeStyles.studyButtonText}>{t('screens.search.studyBtn')}</Text>
+                                                </MotiView>
+                                            )}
                                         </Pressable>
                                     </View>
                                 );
@@ -323,7 +373,6 @@ export const SearchScreen = () => {
                         </View><View style={{ alignItems: 'center' }}>
                             <View style={searchStyles.paginationContainer}>
                                 <Pressable
-                                    style={[searchStyles.pageArrowButton, currentpage === 1 && searchStyles.pageArrowButtonDisabled]}
                                     disabled={currentpage === 1}
                                     onPress={() => {
                                         const next = currentpage - 1;
@@ -331,7 +380,22 @@ export const SearchScreen = () => {
                                         fetchFindResult(search, next);
                                     }}
                                 >
-                                    <Text style={searchStyles.pageArrowText}>{t('screens.search.prevPage')}</Text>
+                                    {({ pressed }) => (
+                                        <MotiView
+                                            animate={{
+                                                scale: pressed ? 0.95 : 1,
+                                                opacity: pressed ? 0.8 : 1,
+                                            }}
+                                            transition={{
+                                                type: 'spring',
+                                                damping: 10,
+                                                stiffness: 200,
+                                            }}
+                                            style={[searchStyles.pageArrowButton, currentpage === 1 && searchStyles.pageArrowButtonDisabled]}
+                                        >
+                                            <Text style={searchStyles.pageArrowText}>{t('screens.search.prevPage')}</Text>
+                                        </MotiView>
+                                    )}
                                 </Pressable>
 
                                 {getPaginationItems(currentpage, maxpage).map((item, index) => {
@@ -346,16 +410,28 @@ export const SearchScreen = () => {
                                     return (
                                         <Pressable
                                             key={`page-${pageNum}`}
-                                            style={currentpage === pageNum ? searchStyles.pageButtonActive : searchStyles.pageButton}
                                             onPress={() => { setCurrentpage(pageNum); fetchFindResult(search, pageNum); }}
                                         >
-                                            <Text style={currentpage === pageNum ? searchStyles.pageButtonTextActive : searchStyles.pageButtonText}>{pageNum}</Text>
+                                            {({ pressed }) => (
+                                                <MotiView
+                                                    animate={{
+                                                        scale: pressed ? 0.9 : 1,
+                                                    }}
+                                                    transition={{
+                                                        type: 'spring',
+                                                        damping: 10,
+                                                        stiffness: 200,
+                                                    }}
+                                                    style={currentpage === pageNum ? searchStyles.pageButtonActive : searchStyles.pageButton}
+                                                >
+                                                    <Text style={currentpage === pageNum ? searchStyles.pageButtonTextActive : searchStyles.pageButtonText}>{pageNum}</Text>
+                                                </MotiView>
+                                            )}
                                         </Pressable>
                                     );
                                 })}
 
                                 <Pressable
-                                    style={[searchStyles.pageArrowButton, currentpage === maxpage && searchStyles.pageArrowButtonDisabled]}
                                     disabled={currentpage === maxpage}
                                     onPress={() => {
                                         const next = currentpage + 1;
@@ -363,7 +439,22 @@ export const SearchScreen = () => {
                                         fetchFindResult(search, next);
                                     }}
                                 >
-                                    <Text style={searchStyles.pageArrowText}>{t('screens.search.nextPage')}</Text>
+                                    {({ pressed }) => (
+                                        <MotiView
+                                            animate={{
+                                                scale: pressed ? 0.95 : 1,
+                                                opacity: pressed ? 0.8 : 1,
+                                            }}
+                                            transition={{
+                                                type: 'spring',
+                                                damping: 10,
+                                                stiffness: 200,
+                                            }}
+                                            style={[searchStyles.pageArrowButton, currentpage === maxpage && searchStyles.pageArrowButtonDisabled]}
+                                        >
+                                            <Text style={searchStyles.pageArrowText}>{t('screens.search.nextPage')}</Text>
+                                        </MotiView>
+                                    )}
                                 </Pressable>
                             </View>
                             <Text style={searchStyles.pageInfo}>{t('screens.search.pageInfo1')} {currentpage} {t('screens.search.pageInfo2')} {maxpage}</Text>

@@ -41,16 +41,20 @@ export const myLessonsStyles = (theme: Theme) => StyleSheet.create({
         flex: 1,
         paddingVertical: SPACING.md,
         alignItems: 'center',
-        borderBottomWidth: 2,
-        borderBottomColor: 'transparent',
     } as ViewStyle,
 
     tabActive: {
         flex: 1,
         paddingVertical: SPACING.md,
         alignItems: 'center',
-        borderBottomWidth: 2,
-        borderBottomColor: theme.colors.primary,
+    } as ViewStyle,
+
+    tabIndicator: {
+        position: 'absolute',
+        bottom: 0,
+        height: 3,
+        backgroundColor: theme.colors.primary,
+        borderRadius: RADIUS.full,
     } as ViewStyle,
 
     tabText: {

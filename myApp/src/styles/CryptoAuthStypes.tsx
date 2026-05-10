@@ -140,6 +140,18 @@ export const zkpAuthStyles = (theme: Theme) => StyleSheet.create({
     } as ViewStyle,
 
     tabButtonActive: {
+        flex: 1,
+        paddingVertical: SPACING.sm,
+        borderRadius: RADIUS.full,
+        alignItems: 'center',
+        justifyContent: 'center',
+    } as ViewStyle,
+
+    tabIndicator: {
+        position: 'absolute',
+        top: SPACING.xs,
+        bottom: SPACING.xs,
+        borderRadius: RADIUS.full,
         backgroundColor: theme.colors.primary,
         shadowColor: theme.colors.primary,
         shadowOffset: { width: 0, height: 4 },

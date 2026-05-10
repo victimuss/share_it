@@ -345,6 +345,8 @@ export const NewSheetScreen = () => {
                         }}
                         placeholder={t('screens.newSheet.typePlaceholder')}
                         activeColor={colors.primarySoft}
+                        itemTextStyle={styles.typeOptionTitle}
+                        itemContainerStyle={styles.typeOption}
                         dropdownPosition="bottom"
                         maxHeight={300}
                         onFocus={() => setIsFocus(true)}

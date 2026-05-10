@@ -272,11 +272,17 @@ export const profileStyles = (theme: Theme) => StyleSheet.create({
 
   /** Активная вкладка — подчёркивание */
   tabActive: {
-    borderBottomWidth: 2,
-    borderBottomColor: theme.colors.primary,
     flex: 1,
     paddingVertical: SPACING.md,
     alignItems: 'center',
+  } as ViewStyle,
+
+  tabIndicator: {
+    position: 'absolute',
+    bottom: 0,
+    height: 3,
+    backgroundColor: theme.colors.primary,
+    borderRadius: RADIUS.full,
   } as ViewStyle,
 
   tabText: {

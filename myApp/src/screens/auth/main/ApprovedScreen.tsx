@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { MotiView } from 'moti';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Theme, SPACING, FONTS, RADIUS } from '@/src/styles/root';
 import { useNavigation } from '@react-navigation/native';
@@ -22,10 +23,24 @@ export const ApprovedScreen = () => {
             </View>
             <View style={styles.footer}>
                 <Pressable
-                    style={styles.button}
                     onPress={() => navigation.navigate('MainTabs')}
                 >
-                    <Text style={styles.buttonText}>{t('screens.approved.button')}</Text>
+                    {({ pressed }) => (
+                        <MotiView
+                            animate={{
+                                scale: pressed ? 0.96 : 1,
+                                opacity: pressed ? 0.85 : 1,
+                            }}
+                            transition={{
+                                type: 'spring',
+                                damping: 10,
+                                stiffness: 200,
+                            }}
+                            style={styles.button}
+                        >
+                            <Text style={styles.buttonText}>{t('screens.approved.button')}</Text>
+                        </MotiView>
+                    )}
                 </Pressable>
             </View>
         </SafeAreaView>

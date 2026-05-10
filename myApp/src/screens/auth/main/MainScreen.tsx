@@ -3,7 +3,7 @@ import { homeStyles as homeStylesFn } from "@/src/styles/MainPageStyles";
 import { useAuth } from "@/src/context/AuthContext";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { LoadScreen } from "./LoadScreen";
+import { MainScreenSkeleton } from "@/src/components/MainScreenSkeleton";
 import { ErrorScreen } from "./ErrorScreen";
 import { Lesson, LessonType, PopularLessonsResponce, RecentLessonsResponce, CurrentLessonRequest, CurrentLessonResponse } from "@/src/types/main_page";
 import { CurrentLession, getAuthor, PopularLession, RecentLession } from "@/src/api/main_page/main_page";
@@ -13,6 +13,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
+import { MotiView } from 'moti';
 import { TelegramNotificationModal } from "@/src/components/TelegramNotificationModal";
 import { useTranslation } from "react-i18next";
 import { useStyles } from '../../../hooks/useStyles';
@@ -140,7 +141,7 @@ export const MainScreen = () => {
 
   if (loading) {
     return (
-      <LoadScreen />
+      <MainScreenSkeleton />
 
     )
   }
@@ -203,56 +204,81 @@ export const MainScreen = () => {
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={homeStyles.filtersScrollContent}>
-              <Pressable
-                style={({ pressed }) => [
-                  homeStyles.chip,
-                  activeFilter === null && homeStyles.chipActive,
-                  pressed && homeStyles.chipActive,
-                ]}
-                onPress={() => handleFilterChange(null)}
-              >
-                <Text style={activeFilter === null ? homeStyles.chipTextActive : homeStyles.chipText}>{t('screens.main.filters.all')}</Text>
+              contentContainerStyle={homeStyles.filtersScrollContent}
+            >
+              <Pressable onPress={() => handleFilterChange(null)}>
+                <MotiView
+                  animate={{
+                    backgroundColor: activeFilter === null ? colors.primary : colors.surface,
+                    borderColor: activeFilter === null ? colors.primary : colors.border,
+                  }}
+                  transition={{ type: 'timing', duration: 200 }}
+                  style={homeStyles.chip}
+                >
+                  <Text style={activeFilter === null ? homeStyles.chipTextActive : homeStyles.chipText}>
+                    {t('screens.main.filters.all')}
+                  </Text>
+                </MotiView>
               </Pressable>
-              <Pressable
-                style={({ pressed }) => [
-                  homeStyles.chip,
-                  activeFilter === 'code' && homeStyles.chipActive,
-                  pressed && homeStyles.chipActive,
-                ]}
-                onPress={() => handleFilterChange('code')}
-              >
-                <Text style={activeFilter === 'code' ? homeStyles.chipTextActive : homeStyles.chipText}>{t('screens.main.filters.code')}</Text>
+
+              <Pressable onPress={() => handleFilterChange('code')}>
+                <MotiView
+                  animate={{
+                    backgroundColor: activeFilter === 'code' ? colors.primary : colors.surface,
+                    borderColor: activeFilter === 'code' ? colors.primary : colors.border,
+                  }}
+                  transition={{ type: 'timing', duration: 200 }}
+                  style={homeStyles.chip}
+                >
+                  <Text style={activeFilter === 'code' ? homeStyles.chipTextActive : homeStyles.chipText}>
+                    {t('screens.main.filters.code')}
+                  </Text>
+                </MotiView>
               </Pressable>
-              <Pressable
-                style={({ pressed }) => [
-                  homeStyles.chip,
-                  activeFilter === 'design' && homeStyles.chipActive,
-                  pressed && homeStyles.chipActive,
-                ]}
-                onPress={() => handleFilterChange('design')}
-              >
-                <Text style={activeFilter === 'design' ? homeStyles.chipTextActive : homeStyles.chipText}>{t('screens.main.filters.design')}</Text>
+
+              <Pressable onPress={() => handleFilterChange('design')}>
+                <MotiView
+                  animate={{
+                    backgroundColor: activeFilter === 'design' ? colors.primary : colors.surface,
+                    borderColor: activeFilter === 'design' ? colors.primary : colors.border,
+                  }}
+                  transition={{ type: 'timing', duration: 200 }}
+                  style={homeStyles.chip}
+                >
+                  <Text style={activeFilter === 'design' ? homeStyles.chipTextActive : homeStyles.chipText}>
+                    {t('screens.main.filters.design')}
+                  </Text>
+                </MotiView>
               </Pressable>
-              <Pressable
-                style={({ pressed }) => [
-                  homeStyles.chip,
-                  activeFilter === 'language' && homeStyles.chipActive,
-                  pressed && homeStyles.chipActive,
-                ]}
-                onPress={() => handleFilterChange('language')}
-              >
-                <Text style={activeFilter === 'language' ? homeStyles.chipTextActive : homeStyles.chipText}>{t('screens.main.filters.language')}</Text>
+
+              <Pressable onPress={() => handleFilterChange('language')}>
+                <MotiView
+                  animate={{
+                    backgroundColor: activeFilter === 'language' ? colors.primary : colors.surface,
+                    borderColor: activeFilter === 'language' ? colors.primary : colors.border,
+                  }}
+                  transition={{ type: 'timing', duration: 200 }}
+                  style={homeStyles.chip}
+                >
+                  <Text style={activeFilter === 'language' ? homeStyles.chipTextActive : homeStyles.chipText}>
+                    {t('screens.main.filters.language')}
+                  </Text>
+                </MotiView>
               </Pressable>
-              <Pressable
-                style={({ pressed }) => [
-                  homeStyles.chip, // базовый стиль
-                  activeFilter === 'business' && homeStyles.chipActive, // стиль активного фильтра
-                  pressed && homeStyles.chipActive, // стиль при нажатии
-                ]}
-                onPress={() => handleFilterChange('business')}
-              >
-                <Text style={activeFilter === 'business' ? homeStyles.chipTextActive : homeStyles.chipText}>{t('screens.main.filters.business')}</Text>
+
+              <Pressable onPress={() => handleFilterChange('business')}>
+                <MotiView
+                  animate={{
+                    backgroundColor: activeFilter === 'business' ? colors.primary : colors.surface,
+                    borderColor: activeFilter === 'business' ? colors.primary : colors.border,
+                  }}
+                  transition={{ type: 'timing', duration: 200 }}
+                  style={homeStyles.chip}
+                >
+                  <Text style={activeFilter === 'business' ? homeStyles.chipTextActive : homeStyles.chipText}>
+                    {t('screens.main.filters.business')}
+                  </Text>
+                </MotiView>
               </Pressable>
             </ScrollView>
           </View>
@@ -274,22 +300,38 @@ export const MainScreen = () => {
                 const less = item.lesson || item;
                 const authorName = item.author ? item.author : t('screens.main.unknownAuthor');
                 return (
-                  <Pressable style={homeStyles.featuredCard}
-                    onPress={() => navigator.navigate('LessonMainScreen', { lessonId: less.id })}>
-                    <View style={homeStyles.featuredCardImage}>
-                      <View style={homeStyles.featuredCardContent}>
-                        <View style={homeStyles.featuredCardMeta}>
-                          <View style={homeStyles.badgeCategory}>
-                            <Text style={homeStyles.badgeCategoryText}>{less.type}</Text>
+                  <Pressable
+                    onPress={() => navigator.navigate('LessonMainScreen', { lessonId: less.id })}
+                  >
+                    {({ pressed }) => (
+                      <MotiView
+                        animate={{
+                          scale: pressed ? 0.98 : 1,
+                          opacity: pressed ? 0.9 : 1,
+                        }}
+                        transition={{
+                          type: 'spring',
+                          damping: 10,
+                          stiffness: 200,
+                        }}
+                        style={homeStyles.featuredCard}
+                      >
+                        <View style={homeStyles.featuredCardImage}>
+                          <View style={homeStyles.featuredCardContent}>
+                            <View style={homeStyles.featuredCardMeta}>
+                              <View style={homeStyles.badgeCategory}>
+                                <Text style={homeStyles.badgeCategoryText}>{less.type}</Text>
+                              </View>
+                              <Text style={homeStyles.badgeCategoryText}> {less.rank_count > 0 ? Math.round(less.rank / less.rank_count) : 0} ⭐</Text>
+                            </View>
                           </View>
-                          <Text style={homeStyles.badgeCategoryText}> {less.rank_count > 0 ? Math.round(less.rank / less.rank_count) : 0} ⭐</Text>
                         </View>
-                      </View>
-                    </View>
-                    <View style={homeStyles.featureCardContainer}>
-                      <Text style={homeStyles.featuredCardTitle}>{less.lesson_name}</Text>
-                      <Text style={homeStyles.featuredCardAuthor}> {authorName} · {less.students_count} {t('screens.main.studentsCount')}</Text>
-                    </View>
+                        <View style={homeStyles.featureCardContainer}>
+                          <Text style={homeStyles.featuredCardTitle}>{less.lesson_name}</Text>
+                          <Text style={homeStyles.featuredCardAuthor}> {authorName} · {less.students_count} {t('screens.main.studentsCount')}</Text>
+                        </View>
+                      </MotiView>
+                    )}
                   </Pressable>
                 );
               }}
@@ -300,19 +342,34 @@ export const MainScreen = () => {
               <Text style={homeStyles.sectionTitle}>{t('screens.main.continueLearning')}</Text>
             </View>
             {current?.last_lession?.last_lession ? (
-              <Pressable style={homeStyles.progressCard}
-                onPress={() => navigator.navigate('LessonMainScreen', { lessonId: current?.last_lession?.lesson.id })}>
-                <View style={homeStyles.progressCardHeader}>
-                  <PlayIcon></PlayIcon>
-                  <Text style={homeStyles.progressCardTitle}>{current?.last_lession?.lesson?.lesson_name || t('screens.main.noCurrentLesson')}</Text>
-                  <Text style={homeStyles.progressLabel}>{Math.ceil((current.last_lession?.last_lession?.completed_steps / current?.last_lession?.lesson.sheet_counts) * 100) || 0}%</Text>
-                </View>
-                <View style={homeStyles.progressTrack}>
-                  <View style={[
-                    homeStyles.progressFill,
-                    { width: `${Math.ceil((current.last_lession?.last_lession?.completed_steps / current?.last_lession?.lesson.sheet_counts) * 100)}%` }
-                  ]} />
-                </View>
+              <Pressable
+                onPress={() => navigator.navigate('LessonMainScreen', { lessonId: current?.last_lession?.lesson.id })}
+              >
+                {({ pressed }) => (
+                  <MotiView
+                    animate={{
+                      scale: pressed ? 0.98 : 1,
+                    }}
+                    transition={{
+                      type: 'spring',
+                      damping: 10,
+                      stiffness: 200,
+                    }}
+                    style={homeStyles.progressCard}
+                  >
+                    <View style={homeStyles.progressCardHeader}>
+                      <PlayIcon></PlayIcon>
+                      <Text style={homeStyles.progressCardTitle}>{current?.last_lession?.lesson?.lesson_name || t('screens.main.noCurrentLesson')}</Text>
+                      <Text style={homeStyles.progressLabel}>{Math.ceil((current.last_lession?.last_lession?.completed_steps / current?.last_lession?.lesson.sheet_counts) * 100) || 0}%</Text>
+                    </View>
+                    <View style={homeStyles.progressTrack}>
+                      <View style={[
+                        homeStyles.progressFill,
+                        { width: `${Math.ceil((current.last_lession?.last_lession?.completed_steps / current?.last_lession?.lesson.sheet_counts) * 100)}%` }
+                      ]} />
+                    </View>
+                  </MotiView>
+                )}
               </Pressable>
             ) : (
               <View style={homeStyles.progressCard}>
@@ -351,9 +408,25 @@ export const MainScreen = () => {
                         <Text style={homeStyles.lessonCardLikes}> {item.author ? item.author : t('screens.main.unknownAuthor')} · ❤️ {less.likes}</Text>
                       </View>
                     </View>
-                    <Pressable style={homeStyles.studyButton}
-                      onPress={() => navigator.navigate('LessonMainScreen', { lessonId: less.id })}>
-                      <Text style={homeStyles.studyButtonText}>{t('screens.main.studyButton')}</Text>
+                    <Pressable
+                      onPress={() => navigator.navigate('LessonMainScreen', { lessonId: less.id })}
+                    >
+                      {({ pressed }) => (
+                        <MotiView
+                          animate={{
+                            scale: pressed ? 0.94 : 1,
+                            opacity: pressed ? 0.85 : 1,
+                          }}
+                          transition={{
+                            type: 'spring',
+                            damping: 10,
+                            stiffness: 200,
+                          }}
+                          style={homeStyles.studyButton}
+                        >
+                          <Text style={homeStyles.studyButtonText}>{t('screens.main.studyButton')}</Text>
+                        </MotiView>
+                      )}
                     </Pressable>
                   </View>
                 );

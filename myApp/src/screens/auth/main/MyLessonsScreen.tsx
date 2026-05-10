@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, TextInput, FlatList, Dimensions, Modal, KeyboardAvoidingView, Alert } from "react-native";
+import { View, Text, ScrollView, Pressable, TextInput, FlatList, Dimensions, Modal, KeyboardAvoidingView, Alert, RefreshControl } from "react-native";
 import { homeStyles as homeStylesFn } from "@/src/styles/MainPageStyles";
 import { useAuth } from "@/src/context/AuthContext";
 import React, { useEffect, useState } from "react";
@@ -13,10 +13,10 @@ import { EditUserAPI, GetUserSkills, NewSkillapi, UsersLearned, UsersMaked } fro
 import { ApplicationCodeIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon } from "@/src/SVG/MainPageSVG";
 import { CloseIcon } from "@/src/SVG/SearchSVG";
 import { NewSkill } from "@/src/types/profile";
-import { LoadScreen } from "./LoadScreen";
+import { MyLessonsSkeleton } from "@/src/components/MainScreenSkeleton";
 import { SearchIcon } from "@/src/SVG/TabSVG";
 import { useCallback } from 'react';
-import { RefreshControl } from 'react-native';
+import { MotiView } from 'moti';
 import { myLessonsStyles as myLessonsStylesFn } from "@/src/styles/MyLessonStyles";
 import { LessonEditIcon, LessonEyeIcon, LessonInfoIcon, LessonMoreIcon, LessonTrashIcon } from "@/src/SVG/LessonSVG";
 import { GetMyLessonsAPI } from "@/src/api/lessonmain/mylesson";
@@ -29,6 +29,8 @@ import { Background } from "@react-navigation/elements";
 import { useTranslation } from "react-i18next";
 import { useStyles } from '../../../hooks/useStyles';
 import { useThemeStore } from '../../../context/useThemeStore';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export const MyLessonsScreen = () => {
   const styles = useStyles(myLessonsStylesFn);
@@ -128,107 +130,119 @@ export const MyLessonsScreen = () => {
 
         return (
             <Pressable
-                style={styles.lessonCard}
                 onPress={() => navigation.navigate('LessonMainScreen', { lessonId: lesson.id })}
             >
-                <View style={styles.lessonCardTop}>
-                    <View style={[styles.lessonThumb, { backgroundColor: isLearning ? '#F0F4FF' : (lesson.status === 'ACTIVE' ? '#EEFBF4' : '#F3F4F6') }]}>
-                        {iconMap[lesson.type] || <ApplicationCodeIcon size={40} />}
-                    </View>
-                    <View style={styles.lessonInfo}>
-                        <Text style={styles.lessonTitle} numberOfLines={2}>{lesson.lesson_name}</Text>
-                        <View style={styles.lessonMeta}>
-                            <View style={[styles.tagBadge, { backgroundColor: levelStyle.bg }]}>
-                                <Text style={[styles.tagText, { color: levelStyle.text }]}>{lesson.level}</Text>
+                {({ pressed }) => (
+                    <MotiView
+                        animate={{
+                            scale: pressed ? 0.98 : 1,
+                        }}
+                        transition={{
+                            type: 'spring',
+                            damping: 10,
+                            stiffness: 200,
+                        }}
+                        style={styles.lessonCard}
+                    >
+                        <View style={styles.lessonCardTop}>
+                            <View style={[styles.lessonThumb, { backgroundColor: isLearning ? '#F0F4FF' : (lesson.status === 'ACTIVE' ? '#EEFBF4' : '#F3F4F6') }]}>
+                                {iconMap[lesson.type] || <ApplicationCodeIcon size={40} />}
                             </View>
-                            <View style={[styles.tagBadge, { backgroundColor: categoryStyle.bg }]}>
-                                <Text style={[styles.tagText, { color: categoryStyle.text }]}>{lesson.type}</Text>
+                            <View style={styles.lessonInfo}>
+                                <Text style={styles.lessonTitle} numberOfLines={2}>{lesson.lesson_name}</Text>
+                                <View style={styles.lessonMeta}>
+                                    <View style={[styles.tagBadge, { backgroundColor: levelStyle.bg }]}>
+                                        <Text style={[styles.tagText, { color: levelStyle.text }]}>{lesson.level}</Text>
+                                    </View>
+                                    <View style={[styles.tagBadge, { backgroundColor: categoryStyle.bg }]}>
+                                        <Text style={[styles.tagText, { color: categoryStyle.text }]}>{lesson.type}</Text>
+                                    </View>
+                                    {!isLearning && (
+                                        <Text style={[styles.lessonMetaText, { marginLeft: 4 }]}>{lesson.sheet_counts || 0}{t('screens.myLessons.pages')}</Text>
+                                    )}
+                                </View>
                             </View>
-                            {!isLearning && (
-                                <Text style={[styles.lessonMetaText, { marginLeft: 4 }]}>{lesson.sheet_counts || 0}{t('screens.myLessons.pages')}</Text>
+
+                            {isLearning ? (
+                                item.status === 'COMPLETED' ? (
+                                    <View style={styles.completedBadge}>
+                                        <Text style={styles.completedBadgeText}>{t('screens.myLessons.completedBadge')}</Text>
+                                    </View>
+                                ) : (
+                                    <Pressable
+                                        style={styles.continueButton}
+                                        onPress={() => navigation.navigate('LessonPage' as never, { lessonId: lesson.id } as never)}
+                                    >
+                                        <Text style={styles.continueButtonText}>{t('screens.myLessons.continueBtn')}</Text>
+                                    </Pressable>
+                                )
+                            ) : (
+                                <Pressable style={styles.lessonMenuButton}
+                                    onPress={() => { setSelectedLesson(lesson); setIsVisibleModal(true); }}
+                                >
+                                    <View style={styles.lessonMenuIconWrapper}>
+                                        <LessonMoreIcon color={colors.primary} />
+                                    </View>
+                                </Pressable>
                             )}
                         </View>
-                    </View>
 
-                    {isLearning ? (
-                        item.status === 'COMPLETED' ? (
-                            <View style={styles.completedBadge}>
-                                <Text style={styles.completedBadgeText}>{t('screens.myLessons.completedBadge')}</Text>
+                        {isLearning ? (
+                            <View style={styles.progressRow}>
+                                <View style={[styles.progressTrack, { backgroundColor: '#E5E7EB' }]}>
+                                    <View
+                                        style={[
+                                            styles.progressFill,
+                                            {
+                                                width: `${(item.completed_steps / (lesson.sheet_counts || 1)) * 100}%`,
+                                                backgroundColor: item.status === 'COMPLETED' ? '#10B981' : colors.primary
+                                            }
+                                        ]}
+                                    />
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginLeft: 12 }}>
+                                    <Text style={[styles.progressLabel, { color: item.status === 'COMPLETED' ? '#10B981' : colors.primary, fontWeight: '700' }]}>
+                                        {Math.round((item.completed_steps / (lesson.sheet_counts || 1)) * 100)}%
+                                    </Text>
+                                    <Text style={styles.progressLabel}>
+                                        {item.completed_steps}/{lesson.sheet_counts}{t('screens.myLessons.pages')}
+                                    </Text>
+                                </View>
+                                {item.status === 'COMPLETED' && (
+                                    <Pressable
+                                        style={[styles.repeatButton, { marginLeft: 'auto' }]}
+                                        onPress={() => navigation.navigate('LessonMainScreen' as never, { lessonId: lesson.id } as never)}
+                                    >
+                                        <Text style={styles.repeatButtonText}>{t('screens.myLessons.repeatBtn')}</Text>
+                                        <Text style={{ color: colors.primary, fontSize: 16 }}>→</Text>
+                                    </Pressable>
+                                )}
                             </View>
                         ) : (
-                            <Pressable
-                                style={styles.continueButton}
-                                onPress={() => navigation.navigate('LessonPage' as never, { lessonId: lesson.id } as never)}
-                            >
-                                <Text style={styles.continueButtonText}>{t('screens.myLessons.continueBtn')}</Text>
-                            </Pressable>
-                        )
-                    ) : (
-                        <Pressable style={styles.lessonMenuButton}
-                            onPress={() => { setSelectedLesson(lesson); setIsVisibleModal(true); }}
-                        >
-
-                            <View style={styles.lessonMenuIconWrapper}>
-                                <LessonMoreIcon color={colors.primary} />
+                            <View style={styles.lessonCardBottom}>
+                                <View style={[
+                                    styles.statusBadge,
+                                    lesson.status === 'ACTIVE' ? styles.statusActive : (lesson.status === 'REJECTED' ? styles.statusRejected : styles.statusDraft)
+                                ]}>
+                                    <View style={[
+                                        styles.statusDot,
+                                        { backgroundColor: lesson.status === 'ACTIVE' ? colors.success : (lesson.status === 'REJECTED' ? colors.error : colors.textSecondary) }
+                                    ]} />
+                                    <Text style={lesson.status === 'ACTIVE' ? styles.statusActiveText : (lesson.status === 'REJECTED' ? styles.statusRejectedText : styles.statusDraftText)}>
+                                        {lesson.status === 'ACTIVE' ? t('screens.myLessons.filters.active') : (lesson.status === 'REJECTED' ? t('screens.myLessons.filters.rejected') : t('screens.myLessons.filters.drafts'))}
+                                    </Text>
+                                </View>
+                                <View style={styles.lessonStats}>
+                                    <View style={styles.lessonStat}>
+                                        <Text style={styles.lessonStatText}>👤 {lesson.students_count || 0}</Text>
+                                    </View>
+                                    <View style={styles.lessonStat}>
+                                        <Text style={styles.lessonStatText}>💗 {lesson.likes || 0}</Text>
+                                    </View>
+                                </View>
                             </View>
-                        </Pressable>
-                    )}
-                </View>
-
-                {isLearning ? (
-                    <View style={styles.progressRow}>
-                        <View style={[styles.progressTrack, { backgroundColor: '#E5E7EB' }]}>
-                            <View
-                                style={[
-                                    styles.progressFill,
-                                    {
-                                        width: `${(item.completed_steps / (lesson.sheet_counts || 1)) * 100}%`,
-                                        backgroundColor: item.status === 'COMPLETED' ? '#10B981' : colors.primary
-                                    }
-                                ]}
-                            />
-                        </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginLeft: 12 }}>
-                            <Text style={[styles.progressLabel, { color: item.status === 'COMPLETED' ? '#10B981' : colors.primary, fontWeight: '700' }]}>
-                                {Math.round((item.completed_steps / (lesson.sheet_counts || 1)) * 100)}%
-                            </Text>
-                            <Text style={styles.progressLabel}>
-                                {item.completed_steps}/{lesson.sheet_counts}{t('screens.myLessons.pages')}
-                            </Text>
-                        </View>
-                        {item.status === 'COMPLETED' && (
-                            <Pressable
-                                style={[styles.repeatButton, { marginLeft: 'auto' }]}
-                                onPress={() => navigation.navigate('LessonMainScreen' as never, { lessonId: lesson.id } as never)}
-                            >
-                                <Text style={styles.repeatButtonText}>{t('screens.myLessons.repeatBtn')}</Text>
-                                <Text style={{ color: colors.primary, fontSize: 16 }}>→</Text>
-                            </Pressable>
                         )}
-                    </View>
-                ) : (
-                    <View style={styles.lessonCardBottom}>
-                        <View style={[
-                            styles.statusBadge,
-                            lesson.status === 'ACTIVE' ? styles.statusActive : (lesson.status === 'REJECTED' ? styles.statusRejected : styles.statusDraft)
-                        ]}>
-                            <View style={[
-                                styles.statusDot,
-                                { backgroundColor: lesson.status === 'ACTIVE' ? colors.success : (lesson.status === 'REJECTED' ? colors.error : colors.textSecondary) }
-                            ]} />
-                            <Text style={lesson.status === 'ACTIVE' ? styles.statusActiveText : (lesson.status === 'REJECTED' ? styles.statusRejectedText : styles.statusDraftText)}>
-                                {lesson.status === 'ACTIVE' ? t('screens.myLessons.filters.active') : (lesson.status === 'REJECTED' ? t('screens.myLessons.filters.rejected') : t('screens.myLessons.filters.drafts'))}
-                            </Text>
-                        </View>
-                        <View style={styles.lessonStats}>
-                            <View style={styles.lessonStat}>
-                                <Text style={styles.lessonStatText}>👤 {lesson.students_count || 0}</Text>
-                            </View>
-                            <View style={styles.lessonStat}>
-                                <Text style={styles.lessonStatText}>💗 {lesson.likes || 0}</Text>
-                            </View>
-                        </View>
-                    </View>
+                    </MotiView>
                 )}
             </Pressable>
         );
@@ -258,6 +272,10 @@ export const MyLessonsScreen = () => {
             ? [...inProgressLearn, ...completedLearn]
             : (filters === 'active' ? inProgressLearn : completedLearn));
 
+    if (loading && !refreshing) {
+        return <MyLessonsSkeleton />
+    }
+
     return (
         <SafeAreaView style={styles.container} edges={['top']}>
             <FlatList
@@ -273,6 +291,16 @@ export const MyLessonsScreen = () => {
                         <View style={styles.header}>
                             <Text style={styles.headerTitle}>{t('screens.myLessons.title')}</Text>
                             <View style={styles.tabsRow}>
+                                <MotiView
+                                    animate={{
+                                        translateX: activeTab === 'created' ? 0 : SCREEN_WIDTH / 2,
+                                    }}
+                                    transition={{
+                                        type: 'timing',
+                                        duration: 250,
+                                    }}
+                                    style={[styles.tabIndicator, { width: SCREEN_WIDTH / 2 }]}
+                                />
                                 <Pressable
                                     style={activeTab === 'created' ? styles.tabActive : styles.tab}
                                     onPress={() => { setActiveTab('created'); setFilters('all'); }}
@@ -294,38 +322,72 @@ export const MyLessonsScreen = () => {
                             contentContainerStyle={styles.filtersScrollContent}
                         >
                             <Pressable
-                                style={filters === 'all' ? styles.filterChipActive : styles.filterChip}
                                 onPress={() => setFilters('all')}
                             >
-                                <Text style={filters === 'all' ? styles.filterChipTextActive : styles.filterChipText}>{t('screens.myLessons.filterAll')}</Text>
+                                <MotiView
+                                    animate={{
+                                        backgroundColor: filters === 'all' ? colors.primary : colors.surface,
+                                        borderColor: filters === 'all' ? colors.primary : colors.border,
+                                    }}
+                                    transition={{ type: 'timing', duration: 200 }}
+                                    style={styles.filterChip}
+                                >
+                                    <Text style={filters === 'all' ? styles.filterChipTextActive : styles.filterChipText}>
+                                        {t('screens.myLessons.filterAll')}
+                                    </Text>
+                                </MotiView>
                             </Pressable>
                             <Pressable
-                                style={filters === 'active' ? styles.filterChipActive : styles.filterChip}
                                 onPress={() => setFilters('active')}
                             >
-                                <View style={[styles.filterChipDot, { backgroundColor: colors.success }]} />
-                                <Text style={filters === 'active' ? styles.filterChipTextActive : styles.filterChipText}>
-                                    {activeTab === 'created' ? t('screens.myLessons.filters.active') : t('screens.myLessons.filters.inProgress')}
-                                </Text>
+                                <MotiView
+                                    animate={{
+                                        backgroundColor: filters === 'active' ? colors.primary : colors.surface,
+                                        borderColor: filters === 'active' ? colors.primary : colors.border,
+                                    }}
+                                    transition={{ type: 'timing', duration: 200 }}
+                                    style={styles.filterChip}
+                                >
+                                    <View style={[styles.filterChipDot, { backgroundColor: colors.success }]} />
+                                    <Text style={filters === 'active' ? styles.filterChipTextActive : styles.filterChipText}>
+                                        {activeTab === 'created' ? t('screens.myLessons.filters.active') : t('screens.myLessons.filters.inProgress')}
+                                    </Text>
+                                </MotiView>
                             </Pressable>
                             <Pressable
-                                style={filters === 'draft' ? styles.filterChipActive : styles.filterChip}
                                 onPress={() => setFilters('draft')}
                             >
-                                <View style={[styles.filterChipDot, { backgroundColor: colors.textSecondary }]} />
-                                <Text style={filters === 'draft' ? styles.filterChipTextActive : styles.filterChipText}>
-                                    {activeTab === 'created' ? t('screens.myLessons.filters.drafts') : t('screens.myLessons.filters.completed')}
-                                </Text>
+                                <MotiView
+                                    animate={{
+                                        backgroundColor: filters === 'draft' ? colors.primary : colors.surface,
+                                        borderColor: filters === 'draft' ? colors.primary : colors.border,
+                                    }}
+                                    transition={{ type: 'timing', duration: 200 }}
+                                    style={styles.filterChip}
+                                >
+                                    <View style={[styles.filterChipDot, { backgroundColor: colors.textSecondary }]} />
+                                    <Text style={filters === 'draft' ? styles.filterChipTextActive : styles.filterChipText}>
+                                        {activeTab === 'created' ? t('screens.myLessons.filters.drafts') : t('screens.myLessons.filters.completed')}
+                                    </Text>
+                                </MotiView>
                             </Pressable>
                             {activeTab === 'created' && (
                                 <Pressable
-                                    style={filters === 'rejected' ? styles.filterChipActive : styles.filterChip}
                                     onPress={() => setFilters('rejected')}
                                 >
-                                    <View style={[styles.filterChipDot, { backgroundColor: colors.error }]} />
-                                    <Text style={filters === 'rejected' ? styles.filterChipTextActive : styles.filterChipText}>
-                                        {t('screens.myLessons.filterRejected')}
-                                    </Text>
+                                    <MotiView
+                                        animate={{
+                                            backgroundColor: filters === 'rejected' ? colors.primary : colors.surface,
+                                            borderColor: filters === 'rejected' ? colors.primary : colors.border,
+                                        }}
+                                        transition={{ type: 'timing', duration: 200 }}
+                                        style={styles.filterChip}
+                                    >
+                                        <View style={[styles.filterChipDot, { backgroundColor: colors.error }]} />
+                                        <Text style={filters === 'rejected' ? styles.filterChipTextActive : styles.filterChipText}>
+                                            {t('screens.myLessons.filterRejected')}
+                                        </Text>
+                                    </MotiView>
                                 </Pressable>
                             )}
                         </ScrollView>
@@ -381,21 +443,36 @@ export const MyLessonsScreen = () => {
                         )}
 
                         <View style={styles.dialogActions}>
-                            <Pressable style={styles.dialogAction}
+                            <Pressable 
                                 onPress={() => navigation.navigate('LessonMainScreen', { lessonId: selectedLesson.id })}
                             >
-                                <View style={[styles.dialogActionIconCircle, { backgroundColor: '#EEF2FF' }]}>
-                                    <View style={styles.dialogActionIconWrapper}>
-                                        <LessonEyeIcon color="#6366F1" />
-                                    </View>
-                                </View>
-                                <View>
-                                    <Text style={styles.dialogActionTitle}>{t('screens.myLessons.actionView')}</Text>
-                                    <Text style={styles.dialogActionSubtitle}>{t('screens.myLessons.actionViewSub')}</Text>
-                                </View>
+                                {({ pressed }) => (
+                                    <MotiView
+                                        animate={{
+                                            scale: pressed ? 0.96 : 1,
+                                            opacity: pressed ? 0.85 : 1,
+                                        }}
+                                        transition={{
+                                            type: 'spring',
+                                            damping: 10,
+                                            stiffness: 200,
+                                        }}
+                                        style={styles.dialogAction}
+                                    >
+                                        <View style={[styles.dialogActionIconCircle, { backgroundColor: '#EEF2FF' }]}>
+                                            <View style={styles.dialogActionIconWrapper}>
+                                                <LessonEyeIcon color="#6366F1" />
+                                            </View>
+                                        </View>
+                                        <View>
+                                            <Text style={styles.dialogActionTitle}>{t('screens.myLessons.actionView')}</Text>
+                                            <Text style={styles.dialogActionSubtitle}>{t('screens.myLessons.actionViewSub')}</Text>
+                                        </View>
+                                    </MotiView>
+                                )}
                             </Pressable>
 
-                            <Pressable style={styles.dialogAction}
+                            <Pressable
                                 onPress={() => {
                                     if (selectedLesson.id) {
                                         navigation.navigate('NewLessonScreen', {
@@ -408,37 +485,66 @@ export const MyLessonsScreen = () => {
                                     }
                                 }}
                             >
-                                <View style={[styles.dialogActionIconCircle, { backgroundColor: '#FFF7ED' }]}>
-                                    <View style={styles.dialogActionIconWrapper}>
-                                        <LessonEditIcon color="#D97706" />
-                                    </View>
-                                </View>
-                                <View>
-                                    <Text style={styles.dialogActionTitle}>{t('screens.myLessons.actionEdit')}</Text>
-                                    <Text style={styles.dialogActionSubtitle}>{t('screens.myLessons.actionEditSub')}</Text>
-                                </View>
+                                {({ pressed }) => (
+                                    <MotiView
+                                        animate={{
+                                            scale: pressed ? 0.96 : 1,
+                                            opacity: pressed ? 0.85 : 1,
+                                        }}
+                                        transition={{
+                                            type: 'spring',
+                                            damping: 10,
+                                            stiffness: 200,
+                                        }}
+                                        style={styles.dialogAction}
+                                    >
+                                        <View style={[styles.dialogActionIconCircle, { backgroundColor: '#FFF7ED' }]}>
+                                            <View style={styles.dialogActionIconWrapper}>
+                                                <LessonEditIcon color="#D97706" />
+                                            </View>
+                                        </View>
+                                        <View>
+                                            <Text style={styles.dialogActionTitle}>{t('screens.myLessons.actionEdit')}</Text>
+                                            <Text style={styles.dialogActionSubtitle}>{t('screens.myLessons.actionEditSub')}</Text>
+                                        </View>
+                                    </MotiView>
+                                )}
                             </Pressable>
 
                             <View style={styles.dialogDivider} />
 
-                            <Pressable style={[styles.dialogAction, styles.dialogActionDelete]} onPress={() => {
-                                if (selectedLesson.id) {
-                                    DeleteLesson(selectedLesson.id);
-                                    setIsVisibleModal(false);
-                                    Alert.alert(t('screens.myLessons.alertSuccessTitle'), t('screens.myLessons.alertSuccessMsg'));
-                                } else {
-                                    console.warn("Нет ID урока для удаления");
-                                }
-                            }}>
-                                <View style={[styles.dialogActionIconCircle, { backgroundColor: '#FEF2F2' }]}>
-                                    <View style={styles.dialogActionIconWrapper}>
-                                        <LessonTrashIcon color="#DC2626" />
-                                    </View>
-                                </View>
-                                <View>
-                                    <Text style={[styles.dialogActionTitle, styles.dialogActionDeleteTitle]}>{t('screens.myLessons.actionDelete')}</Text>
-                                    <Text style={styles.dialogActionSubtitle}>{t('screens.myLessons.actionDeleteSub')}</Text>
-                                </View>
+                            <Pressable 
+                                onPress={() => {
+                                    if (selectedLesson.id) {
+                                        DeleteLesson(selectedLesson.id);
+                                        setIsVisibleModal(false);
+                                    }
+                                }}
+                            >
+                                {({ pressed }) => (
+                                    <MotiView
+                                        animate={{
+                                            scale: pressed ? 0.96 : 1,
+                                            opacity: pressed ? 0.85 : 1,
+                                        }}
+                                        transition={{
+                                            type: 'spring',
+                                            damping: 10,
+                                            stiffness: 200,
+                                        }}
+                                        style={[styles.dialogAction, styles.dialogActionDelete]}
+                                    >
+                                        <View style={[styles.dialogActionIconCircle, { backgroundColor: '#FEF2F2' }]}>
+                                            <View style={styles.dialogActionIconWrapper}>
+                                                <LessonTrashIcon color="#EF4444" />
+                                            </View>
+                                        </View>
+                                        <View>
+                                            <Text style={[styles.dialogActionTitle, { color: '#EF4444' }]}>{t('screens.myLessons.actionDelete')}</Text>
+                                            <Text style={styles.dialogActionSubtitle}>{t('screens.myLessons.actionDeleteSub')}</Text>
+                                        </View>
+                                    </MotiView>
+                                )}
                             </Pressable>
                         </View>
                     </Pressable>

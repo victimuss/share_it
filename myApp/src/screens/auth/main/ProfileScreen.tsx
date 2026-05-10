@@ -13,10 +13,11 @@ import { EditUserAPI, GetUserSkills, NewSkillapi, UsersLearned, UsersMaked } fro
 import { ApplicationCodeIcon, BusinessIcon, DesignPaletteIcon, LanguageIcon } from "@/src/SVG/MainPageSVG";
 import { CloseIcon } from "@/src/SVG/SearchSVG";
 import { NewSkill } from "@/src/types/profile";
-import { LoadScreen } from "./LoadScreen";
+import { ProfileScreenSkeleton } from "@/src/components/MainScreenSkeleton";
 import { SearchIcon } from "@/src/SVG/TabSVG";
 import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
+import { MotiView } from 'moti';
 import { lessonEditorStyles as lessonEditorStylesFn } from "@/src/styles/NewSheetStyles";
 import { useLessonStore } from "@/src/context/useLessonStore";
 import { useSheetStore } from "@/src/context/useSheetStore";
@@ -26,6 +27,8 @@ import { useStyles } from '../../../hooks/useStyles';
 import { useThemeStore } from '../../../context/useThemeStore';
 import Svg, { Path } from 'react-native-svg';
 import { Appearance } from 'react-native';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export const ProfileScreen = () => {
   const lessonEditorStyles = useStyles(lessonEditorStylesFn);
@@ -163,7 +166,7 @@ export const ProfileScreen = () => {
     }, [user]);
 
     if (loading) {
-        return <LoadScreen></LoadScreen>
+        return <ProfileScreenSkeleton />
     }
 
     return (
@@ -497,16 +500,33 @@ export const ProfileScreen = () => {
                                                         </View>
                                                     )}
                                                 </View>
-                                            </Pressable>                                     </View>
+                                            </Pressable>
+                                        </View>
                                     </KeyboardAvoidingView>
                                 </ScrollView>
                                 <View style={profileStyles.footer}>
-                                    <Pressable style={(newSkillname.length == 0) ? profileStyles.saveButtonDisabled : profileStyles.saveButton}
+                                    <Pressable
                                         disabled={(newSkillname.length == 0)}
-                                        onPress={() => { NewSkillAdd(); }}>
-                                        <Text style={profileStyles.saveButtonText}>
-                                            {t('screens.profile.buttons.save')}
-                                        </Text>
+                                        onPress={() => { NewSkillAdd(); }}
+                                    >
+                                        {({ pressed }) => (
+                                            <MotiView
+                                                animate={{
+                                                    scale: pressed ? 0.96 : 1,
+                                                    opacity: pressed ? 0.85 : 1,
+                                                }}
+                                                transition={{
+                                                    type: 'spring',
+                                                    damping: 10,
+                                                    stiffness: 200,
+                                                }}
+                                                style={(newSkillname.length == 0) ? profileStyles.saveButtonDisabled : profileStyles.saveButton}
+                                            >
+                                                <Text style={profileStyles.saveButtonText}>
+                                                    {t('screens.profile.buttons.save')}
+                                                </Text>
+                                            </MotiView>
+                                        )}
                                     </Pressable>
                                     <Pressable>
 
@@ -531,18 +551,41 @@ export const ProfileScreen = () => {
                     </FlatList>
                 </View>
                 <View style={profileStyles.tabsContainer}>
-                    <Pressable style={activeTab === 'myLessons' ? profileStyles.tabActive : profileStyles.tab}
-                        onPress={() => { setActivebTab('myLessons') }}>
-                        <Text style={activeTab === 'myLessons' ? profileStyles.tabTextActive : profileStyles.tabText}>{t('screens.profile.tabs.created')}({myLessons.lessons.length})</Text>
+                    <MotiView
+                        animate={{
+                            translateX: activeTab === 'myLessons' ? 0 : 
+                                       activeTab === 'Lessons' ? SCREEN_WIDTH / 3 : 
+                                       (2 * SCREEN_WIDTH) / 3,
+                        }}
+                        transition={{
+                            type: 'timing',
+                            duration: 250,
+                        }}
+                        style={[profileStyles.tabIndicator, { width: SCREEN_WIDTH / 3 }]}
+                    />
+                    <Pressable 
+                        style={activeTab === 'myLessons' ? profileStyles.tabActive : profileStyles.tab}
+                        onPress={() => { setActivebTab('myLessons') }}
+                    >
+                        <Text style={activeTab === 'myLessons' ? profileStyles.tabTextActive : profileStyles.tabText}>
+                            {t('screens.profile.tabs.created')}({myLessons.lessons.length})
+                        </Text>
                     </Pressable>
-                    <Pressable style={activeTab === 'Lessons' ? profileStyles.tabActive : profileStyles.tab}
-                        onPress={() => { setActivebTab('Lessons') }}>
-
-                        <Text style={activeTab === 'Lessons' ? profileStyles.tabTextActive : profileStyles.tabText}>{t('screens.profile.tabs.studying')}({Lessons.learnLessons.length})</Text>
+                    <Pressable 
+                        style={activeTab === 'Lessons' ? profileStyles.tabActive : profileStyles.tab}
+                        onPress={() => { setActivebTab('Lessons') }}
+                    >
+                        <Text style={activeTab === 'Lessons' ? profileStyles.tabTextActive : profileStyles.tabText}>
+                            {t('screens.profile.tabs.studying')}({Lessons.learnLessons.length})
+                        </Text>
                     </Pressable>
-                    <Pressable style={activeTab === 'completedLessons' ? profileStyles.tabActive : profileStyles.tab}
-                        onPress={() => { setActivebTab('completedLessons') }}>
-                        <Text style={activeTab === 'completedLessons' ? profileStyles.tabTextActive : profileStyles.tabText}>{t('screens.profile.tabs.completed')}({completedLessons.learnLessons.length})</Text>
+                    <Pressable 
+                        style={activeTab === 'completedLessons' ? profileStyles.tabActive : profileStyles.tab}
+                        onPress={() => { setActivebTab('completedLessons') }}
+                    >
+                        <Text style={activeTab === 'completedLessons' ? profileStyles.tabTextActive : profileStyles.tabText}>
+                            {t('screens.profile.tabs.completed')}({completedLessons.learnLessons.length})
+                        </Text>
                     </Pressable>
                 </View>
                 <View style={profileStyles.section}>

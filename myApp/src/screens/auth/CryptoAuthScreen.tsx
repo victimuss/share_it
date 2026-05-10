@@ -12,6 +12,8 @@ import {
     Alert,
 } from 'react-native';
 import { zkpAuthStyles as zkpAuthStylesFn } from '../../styles/CryptoAuthStypes';
+import { MotiView } from 'moti';
+import { Dimensions } from 'react-native';
 import { FONTS, RADIUS, SPACING } from '../../styles/root';
 import { LockIcon, CheckmarkIcon, CopyIcon } from '../../SVG/CryptoAuthSVG';
 import CryptoService from '../../utils/CryptoServices';
@@ -33,6 +35,8 @@ async function generateMockKey(): Promise<{
     return { mnemonic, publicKey }
 }
 
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 // ─── Компонент ────────────────────────────────────────────────────
 export default function ZkpAuthScreen() {
@@ -135,8 +139,18 @@ export default function ZkpAuthScreen() {
 
                 {/* ── Таб-переключатель ─────────────────────────────────── */}
                 <View style={styles.tabsWrapper}>
+                    <MotiView
+                        animate={{
+                            translateX: activeTab === 'register' ? 0 : (SCREEN_WIDTH - 2 * SPACING.lg - 2 * SPACING.xs) / 2,
+                        }}
+                        transition={{
+                            type: 'timing',
+                            duration: 250,
+                        }}
+                        style={[styles.tabIndicator, { width: (SCREEN_WIDTH - 2 * SPACING.lg - 2 * SPACING.xs) / 2 }]}
+                    />
                     <TouchableOpacity
-                        style={[styles.tabButton, activeTab === 'register' && styles.tabButtonActive]}
+                        style={[styles.tabButton]}
                         onPress={() => setActiveTab('register')}
                         activeOpacity={0.85}
                     >
@@ -146,7 +160,7 @@ export default function ZkpAuthScreen() {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={[styles.tabButton, activeTab === 'login' && styles.tabButtonActive]}
+                        style={[styles.tabButton]}
                         onPress={() => setActiveTab('login')}
                         activeOpacity={0.85}
                     >
@@ -164,17 +178,29 @@ export default function ZkpAuthScreen() {
                             {t('screens.cryptoAuth.genSubtitle')}
                         </Text>
 
-                        <TouchableOpacity
-                            style={styles.generateButton}
+                        <Pressable
                             onPress={handleGenerate}
-                            activeOpacity={0.85}
                         >
-                            {/* иконка щита — замени на <Ionicons name="shield-checkmark" /> */}
-                            <View style={styles.generateButtonIconWrapper} />
-                            <Text style={styles.generateButtonText}>
-                                {generatedKey ? t('screens.cryptoAuth.genBtnAgain') : t('screens.cryptoAuth.genBtn')}
-                            </Text>
-                        </TouchableOpacity>
+                            {({ pressed }) => (
+                                <MotiView
+                                    animate={{
+                                        scale: pressed ? 0.96 : 1,
+                                        opacity: pressed ? 0.85 : 1,
+                                    }}
+                                    transition={{
+                                        type: 'spring',
+                                        damping: 10,
+                                        stiffness: 200,
+                                    }}
+                                    style={styles.generateButton}
+                                >
+                                    <View style={styles.generateButtonIconWrapper} />
+                                    <Text style={styles.generateButtonText}>
+                                        {generatedKey ? t('screens.cryptoAuth.genBtnAgain') : t('screens.cryptoAuth.genBtn')}
+                                    </Text>
+                                </MotiView>
+                            )}
+                        </Pressable>
 
                         {/* Сгенерированный ключ */}
                         {generatedKey !== '' && (
@@ -206,17 +232,29 @@ export default function ZkpAuthScreen() {
                                     </Text>
                                 </View>
 
-                                <TouchableOpacity
-                                    style={[styles.generateButton, { marginTop: SPACING.md }]}
-                                    activeOpacity={0.85}
+                                <Pressable
                                     onPress={() => {
                                         loginWithCrypto()
                                     }}
                                 >
-                                    {/* иконка входа — замени на <Ionicons name="log-in-outline" /> */}
-                                    <View style={styles.generateButtonIconWrapper} />
-                                    <Text style={styles.generateButtonText}>{t('screens.cryptoAuth.loginWithKey')}</Text>
-                                </TouchableOpacity>
+                                    {({ pressed }) => (
+                                        <MotiView
+                                            animate={{
+                                                scale: pressed ? 0.96 : 1,
+                                                opacity: pressed ? 0.85 : 1,
+                                            }}
+                                            transition={{
+                                                type: 'spring',
+                                                damping: 10,
+                                                stiffness: 200,
+                                            }}
+                                            style={[styles.generateButton, { marginTop: SPACING.md }]}
+                                        >
+                                            <View style={styles.generateButtonIconWrapper} />
+                                            <Text style={styles.generateButtonText}>{t('screens.cryptoAuth.loginWithKey')}</Text>
+                                        </MotiView>
+                                    )}
+                                </Pressable>
                             </>
                         )}
                     </View>
@@ -261,18 +299,31 @@ export default function ZkpAuthScreen() {
                                 <Text style={styles.pasteButtonText}>{t('screens.cryptoAuth.paste')}</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity
-                                style={[
-                                    styles.loginButton,
-                                    inputKey.length < 10 && styles.loginButtonDisabled,
-                                ]}
+                            <Pressable
                                 disabled={inputKey.length < 10}
-                                activeOpacity={0.85}
                                 onPress={handleLogin}
                             >
-                                <Text style={styles.loginButtonText}>{t('screens.cryptoAuth.loginBtn')}</Text>
-                                <View style={styles.loginButtonIconWrapper} />
-                            </TouchableOpacity>
+                                {({ pressed }) => (
+                                    <MotiView
+                                        animate={{
+                                            scale: pressed ? 0.96 : 1,
+                                            opacity: pressed ? 0.85 : 1,
+                                        }}
+                                        transition={{
+                                            type: 'spring',
+                                            damping: 10,
+                                            stiffness: 200,
+                                        }}
+                                        style={[
+                                            styles.loginButton,
+                                            inputKey.length < 10 && styles.loginButtonDisabled,
+                                        ]}
+                                    >
+                                        <Text style={styles.loginButtonText}>{t('screens.cryptoAuth.loginBtn')}</Text>
+                                        <View style={styles.loginButtonIconWrapper} />
+                                    </MotiView>
+                                )}
+                            </Pressable>
                         </View>
                     </View>
                 )}

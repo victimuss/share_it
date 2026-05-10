@@ -180,6 +180,8 @@ export const NewLessonScreen = () => {
                                 isFocus && styles.selectorOpen
                             ]}
                             containerStyle={styles.dropdownList}
+                            itemTextStyle={styles.optionTitle}
+                            itemContainerStyle={styles.dropdownOption}
                             data={diffData}
                             labelField="label"
                             valueField="value"
@@ -218,6 +220,8 @@ export const NewLessonScreen = () => {
                                 isFocusType && styles.selectorOpen
                             ]}
                             containerStyle={styles.dropdownList}
+                            itemTextStyle={styles.optionTitle}
+                            itemContainerStyle={styles.dropdownOption}
                             data={typesData}
                             labelField="label"
                             valueField="value"

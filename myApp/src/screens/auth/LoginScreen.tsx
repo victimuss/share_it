@@ -15,6 +15,7 @@ import { useRoute } from '@react-navigation/native';
 import { useAuth } from '@/src/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '@/src/components/LanguageSwitcher';
+import { MotiView } from 'moti';
 import { useStyles } from '../../hooks/useStyles';
 
 export const LoginScreen = () => {
@@ -74,8 +75,23 @@ export const LoginScreen = () => {
                     onChangeText={setPassword}
                     secureTextEntry
                 />
-                <Pressable style={({ pressed }) => pressed ? [authStyles.button, authStyles.buttonPressed] : authStyles.button} onPress={handleLogin}>
-                    <Text style={authStyles.buttonText}>{t('screens.login.loginButton')}</Text>
+                <Pressable onPress={handleLogin}>
+                    {({ pressed }) => (
+                        <MotiView
+                            animate={{
+                                scale: pressed ? 0.96 : 1,
+                                opacity: pressed ? 0.85 : 1,
+                            }}
+                            transition={{
+                                type: 'spring',
+                                damping: 10,
+                                stiffness: 200,
+                            }}
+                            style={authStyles.button}
+                        >
+                            <Text style={authStyles.buttonText}>{t('screens.login.loginButton')}</Text>
+                        </MotiView>
+                    )}
                 </Pressable>
                 <Pressable style={authStyles.secondaryButton}>
                     <Text style={authStyles.secondaryButtonText}>{t('screens.login.forgotPassword')}</Text>

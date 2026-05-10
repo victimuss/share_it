@@ -14,6 +14,7 @@ import { AuthStackParamList } from '../../navigation/types';
 import { useAuth } from '@/src/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '@/src/components/LanguageSwitcher';
+import { MotiView } from 'moti';
 import { useStyles } from '../../hooks/useStyles';
 
 export const RegisScreen = () => {
@@ -89,16 +90,29 @@ export const RegisScreen = () => {
 
                 <Pressable
                     disabled={loading}
-                    style={({ pressed }) => [
-                        authStyles.button,
-                        pressed && authStyles.buttonPressed,
-                        loading && authStyles.buttonDisabled
-                    ]}
                     onPress={handleRegis}
                 >
-                    <Text style={authStyles.buttonText}>
-                        {loading ? t('screens.register.loading') : t('screens.register.registerButton')}
-                    </Text>
+                    {({ pressed }) => (
+                        <MotiView
+                            animate={{
+                                scale: pressed ? 0.96 : 1,
+                                opacity: pressed ? 0.85 : 1,
+                            }}
+                            transition={{
+                                type: 'spring',
+                                damping: 10,
+                                stiffness: 200,
+                            }}
+                            style={[
+                                authStyles.button,
+                                loading && authStyles.buttonDisabled
+                            ]}
+                        >
+                            <Text style={authStyles.buttonText}>
+                                {loading ? t('screens.register.loading') : t('screens.register.registerButton')}
+                            </Text>
+                        </MotiView>
+                    )}
                 </Pressable>
                 <Pressable style={authStyles.secondaryButton}>
                     <Text style={authStyles.secondaryButtonText}
