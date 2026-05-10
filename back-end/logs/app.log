@@ -1140,3 +1140,15 @@ celery.exceptions.Retry: Retry in 16s: RuntimeError('Event loop is closed')
 [SQL: UPDATE user_lessons SET status=$1::VARCHAR, completed_steps=$2::INTEGER, updated_at=$3::TIMESTAMP WITHOUT TIME ZONE WHERE user_lessons.user_id = $4::INTEGER AND user_lessons.lesson_id = $5::INTEGER]
 [parameters: ('COMPLETED', 1, datetime.datetime(2026, 5, 10, 14, 41, 4, 854814, tzinfo=datetime.timezone.utc), 102, 39)]
 (Background on this error at: https://sqlalche.me/e/20/dbapi), user_id: 102
+2026-05-10 17:41:42 | ERROR    | databases.users_db.user_db_utils:set_progress:132 - Database error in set_progress: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $3: datetime.datetime(2026, 5, 10, 14, 41, 4... (can't subtract offset-naive and offset-aware datetimes)
+[SQL: UPDATE user_lessons SET status=$1::VARCHAR, completed_steps=$2::INTEGER, updated_at=$3::TIMESTAMP WITHOUT TIME ZONE WHERE user_lessons.user_id = $4::INTEGER AND user_lessons.lesson_id = $5::INTEGER]
+[parameters: ('COMPLETED', 1, datetime.datetime(2026, 5, 10, 14, 41, 42, 232068, tzinfo=datetime.timezone.utc), 102, 57)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi), user_id: 102
+2026-05-10 17:43:28 | ERROR    | databases.users_db.user_db_utils:set_progress:132 - Database error in set_progress: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $3: datetime.datetime(2026, 5, 10, 14, 43, 2... (can't subtract offset-naive and offset-aware datetimes)
+[SQL: UPDATE user_lessons SET status=$1::VARCHAR, completed_steps=$2::INTEGER, updated_at=$3::TIMESTAMP WITHOUT TIME ZONE WHERE user_lessons.user_id = $4::INTEGER AND user_lessons.lesson_id = $5::INTEGER]
+[parameters: ('COMPLETED', 1, datetime.datetime(2026, 5, 10, 14, 43, 28, 660608, tzinfo=datetime.timezone.utc), 102, 39)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi), user_id: 102
+2026-05-10 17:45:15 | ERROR    | databases.users_db.user_db_utils:set_progress:132 - Database error in set_progress: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $3: datetime.datetime(2026, 5, 10, 14, 45, 1... (can't subtract offset-naive and offset-aware datetimes)
+[SQL: UPDATE user_lessons SET status=$1::VARCHAR, completed_steps=$2::INTEGER, updated_at=$3::TIMESTAMP WITHOUT TIME ZONE WHERE user_lessons.user_id = $4::INTEGER AND user_lessons.lesson_id = $5::INTEGER]
+[parameters: ('COMPLETED', 1, datetime.datetime(2026, 5, 10, 14, 45, 15, 813776, tzinfo=datetime.timezone.utc), 102, 39)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi), user_id: 102

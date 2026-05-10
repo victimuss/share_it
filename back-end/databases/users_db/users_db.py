@@ -1,14 +1,12 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
-from sqlalchemy import BigInteger, String, ForeignKey, Numeric, Integer, DateTime, Float, Boolean
+from sqlalchemy import BigInteger, String, ForeignKey, Numeric, Integer, DateTime, Float, Boolean, func
 from sqlalchemy.dialects.postgresql import ARRAY
 from typing import List
 from datetime import datetime, timezone
 from databases.databases_compile import Base
 import uuid
 
-def get_utcnow():
-    return datetime.now(timezone.utc).replace(tzinfo=None)
     
 def generate_unique_tag():
     return f"@{uuid.uuid4().hex[:6]}"
@@ -30,8 +28,8 @@ class User(Base):
     telegram: Mapped[str] = mapped_column(String(255), default='', nullable=True)
     lessons: Mapped[List["Lesson"]] = relationship(back_populates="author")
     
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=get_utcnow)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=get_utcnow, onupdate=get_utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     user_notifications: Mapped[List["UserNotifications"]] = relationship(back_populates="user")
 
@@ -44,8 +42,8 @@ class UserLesson(Base):
     status: Mapped[str] = mapped_column(String(50), default='IN_PROGRESS')
     completed_steps: Mapped[float] = mapped_column(Integer, default=0)
 
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=get_utcnow)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=get_utcnow, onupdate=get_utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
     lesson: Mapped["Lesson"] = relationship(back_populates="users_lesson")
 
 class UsersSkills(Base):
@@ -55,8 +53,8 @@ class UsersSkills(Base):
     skill_name: Mapped[str] = mapped_column(String(255), nullable=False)
     level: Mapped[str] = mapped_column(String(50), default='Beginner')
     
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=get_utcnow)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=get_utcnow, onupdate=get_utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
 
 
 
@@ -71,4 +69,4 @@ class UserProgress(Base):
     
     is_correct: Mapped[bool] = mapped_column(Boolean, nullable=False) 
     
-    answered_at: Mapped[datetime] = mapped_column(DateTime, default=get_utcnow)
+    answered_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now())

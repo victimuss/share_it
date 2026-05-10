@@ -21,8 +21,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-def get_utcnow():
-    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 
 class Lesson(Base):
@@ -69,14 +67,9 @@ class Lesson(Base):
     def url(self) -> str:
         return f"{os.getenv('BASE_URL')}/--/lesson/{self.id}"
 
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime, default=get_utcnow
-    )
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=get_utcnow,
-        onupdate=get_utcnow,
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
+
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
 
 
@@ -104,14 +97,8 @@ class LessonSheet(Base):
     content_advice: Mapped[str] = mapped_column(String(75), nullable=True)
 
     lesson: Mapped["Lesson"] = relationship(back_populates="sheets")
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime, default=get_utcnow
-    )
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=get_utcnow,
-        onupdate=get_utcnow,
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
 
 
 class LessonLike(Base):

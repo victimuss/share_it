@@ -15,8 +15,8 @@ interface SheetCardProps {
 }
 
 export const SheetContent = ({ type, sheet }: SheetCardProps) => {
-  const styles = useStyles(lessonStyles);
-  const { colors } = useThemeStore(s => s.theme);
+    const styles = useStyles(lessonStyles);
+    const { colors } = useThemeStore(s => s.theme);
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
@@ -171,9 +171,11 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
             return <ScrollView style={[styles.swipePage, { flex: 1, minHeight: 300 }]}>
                 <View style={styles.pictureImageArea}>
                     <CachedImage
-                        sourceUri={sheet.picture_url}
+                        sourceUri={sheet.picture_url || "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"}
                         style={styles.pictureImage}
                         resizeMode='contain'
+                        onLoad={() => console.log("✅ КАРТИНКА ПОЯВИЛАСЬ!")}
+                        onError={(e) => console.log("❌ ОШИБКА:", e.nativeEvent.error)}
                     />
                 </View>
                 <Text style={[styles.videoCommentText, { marginTop: 10, color: 'black' }]}>

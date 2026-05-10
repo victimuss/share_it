@@ -1,27 +1,17 @@
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, column_property
-from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
-from typing import List
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy import (
     BigInteger,
     String,
     ForeignKey,
-    Numeric,
     Integer,
     DateTime,
-    Float,
     Boolean,
-    select,
     func,
-    JSON,
+    UniqueConstraint
 )
-from sqlalchemy.dialects.postgresql import ARRAY
-from datetime import datetime, timezone
+from datetime import datetime
 from databases.databases_compile import Base
-from sqlalchemy import UniqueConstraint
-
-def get_utcnow():
-    return datetime.now(timezone.utc).replace(tzinfo=None)
-
 
 class UserNotifications(Base, AsyncAttrs):
     __tablename__ = "user_notifications"
@@ -32,10 +22,9 @@ class UserNotifications(Base, AsyncAttrs):
     chat_id: Mapped[int] = mapped_column(BigInteger, index=True)
     category: Mapped[str] = mapped_column(String, nullable=False, index=True)
 
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=get_utcnow)
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime, default=get_utcnow, onupdate=get_utcnow
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
+    
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     user: Mapped["User"] = relationship(back_populates="user_notifications")
 
