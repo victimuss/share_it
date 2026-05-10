@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     
     # База данных
-    DATABASE_URL: str = "postgresql+asyncpg://admin:root@127.0.0.1:5432/my_project"
+    DATABASE_URL: str = ""
     DB_USER: str = "admin"
     DB_PASS: str = "root"      
     DB_HOST: str = "127.0.0.1"
@@ -16,10 +16,10 @@ class Settings(BaseSettings):
     DAYS_TO_KEEP: int = 7           
 
     #Redis
-    REDIS_URL: str = "redis://127.0.0.1:6379/0"
+    REDIS_URL: str = ""
 
     #RabbitMQ
-    CELERY_BROKER_URL: str = "amqp://guest:guest@127.0.0.1:5672//"
+    CELERY_BROKER_URL: str = ""
 
 
     # Секреты для JWT. 
@@ -31,13 +31,13 @@ class Settings(BaseSettings):
     
     # Google Censore и S3
     # Используем Optional или пустые строки по умолчанию
-    S3_ENDPOINT: str = "http://127.0.0.1:9000"
+    S3_ENDPOINT: str = ""
     S3_ACCESS_KEY: str = ""
     S3_SECRET_KEY: str = ""
     S3_BUCKET_NAME: str = ""
     
     # URL для фронтенда
-    S3_PUBLIC_URL: str = "http://127.0.0.1:9000/lessons-media"
+    S3_PUBLIC_URL: str = "http://minio:9000/lessons-media"
 
     # ZKP
     P_KEY: str = ""
@@ -52,7 +52,7 @@ class Settings(BaseSettings):
 
     #Admin
     ADMIN_SECRET_KEY: str = ""
-    ADMIN_SECRET_KEY_HASH: str = "$2b$12$wP5NBMXar9njCK2Ax6Acwe7GMGXbZ30Zch6SzWMLv8Oeth7us11li"
+    ADMIN_SECRET_KEY_HASH: str = ""
     
     # Дополнительные API ключи
     GROQ_API_KEY: str = ""
