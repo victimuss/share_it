@@ -1,5 +1,5 @@
+import { COLORS, FONTS, SPACING, RADIUS } from './root';
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { COLORS, FONTS, SPACING, RADIUS } from '../styles/root';
 
 export const tabBarStyles = StyleSheet.create({
 
@@ -55,7 +55,7 @@ export const tabBarStyles = StyleSheet.create({
         borderRadius: RADIUS.full,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
     } as ViewStyle,
 
     // ─── Подпись вкладки ──────────────────────────────────────────────
@@ -63,7 +63,7 @@ export const tabBarStyles = StyleSheet.create({
      *  Используем самый маленький допустимый размер шрифта — 11px. */
     tabLabel: {
         marginTop: -SPACING.xs,
-        fontSize: 8,
+        fontSize: FONTS.tiny.fontSize,
         width: '100%',
         fontWeight: '400' as const,
         fontFamily: 'Inter_400Regular',
@@ -75,7 +75,7 @@ export const tabBarStyles = StyleSheet.create({
      *  Меняем цвет на primary и увеличиваем вес — вкладка «подсвечивается». */
     tabLabelActive: {
         marginTop: -SPACING.xs,
-        fontSize: 8,
+        fontSize: FONTS.tiny.fontSize,
         width: '100%',
         color: COLORS.primary,
         ontWeight: '400' as const,
@@ -145,14 +145,14 @@ export const tabBarStyles = StyleSheet.create({
         height: 4,
         borderRadius: RADIUS.full,
         backgroundColor: COLORS.primary,
-        marginTop: 2,
+        marginTop: SPACING.s2,
     } as ViewStyle,
 
     /** Заглушка той же высоты для неактивных вкладок — сохраняет выравнивание. */
     activeDotPlaceholder: {
         width: 4,
         height: 4,
-        marginTop: 2,
+        marginTop: SPACING.s2,
     } as ViewStyle,
 
     // ─── Бейдж с числом уведомлений ──────────────────────────────────
@@ -175,7 +175,7 @@ export const tabBarStyles = StyleSheet.create({
 
     /** Текст внутри бейджа с числом уведомлений. */
     badgeText: {
-        fontSize: 9,
+        fontSize: FONTS.micro.fontSize,
         fontWeight: '700' as const,
         fontFamily: 'Inter_700Bold',
         color: COLORS.surface,

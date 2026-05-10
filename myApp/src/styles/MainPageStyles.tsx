@@ -82,7 +82,7 @@ export const homeStyles = StyleSheet.create({
     avatarText: {
         ...FONTS.semibold,
         color: COLORS.surface,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
     } as TextStyle,
 
     // ─── Поиск ───────────────────────────────────────────────────────
@@ -118,7 +118,7 @@ export const homeStyles = StyleSheet.create({
         ...FONTS.regular,
         color: COLORS.text,
         marginLeft: SPACING.sm,
-        paddingVertical: 0,
+        paddingVertical: SPACING.none,
     } as TextStyle,
 
     // ─── Фильтры-чипы ────────────────────────────────────────────────
@@ -310,7 +310,7 @@ export const homeStyles = StyleSheet.create({
     progressLabel: {
         ...FONTS.h2,
         color: COLORS.primary,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
     } as TextStyle,
 
     // ─── Компактная карточка урока (вертикальный список) ─────────────
@@ -375,7 +375,7 @@ export const homeStyles = StyleSheet.create({
     lessonCardLikes: {
         ...FONTS.regular,
         color: COLORS.textSecondary,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
     } as TextStyle,
 
     // ─── Бейджи ──────────────────────────────────────────────────────
@@ -383,14 +383,14 @@ export const homeStyles = StyleSheet.create({
     badge: {
         paddingHorizontal: SPACING.sm,
         backgroundColor: COLORS.primaryLight,
-        paddingVertical: 2,
+        paddingVertical: SPACING.s2,
         borderRadius: RADIUS.sm,
         alignSelf: 'flex-start',
     } as ViewStyle,
 
     /** Текст бейджа */
     badgeText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
         lineHeight: 16,
@@ -400,7 +400,7 @@ export const homeStyles = StyleSheet.create({
     badgeCategory: {
         backgroundColor: COLORS.indigoSoft,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 2,
+        paddingVertical: SPACING.s2,
         marginRight: SPACING.xs,
         borderRadius: RADIUS.sm,
         alignSelf: 'flex-start',
@@ -417,7 +417,7 @@ export const homeStyles = StyleSheet.create({
     badgeBeginner: {
         backgroundColor: COLORS.successLight,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 2,
+        paddingVertical: SPACING.s2,
         marginRight: SPACING.xs,
         borderRadius: RADIUS.sm,
         alignSelf: 'flex-start',
@@ -430,7 +430,7 @@ export const homeStyles = StyleSheet.create({
     /** Бейдж сложности: Intermediate */
     badgeIntermediate: {
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 2,
+        paddingVertical: SPACING.s2,
         marginRight: SPACING.xs,
         borderRadius: RADIUS.sm,
         alignSelf: 'flex-start',
@@ -445,7 +445,7 @@ export const homeStyles = StyleSheet.create({
     badgeAdvanced: {
         backgroundColor: COLORS.errorLight,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 2,
+        paddingVertical: SPACING.s2,
         marginRight: SPACING.xs,
         borderRadius: RADIUS.sm,
         alignSelf: 'flex-start',
@@ -475,7 +475,7 @@ export const homeStyles = StyleSheet.create({
     studyButtonText: {
         ...FONTS.semibold,
         color: COLORS.surface,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 
     // ─── Пустое состояние ────────────────────────────────────────────
@@ -507,15 +507,15 @@ export const homeStyles = StyleSheet.create({
     /** Полупрозрачный оверлей */
     modalOverlay: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.45)',
+        backgroundColor: COLORS.overlay,
         justifyContent: 'flex-end',
     } as ViewStyle,
 
     /** Нижний шит */
     modalSheet: {
         backgroundColor: COLORS.surface,
-        borderTopLeftRadius: 28,
-        borderTopRightRadius: 28,
+        borderTopLeftRadius: RADIUS.xxl,
+        borderTopRightRadius: RADIUS.xxl,
         paddingTop: SPACING.md,
         paddingBottom: SPACING.xxxl,
         paddingHorizontal: SPACING.xl,
@@ -559,7 +559,7 @@ export const homeStyles = StyleSheet.create({
     /** Заголовок модалки */
     modalTitle: {
         ...FONTS.h2,
-        fontSize: 20,
+        fontSize: FONTS.xl.fontSize,
         color: COLORS.text,
         flex: 1,
     } as TextStyle,
@@ -617,7 +617,7 @@ export const homeStyles = StyleSheet.create({
     modalTelegramButtonText: {
         ...FONTS.semibold,
         color: COLORS.surface,
-        fontSize: 15,
+        fontSize: FONTS.medium_15.fontSize,
     } as TextStyle,
 
     /** Строка с политикой конфиденциальности */
@@ -634,7 +634,7 @@ export const homeStyles = StyleSheet.create({
     modalPolicyText: {
         ...FONTS.regular,
         color: COLORS.textSecondary,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         textAlign: 'center',
     } as TextStyle,
 
@@ -642,7 +642,7 @@ export const homeStyles = StyleSheet.create({
     modalPolicyLink: {
         ...FONTS.regular,
         color: COLORS.primary,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         fontWeight: '600' as const,
         textDecorationLine: 'underline',
     } as TextStyle,
@@ -656,6 +656,6 @@ export const homeStyles = StyleSheet.create({
     modalSkipText: {
         ...FONTS.regular,
         color: COLORS.textSecondary,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 });

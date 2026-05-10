@@ -17,7 +17,7 @@ export const zkpAuthStyles = StyleSheet.create({
     // Hero
     heroSection: {
         alignItems: 'center',
-        paddingTop: 56,
+        paddingTop: SPACING.s56,
         paddingBottom: SPACING.xxxl,
     } as ViewStyle,
 
@@ -25,12 +25,12 @@ export const zkpAuthStyles = StyleSheet.create({
         width: 96,
         height: 96,
         borderRadius: RADIUS.full,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: SPACING.xl,
         borderWidth: 1.5,
-        borderColor: '#C7D2FE',
+        borderColor: COLORS.indigoBorder,
         shadowColor: COLORS.primary,
         shadowOffset: { width: 0, height: 8 },
         shadowOpacity: 0.15,
@@ -68,7 +68,7 @@ export const zkpAuthStyles = StyleSheet.create({
 
     heroSubtitle: {
         ...FONTS.regular,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.textSecondary,
         textAlign: 'center',
         lineHeight: 22,
@@ -77,19 +77,19 @@ export const zkpAuthStyles = StyleSheet.create({
 
     // ZKP Card
     zkpCard: {
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
         borderRadius: RADIUS.xl,
         padding: SPACING.lg,
         marginBottom: SPACING.xl,
         borderLeftWidth: 3,
         borderLeftColor: COLORS.primary,
         borderWidth: 1,
-        borderColor: '#C7D2FE',
+        borderColor: COLORS.indigoBorder,
     } as ViewStyle,
 
     zkpCardTitle: {
         ...FONTS.semibold,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         color: COLORS.primary,
         marginBottom: SPACING.sm,
     } as TextStyle,
@@ -102,7 +102,7 @@ export const zkpAuthStyles = StyleSheet.create({
     } as ViewStyle,
 
     zkpCardRowLast: {
-        marginBottom: 0,
+        marginBottom: SPACING.none,
     } as ViewStyle,
 
     zkpCardIconWrapper: {
@@ -111,13 +111,13 @@ export const zkpAuthStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-        marginTop: 2,
+        marginTop: SPACING.s2,
     } as ViewStyle,
 
     zkpCardText: {
         ...FONTS.regular,
-        fontSize: 12,
-        color: '#3730A3',
+        fontSize: FONTS.small.fontSize,
+        color: COLORS.primaryDeep,
         flex: 1,
         lineHeight: 18,
     } as TextStyle,
@@ -127,7 +127,7 @@ export const zkpAuthStyles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: COLORS.borderDark,
         borderRadius: RADIUS.full,
-        padding: 4,
+        padding: SPACING.xs,
         marginBottom: SPACING.md,
     } as ViewStyle,
 
@@ -150,7 +150,7 @@ export const zkpAuthStyles = StyleSheet.create({
 
     tabButtonText: {
         ...FONTS.semibold,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
@@ -175,14 +175,14 @@ export const zkpAuthStyles = StyleSheet.create({
 
     sectionCardTitle: {
         ...FONTS.semibold,
-        fontSize: 15,
+        fontSize: FONTS.medium_15.fontSize,
         color: COLORS.text,
         marginBottom: SPACING.xs,
     } as TextStyle,
 
     sectionCardSubtitle: {
         ...FONTS.regular,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         color: COLORS.textSecondary,
         lineHeight: 20,
         marginBottom: SPACING.lg,
@@ -218,7 +218,7 @@ export const zkpAuthStyles = StyleSheet.create({
 
     // Key Display Block
     keyDisplayBlock: {
-        backgroundColor: '#1E1E2E',
+        backgroundColor: COLORS.darkSurface,
         borderRadius: RADIUS.lg,
         padding: SPACING.md,
         marginTop: SPACING.md,
@@ -235,7 +235,7 @@ export const zkpAuthStyles = StyleSheet.create({
     } as ViewStyle,
 
     keyDisplayLabel: {
-        fontSize: 10,
+        fontSize: FONTS.mini.fontSize,
         fontFamily: 'Inter_600SemiBold',
         fontWeight: '600' as const,
         color: COLORS.primaryLight,
@@ -247,15 +247,15 @@ export const zkpAuthStyles = StyleSheet.create({
         alignItems: 'center',
         gap: SPACING.xs,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 3,
+        paddingVertical: SPACING.s3,
         borderRadius: RADIUS.sm,
-        backgroundColor: 'rgba(99,102,241,0.2)',
+        backgroundColor: COLORS.primaryAlpha20,
         borderWidth: 1,
-        borderColor: 'rgba(99,102,241,0.3)',
+        borderColor: COLORS.primaryAlpha30,
     } as ViewStyle,
 
     copyButtonText: {
-        fontSize: 10,
+        fontSize: FONTS.mini.fontSize,
         fontFamily: 'Inter_400Regular',
         color: COLORS.primaryLight,
     } as TextStyle,
@@ -268,9 +268,9 @@ export const zkpAuthStyles = StyleSheet.create({
     } as ViewStyle,
 
     keyText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontFamily: 'SpaceMono_400Regular',
-        color: '#E2E8F0',
+        color: COLORS.slate200,
         lineHeight: 18,
         letterSpacing: 0.3,
         wordBreak: 'break-all',
@@ -282,11 +282,11 @@ export const zkpAuthStyles = StyleSheet.create({
         alignItems: 'flex-start',
         gap: SPACING.sm,
         marginTop: SPACING.md,
-        backgroundColor: '#FFFBEB',
+        backgroundColor: COLORS.warningSoft,
         borderRadius: RADIUS.md,
         padding: SPACING.md,
         borderWidth: 1,
-        borderColor: '#FCD34D',
+        borderColor: COLORS.warningBorder,
     } as ViewStyle,
 
     keyWarningIconWrapper: {
@@ -295,13 +295,13 @@ export const zkpAuthStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-        marginTop: 1,
+        marginTop: SPACING.s1,
     } as ViewStyle,
 
     keyWarningText: {
         ...FONTS.regular,
-        fontSize: 12,
-        color: '#92400E',
+        fontSize: FONTS.small.fontSize,
+        color: COLORS.amber900,
         flex: 1,
         lineHeight: 18,
     } as TextStyle,
@@ -314,7 +314,7 @@ export const zkpAuthStyles = StyleSheet.create({
         borderRadius: RADIUS.lg,
         paddingHorizontal: SPACING.lg,
         paddingVertical: SPACING.md,
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         color: COLORS.text,
         fontFamily: 'SpaceMono_400Regular',
         minHeight: 80,
@@ -355,7 +355,7 @@ export const zkpAuthStyles = StyleSheet.create({
 
     pasteButtonText: {
         ...FONTS.semibold,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         color: COLORS.text,
     } as TextStyle,
 
@@ -409,7 +409,7 @@ export const zkpAuthStyles = StyleSheet.create({
 
     footerText: {
         ...FONTS.regular,
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         color: COLORS.textSecondary,
         textAlign: 'center',
         lineHeight: 18,

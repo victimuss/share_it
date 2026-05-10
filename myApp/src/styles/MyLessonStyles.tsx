@@ -20,7 +20,7 @@ export const myLessonsStyles = StyleSheet.create({
         backgroundColor: COLORS.surface,
         paddingTop: SPACING.xl,
         paddingHorizontal: SPACING.lg,
-        paddingBottom: 0,
+        paddingBottom: SPACING.none,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.border,
     } as ViewStyle,
@@ -55,13 +55,13 @@ export const myLessonsStyles = StyleSheet.create({
 
     tabText: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
     tabTextActive: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.primary,
     } as TextStyle,
 
@@ -100,7 +100,7 @@ export const myLessonsStyles = StyleSheet.create({
     } as ViewStyle,
 
     filterChipText: {
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         fontWeight: '500' as const,
         fontFamily: 'Inter_500Medium',
         color: COLORS.textSecondary,
@@ -129,7 +129,7 @@ export const myLessonsStyles = StyleSheet.create({
 
     resultsText: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
@@ -178,7 +178,7 @@ export const myLessonsStyles = StyleSheet.create({
 
     lessonTitle: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.text,
         lineHeight: 20,
     } as TextStyle,
@@ -192,24 +192,24 @@ export const myLessonsStyles = StyleSheet.create({
 
     lessonMetaText: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
     lessonMetaDot: {
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textLight,
     } as TextStyle,
 
     /** Бабл-теги (сложность, категория). */
     tagBadge: {
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 4,
+        paddingVertical: SPACING.xs,
         borderRadius: RADIUS.sm,
     } as ViewStyle,
 
     tagText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
     } as TextStyle,
@@ -224,7 +224,7 @@ export const myLessonsStyles = StyleSheet.create({
 
     continueButtonText: {
         color: COLORS.surface,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
     } as TextStyle,
@@ -237,7 +237,7 @@ export const myLessonsStyles = StyleSheet.create({
 
     repeatButtonText: {
         color: COLORS.primary,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
     } as TextStyle,
@@ -293,7 +293,7 @@ export const myLessonsStyles = StyleSheet.create({
     } as ViewStyle,
 
     lessonStatText: {
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         fontFamily: 'Inter_400Regular',
         color: COLORS.textSecondary,
     } as TextStyle,
@@ -304,19 +304,19 @@ export const myLessonsStyles = StyleSheet.create({
         alignItems: 'center',
         gap: 4,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 3,
+        paddingVertical: SPACING.s3,
         borderRadius: RADIUS.sm,
     } as ViewStyle,
 
     /** Draft — серый. */
     statusDraft: {
-        backgroundColor: '#F3F4F6',
+        backgroundColor: COLORS.backgroundAlt,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
+        borderColor: COLORS.border,
     } as ViewStyle,
 
     statusDraftText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
         color: COLORS.textSecondary,
@@ -324,13 +324,13 @@ export const myLessonsStyles = StyleSheet.create({
 
     /** Active — зелёный. */
     statusActive: {
-        backgroundColor: '#D1FAE5',
+        backgroundColor: COLORS.successLight,
         borderWidth: 1,
-        borderColor: '#6EE7B7',
+        borderColor: COLORS.successBorder,
     } as ViewStyle,
 
     statusActiveText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
         color: COLORS.success,
@@ -340,11 +340,11 @@ export const myLessonsStyles = StyleSheet.create({
     statusRejected: {
         backgroundColor: COLORS.errorLight,
         borderWidth: 1,
-        borderColor: '#FECACA',
+        borderColor: COLORS.errorBorder,
     } as ViewStyle,
 
     statusRejectedText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
         color: COLORS.error,
@@ -385,7 +385,7 @@ export const myLessonsStyles = StyleSheet.create({
     } as ViewStyle,
 
     progressLabel: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontFamily: 'Inter_400Regular',
         color: COLORS.textSecondary,
         minWidth: 28,
@@ -399,11 +399,11 @@ export const myLessonsStyles = StyleSheet.create({
         alignItems: 'center',
         gap: 4,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 3,
+        paddingVertical: SPACING.s3,
         borderRadius: RADIUS.sm,
-        backgroundColor: '#D1FAE5',
+        backgroundColor: COLORS.successLight,
         borderWidth: 1,
-        borderColor: '#6EE7B7',
+        borderColor: COLORS.successBorder,
     } as ViewStyle,
 
     completedBadgeIconWrapper: {
@@ -414,7 +414,7 @@ export const myLessonsStyles = StyleSheet.create({
     } as ViewStyle,
 
     completedBadgeText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
         color: COLORS.success,
@@ -432,13 +432,13 @@ export const myLessonsStyles = StyleSheet.create({
 
     sectionTitle: {
         ...FONTS.bold,
-        fontSize: 15,
+        fontSize: FONTS.medium_15.fontSize,
         color: COLORS.text,
     } as TextStyle,
 
     sectionCount: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
@@ -499,14 +499,14 @@ export const myLessonsStyles = StyleSheet.create({
     emptyButtonText: {
         ...FONTS.semibold,
         color: COLORS.surface,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
     } as TextStyle,
 
     // ─── Диалог действий (просмотреть / редактировать / удалить) ─────
     /** Оверлей поверх экрана. */
     dialogOverlay: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.45)',
+        backgroundColor: COLORS.overlay,
         justifyContent: 'flex-end',
     } as ViewStyle,
 
@@ -550,15 +550,15 @@ export const myLessonsStyles = StyleSheet.create({
 
     dialogPreviewTitle: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.text,
     } as TextStyle,
 
     dialogPreviewMeta: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
-        marginTop: 2,
+        marginTop: SPACING.s2,
     } as TextStyle,
 
     /** Список действий диалога. */
@@ -593,15 +593,15 @@ export const myLessonsStyles = StyleSheet.create({
 
     dialogActionTitle: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.text,
     } as TextStyle,
 
     dialogActionSubtitle: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
-        marginTop: 1,
+        marginTop: SPACING.s1,
     } as TextStyle,
 
     /** Действие «Удалить» — красный акцент. */
@@ -611,7 +611,7 @@ export const myLessonsStyles = StyleSheet.create({
 
     dialogActionDeleteTitle: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.error,
     } as TextStyle,
 

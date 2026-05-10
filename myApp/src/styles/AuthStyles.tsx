@@ -186,13 +186,13 @@ export const authStyles = StyleSheet.create({
     color: COLORS.textSecondary,
   } as TextStyle,
   legalText: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONTS.small.fontSize,
+    color: COLORS.textTertiary,
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: SPACING.xl,
   } as TextStyle,
   link: {
-    color: '#007AFF',
+    color: COLORS.linkBlue,
     textDecorationLine: 'underline',
   } as TextStyle,
 });

@@ -34,11 +34,11 @@ export const lessonLandingStyles = StyleSheet.create({
         width: 36,
         height: 36,
         borderRadius: RADIUS.full,
-        backgroundColor: 'rgba(255,255,255,0.2)',
+        backgroundColor: COLORS.whiteAlpha20,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.3)',
+        borderColor: COLORS.whiteAlpha30,
     } as ViewStyle,
 
     heroBackIconWrapper: {
@@ -56,11 +56,11 @@ export const lessonLandingStyles = StyleSheet.create({
         width: 36,
         height: 36,
         borderRadius: RADIUS.full,
-        backgroundColor: 'rgba(255,255,255,0.2)',
+        backgroundColor: COLORS.whiteAlpha20,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.3)',
+        borderColor: COLORS.whiteAlpha30,
     } as ViewStyle,
 
     heroMoreIconWrapper: {
@@ -74,16 +74,16 @@ export const lessonLandingStyles = StyleSheet.create({
     heroCategoryBadge: {
         alignSelf: 'flex-start',
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 3,
+        paddingVertical: SPACING.s3,
         borderRadius: RADIUS.sm,
-        backgroundColor: 'rgba(255,255,255,0.2)',
+        backgroundColor: COLORS.whiteAlpha20,
         marginBottom: SPACING.sm,
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.3)',
+        borderColor: COLORS.whiteAlpha30,
     } as ViewStyle,
 
     heroCategoryText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
         color: COLORS.surface,
@@ -134,7 +134,7 @@ export const lessonLandingStyles = StyleSheet.create({
 
     authorAvatarText: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.surface,
     } as TextStyle,
 
@@ -144,14 +144,14 @@ export const lessonLandingStyles = StyleSheet.create({
 
     authorName: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.text,
-        marginBottom: 2,
+        marginBottom: SPACING.s2,
     } as TextStyle,
 
     authorMeta: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
@@ -170,7 +170,7 @@ export const lessonLandingStyles = StyleSheet.create({
     } as ViewStyle,
 
     followButtonText: {
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
         color: COLORS.primary,
@@ -211,13 +211,13 @@ export const lessonLandingStyles = StyleSheet.create({
 
     metricValue: {
         ...FONTS.bold,
-        fontSize: 16,
+        fontSize: FONTS.medium.fontSize,
         color: COLORS.text,
-        marginBottom: 1,
+        marginBottom: SPACING.s1,
     } as TextStyle,
 
     metricLabel: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontFamily: 'Inter_400Regular',
         color: COLORS.textSecondary,
         textAlign: 'center',
@@ -249,13 +249,13 @@ export const lessonLandingStyles = StyleSheet.create({
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.xs,
         borderRadius: RADIUS.full,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
         borderWidth: 1,
-        borderColor: '#C7D2FE',
+        borderColor: COLORS.indigoBorder,
     } as ViewStyle,
 
     tagChipText: {
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         fontWeight: '500' as const,
         fontFamily: 'Inter_500Medium',
         color: COLORS.primary,
@@ -281,7 +281,7 @@ export const lessonLandingStyles = StyleSheet.create({
 
     ratingCardTitle: {
         ...FONTS.semibold,
-        fontSize: 15,
+        fontSize: FONTS.medium_15.fontSize,
         color: COLORS.text,
         marginBottom: SPACING.lg,
         textAlign: 'center',
@@ -311,8 +311,8 @@ export const lessonLandingStyles = StyleSheet.create({
 
     /** Лайк активный — фон розовый. */
     likeButtonActive: {
-        borderColor: '#FBCFE8',
-        backgroundColor: '#FDF2F8',
+        borderColor: COLORS.pink200,
+        backgroundColor: COLORS.pink50,
     } as ViewStyle,
 
     likeButtonPressed: {
@@ -323,8 +323,8 @@ export const lessonLandingStyles = StyleSheet.create({
         paddingVertical: SPACING.md,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        borderColor: '#DB2777',
-        backgroundColor: '#FCE7F3',
+        borderColor: COLORS.accentDark,
+        backgroundColor: COLORS.pink100,
     } as ViewStyle,
 
     likeIconWrapper: {
@@ -336,14 +336,14 @@ export const lessonLandingStyles = StyleSheet.create({
 
     likeCount: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
     likeCountActive: {
         ...FONTS.semibold,
-        fontSize: 14,
-        color: '#DB2777',
+        fontSize: FONTS.regular.fontSize,
+        color: COLORS.accentDark,
     } as TextStyle,
 
     // ─── Звёздный рейтинг ────────────────────────────────────────────
@@ -369,13 +369,13 @@ export const lessonLandingStyles = StyleSheet.create({
     /** Текст среднего рейтинга рядом со звёздами. */
     ratingValue: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.text,
     } as TextStyle,
 
     ratingCount: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
         textAlign: 'center',
         marginTop: SPACING.sm,
@@ -396,7 +396,7 @@ export const lessonLandingStyles = StyleSheet.create({
 
     ratingToastText: {
         ...FONTS.regular,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         color: COLORS.surface,
     } as TextStyle,
 
@@ -405,14 +405,14 @@ export const lessonLandingStyles = StyleSheet.create({
     resumeCard: {
         marginHorizontal: SPACING.lg,
         marginBottom: SPACING.xl,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
         borderRadius: RADIUS.xl,
         padding: SPACING.lg,
         flexDirection: 'row',
         alignItems: 'center',
         gap: SPACING.md,
         borderWidth: 1,
-        borderColor: '#C7D2FE',
+        borderColor: COLORS.indigoBorder,
     } as ViewStyle,
 
     resumeIconCircle: {
@@ -438,22 +438,22 @@ export const lessonLandingStyles = StyleSheet.create({
 
     resumeTitle: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.primary,
-        marginBottom: 2,
+        marginBottom: SPACING.s2,
     } as TextStyle,
 
     resumeSubtitle: {
         ...FONTS.regular,
-        fontSize: 12,
-        color: '#6366F1',
+        fontSize: FONTS.small.fontSize,
+        color: COLORS.primary,
         opacity: 0.8,
     } as TextStyle,
 
     /** Мини прогресс-бар внутри resumeCard. */
     resumeProgressTrack: {
         height: 4,
-        backgroundColor: '#C7D2FE',
+        backgroundColor: COLORS.indigoBorder,
         borderRadius: RADIUS.full,
         marginTop: SPACING.sm,
         overflow: 'hidden',
@@ -511,7 +511,7 @@ export const lessonLandingStyles = StyleSheet.create({
 
     exitButtonText: {
         ...FONTS.regular,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 });

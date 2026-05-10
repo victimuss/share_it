@@ -105,7 +105,7 @@ export const profileStyles = StyleSheet.create({
   editButtonText: {
     ...FONTS.semibold,
     color: COLORS.primary,
-    fontSize: 14,
+    fontSize: FONTS.regular.fontSize,
   } as TextStyle,
 
   // ─── Статистика ──────────────────────────────────────────────────
@@ -142,7 +142,7 @@ export const profileStyles = StyleSheet.create({
   statLabel: {
     ...FONTS.regular,
     color: COLORS.textSecondary,
-    fontSize: 12,
+    fontSize: FONTS.small.fontSize,
     textAlign: 'center',
   } as TextStyle,
 
@@ -225,7 +225,7 @@ export const profileStyles = StyleSheet.create({
   } as ViewStyle,
 
   skillChipText: {
-    fontSize: 13,
+    fontSize: FONTS.sub.fontSize,
     fontWeight: '500' as const,
     fontFamily: 'Inter_500Medium',
     color: COLORS.primary,
@@ -246,7 +246,7 @@ export const profileStyles = StyleSheet.create({
   } as ViewStyle,
 
   addSkillText: {
-    fontSize: 13,
+    fontSize: FONTS.sub.fontSize,
     fontWeight: '500' as const,
     color: COLORS.textSecondary,
   } as TextStyle,
@@ -282,7 +282,7 @@ export const profileStyles = StyleSheet.create({
   tabText: {
     ...FONTS.regular,
     color: COLORS.textSecondary,
-    fontSize: 14,
+    fontSize: FONTS.regular.fontSize,
   } as TextStyle,
 
   tabTextActive: {
@@ -329,7 +329,7 @@ export const profileStyles = StyleSheet.create({
     ...FONTS.medium,
     color: COLORS.text,
     marginBottom: SPACING.xs,
-    fontSize: 14,
+    fontSize: FONTS.regular.fontSize,
   } as TextStyle,
 
   lessonMeta: {
@@ -382,7 +382,7 @@ export const profileStyles = StyleSheet.create({
   } as ViewStyle,
 
   achievementLabel: {
-    fontSize: 10,
+    fontSize: FONTS.mini.fontSize,
     fontWeight: '500' as const,
     color: COLORS.textSecondary,
     textAlign: 'center',
@@ -393,7 +393,7 @@ export const profileStyles = StyleSheet.create({
    *  Один оверлей переиспользуется для обеих модалок. */
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    backgroundColor: COLORS.overlay,
     justifyContent: 'flex-end',
   } as ViewStyle,
 
@@ -479,7 +479,7 @@ export const profileStyles = StyleSheet.create({
   inputLabel: {
     ...FONTS.medium,
     color: COLORS.text,
-    fontSize: 14,
+    fontSize: FONTS.regular.fontSize,
     marginBottom: SPACING.sm,
   } as TextStyle,
 
@@ -519,7 +519,7 @@ export const profileStyles = StyleSheet.create({
   /** Текст ошибки под полем. */
   errorText: {
     ...FONTS.regular,
-    fontSize: 12,
+    fontSize: FONTS.small.fontSize,
     color: COLORS.error,
     marginTop: SPACING.xs,
     marginLeft: SPACING.xs,
@@ -529,7 +529,7 @@ export const profileStyles = StyleSheet.create({
    *  Помогает пользователю не превысить лимит. */
   charCounter: {
     ...FONTS.regular,
-    fontSize: 11,
+    fontSize: FONTS.xs.fontSize,
     color: COLORS.textSecondary,
     textAlign: 'right',
     marginTop: -SPACING.xxl,
@@ -538,7 +538,7 @@ export const profileStyles = StyleSheet.create({
   /** Счётчик когда лимит близко — меняем цвет на warning. */
   charCounterWarn: {
     ...FONTS.regular,
-    fontSize: 11,
+    fontSize: FONTS.xs.fontSize,
     color: COLORS.warning,
     textAlign: 'right',
     marginTop: -SPACING.xxl,
@@ -549,7 +549,7 @@ export const profileStyles = StyleSheet.create({
   levelLabel: {
     ...FONTS.medium,
     color: COLORS.text,
-    fontSize: 14,
+    fontSize: FONTS.regular.fontSize,
     marginBottom: SPACING.md,
   } as TextStyle,
 
@@ -581,7 +581,7 @@ export const profileStyles = StyleSheet.create({
     borderRadius: RADIUS.lg,
     borderWidth: 1.5,
     borderColor: COLORS.success,
-    backgroundColor: '#F0FDF4',
+    backgroundColor: COLORS.successSoft,
   } as ViewStyle,
 
   levelCardActiveIntermediate: {
@@ -592,7 +592,7 @@ export const profileStyles = StyleSheet.create({
     borderRadius: RADIUS.lg,
     borderWidth: 1.5,
     borderColor: COLORS.warning,
-    backgroundColor: '#FFFBEB',
+    backgroundColor: COLORS.warningSoft,
   } as ViewStyle,
 
   levelCardActiveAdvanced: {
@@ -603,7 +603,7 @@ export const profileStyles = StyleSheet.create({
     borderRadius: RADIUS.lg,
     borderWidth: 1.5,
     borderColor: COLORS.error,
-    backgroundColor: '#FFF5F5',
+    backgroundColor: COLORS.red50,
   } as ViewStyle,
 
   /** Круглая иконка-индикатор уровня (цветной кружок). */
@@ -623,7 +623,7 @@ export const profileStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    backgroundColor: '#D1FAE5',
+    backgroundColor: COLORS.successLight,
   } as ViewStyle,
 
   levelDotIntermediate: {
@@ -633,7 +633,7 @@ export const profileStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    backgroundColor: '#FEF3C7',
+    backgroundColor: COLORS.warningLight,
   } as ViewStyle,
 
   levelDotAdvanced: {
@@ -643,7 +643,7 @@ export const profileStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    backgroundColor: '#FEE2E2',
+    backgroundColor: COLORS.errorLight,
   } as ViewStyle,
 
   /** View-обёртка под иконку внутри кружка — добавишь сам. */
@@ -662,15 +662,15 @@ export const profileStyles = StyleSheet.create({
   /** Название уровня. */
   levelCardTitle: {
     ...FONTS.semibold,
-    fontSize: 14,
+    fontSize: FONTS.regular.fontSize,
     color: COLORS.text,
-    marginBottom: 2,
+    marginBottom: SPACING.s2,
   } as TextStyle,
 
   /** Подсказка под названием уровня. */
   levelCardSubtitle: {
     ...FONTS.regular,
-    fontSize: 12,
+    fontSize: FONTS.small.fontSize,
     color: COLORS.textSecondary,
     lineHeight: 16,
   } as TextStyle,
@@ -759,7 +759,7 @@ export const profileStyles = StyleSheet.create({
   avatarChangeText: {
     ...FONTS.regular,
     alignSelf: 'center',
-    fontSize: 11,
+    fontSize: FONTS.xs.fontSize,
     color: COLORS.primary,
     fontWeight: '500' as const,
   } as TextStyle,
@@ -800,7 +800,7 @@ export const profileStyles = StyleSheet.create({
   /** Подзаголовок группы полей (например «Контакты»). */
   formGroupTitle: {
     ...FONTS.bold,
-    fontSize: 13,
+    fontSize: FONTS.sub.fontSize,
     color: COLORS.textSecondary,
     textTransform: 'uppercase' as const,
     letterSpacing: 0.5,
@@ -863,7 +863,7 @@ export const profileStyles = StyleSheet.create({
 
   cancelButtonText: {
     ...FONTS.regular,
-    fontSize: 14,
+    fontSize: FONTS.regular.fontSize,
     color: COLORS.textSecondary,
   } as TextStyle,
 });

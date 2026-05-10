@@ -45,7 +45,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     headerTitle: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.text,
         flex: 1,
         textAlign: 'center',
@@ -65,8 +65,8 @@ export const lessonSwipeViewStyles = StyleSheet.create({
     } as ViewStyle,
 
     bookmarkButtonActive: {
-        backgroundColor: '#EEF2FF',
-        borderColor: '#C7D2FE',
+        backgroundColor: COLORS.primarySoft,
+        borderColor: COLORS.indigoBorder,
     } as ViewStyle,
 
     bookmarkIconWrapper: {
@@ -124,13 +124,13 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     progressLabelLeft: {
         ...FONTS.regular,
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
     progressLabelRight: {
         ...FONTS.regular,
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         color: COLORS.primary,
         fontWeight: '600' as const,
     } as TextStyle,
@@ -169,7 +169,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         alignItems: 'center',
         gap: SPACING.xs,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 3,
+        paddingVertical: SPACING.s3,
         borderRadius: RADIUS.sm,
     } as ViewStyle,
 
@@ -178,9 +178,9 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         alignItems: 'center',
         gap: SPACING.xs,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 3,
+        paddingVertical: SPACING.s3,
         borderRadius: RADIUS.xl,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
     } as ViewStyle,
 
     typeBadgeVideo: {
@@ -188,9 +188,9 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         alignItems: 'center',
         gap: SPACING.xs,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 3,
+        paddingVertical: SPACING.s3,
         borderRadius: RADIUS.xl,
-        backgroundColor: '#FEE2E2',
+        backgroundColor: COLORS.errorLight,
     } as ViewStyle,
 
     typeBadgeQuestion: {
@@ -198,9 +198,9 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         alignItems: 'center',
         gap: SPACING.xs,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 3,
+        paddingVertical: SPACING.s3,
         borderRadius: RADIUS.xl,
-        backgroundColor: '#D1FAE5',
+        backgroundColor: COLORS.successLight,
     } as ViewStyle,
 
     typeBadgePicture: {
@@ -208,14 +208,14 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         alignItems: 'center',
         gap: SPACING.xs,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 3,
+        paddingVertical: SPACING.s3,
         borderRadius: RADIUS.xl,
-        backgroundColor: '#FEF3C7',
+        backgroundColor: COLORS.warningLight,
     } as ViewStyle,
 
     typeBadgeText: {
         ...FONTS.medium,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 
     typeBadgeTextTheory: { color: COLORS.primary } as TextStyle,
@@ -239,14 +239,14 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         color: COLORS.text,
         lineHeight: 26,
         marginBottom: SPACING.lg,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
     } as TextStyle,
 
     /** Advice-блок — синяя левая полоска. */
     adviceBlock: {
         flexDirection: 'row',
         gap: SPACING.md,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
         borderTopRightRadius: RADIUS.lg,
         borderBottomRightRadius: RADIUS.lg,
         padding: SPACING.md,
@@ -261,13 +261,13 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-        marginTop: 2,
+        marginTop: SPACING.s2,
     } as ViewStyle,
 
     adviceText: {
         ...FONTS.regular,
-        fontSize: 13,
-        color: '#3730A3',
+        fontSize: FONTS.sub.fontSize,
+        color: COLORS.primaryDeep,
         flex: 1,
         lineHeight: 20,
     } as TextStyle,
@@ -276,7 +276,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
     warningBlock: {
         flexDirection: 'row',
         gap: SPACING.md,
-        backgroundColor: '#FFFBEB',
+        backgroundColor: COLORS.warningSoft,
         borderTopRightRadius: RADIUS.lg,
         borderBottomRightRadius: RADIUS.lg,
         padding: SPACING.md,
@@ -291,13 +291,13 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-        marginTop: 2,
+        marginTop: SPACING.s2,
     } as ViewStyle,
 
     warningText: {
         ...FONTS.regular,
-        fontSize: 13,
-        color: '#92400E',
+        fontSize: FONTS.sub.fontSize,
+        color: COLORS.amber900,
         flex: 1,
         lineHeight: 20,
     } as TextStyle,
@@ -308,7 +308,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     /** Карточка-плеер. */
     videoPlayer: {
-        backgroundColor: '#1E1E2E',
+        backgroundColor: COLORS.darkSurface,
         borderRadius: RADIUS.xl,
         overflow: 'hidden',
         marginBottom: SPACING.md,
@@ -316,7 +316,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     videoThumb: {
         height: 180,
-        backgroundColor: '#12121C',
+        backgroundColor: COLORS.darkBackground,
         alignItems: 'center',
         justifyContent: 'center',
     } as ViewStyle,
@@ -325,11 +325,11 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         width: 52,
         height: 52,
         borderRadius: RADIUS.full,
-        backgroundColor: 'rgba(255,255,255,0.15)',
+        backgroundColor: COLORS.whiteAlpha15,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 2,
-        borderColor: 'rgba(255,255,255,0.25)',
+        borderColor: COLORS.whiteAlpha25,
     } as ViewStyle,
 
     playIconWrapper: {
@@ -337,7 +337,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         height: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 2,
+        marginLeft: SPACING.s2,
     } as ViewStyle,
 
     videoProgressArea: {
@@ -346,7 +346,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     videoProgressTrack: {
         height: 3,
-        backgroundColor: 'rgba(255,255,255,0.15)',
+        backgroundColor: COLORS.whiteAlpha15,
         borderRadius: RADIUS.full,
         overflow: 'hidden',
         marginBottom: SPACING.xs,
@@ -364,9 +364,9 @@ export const lessonSwipeViewStyles = StyleSheet.create({
     } as ViewStyle,
 
     videoTimeText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontFamily: 'Inter_400Regular',
-        color: 'rgba(255,255,255,0.45)',
+        color: COLORS.whiteAlpha45,
     } as TextStyle,
 
     /** Блок комментария к видео. */
@@ -379,7 +379,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
     } as ViewStyle,
 
     videoCommentLabel: {
-        fontSize: 10,
+        fontSize: FONTS.mini.fontSize,
         fontFamily: 'Inter_400Regular',
         color: COLORS.textSecondary,
         fontWeight: '600' as const,
@@ -389,14 +389,14 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     videoCommentText: {
         ...FONTS.regular,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         color: COLORS.text,
         lineHeight: 20,
     } as TextStyle,
 
     videoLink: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.primary,
         fontWeight: '500' as const,
         marginTop: SPACING.sm,
@@ -426,7 +426,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         width: 34,
         height: 34,
         borderRadius: RADIUS.full,
-        backgroundColor: '#D1FAE5',
+        backgroundColor: COLORS.successLight,
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
@@ -441,7 +441,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     questionText: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.text,
         flex: 1,
         lineHeight: 22,
@@ -462,12 +462,12 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     answerOptionSelected: {
         borderColor: COLORS.primary,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
     } as ViewStyle,
 
     answerOptionCorrect: {
         borderColor: COLORS.success,
-        backgroundColor: '#F0FDF4',
+        backgroundColor: COLORS.successSoft,
     } as ViewStyle,
 
     answerOptionWrong: {
@@ -503,7 +503,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
     } as ViewStyle,
 
     answerBulletText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
         color: COLORS.textSecondary,
@@ -515,7 +515,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     answerOptionText: {
         ...FONTS.regular,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         color: COLORS.text,
         flex: 1,
         lineHeight: 20,
@@ -579,15 +579,15 @@ export const lessonSwipeViewStyles = StyleSheet.create({
     } as ViewStyle,
 
     resultBannerCorrect: {
-        backgroundColor: '#F0FDF4',
+        backgroundColor: COLORS.successSoft,
         borderWidth: 1,
-        borderColor: '#BBF7D0',
+        borderColor: COLORS.green200,
     } as ViewStyle,
 
     resultBannerWrong: {
         backgroundColor: COLORS.errorLight,
         borderWidth: 1,
-        borderColor: '#FECACA',
+        borderColor: COLORS.errorBorder,
     } as ViewStyle,
 
     resultBannerIconWrapper: {
@@ -599,14 +599,14 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     resultBannerTextCorrect: {
         ...FONTS.semibold,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.success,
         flex: 1,
     } as TextStyle,
 
     resultBannerTextWrong: {
         ...FONTS.semibold,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.error,
         flex: 1,
     } as TextStyle,
@@ -619,7 +619,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         borderRadius: RADIUS.xl,
         overflow: 'hidden',
         marginBottom: SPACING.md,
-        backgroundColor: '#E0E7FF',
+        backgroundColor: COLORS.indigo100,
         alignItems: 'center',
         justifyContent: 'center',
     } as ViewStyle,
@@ -637,7 +637,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: SPACING.xs,
-        backgroundColor: 'rgba(0,0,0,0.45)',
+        backgroundColor: COLORS.overlay,
         borderRadius: RADIUS.full,
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.xs,
@@ -651,14 +651,14 @@ export const lessonSwipeViewStyles = StyleSheet.create({
     } as ViewStyle,
 
     pictureZoomText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontFamily: 'Inter_400Regular',
         color: COLORS.surface,
     } as TextStyle,
 
     pictureCaption: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
         textAlign: 'center',
         lineHeight: 18,
@@ -668,7 +668,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
     /** Оверлей полноэкранного просмотра — через Modal в RN. */
     pictureFullscreenOverlay: {
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: COLORS.black,
         alignItems: 'center',
         justifyContent: 'center',
     } as ViewStyle,
@@ -680,7 +680,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         width: 36,
         height: 36,
         borderRadius: RADIUS.full,
-        backgroundColor: 'rgba(255,255,255,0.15)',
+        backgroundColor: COLORS.whiteAlpha15,
         alignItems: 'center',
         justifyContent: 'center',
     } as ViewStyle,
@@ -739,7 +739,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     prevButtonText: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
@@ -761,7 +761,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     nextButtonText: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.surface,
     } as TextStyle,
 
@@ -783,7 +783,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     finishButtonText: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.surface,
     } as TextStyle,
 
@@ -801,7 +801,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
         width: 72,
         height: 72,
         borderRadius: RADIUS.full,
-        backgroundColor: '#D1FAE5',
+        backgroundColor: COLORS.successLight,
         alignItems: 'center',
         justifyContent: 'center',
     } as ViewStyle,
@@ -845,7 +845,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     completeSecondaryButtonText: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
@@ -865,7 +865,7 @@ export const lessonSwipeViewStyles = StyleSheet.create({
 
     completePrimaryButtonText: {
         ...FONTS.semibold,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.surface,
     } as TextStyle,
 });

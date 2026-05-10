@@ -13,7 +13,7 @@ export const lessonEditorStyles = StyleSheet.create({
     /** ScrollView — весь контент страницы. */
     scrollContent: {
         flexGrow: 1,
-        paddingBottom: 100,
+        paddingBottom: SPACING.s100,
     } as ViewStyle,
 
     // ─── Шапка экрана ────────────────────────────────────────────────
@@ -33,7 +33,7 @@ export const lessonEditorStyles = StyleSheet.create({
     headerTitle: {
         ...FONTS.semibold,
         color: COLORS.text,
-        fontSize: 16,
+        fontSize: FONTS.medium.fontSize,
         marginRight: SPACING.xxl
     } as TextStyle,
 
@@ -53,7 +53,7 @@ export const lessonEditorStyles = StyleSheet.create({
     publishButtonText: {
         ...FONTS.semibold,
         color: COLORS.surface,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 
     /** Кнопка «Опубликовать» задизейблена (урок не завершён). */
@@ -119,12 +119,12 @@ export const lessonEditorStyles = StyleSheet.create({
 
     /** Заполненная (сохранённая) страница — лёгкий фиолетовый фон. */
     pageTabDone: {
-        backgroundColor: '#EEF2FF',
-        borderColor: '#C7D2FE',
+        backgroundColor: COLORS.primarySoft,
+        borderColor: COLORS.indigoBorder,
     } as ViewStyle,
 
     pageTabText: {
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         fontWeight: '500' as const,
         fontFamily: 'Inter_500Medium',
         color: COLORS.textSecondary,
@@ -151,7 +151,7 @@ export const lessonEditorStyles = StyleSheet.create({
     /** Счётчик «N / 15» справа от разделителя. */
     pagesCounter: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
         minWidth: 32,
     } as TextStyle,
@@ -159,7 +159,7 @@ export const lessonEditorStyles = StyleSheet.create({
     /** Подсветка числа в счётчике. */
     pagesCounterBold: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         fontWeight: '800' as const,
         color: COLORS.text,
     } as TextStyle,
@@ -184,7 +184,7 @@ export const lessonEditorStyles = StyleSheet.create({
     } as ViewStyle,
 
     addPageButtonText: {
-        fontSize: 18,
+        fontSize: FONTS.bold.fontSize,
         fontWeight: '400' as const,
         color: COLORS.primary,
         lineHeight: 22,
@@ -221,13 +221,13 @@ export const lessonEditorStyles = StyleSheet.create({
     /** Лейбл поля. */
     fieldLabel: {
         ...FONTS.medium,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.text,
     } as TextStyle,
 
     /** Счётчик символов — нейтральный. */
     charCount: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontFamily: 'Inter_400Regular',
         color: COLORS.textSecondary,
     } as TextStyle,
@@ -315,8 +315,8 @@ export const lessonEditorStyles = StyleSheet.create({
 
     typeSelectorOpen: {
         borderColor: COLORS.primary,
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: RADIUS.none,
+        borderBottomRightRadius: RADIUS.none,
     } as ViewStyle,
 
     /** Цветной бейдж выбранного типа внутри дропдауна. */
@@ -373,7 +373,7 @@ export const lessonEditorStyles = StyleSheet.create({
     } as ViewStyle,
 
     typeOptionActive: {
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
     } as ViewStyle,
 
     /** Иконка-кружок типа в опции дропдауна. */
@@ -388,13 +388,13 @@ export const lessonEditorStyles = StyleSheet.create({
 
     typeOptionTitle: {
         ...FONTS.medium,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.text,
     } as TextStyle,
 
     typeOptionSubtitle: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
@@ -421,8 +421,8 @@ export const lessonEditorStyles = StyleSheet.create({
         borderRadius: RADIUS.lg,
         borderWidth: 1.5,
         padding: SPACING.md,
-        borderColor: '#C7D2FE',
-        backgroundColor: '#EEF2FF',
+        borderColor: COLORS.indigoBorder,
+        backgroundColor: COLORS.primarySoft,
     } as ViewStyle,
 
     calloutCardWarning: {
@@ -430,8 +430,8 @@ export const lessonEditorStyles = StyleSheet.create({
         borderRadius: RADIUS.lg,
         borderWidth: 1.5,
         padding: SPACING.md,
-        borderColor: '#FCD34D',
-        backgroundColor: '#FFFBEB',
+        borderColor: COLORS.warningBorder,
+        backgroundColor: COLORS.warningSoft,
     } as ViewStyle,
 
     /** Строка: иконка + заголовок + toggle. */
@@ -444,14 +444,14 @@ export const lessonEditorStyles = StyleSheet.create({
 
     calloutTitle: {
         flex: 1,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
     } as TextStyle,
 
     calloutTitleAdvice: {
         flex: 1,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
         color: COLORS.primary,
@@ -459,7 +459,7 @@ export const lessonEditorStyles = StyleSheet.create({
 
     calloutTitleWarning: {
         flex: 1,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
         color: COLORS.warning,
@@ -467,19 +467,19 @@ export const lessonEditorStyles = StyleSheet.create({
 
     /** Поле ввода внутри callout-карточки — без фона, вписанное. */
     calloutInput: {
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         fontFamily: 'Inter_400Regular',
         color: COLORS.text,
         lineHeight: 18,
         textAlignVertical: 'top',
         minHeight: 48,
-        padding: 0,
+        padding: SPACING.none,
     } as TextStyle,
 
     // ─── Тип Video ───────────────────────────────────────────────────
     /** Карточка-превью видео после ввода ссылки. */
     videoPreview: {
-        backgroundColor: '#1E1E2E',
+        backgroundColor: COLORS.darkSurface,
         borderRadius: RADIUS.lg,
         overflow: 'hidden',
         marginBottom: SPACING.lg,
@@ -487,7 +487,7 @@ export const lessonEditorStyles = StyleSheet.create({
 
     videoThumb: {
         height: 160,
-        backgroundColor: '#2D2D3F',
+        backgroundColor: COLORS.darkSurfaceAlt,
         alignItems: 'center',
         justifyContent: 'center',
     } as ViewStyle,
@@ -497,11 +497,11 @@ export const lessonEditorStyles = StyleSheet.create({
         width: 48,
         height: 48,
         borderRadius: RADIUS.full,
-        backgroundColor: 'rgba(255,255,255,0.15)',
+        backgroundColor: COLORS.whiteAlpha15,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 2,
-        borderColor: 'rgba(255,255,255,0.3)',
+        borderColor: COLORS.whiteAlpha30,
     } as ViewStyle,
 
     /** View-обёртка под иконку плей — добавишь сам. */
@@ -510,7 +510,7 @@ export const lessonEditorStyles = StyleSheet.create({
         height: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 2,
+        marginLeft: SPACING.s2,
     } as ViewStyle,
 
     videoMeta: {
@@ -521,9 +521,9 @@ export const lessonEditorStyles = StyleSheet.create({
     } as ViewStyle,
 
     videoUrl: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontFamily: 'Inter_400Regular',
-        color: 'rgba(255,255,255,0.5)',
+        color: COLORS.whiteAlpha50,
         flex: 1,
     } as TextStyle,
 
@@ -571,7 +571,7 @@ export const lessonEditorStyles = StyleSheet.create({
         borderRadius: RADIUS.md,
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.sm,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         fontFamily: 'Inter_400Regular',
         color: COLORS.text,
     } as TextStyle,
@@ -579,7 +579,7 @@ export const lessonEditorStyles = StyleSheet.create({
     /** Поле ввода ответа — отмечен как правильный. */
     answerInputCorrect: {
         borderColor: COLORS.success,
-        backgroundColor: '#F0FDF4',
+        backgroundColor: COLORS.successSoft,
     } as TextStyle,
 
     /** Кнопка «+ Добавить вариант» под ответами. */
@@ -593,7 +593,7 @@ export const lessonEditorStyles = StyleSheet.create({
 
     addAnswerText: {
         ...FONTS.regular,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         color: COLORS.primary,
         fontWeight: '500' as const,
     } as TextStyle,
@@ -615,7 +615,7 @@ export const lessonEditorStyles = StyleSheet.create({
 
     pictureUploadZoneActive: {
         borderColor: COLORS.primary,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
     } as ViewStyle,
 
     /** Круглая иконка загрузки в центре зоны. */
@@ -641,7 +641,7 @@ export const lessonEditorStyles = StyleSheet.create({
 
     uploadHint: {
         ...FONTS.regular,
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         color: COLORS.textSecondary,
         textAlign: 'center',
     } as TextStyle,
@@ -670,7 +670,7 @@ export const lessonEditorStyles = StyleSheet.create({
         position: 'absolute',
         top: SPACING.sm,
         right: SPACING.sm,
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: COLORS.blackAlpha50,
         borderRadius: RADIUS.full,
         paddingHorizontal: SPACING.sm,
         paddingVertical: SPACING.xs,
@@ -680,7 +680,7 @@ export const lessonEditorStyles = StyleSheet.create({
     } as ViewStyle,
 
     pictureReplaceText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontFamily: 'Inter_400Regular',
         color: COLORS.surface,
     } as TextStyle,
@@ -713,7 +713,7 @@ export const lessonEditorStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: '#FECACA',
+        borderColor: COLORS.errorBorder,
         flexShrink: 0,
     } as ViewStyle,
 

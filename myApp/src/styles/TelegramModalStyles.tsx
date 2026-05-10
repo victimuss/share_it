@@ -6,13 +6,13 @@ export const tgModalStyles = StyleSheet.create({
     // ─── Overlay & Sheet ──────────────────────────────────────────────
     overlay: {
         flex: 1,
-        backgroundColor: 'rgba(15, 15, 35, 0.55)',
+        backgroundColor: COLORS.modalOverlay,
         justifyContent: 'flex-end',
     },
     sheet: {
         backgroundColor: COLORS.surface,
-        borderTopLeftRadius: 32,
-        borderTopRightRadius: 32,
+        borderTopLeftRadius: RADIUS.xxxl,
+        borderTopRightRadius: RADIUS.xxxl,
         paddingTop: SPACING.md,
         paddingBottom: SPACING.xxxl + SPACING.lg,
         paddingHorizontal: SPACING.xl + SPACING.sm,
@@ -58,7 +58,7 @@ export const tgModalStyles = StyleSheet.create({
     },
     eyebrow: {
         ...FONTS.regular,
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         color: COLORS.primary,
         fontWeight: '600' as const,
         textTransform: 'uppercase' as const,
@@ -67,7 +67,7 @@ export const tgModalStyles = StyleSheet.create({
     },
     title: {
         ...FONTS.h2,
-        fontSize: 22,
+        fontSize: FONTS.xxl.fontSize,
         color: COLORS.text,
         lineHeight: 28,
     },
@@ -110,7 +110,7 @@ export const tgModalStyles = StyleSheet.create({
         elevation: 2,
     },
     featureEmoji: {
-        fontSize: 20,
+        fontSize: FONTS.xl.fontSize,
     },
     featureTextBlock: {
         flex: 1,
@@ -118,14 +118,14 @@ export const tgModalStyles = StyleSheet.create({
     featureTitle: {
         ...FONTS.medium,
         color: COLORS.text,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         fontWeight: '600' as const,
     },
     featureSubtitle: {
         ...FONTS.regular,
         color: COLORS.textSecondary,
-        fontSize: 12,
-        marginTop: 1,
+        fontSize: FONTS.small.fontSize,
+        marginTop: SPACING.s1,
     },
 
     // ─── Policy ───────────────────────────────────────────────────────
@@ -139,12 +139,12 @@ export const tgModalStyles = StyleSheet.create({
     policyText: {
         ...FONTS.regular,
         color: COLORS.textSecondary,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
     },
     policyLink: {
         ...FONTS.regular,
         color: COLORS.primary,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         fontWeight: '600' as const,
         textDecorationLine: 'underline' as const,
     },
@@ -174,14 +174,14 @@ export const tgModalStyles = StyleSheet.create({
         width: 32,
         height: 32,
         borderRadius: RADIUS.full,
-        backgroundColor: 'rgba(255,255,255,0.2)',
+        backgroundColor: COLORS.whiteAlpha20,
         justifyContent: 'center',
         alignItems: 'center',
     },
     tgBtnText: {
         ...FONTS.semibold,
         color: COLORS.surface,
-        fontSize: 16,
+        fontSize: FONTS.medium.fontSize,
     },
 
     // ─── Skip ─────────────────────────────────────────────────────────
@@ -192,6 +192,6 @@ export const tgModalStyles = StyleSheet.create({
     skipText: {
         ...FONTS.regular,
         color: COLORS.textSecondary,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
     },
 });

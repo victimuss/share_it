@@ -13,7 +13,7 @@ export const createLessonStyles = StyleSheet.create({
     /** Внутренний контейнер скролла. */
     scrollContent: {
         flexGrow: 1,
-        paddingBottom: 100,
+        paddingBottom: SPACING.s100,
     } as ViewStyle,
 
     // ─── Header ──────────────────────────────────────────────────────
@@ -84,7 +84,7 @@ export const createLessonStyles = StyleSheet.create({
     /** Лейбл поля. */
     fieldLabel: {
         ...FONTS.medium,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.text,
     } as TextStyle,
 
@@ -168,7 +168,7 @@ export const createLessonStyles = StyleSheet.create({
     /** Текст ошибки под полем. */
     errorText: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.error,
         marginTop: SPACING.xs,
         marginLeft: SPACING.xs,
@@ -207,8 +207,8 @@ export const createLessonStyles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
         borderColor: COLORS.primary,
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: RADIUS.none,
+        borderBottomRightRadius: RADIUS.none,
         shadowOpacity: 0,
         elevation: 0,
     } as ViewStyle,
@@ -271,7 +271,7 @@ export const createLessonStyles = StyleSheet.create({
 
     /** Активная опция (выбранная). */
     dropdownOptionActive: {
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
     } as ViewStyle,
 
     /** Иконка-кружок слева от названия опции. */
@@ -287,7 +287,7 @@ export const createLessonStyles = StyleSheet.create({
 
     optionTitle: {
         ...FONTS.medium,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.text,
     } as TextStyle,
 
@@ -297,7 +297,7 @@ export const createLessonStyles = StyleSheet.create({
 
     optionSubtitle: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
@@ -401,7 +401,7 @@ export const createLessonStyles = StyleSheet.create({
     /** Полупрозрачный оверлей. */
     overlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.45)',
+        backgroundColor: COLORS.overlay,
         justifyContent: 'flex-end',
     } as ViewStyle,
 
@@ -470,7 +470,7 @@ export const createLessonStyles = StyleSheet.create({
     tagsHint: {
         flexDirection: 'row',
         gap: SPACING.md,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
         borderRadius: RADIUS.lg,
         padding: SPACING.md,
         marginBottom: SPACING.xl,
@@ -480,8 +480,8 @@ export const createLessonStyles = StyleSheet.create({
 
     tagsHintText: {
         ...FONTS.regular,
-        fontSize: 13,
-        color: '#3730A3',
+        fontSize: FONTS.sub.fontSize,
+        color: COLORS.primaryDeep,
         flex: 1,
         lineHeight: 20,
     } as TextStyle,
@@ -493,7 +493,7 @@ export const createLessonStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-        marginTop: 1,
+        marginTop: SPACING.s1,
     } as ViewStyle,
 
     // ─── Поле ввода тега ─────────────────────────────────────────────
@@ -515,7 +515,7 @@ export const createLessonStyles = StyleSheet.create({
         paddingVertical: SPACING.sm,
         ...FONTS.regular,
         color: COLORS.text,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
     } as TextStyle,
 
     tagInputFocused: {
@@ -548,7 +548,7 @@ export const createLessonStyles = StyleSheet.create({
     tagAddButtonText: {
         ...FONTS.semibold,
         color: COLORS.surface,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
     } as TextStyle,
 
     // ─── Счётчик тегов ───────────────────────────────────────────────
@@ -562,7 +562,7 @@ export const createLessonStyles = StyleSheet.create({
 
     tagsCounterText: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 
@@ -574,7 +574,7 @@ export const createLessonStyles = StyleSheet.create({
     /** Подсказка лимита символов под инпутом. */
     tagCharHint: {
         ...FONTS.regular,
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         color: COLORS.textSecondary,
         marginTop: SPACING.sm,
         marginBottom: SPACING.md,
@@ -600,13 +600,13 @@ export const createLessonStyles = StyleSheet.create({
         paddingRight: SPACING.sm,
         paddingVertical: SPACING.xs,
         borderRadius: RADIUS.full,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
         borderWidth: 1,
-        borderColor: '#C7D2FE',
+        borderColor: COLORS.indigoBorder,
     } as ViewStyle,
 
     tagChipText: {
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         fontWeight: '500' as const,
         fontFamily: 'Inter_500Medium',
         color: COLORS.primary,
@@ -617,7 +617,7 @@ export const createLessonStyles = StyleSheet.create({
         width: 16,
         height: 16,
         borderRadius: RADIUS.full,
-        backgroundColor: '#C7D2FE',
+        backgroundColor: COLORS.indigoBorder,
         alignItems: 'center',
         justifyContent: 'center',
     } as ViewStyle,
@@ -667,7 +667,7 @@ export const createLessonStyles = StyleSheet.create({
 
     skipButtonText: {
         ...FONTS.regular,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.textSecondary,
     } as TextStyle,
 });

@@ -73,7 +73,7 @@ export const searchStyles = StyleSheet.create({
         flex: 1,
         ...FONTS.regular,
         color: COLORS.text,
-        paddingVertical: 0,
+        paddingVertical: SPACING.none,
     } as TextStyle,
 
     /** Кнопка очистки ✕ — появляется когда есть текст */
@@ -171,7 +171,7 @@ export const searchStyles = StyleSheet.create({
     recentChipText: {
         ...FONTS.regular,
         color: COLORS.text,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 
     /** Кнопка удаления недавнего запроса (✕) */
@@ -190,14 +190,14 @@ export const searchStyles = StyleSheet.create({
         paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.xs,
         borderRadius: RADIUS.full,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
         borderWidth: 1,
-        borderColor: '#C7D2FE',
+        borderColor: COLORS.indigoBorder,
     } as ViewStyle,
 
     /** Текст популярного тега */
     tagChipText: {
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         fontWeight: '500' as const,
         fontFamily: 'Inter_500Medium',
         color: COLORS.primary,
@@ -217,14 +217,14 @@ export const searchStyles = StyleSheet.create({
     resultsCount: {
         ...FONTS.regular,
         color: COLORS.textSecondary,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 
     /** Выделенное число в строке результатов */
     resultsCountBold: {
         ...FONTS.semibold,
         color: COLORS.text,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 
     /** Кнопка «Фильтры» — вторичная */
@@ -244,7 +244,7 @@ export const searchStyles = StyleSheet.create({
     filterButtonText: {
         ...FONTS.regular,
         color: COLORS.text,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         fontWeight: '500' as const,
     } as TextStyle,
 
@@ -306,14 +306,14 @@ export const searchStyles = StyleSheet.create({
         ...FONTS.medium,
         color: COLORS.text,
         marginBottom: SPACING.xs,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
     } as TextStyle,
 
     /** Подсвеченная часть заголовка (совпадение с запросом) */
     resultTitleHighlight: {
         color: COLORS.primary,
         fontWeight: '700' as const,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
     } as TextStyle,
 
     /** Строка мета: автор · категория */
@@ -329,14 +329,14 @@ export const searchStyles = StyleSheet.create({
     resultAuthor: {
         ...FONTS.regular,
         color: COLORS.textSecondary,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
     } as TextStyle,
 
     /** Разделитель «·» между мета-элементами */
     resultMetaDot: {
         ...FONTS.regular,
         color: COLORS.textLight,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
     } as TextStyle,
 
     /** Строка: лайки + сложность */
@@ -350,7 +350,7 @@ export const searchStyles = StyleSheet.create({
     resultLikes: {
         ...FONTS.regular,
         color: COLORS.textSecondary,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
     } as TextStyle,
 
     // ─── Empty state ─────────────────────────────────────────────────
@@ -445,7 +445,7 @@ export const searchStyles = StyleSheet.create({
     /** Текст номера страницы — неактивный. */
     pageButtonText: {
         ...FONTS.regular,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.textSecondary,
         fontWeight: '500' as const,
     } as TextStyle,
@@ -488,7 +488,7 @@ export const searchStyles = StyleSheet.create({
     /** Текст «Пред» / «След» рядом со стрелкой. */
     pageArrowText: {
         ...FONTS.regular,
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         color: COLORS.textSecondary,
         fontWeight: '500' as const,
     } as TextStyle,
@@ -505,7 +505,7 @@ export const searchStyles = StyleSheet.create({
     /** Текст многоточия. */
     pageDotsText: {
         ...FONTS.regular,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         color: COLORS.textLight,
         letterSpacing: 1,
     } as TextStyle,
@@ -514,7 +514,7 @@ export const searchStyles = StyleSheet.create({
      *  Опциональный элемент — даёт контекст при большом числе страниц. */
     pageInfo: {
         ...FONTS.regular,
-        fontSize: 12,
+        fontSize: FONTS.small.fontSize,
         color: COLORS.textSecondary,
         textAlign: 'center',
         marginTop: SPACING.sm,
@@ -524,7 +524,7 @@ export const searchStyles = StyleSheet.create({
      *  flex: 1 + justifyContent: 'flex-end' прижимает шторку к низу. */
     overlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.45)',
+        backgroundColor: COLORS.overlay,
         justifyContent: 'flex-end',
     } as ViewStyle,
 
@@ -631,22 +631,22 @@ export const searchStyles = StyleSheet.create({
     filterSectionTitle: {
         ...FONTS.semibold,
         color: COLORS.text,
-        fontSize: 15,
+        fontSize: FONTS.medium_15.fontSize,
     } as TextStyle,
 
     /** Бейдж «X выбрано» рядом с заголовком секции .
      *  Показывается только если есть активные значения. */
     filterSectionBadge: {
-        backgroundColor: '#EEF2FF',
+        backgroundColor: COLORS.primarySoft,
         borderRadius: RADIUS.full,
         paddingHorizontal: SPACING.sm,
-        paddingVertical: 2,
+        paddingVertical: SPACING.s2,
         minWidth: 20,
         alignItems: 'center',
     } as ViewStyle,
 
     filterSectionBadgeText: {
-        fontSize: 11,
+        fontSize: FONTS.xs.fontSize,
         fontWeight: '600' as const,
         fontFamily: 'Inter_600SemiBold',
         color: COLORS.primary,
@@ -686,7 +686,7 @@ export const searchStyles = StyleSheet.create({
     } as ViewStyle,
 
     filterOptionChipText: {
-        fontSize: 13,
+        fontSize: FONTS.sub.fontSize,
         fontWeight: '500' as const,
         fontFamily: 'Inter_500Medium',
         color: COLORS.textSecondary,
@@ -704,7 +704,7 @@ export const searchStyles = StyleSheet.create({
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        borderColor: '#6EE7B7',
+        borderColor: COLORS.successBorder,
         backgroundColor: COLORS.surface,
     } as ViewStyle,
 
@@ -736,7 +736,7 @@ export const searchStyles = StyleSheet.create({
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        borderColor: '#FCD34D',
+        borderColor: COLORS.warningBorder,
         backgroundColor: COLORS.surface,
     } as ViewStyle,
 
@@ -768,7 +768,7 @@ export const searchStyles = StyleSheet.create({
         paddingVertical: SPACING.sm,
         borderRadius: RADIUS.full,
         borderWidth: 1.5,
-        borderColor: '#FCA5A5',
+        borderColor: COLORS.red300,
         backgroundColor: COLORS.surface,
     } as ViewStyle,
 
@@ -822,7 +822,7 @@ export const searchStyles = StyleSheet.create({
     ratingValue: {
         ...FONTS.semibold,
         color: COLORS.primary,
-        fontSize: 14,
+        fontSize: FONTS.regular.fontSize,
         minWidth: 36,
         textAlign: 'right',
     } as TextStyle,
@@ -871,7 +871,7 @@ export const searchStyles = StyleSheet.create({
      *  Чуть светлее основного текста, чтобы не конкурировать. */
     applyButtonCount: {
         ...FONTS.semibold,
-        color: 'rgba(255, 255, 255, 0.7)',
+        color: COLORS.whiteAlpha70,
     } as TextStyle,
 });
 
