@@ -383,7 +383,7 @@ export const createLessonStyles = (theme: Theme) => StyleSheet.create({
 
     saveButtonText: {
         ...FONTS.semibold,
-        color: theme.colors.surface,
+        color: '#FFFFFF',
     } as TextStyle,
 
     /** View-обёртка под иконку стрелки в кнопке. */
@@ -655,7 +655,7 @@ export const createLessonStyles = (theme: Theme) => StyleSheet.create({
 
     doneButtonText: {
         ...FONTS.semibold,
-        color: theme.colors.surface,
+        color: '#FFFFFF',
     } as TextStyle,
 
     /** Вторичная кнопка «Пропустить». */

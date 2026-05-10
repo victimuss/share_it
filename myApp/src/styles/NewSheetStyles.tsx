@@ -52,7 +52,7 @@ export const lessonEditorStyles = (theme: Theme) => StyleSheet.create({
 
     publishButtonText: {
         ...FONTS.semibold,
-        color: theme.colors.surface,
+        color: '#FFFFFF',
         fontSize: FONTS.sub.fontSize,
     } as TextStyle,
 
@@ -131,7 +131,7 @@ export const lessonEditorStyles = (theme: Theme) => StyleSheet.create({
     } as TextStyle,
 
     pageTabTextActive: {
-        color: theme.colors.surface,
+        color: '#FFFFFF',
         fontWeight: '600' as const,
     } as TextStyle,
 
@@ -756,6 +756,6 @@ export const lessonEditorStyles = (theme: Theme) => StyleSheet.create({
 
     savePageButtonText: {
         ...FONTS.semibold,
-        color: theme.colors.surface,
+        color: '#FFFFFF',
     } as TextStyle,
 });

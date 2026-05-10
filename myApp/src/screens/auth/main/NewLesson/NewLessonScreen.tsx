@@ -18,10 +18,10 @@ import { useStyles } from '../../../../hooks/useStyles';
 import { useThemeStore } from '../../../../context/useThemeStore';
 import { COLORS } from '@/src/styles/root';
 
-const difficultyData = (t: any) => [
-    { label: 'Beginner', value: 'Beginner', subtitle: t('screens.newLesson.diffBeginner'), icon: '🌱', bg: COLORS.successLight },
-    { label: 'Intermediate', value: 'Intermediate', subtitle: t('screens.newLesson.diffIntermediate'), icon: '⚡', bg: COLORS.warningLight },
-    { label: 'Advanced', value: 'Advanced', subtitle: t('screens.newLesson.diffAdvanced'), icon: '🔥', bg: COLORS.errorLight },
+const difficultyData = (t: any, colors: any) => [
+    { label: 'Beginner', value: 'Beginner', subtitle: t('screens.newLesson.diffBeginner'), icon: '🌱', bg: colors.successLight },
+    { label: 'Intermediate', value: 'Intermediate', subtitle: t('screens.newLesson.diffIntermediate'), icon: '⚡', bg: colors.warningLight },
+    { label: 'Advanced', value: 'Advanced', subtitle: t('screens.newLesson.diffAdvanced'), icon: '🔥', bg: colors.errorLight },
 ];
 
 const typesData = [
@@ -66,7 +66,7 @@ export const NewLessonScreen = () => {
         setTagInput('');
     };
 
-    const diffData = difficultyData(t);
+    const diffData = difficultyData(t, colors);
 
     const renderDifficultyItem = (item: typeof diffData[0]) => {
         return (
@@ -186,7 +186,7 @@ export const NewLessonScreen = () => {
                             placeholder={t('screens.newLesson.difficultyLabel')}
                             placeholderStyle={styles.selectorPlaceholder}
                             selectedTextStyle={styles.selectorValue}
-                            activeColor="#EEF2FF"
+                            activeColor={colors.primarySoft}
                             value={difficulty}
                             onFocus={() => setIsFocus(true)}
                             onBlur={() => setIsFocus(false)}
@@ -224,7 +224,7 @@ export const NewLessonScreen = () => {
                             placeholder={t('screens.newLesson.typePlaceholder')}
                             placeholderStyle={styles.selectorPlaceholder}
                             selectedTextStyle={styles.selectorValue}
-                            activeColor="#EEF2FF"
+                            activeColor={colors.primarySoft}
                             value={type}
                             onFocus={() => setIsFocusType(true)}
                             onBlur={() => setIsFocusType(false)}

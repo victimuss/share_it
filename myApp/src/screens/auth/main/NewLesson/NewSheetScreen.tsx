@@ -23,11 +23,11 @@ import { useTranslation } from "react-i18next";
 import { useStyles } from '../../../../hooks/useStyles';
 import { useThemeStore } from '../../../../context/useThemeStore';
 
-const typesData = (t: any) => [
-    { label: t('screens.newSheet.typeTheory'), value: 'THEORY', icon: '📖', description: t('screens.newSheet.theoryDesc') },
-    { label: t('screens.newSheet.typeQuiz'), value: 'QUIZ', icon: '❓', description: t('screens.newSheet.quizDesc') },
-    { label: t('screens.newSheet.typeVideo'), value: 'VIDEO', icon: '📹', description: t('screens.newSheet.videoDesc') },
-    { label: t('screens.newSheet.typePicture'), value: 'PICTURE', icon: '🖼️', description: t('screens.newSheet.pictureDesc') },]
+const typesData = (t: any, colors: any) => [
+    { label: t('screens.newSheet.typeTheory'), value: 'THEORY', icon: '📖', description: t('screens.newSheet.theoryDesc'), bg: colors.indigoSoft },
+    { label: t('screens.newSheet.typeQuiz'), value: 'QUIZ', icon: '❓', description: t('screens.newSheet.quizDesc'), bg: colors.warningLight },
+    { label: t('screens.newSheet.typeVideo'), value: 'VIDEO', icon: '📹', description: t('screens.newSheet.videoDesc'), bg: colors.successLight },
+    { label: t('screens.newSheet.typePicture'), value: 'PICTURE', icon: '🖼️', description: t('screens.newSheet.pictureDesc'), bg: colors.pink100 },]
 
 
 export const NewSheetScreen = () => {
@@ -117,17 +117,22 @@ export const NewSheetScreen = () => {
     };
 
 
-    const types = typesData(t);
-    const renderTypesItem = (item: typeof types[0]) => {
+    const types = typesData(t, colors);
+    const renderTypesItem = (item: any, selected?: boolean) => {
         return (
-            <View style={styles.typeOption}>
-                <View style={styles.typeOptionDot}>
+            <View style={[styles.typeOption, selected && { backgroundColor: colors.primarySoft }]}>
+                <View style={[styles.typeOptionDot, { backgroundColor: item.bg }]}>
                     <Text style={{ fontSize: 18 }}>{item.icon}</Text>
                 </View>
-                <View>
-                    <Text style={styles.typeOptionTitle}>{item.label}</Text>
-                    <Text style={styles.typeOptionSubtitle}>{item.description}</Text>
+                <View style={{ flex: 1 }}>
+                    <Text style={[styles.typeOptionTitle, selected && { color: '#FFFFFF' }]}>{item.label}</Text>
+                    <Text style={[styles.typeOptionSubtitle, selected && { color: 'rgba(255,255,255,0.7)' }]}>{item.description}</Text>
                 </View>
+                {selected && (
+                    <View style={createLessonStyles.optionCheck}>
+                        <Text style={{ color: '#FFFFFF', fontSize: 10 }}>✓</Text>
+                    </View>
+                )}
             </View>
         )
     }
@@ -330,24 +335,26 @@ export const NewSheetScreen = () => {
                         ]}
                         data={types}
                         containerStyle={styles.typeDropdown}
+                        selectedTextStyle={styles.typeSelectorTextSelected}
+                        placeholderStyle={styles.typeSelectorText}
                         labelField="label"
                         valueField="value"
-                        value={currentSheet.sheetType.toUpperCase() || 'THEORY'}
+                        value={(currentSheet.sheetType || 'THEORY').toUpperCase()}
                         onChange={item => {
                             updateSheetField('sheetType', item.value as any);
                         }}
                         placeholder={t('screens.newSheet.typePlaceholder')}
-                        activeColor="#EEF2FF"
+                        activeColor={colors.primarySoft}
                         dropdownPosition="bottom"
                         maxHeight={300}
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
                         renderItem={renderTypesItem}
                         renderLeftIcon={() => {
-                            const selectedItemType = types.find(d => d.value === currentSheet.sheetType.toUpperCase());
+                            const selectedItemType = types.find(d => d.value === (currentSheet.sheetType || 'THEORY').toUpperCase());
                             if (selectedItemType) {
                                 return (
-                                    <View style={styles.typeOptionDot}>
+                                    <View style={[styles.typeOptionDot, { backgroundColor: selectedItemType.bg, marginRight: 8, width: 28, height: 28 }]}>
                                         <Text style={{ fontSize: 14 }}>{selectedItemType.icon}</Text>
                                     </View>
                                 );
@@ -460,7 +467,7 @@ export const NewSheetScreen = () => {
                                 >
                                     {option.is_correct && (
                                         <View style={styles.checkIconWrapper}>
-                                            <Text style={{ color: colors.surface, fontSize: 12, fontWeight: 'bold' }}>✓</Text>
+                                            <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}>✓</Text>
                                         </View>
                                     )}
                                 </Pressable>
@@ -524,7 +531,7 @@ export const NewSheetScreen = () => {
                                         style={{ width: '100%', height: '100%' }}
                                     />
                                 </Pressable>
-                                <Text style={{ color: "#FF6666", marginVertical: 0, marginStart: 80 }}
+                                <Text style={{ color: colors.error, marginVertical: 8, textAlign: 'center' }}
                                     onPress={() => handleDeleteImage()}
                                 >{t('screens.newSheet.deleteImageBtn')}</Text>
                             </View>

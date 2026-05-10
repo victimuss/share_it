@@ -179,17 +179,6 @@ export const MainScreen = () => {
             </View>
             <View style={homeStyles.headerRight}>
               <Pressable style={homeStyles.notificationButton}
-                onPress={() => {
-                  try {
-                    const url = require('expo-linking').createURL('lesson/1');
-                    require('expo-linking').openURL(url);
-                  } catch (err) {
-                    console.error("Ошибка при открытии ссылки", err);
-                  }
-                }}>
-                <Text style={{ color: 'white', fontSize: 10 }}>LINK</Text>
-              </Pressable>
-              <Pressable style={homeStyles.notificationButton}
                 onPress={() => setShowTgModal(true)}>
                 <BellIcon color={colors.primary}></BellIcon>
               </Pressable>

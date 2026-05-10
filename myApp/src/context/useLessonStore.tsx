@@ -99,7 +99,7 @@ export const useLessonStore = create<CreateLessonStore>((set, get) => ({
                     sheet_header: current.sheet_header || '',
                     content: current.content || '',
                     timeToRead: current.timeToRead || 0,
-                    sheetType: current.sheetType || 'Theory',
+                    sheetType: current.sheetType || 'THEORY',
                     description_for_video_or_picture: current.description_for_video_or_picture || '',
                     video_url: current.video_url || '',
                     picture_url: current.picture_url || '',
