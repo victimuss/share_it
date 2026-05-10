@@ -3,6 +3,7 @@ import * as Linking from 'expo-linking';
 export const linking = {
   prefixes: [
     Linking.createURL('/'),
+    'https://spark-edu.ru',
     'https://sparkedu.com',
     'sparkedu://',
     '', // Важно: разрешает React Navigation принимать чистые пути

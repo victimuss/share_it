@@ -136,6 +136,31 @@ async def redirect_to_lesson(lesson_id: int):
     expo_url = f"exp://10.171.36.68:8081/--/lesson/{lesson_id}"
     return RedirectResponse(url=expo_url)
 
+@app.get("/.well-known/apple-app-site-association")
+async def apple_app_site_association():
+    return {
+        "applinks": {
+            "apps": [],
+            "details": [
+                {
+                    "appID": "ТВОЙ_TEAM_ID.com.victimuss.Spark",
+                    "paths": ["/lesson/*", "/home", "/profile"]
+                }
+            ]
+        }
+    }
+
+@app.get("/.well-known/assetlinks.json")
+async def assetlinks():
+    return [{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.victimuss.Spark",
+            "sha256_cert_fingerprints": ["ТВОЙ_SHA256_ОТПЕЧАТОК_КЛЮЧА"]
+        }
+    }]
+
 @app.on_event("startup")
 async def startup_event():
     print("""
