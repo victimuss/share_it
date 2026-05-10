@@ -113,7 +113,9 @@
     },
     "main": {
       "errors": {
-        "loadFailed": "加载课程失败。请稍后再试。"
+        "loadFailed": "加载课程失败。请稍后再试。",
+        "title": "出错了",
+        "retry": "重试"
       },
       "refresh": "刷新中...",
       "greeting": "你好，",
@@ -138,6 +140,7 @@
     },
     "myLessons": {
       "loadFailed": "加载数据失败",
+      "savedOffline": "已保存",
       "lessonsCount": " 节课",
       "pages": " 页",
       "completedBadge": "已完成",
@@ -360,5 +363,11 @@
       "myLessons": "课程",
       "profile": "个人资料"
     }
+  },
+  "offline": {
+    "title": "无网络连接",
+    "subtitle": "您的连接已断开，但您可以继续阅读已保存的材料。",
+    "continue_reading": "阅读",
+    "empty_state": "暂无已保存的课程供离线阅读。"
   }
 }

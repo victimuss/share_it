@@ -8,6 +8,7 @@ import { LessonInfoIcon, LessonWarningIcon } from "@/src/SVG/LessonSVG";
 import { useStyles } from '../../hooks/useStyles';
 import { useThemeStore } from '../../context/useThemeStore';
 import { COLORS } from '@/src/styles/root';
+import { CachedImage } from '@/src/components/CachedImage';
 interface SheetCardProps {
     type: string;
     sheet: Sheet;
@@ -169,12 +170,10 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
         case 'PICTURE':
             return <ScrollView style={[styles.swipePage, { flex: 1, minHeight: 300 }]}>
                 <View style={styles.pictureImageArea}>
-                    <Image
-                        source={{ uri: sheet.picture_url || "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" }}
+                    <CachedImage
+                        sourceUri={sheet.picture_url}
                         style={styles.pictureImage}
                         resizeMode='contain'
-                        onLoad={() => console.log("✅ КАРТИНКА ПОЯВИЛАСЬ!")}
-                        onError={(e) => console.log("❌ ОШИБКА:", e.nativeEvent.error)}
                     />
                 </View>
                 <Text style={[styles.videoCommentText, { marginTop: 10, color: 'black' }]}>

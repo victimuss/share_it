@@ -1102,3 +1102,41 @@ celery.exceptions.Retry: Retry in 16s: RuntimeError('Event loop is closed')
 2026-05-10 14:02:02 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
 2026-05-10 14:03:52 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
 2026-05-10 14:03:52 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 14:20:36 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-10 14:20:36 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 14:23:55 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-10 14:23:55 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 14:24:54 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-10 14:24:55 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 14:25:41 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-10 14:25:41 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 14:28:00 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-10 14:28:00 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 14:33:34 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-10 14:33:34 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 15:28:21 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-10 15:28:21 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 17:14:15 | ERROR    | databases.users_db.user_db_utils:set_progress:132 - Database error in set_progress: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $3: datetime.datetime(2026, 5, 10, 14, 14, 1... (can't subtract offset-naive and offset-aware datetimes)
+[SQL: UPDATE user_lessons SET status=$1::VARCHAR, completed_steps=$2::INTEGER, updated_at=$3::TIMESTAMP WITHOUT TIME ZONE WHERE user_lessons.user_id = $4::INTEGER AND user_lessons.lesson_id = $5::INTEGER]
+[parameters: ('COMPLETED', 1, datetime.datetime(2026, 5, 10, 14, 14, 15, 605219, tzinfo=datetime.timezone.utc), 102, 39)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi), user_id: 102
+2026-05-10 17:19:54 | ERROR    | databases.users_db.user_db_utils:set_progress:132 - Database error in set_progress: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $3: datetime.datetime(2026, 5, 10, 14, 19, 5... (can't subtract offset-naive and offset-aware datetimes)
+[SQL: UPDATE user_lessons SET status=$1::VARCHAR, completed_steps=$2::INTEGER, updated_at=$3::TIMESTAMP WITHOUT TIME ZONE WHERE user_lessons.user_id = $4::INTEGER AND user_lessons.lesson_id = $5::INTEGER]
+[parameters: ('COMPLETED', 1, datetime.datetime(2026, 5, 10, 14, 19, 54, 29486, tzinfo=datetime.timezone.utc), 102, 39)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi), user_id: 102
+2026-05-10 17:21:40 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-10 17:21:40 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 17:25:08 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-10 17:25:08 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 17:26:11 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-10 17:26:11 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 17:27:54 | INFO     | routers.auth_router:request_challenge:33 - Challenge generated for PK: 0xa6769d3b6D682...
+2026-05-10 17:27:54 | INFO     | routers.auth_router:verify_challenge:75 - User 102 logged in via ZKP
+2026-05-10 17:30:21 | ERROR    | databases.users_db.user_db_utils:set_progress:132 - Database error in set_progress: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $3: datetime.datetime(2026, 5, 10, 14, 30, 2... (can't subtract offset-naive and offset-aware datetimes)
+[SQL: UPDATE user_lessons SET status=$1::VARCHAR, completed_steps=$2::INTEGER, updated_at=$3::TIMESTAMP WITHOUT TIME ZONE WHERE user_lessons.user_id = $4::INTEGER AND user_lessons.lesson_id = $5::INTEGER]
+[parameters: ('COMPLETED', 1, datetime.datetime(2026, 5, 10, 14, 30, 21, 817046, tzinfo=datetime.timezone.utc), 102, 39)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi), user_id: 102
+2026-05-10 17:41:04 | ERROR    | databases.users_db.user_db_utils:set_progress:132 - Database error in set_progress: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $3: datetime.datetime(2026, 5, 10, 14, 41, 4... (can't subtract offset-naive and offset-aware datetimes)
+[SQL: UPDATE user_lessons SET status=$1::VARCHAR, completed_steps=$2::INTEGER, updated_at=$3::TIMESTAMP WITHOUT TIME ZONE WHERE user_lessons.user_id = $4::INTEGER AND user_lessons.lesson_id = $5::INTEGER]
+[parameters: ('COMPLETED', 1, datetime.datetime(2026, 5, 10, 14, 41, 4, 854814, tzinfo=datetime.timezone.utc), 102, 39)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi), user_id: 102

@@ -29,8 +29,20 @@ import { Background } from "@react-navigation/elements";
 import { useTranslation } from "react-i18next";
 import { useStyles } from '../../../hooks/useStyles';
 import { useThemeStore } from '../../../context/useThemeStore';
+import { useOfflineStore } from "@/src/context/useOfflineStore";
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
+
+const OfflineBadge = ({ lessonId, t }: { lessonId: string, t: any }) => {
+    const isSavedOffline = useOfflineStore(state => !!state.savedLessons[lessonId]);
+    if (!isSavedOffline) return null;
+    
+    return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}>
+            <Text style={{ fontSize: 10, color: '#6B7280' }}>📦 {t('screens.myLessons.savedOffline') || 'Сохранено'}</Text>
+        </View>
+    );
+};
 
 export const MyLessonsScreen = () => {
   const styles = useStyles(myLessonsStylesFn);
@@ -149,7 +161,9 @@ export const MyLessonsScreen = () => {
                                 {iconMap[lesson.type] || <ApplicationCodeIcon size={40} />}
                             </View>
                             <View style={styles.lessonInfo}>
-                                <Text style={styles.lessonTitle} numberOfLines={2}>{lesson.lesson_name}</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <Text style={[styles.lessonTitle, { flex: 1 }]} numberOfLines={1}>{lesson.lesson_name}</Text>
+                                </View>
                                 <View style={styles.lessonMeta}>
                                     <View style={[styles.tagBadge, { backgroundColor: levelStyle.bg }]}>
                                         <Text style={[styles.tagText, { color: levelStyle.text }]}>{lesson.level}</Text>
@@ -157,6 +171,7 @@ export const MyLessonsScreen = () => {
                                     <View style={[styles.tagBadge, { backgroundColor: categoryStyle.bg }]}>
                                         <Text style={[styles.tagText, { color: categoryStyle.text }]}>{lesson.type}</Text>
                                     </View>
+                                    <OfflineBadge lessonId={lesson.id.toString()} t={t} />
                                     {!isLearning && (
                                         <Text style={[styles.lessonMetaText, { marginLeft: 4 }]}>{lesson.sheet_counts || 0}{t('screens.myLessons.pages')}</Text>
                                     )}

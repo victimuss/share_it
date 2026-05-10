@@ -129,7 +129,7 @@ async def set_progress(user_id: int, progress: int, lesson_id: int):
 
         except Exception as e:
             await session.rollback()
-            logger.error(f"Database error in set_progress: {e}, user_name: {user_name}")
+            logger.error(f"Database error in set_progress: {e}, user_id: {user_id}")
             raise HTTPException(status_code=400, detail=f"Database error: {str(e)}")
 
 

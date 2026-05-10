@@ -6,11 +6,12 @@ import {
     TouchableOpacity,
     TextInput,
     StyleSheet,
-    SafeAreaView,
     ViewStyle,
     TextStyle,
     Alert,
+    Pressable,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { zkpAuthStyles as zkpAuthStylesFn } from '../../styles/CryptoAuthStypes';
 import { MotiView } from 'moti';
 import { Dimensions } from 'react-native';

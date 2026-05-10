@@ -22,6 +22,7 @@ import { GetLessonByIdAPI, GetSheetApi, GetSheetApiForEdit } from "@/src/api/les
 import { useTranslation } from "react-i18next";
 import { useStyles } from '../../../../hooks/useStyles';
 import { useThemeStore } from '../../../../context/useThemeStore';
+import { CachedImage } from "@/src/components/CachedImage";
 
 const typesData = (t: any, colors: any) => [
     { label: t('screens.newSheet.typeTheory'), value: 'THEORY', icon: '📖', description: t('screens.newSheet.theoryDesc'), bg: colors.indigoSoft },
@@ -31,9 +32,9 @@ const typesData = (t: any, colors: any) => [
 
 
 export const NewSheetScreen = () => {
-  const createLessonStyles = useStyles(createLessonStylesFn);
-  const styles = useStyles(lessonEditorStylesFn);
-  const { colors } = useThemeStore(s => s.theme);
+    const createLessonStyles = useStyles(createLessonStylesFn);
+    const styles = useStyles(lessonEditorStylesFn);
+    const { colors } = useThemeStore(s => s.theme);
     const { t } = useTranslation();
     const {
         sheets,
@@ -528,8 +529,8 @@ export const NewSheetScreen = () => {
                         {selectedImage ? (
                             <View>
                                 <Pressable onPress={pickImage} style={styles.pictureUploadZone}>
-                                    <Image
-                                        source={{ uri: selectedImage }}
+                                    <CachedImage
+                                        sourceUri={selectedImage}
                                         style={{ width: '100%', height: '100%' }}
                                     />
                                 </Pressable>

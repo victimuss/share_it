@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { GetSheetApi } from '../api/lessonmain/lessonmain';
 import { QuizOptions } from '../types/createlesson';
+import { fetchAndCacheFullLesson } from '../utils/LessonSyncService';
+import { id } from 'ethers';
 export interface Sheet {
     id: number;
     sheetType: string;
@@ -52,13 +54,13 @@ export const useSheetStore = create<LearnSheetStore>((set) => ({
     loadLesson: async (lessonId: number) => {
         set({ isLoading: true, error: null });
         try {
-            const response = await GetSheetApi({ lesson_id: lessonId });
+            const fullData = await fetchAndCacheFullLesson(lessonId)
             set({
-                sheets: response.sheets,
-                total: response.total,
-                completed_steps: response.completed_steps,
-                lesson_name: response.lesson_name,
-                currentIndex: Math.min(response.completed_steps, response.total - 1 >= 0 ? response.total - 1 : 0),
+                sheets: fullData.sheets.sheets,
+                total: fullData.sheets.total,
+                completed_steps: fullData.sheets.completed_steps,
+                lesson_name: fullData.sheets.lesson_name,
+                currentIndex: Math.min(fullData.sheets.completed_steps, fullData.sheets.total - 1 >= 0 ? fullData.sheets.total - 1 : 0),
                 isLoading: false,
             });
         } catch (error) {

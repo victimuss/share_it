@@ -12,6 +12,7 @@ import { ApplicationCodeIcon, BellIcon, BusinessIcon, DesignPaletteIcon, Languag
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/src/navigation/appNavigator";
 import { useCallback } from 'react';
+import { OfflineFallback } from "@/src/components/OfflineFallback";
 import { RefreshControl } from 'react-native';
 import { MotiView } from 'moti';
 import { TelegramNotificationModal } from "@/src/components/TelegramNotificationModal";
@@ -75,6 +76,7 @@ export const MainScreen = () => {
   };
   const fetchData = async () => {
     setLoading(true);
+    setError('');
     try {
       const popResponse = await PopularLession({ type: activeFilter });
       const recResponse = await RecentLession({ type: activeFilter });
@@ -133,9 +135,10 @@ export const MainScreen = () => {
   const formattedDate = new Intl.DateTimeFormat(i18n.language || 'ru-RU', options).format(date);
   if (error) {
     return (
-      <View>
-        <Text> {error} </Text>
-      </View>
+      <ErrorScreen
+        error={error}
+        onRetry={fetchData}
+      />
     )
   }
 
@@ -148,12 +151,16 @@ export const MainScreen = () => {
 
   if (error) {
     return (
-      <ErrorScreen />
+      <ErrorScreen
+        error={error}
+        onRetry={fetchData}
+      />
     )
   }
 
   return (
     <>
+      <OfflineFallback />
       <SafeAreaView style={homeStyles.container} edges={['top']}>
         <ScrollView contentContainerStyle={homeStyles.scrollContainer}
           refreshControl={

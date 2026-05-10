@@ -33,7 +33,8 @@ apiInstance.interceptors.response.use(
       try {
         const refresh_token = await AsyncStorage.getItem("refresh_token");
         if (refresh_token) {
-          const res = await api.post(`/users/refresh`, {
+          // Use a raw axios call instead of 'api.post' to avoid infinite recursion
+          const res = await axios.post(`${apiInstance.defaults.baseURL}/users/refresh`, {
             token: refresh_token,
           });
           const newAccessToken = res.data.access_token;
@@ -43,6 +44,8 @@ apiInstance.interceptors.response.use(
         }
       } catch (err) {
         console.error("Не удалось обновить токен", err);
+        // If refresh fails, we should probably logout or redirect to login
+        await AsyncStorage.multiRemove(["access_token", "refresh_token"]);
       }
     }
     return Promise.reject(error);

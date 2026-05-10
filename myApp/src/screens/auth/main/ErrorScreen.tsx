@@ -1,24 +1,27 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Theme, SPACING, FONTS, RADIUS } from '@/src/styles/root';;
+import { SPACING, FONTS, RADIUS } from '@/src/styles/root';
 import { useStyles } from '../../../hooks/useStyles';
-import { useThemeStore } from '../../../context/useThemeStore';
+import { Theme } from '@/src/styles/root';
+import { useTranslation } from 'react-i18next';
+
 interface ErrorScreenProps {
     error: string;
     onRetry?: () => void;
 }
 
 export const ErrorScreen = ({ error, onRetry }: ErrorScreenProps) => {
-  const { theme } = useThemeStore();
-  const styles = createStyles(theme);
+    const { t } = useTranslation();
+    const styles = useStyles(errorStyles);
+
     return (
         <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
             <View style={styles.content}>
                 <View style={styles.iconContainer}>
                     <Text style={styles.iconText}>!</Text>
                 </View>
-                <Text style={styles.title}>Что-то пошло не так</Text>
+                <Text style={styles.title}>{t('screens.main.errors.title')}</Text>
                 <Text style={styles.errorMessage}>{error}</Text>
 
                 {onRetry && (
@@ -29,7 +32,7 @@ export const ErrorScreen = ({ error, onRetry }: ErrorScreenProps) => {
                         ]}
                         onPress={onRetry}
                     >
-                        <Text style={styles.retryButtonText}>Попробовать снова</Text>
+                        <Text style={styles.retryButtonText}>{t('screens.main.errors.retry')}</Text>
                     </Pressable>
                 )}
             </View>
@@ -37,10 +40,9 @@ export const ErrorScreen = ({ error, onRetry }: ErrorScreenProps) => {
     );
 };
 
-const createStyles = (theme: Theme) => StyleSheet.create({
+const errorStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
-        // Фон как на главном экране
         backgroundColor: theme.colors.background,
     },
     content: {
@@ -53,7 +55,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: RADIUS.full,
-        backgroundColor: theme.colors.errorLight,
+        backgroundColor: theme.colors.errorLight || '#FEE2E2',
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: SPACING.md,

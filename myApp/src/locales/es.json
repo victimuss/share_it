@@ -113,7 +113,9 @@
     },
     "main": {
       "errors": {
-        "loadFailed": "Error al cargar las lecciones. Por favor, inténtelo de nuevo más tarde."
+        "loadFailed": "Error al cargar las lecciones. Por favor, inténtelo de nuevo más tarde.",
+        "title": "Algo salió mal",
+        "retry": "Reintentar"
       },
       "refresh": "Actualizando...",
       "greeting": "Hola, ",
@@ -138,6 +140,7 @@
     },
     "myLessons": {
       "loadFailed": "Error al cargar los datos",
+      "savedOffline": "Guardado",
       "lessonsCount": " lecciones",
       "pages": " p.",
       "completedBadge": "Completado",
@@ -360,5 +363,11 @@
       "myLessons": "Lecciones",
       "profile": "Perfil"
     }
+  },
+  "offline": {
+    "title": "Sin conexión",
+    "subtitle": "Has perdido la conexión, pero puedes seguir leyendo materiales guardados.",
+    "continue_reading": "Leer",
+    "empty_state": "Aún no hay lecciones guardadas para leer sin conexión."
   }
 }

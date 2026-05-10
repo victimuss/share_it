@@ -113,7 +113,9 @@
     },
     "main": {
       "errors": {
-        "loadFailed": "Failed to load lessons. Please try again later."
+        "loadFailed": "Failed to load lessons. Please try again later.",
+        "title": "Something went wrong",
+        "retry": "Try again"
       },
       "refresh": "Refreshing...",
       "greeting": "Hello, ",
@@ -138,6 +140,7 @@
     },
     "myLessons": {
       "loadFailed": "Failed to load data",
+      "savedOffline": "Saved",
       "lessonsCount": " lessons",
       "pages": " p.",
       "completedBadge": "Completed",
@@ -360,5 +363,11 @@
       "myLessons": "Lessons",
       "profile": "Profile"
     }
+  },
+  "offline": {
+    "title": "No Connection",
+    "subtitle": "You've lost your connection, but you can continue reading saved materials.",
+    "continue_reading": "Read",
+    "empty_state": "No lessons saved for offline reading yet."
   }
 }

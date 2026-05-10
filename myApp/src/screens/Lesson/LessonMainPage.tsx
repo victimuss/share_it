@@ -19,6 +19,7 @@ import { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
 import { useStyles } from '../../hooks/useStyles';
 import { useThemeStore } from '../../context/useThemeStore';
+import { useOfflineStore } from '@/src/context/useOfflineStore';
 export const LessonMainScreen = () => {
   const styles = useStyles(lessonLandingStylesFn);
   const homeStyles = useStyles(homeStylesFn);
@@ -27,6 +28,7 @@ export const LessonMainScreen = () => {
     type LessonScreenRouteProp = RouteProp<RootStackParamList, 'LessonMainScreen'>;
     const route = useRoute<LessonScreenRouteProp>();
     const lesson_id = route.params.lessonId;
+    const isSavedOffline = useOfflineStore(state => !!state.savedLessons[lesson_id.toString()]);
     const [currentLesson, setCurrentLesson] = useState<PersonalLessonResponse | null>(null);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
@@ -123,7 +125,7 @@ export const LessonMainScreen = () => {
                     <View style={styles.heroCategoryBadge}>
                         <Text style={styles.heroCategoryText}>{currentLesson?.lesson.type}</Text>
                     </View>
-                    <Text style={styles.heroTitle}>{currentLesson?.lesson.lesson_name}</Text>
+                    <Text style={styles.heroTitle}>{currentLesson?.lesson.lesson_name} {isSavedOffline && '📦'}</Text>
                 </View>
                 <View style={styles.progressStrip}>
                     <View style={[styles.progressStripFill, { width: `${currentLesson?.progress / currentLesson?.lesson.sheet_counts * 100 || 0}%` }]}></View>
