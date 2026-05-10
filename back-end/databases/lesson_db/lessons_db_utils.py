@@ -524,7 +524,6 @@ from sqlalchemy import select
 from groq import AsyncGroq 
 
 client = AsyncGroq(api_key=settings.GROQ_API_KEY)
-
 async def checker(lesson_id: int, max_retries: int = 3):
     backend_ip = "10.171.36.68"
     async with async_session() as session:
@@ -532,8 +531,7 @@ async def checker(lesson_id: int, max_retries: int = 3):
         lesson = lesson_res.scalar_one_or_none()
         
         if not lesson:
-            dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")
-            return json.dumps({"status": False, "reason": "Урок не найден"}, ensure_ascii=False)
+            return json.dumps({"status": False, "reason": "Lesson not found"}, ensure_ascii=False)
 
         sheets_res = await session.execute(
             select(LessonSheet)
@@ -543,61 +541,71 @@ async def checker(lesson_id: int, max_retries: int = 3):
         sheets = sheets_res.scalars().all()
 
     if not sheets:
-        dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}") # TODO: change link for real
-        return json.dumps({"status": False, "reason": "Урок пуст, нечего проверять"}, ensure_ascii=False)
+        dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")
+        return json.dumps({"status": False, "reason": "Lesson is empty"}, ensure_ascii=False)
 
-    full_text = "--- ОБЩИЕ ДАННЫЕ УРОКА ---\n"
-    full_text += f"Название урока: {lesson.lesson_name}\n"
+    full_text = f"SOURCE_LANGUAGE_CONTENT_START\n"
+    full_text += f"Lesson Title: {lesson.lesson_name}\n"
     if lesson.description:
-        full_text += f"Описание урока: {lesson.description}\n\n"
+        full_text += f"Description: {lesson.description}\n\n"
 
     for idx, sheet in enumerate(sheets, 1):
-        full_text += f"--- СТРАНИЦА {idx} ---\n"
-        
+        full_text += f"--- ITEM {idx} ---\n"
         if getattr(sheet, 'sheet_header', None):
-            full_text += f"Заголовок листа: {sheet.sheet_header}\n"
+            full_text += f"Header: {sheet.sheet_header}\n"
         if getattr(sheet, 'content', None):
-            full_text += f"Основной текст: {sheet.content}\n"
-        if getattr(sheet, 'description_for_video_or_picture', None):
-            full_text += f"Описание медиа: {sheet.description_for_video_or_picture}\n"
+            full_text += f"Content: {sheet.content}\n"
         if getattr(sheet, 'question_text', None):
-            full_text += f"Вопрос квиза: {sheet.question_text}\n"
+            full_text += f"Question: {sheet.question_text}\n"
         if getattr(sheet, 'quiz_options', None):
-            full_text += f"Варианты ответа: {json.dumps(sheet.quiz_options, ensure_ascii=False)}\n"
-        
+            full_text += f"Options: {json.dumps(sheet.quiz_options, ensure_ascii=False)}\n"
         full_text += "\n"
+    full_text += "SOURCE_LANGUAGE_CONTENT_END"
 
     prompt = f"""
-    Проверь всё "досье" урока на легальность, насилие, оскорбления, мат и вредные советы.
-    Внимание: нарушения могут быть спрятаны где угодно (в названии, текстах, вопросах квиза или вариантах ответов).
-    
-    Если всё абсолютно чисто, верни строго JSON: {{"status": true}}
-    Если есть нарушения, точно укажи ГДЕ оно найдено, и верни JSON: 
-    {{"status": false, "reason": "краткая причина", "error_location": "Например: 'Страница 2, Варианты ответа'"}}
-    
-    Досье урока: 
+    [STRICT INSTRUCTION]
+    1. Identify the language of the content between SOURCE_LANGUAGE_CONTENT tags.
+    2. Conduct safety audit.
+    3. Respond ONLY in the identified language.
+    4. DO NOT USE RUSSIAN if the content is English/Spanish/etc. 
+    5. Translate structural words (Page, Row, Question) to the identified language.
+
+    [JSON STRUCTURE]
+    {{
+      "detected_language": "name of language",
+      "status": boolean,
+      "reason": "description in detected language",
+      "error_location": "location in detected language"
+    }}
+
+    [CONTENT TO ANALYZE]
     {full_text}
     """
 
-    # 4. Цикл запросов в Groq
     for attempt in range(max_retries):
-            try:
-                chat_completion = await client.chat.completions.create(
-                    messages=[
-                        {"role": "system", "content": "Ты — строгий модератор..."},
-                        {"role": "user", "content": prompt}
-                    ],
-                    model="llama-3.3-70b-versatile",
-                    response_format={"type": "json_object"}
-                )
-                
-                raw_result = chat_completion.choices[0].message.content
-                moderation_result = json.loads(raw_result)
-                
-                new_status = "ACTIVE" if moderation_result.get("status") else "REJECTED"
-                error_loc = moderation_result.get('error_location', 'Неизвестно')
-                error_reason = moderation_result.get('reason', 'Без причины')
-                note_text = f"{error_loc}: {error_reason}"
+        try:
+            chat_completion = await client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "system", 
+                        "content": "STRICT RULES: You are a multilingual moderator. YOU ARE PROHIBITED FROM USING RUSSIAN unless the input is in Russian. If input is English, every single word in your JSON must be English."
+                    },
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.3-70b-versatile",
+                response_format={"type": "json_object"},
+                temperature=0.1 # Снижаем температуру для максимальной точности
+            )
+            
+            raw_result = chat_completion.choices[0].message.content
+            moderation_result = json.loads(raw_result)
+            
+            new_status = "ACTIVE" if moderation_result.get("status") else "REJECTED"
+            error_loc = moderation_result.get('error_location', 'N/A')
+            error_reason = moderation_result.get('reason', 'N/A')
+            note_text = f"{error_loc}: {error_reason}"
+            
+            async with async_session() as session:
                 await session.execute(
                     update(Lesson)
                     .where(Lesson.id == lesson_id)
@@ -607,17 +615,122 @@ async def checker(lesson_id: int, max_retries: int = 3):
                     )
                 )
                 await session.commit()
-                dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")
-                return moderation_result
+            
+            dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")
+            return moderation_result
 
-            except Exception as e:
-                dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")  
-                logger.error(f"Ошибка модерации: {e}, lesson_id: {lesson_id}")
+        except Exception as e:
+            if attempt < max_retries - 1:
+                await asyncio.sleep(2)
+            
+    return {"status": False, "reason": "System error"}
+    backend_ip = "10.171.36.68"
+    async with async_session() as session:
+        lesson_res = await session.execute(select(Lesson).where(Lesson.id == lesson_id))
+        lesson = lesson_res.scalar_one_or_none()
+        
+        if not lesson:
+            return json.dumps({"status": False, "reason": "Lesson not found"}, ensure_ascii=False)
+
+        sheets_res = await session.execute(
+            select(LessonSheet)
+            .where(LessonSheet.content_id == lesson_id) 
+            .order_by(LessonSheet.id)
+        )
+        sheets = sheets_res.scalars().all()
+
+    if not sheets:
+        dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")
+        return json.dumps({"status": False, "reason": "Lesson is empty"}, ensure_ascii=False)
+
+    full_text = "--- GENERAL LESSON DATA ---\n"
+    full_text += f"Lesson Title: {lesson.lesson_name}\n"
+    if lesson.description:
+        full_text += f"Description: {lesson.description}\n\n"
+
+    for idx, sheet in enumerate(sheets, 1):
+        full_text += f"--- PAGE {idx} ---\n"
+        if getattr(sheet, 'sheet_header', None):
+            full_text += f"Header: {sheet.sheet_header}\n"
+        if getattr(sheet, 'content', None):
+            full_text += f"Content: {sheet.content}\n"
+        if getattr(sheet, 'description_for_video_or_picture', None):
+            full_text += f"Media Description: {sheet.description_for_video_or_picture}\n"
+        if getattr(sheet, 'question_text', None):
+            full_text += f"Quiz Question: {sheet.question_text}\n"
+        if getattr(sheet, 'quiz_options', None):
+            full_text += f"Quiz Options: {json.dumps(sheet.quiz_options, ensure_ascii=False)}\n"
+        full_text += "\n"
+
+    prompt = f"""
+    ### ROLE:
+    Strict Content Safety Inspector (AI-Moderator).
+
+    ### TASK:
+    Analyze the provided [DOSSIER] for violations: violence, hate speech, illegal activities, or toxicity.
+
+    ### ABSOLUTE LANGUAGE RULE:
+    1. Identify the language of the [DOSSIER].
+    2. You MUST write your entire response using the language of the [DOSSIER].
+    3. STRICT PROHIBITION: Do not use Russian characters (Cyrillic) unless the [DOSSIER] itself is in Russian.
+    4. Translate all structural terms (e.g., "Page", "Question", "Field", "Section") into the language of the [DOSSIER].
+
+    ### RESPONSE FORMAT (STRICT JSON):
+    {{
+      "status": boolean,
+      "reason": "Description of violation in the DOSSIER'S language",
+      "error_location": "Location (e.g. 'Page X, Block Y') in the DOSSIER'S language"
+    }}
+
+    ### DOSSIER TO ANALYZE:
+    {full_text}
+
+    ### FINAL COMMAND:
+    Detected language response only. No Cyrillic allowed if input is non-Russian. Return JSON.
+    """
+
+    for attempt in range(max_retries):
+        try:
+            chat_completion = await client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "system", 
+                        "content": "You are a strict content moderator. You must communicate only in the language of the provided material."
+                    },
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.3-70b-versatile",
+                response_format={"type": "json_object"}
+            )
+            
+            raw_result = chat_completion.choices[0].message.content
+            moderation_result = json.loads(raw_result)
+            
+            new_status = "ACTIVE" if moderation_result.get("status") else "REJECTED"
+            error_loc = moderation_result.get('error_location', 'N/A')
+            error_reason = moderation_result.get('reason', 'N/A')
+            note_text = f"{error_loc}: {error_reason}"
+            
+            async with async_session() as session:
+                await session.execute(
+                    update(Lesson)
+                    .where(Lesson.id == lesson_id)
+                    .values(
+                        status=new_status,
+                        moderation_note=note_text if new_status == "REJECTED" else None
+                    )
+                )
+                await session.commit()
+            
+            dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")
+            return moderation_result
+
+        except Exception as e:
+            logger.error(f"Moderation error: {e}, lesson_id: {lesson_id}")
+            if attempt < max_retries - 1:
                 await asyncio.sleep(5)
-                
-    dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")    
-    return {"status": False, "reason": "Ошибка после всех попыток"}
-
+            
+    return {"status": False, "reason": "Error after all retries"}
 async def media_checker(image_data: bytes, image_type: str):
     base64_image = base64.b64encode(image_data).decode('utf-8')
 
