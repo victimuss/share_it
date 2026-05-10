@@ -315,6 +315,22 @@
       "typeVideo": "视频",
       "typePicture": "图片",
       "uploadLimit": "PNG, JPG 最大 10 MB"
+    },
+    "approved": {
+      "title": "课程已提交审核！",
+      "subtitle": "我们的专员将很快检查并发布您的课程。",
+      "button": "回到首页"
+    },
+    "moderating": {
+      "title": "正在提交审核...",
+      "subtitle": "请稍候"
+    },
+    "rejected": {
+      "title": "审核未通过",
+      "subtitle": "您的课程已被 AI 拒绝。",
+      "reasonTitle": "原因：",
+      "defaultReason": "违反平台规则或 AI 认为内容不安全。",
+      "button": "返回编辑"
     }
   },
   "components": {

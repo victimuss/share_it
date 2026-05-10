@@ -315,6 +315,22 @@
       "typeVideo": "Video",
       "typePicture": "Imagen",
       "uploadLimit": "PNG, JPG hasta 10 MB"
+    },
+    "approved": {
+      "title": "¡Lección enviada para moderación!",
+      "subtitle": "Nuestro especialista revisará tu lección y la publicará pronto.",
+      "button": "Ir al Inicio"
+    },
+    "moderating": {
+      "title": "Enviando a moderación...",
+      "subtitle": "Espera un momento"
+    },
+    "rejected": {
+      "title": "Moderación fallida",
+      "subtitle": "Tu lección fue rechazada por la IA.",
+      "reasonTitle": "Motivo:",
+      "defaultReason": "Violación de las reglas de la plataforma o la IA consideró que el contenido no es seguro.",
+      "button": "Volver a editar"
     }
   },
   "components": {

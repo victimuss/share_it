@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Theme, SPACING, FONTS, RADIUS } from '@/src/styles/root';;
+import { Theme, SPACING, FONTS, RADIUS } from '@/src/styles/root';
 import { useNavigation } from '@react-navigation/native';
 import { useStyles } from '../../../hooks/useStyles';
-import { useThemeStore } from '../../../context/useThemeStore';
+import { useTranslation } from 'react-i18next';
 
 export const ApprovedScreen = () => {
-  const { theme } = useThemeStore();
-  const styles = createStyles(theme);
+    const styles = useStyles(createStyles);
     const navigation = useNavigation<any>();
+    const { t } = useTranslation();
 
     return (
         <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
@@ -17,15 +17,15 @@ export const ApprovedScreen = () => {
                 <View style={styles.iconCircle}>
                     <Text style={styles.icon}>⏳</Text>
                 </View>
-                <Text style={styles.text}>Урок отправлен на модерацию!</Text>
-                <Text style={styles.subtext}>В ближайшее время наш специалист проверит ваш урок и опубликует его.</Text>
+                <Text style={styles.text}>{t('screens.approved.title')}</Text>
+                <Text style={styles.subtext}>{t('screens.approved.subtitle')}</Text>
             </View>
             <View style={styles.footer}>
                 <Pressable
                     style={styles.button}
                     onPress={() => navigation.navigate('MainTabs')}
                 >
-                    <Text style={styles.buttonText}>На главную</Text>
+                    <Text style={styles.buttonText}>{t('screens.approved.button')}</Text>
                 </Pressable>
             </View>
         </SafeAreaView>
@@ -47,7 +47,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 40,
-        backgroundColor: theme.colors.successLight || '#D1FAE5', // Фоллбэк на случай если successLight нет
+        backgroundColor: theme.colors.successLight,
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: SPACING.xl,
@@ -84,7 +84,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     buttonText: {
         ...FONTS.semibold,
-        color: theme.colors.surface,
+        color: '#FFFFFF',
         fontSize: 16,
     }
 });

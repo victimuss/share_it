@@ -1,19 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Theme, SPACING, FONTS } from '@/src/styles/root';;
+import { Theme, SPACING, FONTS } from '@/src/styles/root';
 import { useStyles } from '../../../hooks/useStyles';
-import { useThemeStore } from '../../../context/useThemeStore';
+import { useTranslation } from 'react-i18next';
 
 export const ModeratingScreen = () => {
-  const { theme } = useThemeStore();
-  const styles = createStyles(theme);
+    const styles = useStyles(createStyles);
+    const { t } = useTranslation();
+
     return (
         <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
             <View style={styles.content}>
-                <ActivityIndicator size="large" color={theme.colors.primary} />
-                <Text style={styles.text}>Отправляем на модерацию...</Text>
-                <Text style={styles.subtext}>Подождите совсем немного</Text>
+                <ActivityIndicator size="large" color={styles.loader.color} />
+                <Text style={styles.text}>{t('screens.moderating.title')}</Text>
+                <Text style={styles.subtext}>{t('screens.moderating.subtitle')}</Text>
             </View>
         </SafeAreaView>
     );
@@ -22,7 +23,6 @@ export const ModeratingScreen = () => {
 const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
-        // Фон как на главном экране (MainScreen)
         backgroundColor: theme.colors.background,
     },
     content: {
@@ -30,6 +30,9 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: SPACING.xl,
+    },
+    loader: {
+        color: theme.colors.primary,
     },
     text: {
         ...FONTS.h2,

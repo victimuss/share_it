@@ -3,11 +3,45 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SPACING, FONTS, RADIUS, Theme } from '@/src/styles/root';
 import { useStyles } from '../../../hooks/useStyles';
+import { useTranslation } from 'react-i18next';
 
 interface RejectedScreenProps {
     reason?: string | null;
     onClose?: () => void;
 }
+
+export const RejectedScreen: React.FC<RejectedScreenProps> = ({
+    reason,
+    onClose
+}) => {
+    const styles = useStyles(createStyles);
+    const { t } = useTranslation();
+
+    return (
+        <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+            <View style={styles.content}>
+                <View style={styles.iconCircle}>
+                    <Text style={styles.icon}>❌</Text>
+                </View>
+                <Text style={styles.text}>{t('screens.rejected.title')}</Text>
+                <Text style={styles.subtext}>{t('screens.rejected.subtitle')}</Text>
+
+                <View style={styles.errorBox}>
+                    <Text style={styles.errorTitle}>{t('screens.rejected.reasonTitle')}</Text>
+                    <Text style={styles.errorText}>{reason || t('screens.rejected.defaultReason')}</Text>
+                </View>
+            </View>
+            <View style={styles.footer}>
+                <Pressable
+                    style={styles.button}
+                    onPress={onClose}
+                >
+                    <Text style={styles.buttonText}>{t('screens.rejected.button')}</Text>
+                </Pressable>
+            </View>
+        </SafeAreaView>
+    );
+};
 
 const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
@@ -80,39 +114,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     buttonText: {
         ...FONTS.semibold,
-        color: theme.colors.surface,
+        color: '#FFFFFF',
         fontSize: 16,
     },
 });
-
-export const RejectedScreen: React.FC<RejectedScreenProps> = ({
-    reason = "Нарушение правил платформы или генерация ИИ сочла контент небезопасным.",
-    onClose
-}) => {
-    const styles = useStyles(createStyles);
-
-    return (
-        <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-            <View style={styles.content}>
-                <View style={styles.iconCircle}>
-                    <Text style={styles.icon}>❌</Text>
-                </View>
-                <Text style={styles.text}>Модерация не пройдена</Text>
-                <Text style={styles.subtext}>Ваш урок был отклонен нейросетью.</Text>
-
-                <View style={styles.errorBox}>
-                    <Text style={styles.errorTitle}>Причина:</Text>
-                    <Text style={styles.errorText}>{reason}</Text>
-                </View>
-            </View>
-            <View style={styles.footer}>
-                <Pressable
-                    style={styles.button}
-                    onPress={onClose}
-                >
-                    <Text style={styles.buttonText}>Вернуться к редактированию</Text>
-                </Pressable>
-            </View>
-        </SafeAreaView>
-    );
-};

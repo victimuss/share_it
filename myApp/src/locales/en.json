@@ -315,6 +315,22 @@
       "typeVideo": "Video",
       "typePicture": "Picture",
       "uploadLimit": "PNG, JPG up to 10 MB"
+    },
+    "approved": {
+      "title": "Lesson submitted for moderation!",
+      "subtitle": "Our specialist will check your lesson and publish it shortly.",
+      "button": "Go to Home"
+    },
+    "moderating": {
+      "title": "Submitting for moderation...",
+      "subtitle": "Wait a few moments"
+    },
+    "rejected": {
+      "title": "Moderation failed",
+      "subtitle": "Your lesson was rejected by AI.",
+      "reasonTitle": "Reason:",
+      "defaultReason": "Violation of platform rules or AI deemed the content unsafe.",
+      "button": "Back to editing"
     }
   },
   "components": {
