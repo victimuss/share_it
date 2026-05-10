@@ -40,7 +40,7 @@ async def popular_lessons(type: Optional[str] = None):
     lessons = await get_popular_lessons(type=type)
     if lessons is None:
         raise HTTPException(status_code=404, detail="Популярные уроки не найдены")
-    await redis_client.set(cache_key, json.dumps(jsonable_encoder(lessons)), ex=60*60*24)
+    await redis_client.set(cache_key, json.dumps(jsonable_encoder(lessons)), ex=60*60)
     return {'popularLessons':lessons}
 
 
@@ -55,7 +55,7 @@ async def new_lessons(type: Optional[str] = None):
     lessons = await get_new_lessons(type=type)
     if lessons is None:
         raise HTTPException(status_code=404, detail="Новые уроки не найдены")
-    await redis_client.set(cache_key, json.dumps(jsonable_encoder(lessons)), ex=60*60*24)
+    await redis_client.set(cache_key, json.dumps(jsonable_encoder(lessons)), ex=60*60)
     return {'recentLessons':lessons}
 
 
