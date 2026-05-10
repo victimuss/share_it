@@ -65,9 +65,9 @@
 
 ### 📱 Frontend & UI/UX (Next Steps)
 - [x] **Global**: Мультиязычность (i18next: RU/EN/ES/ZH).
-- [ ] **Design**: Темная тема и система дизайн-токенов.
-- [ ] **Animations**: Плавные интерфейсные анимации (Reanimated 3).
-- [ ] **Offline Mode**: Обработка состояния сети через `netinfo` и кэширование данных.
+- [x] **Design**: Темная тема и система дизайн-токенов.
+- [x] **Animations**: Плавные интерфейсные анимации (Reanimated 3).
+- [x] **Offline Mode**: Обработка состояния сети через `netinfo` и кэширование данных.
 
 ### 🛠 Admin & Maintenance
 - [x] **Admin Panel**: Управление данными через FastAPI Admin.
