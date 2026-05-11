@@ -57,14 +57,14 @@ To minimize external API costs and legal risks, Spark uses quantized **Local BER
 - Automated testing suite (Pytest).
 
 ### ⏳ Phase 2: Security & Privacy (In Progress)
-- [ ] Hardened ECC-based ZKP implementation.
-- [ ] Telegram-based Identity Provider (Bot).
-- [ ] Real-time monitoring with Sentry.
+- [x] Hardened ECC-based ZKP implementation.
+- [x] Telegram-based Identity Provider (Bot).
+- [x] Real-time monitoring with Sentry.
 
 ### 🔭 Phase 3: Global Scale (Next Steps)
-- [ ] Multilingual support (RU/EN/ES/ZH) using `i18next`.
-- [ ] Advanced UI/UX with `Reanimated 3`.
-- [ ] Enterprise-grade backup & disaster recovery system.
+- [x] Multilingual support (RU/EN/ES/ZH) using `i18next`.
+- [x] Advanced UI/UX with `Reanimated 3`.
+- [x] Enterprise-grade backup & disaster recovery system.
 
 ---
 
