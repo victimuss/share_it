@@ -13,6 +13,7 @@ from sqlalchemy import (
     select,
     func,
     JSON,
+    text
 )
 from sqlalchemy.dialects.postgresql import ARRAY
 from datetime import datetime, timezone
@@ -28,6 +29,7 @@ class Lesson(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     lesson_name: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     status: Mapped[str] = mapped_column(String(50), default="DRAFT")
+    ai_generated: Mapped[bool] = mapped_column(Boolean, default=False, server_default=text("false"), nullable=False)
     description: Mapped[str] = mapped_column(String(255), nullable=True)
     type: Mapped[str] = mapped_column(String(50), default="Code")
     level: Mapped[str] = mapped_column(String(50), default="Beginner")

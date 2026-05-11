@@ -10,6 +10,7 @@ class LessonCreate(BaseModel):
     description: Optional[str] = None
     type: Optional[str] = "Code"
     level: Optional[str] = "Beginner"
+    ai_generated: Optional[bool] = False
 
 class QuizOption(BaseModel):
     option: str
@@ -214,3 +215,35 @@ class MyLessonsResponse(BaseModel):
     made_lessons: list[madeLessons]
     learn_lessons: list[learnLessons]
     model_config = ConfigDict(from_attributes=True)
+    
+
+class QuizOption(BaseModel):
+    option: str
+    is_correct: bool
+
+class Quiz(BaseModel):
+    question_text: str
+    quiz_options: List[QuizOption]
+
+class SheetAI(BaseModel):
+    sheet_header: str
+    sheetType: str
+    content: Optional[str] = None
+    content_advice: Optional[str] = None
+    content_danger: Optional[str] = None
+    quiz: Optional[Quiz] = None
+    picture_url: Optional[str] = None
+    video_url: Optional[str] = None
+    description_for_video_or_picture: Optional[str] = None
+
+class LessonMetaAI(BaseModel):
+    lesson_name: str
+    description: str
+
+class LessonContentAI(BaseModel):
+    lesson_meta: LessonMetaAI
+    sheets: List[SheetAI]
+    tags: List[str]
+
+class GroqResponseSchema(BaseModel):
+    lesson: LessonContentAI

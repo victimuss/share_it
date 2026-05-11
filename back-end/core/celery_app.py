@@ -4,7 +4,7 @@ from core.config import settings
 celery_app = Celery(
     "worker",
     broker=settings.CELERY_BROKER_URL,
-    include=["routers.tasks.media_tasks", "routers.tasks.censore_tasks"]
+    include=["routers.tasks.media_tasks", "routers.tasks.censore_tasks", "routers.tasks.ai_tasks"]
 )
 
 celery_app.conf.update(
@@ -21,5 +21,9 @@ celery_app.conf.update(
     task_ignore_result=True,
     task_reject_on_worker_lost=True,
     worker_enable_remote_control=False,
-    worker_send_task_events=False,     
+    worker_send_task_events=False,
+    task_send_sent_event=False,
+    worker_deduplicate_successful_tasks=True,
+    worker_gossip=False,
+    worker_mingle=False,
 )

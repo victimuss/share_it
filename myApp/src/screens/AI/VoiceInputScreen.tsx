@@ -9,7 +9,21 @@ import { createAIVoiceStyles } from '../../styles/AIVoiceStyles';
 import { useNavigation } from "@react-navigation/native";
 import { CloseIcon } from '../../SVG/SearchSVG';
 import { MicIcon } from '../../SVG/VoiceSVG';
+import { Dropdown } from 'react-native-element-dropdown';
 import { initWhisper, WhisperContext } from 'whisper.rn';
+
+const difficultyData = (t: any, colors: any) => [
+    { label: 'Beginner', value: 'Beginner', subtitle: t('screens.newLesson.diffBeginner'), icon: '🌱', bg: colors.successLight },
+    { label: 'Intermediate', value: 'Intermediate', subtitle: t('screens.newLesson.diffIntermediate'), icon: '⚡', bg: colors.warningLight },
+    { label: 'Advanced', value: 'Advanced', subtitle: t('screens.newLesson.diffAdvanced'), icon: '🔥', bg: colors.errorLight },
+];
+
+const typesData = [
+    { label: 'Code', value: 'code', icon: '💻', },
+    { label: 'Language', value: 'language', icon: '🗣️' },
+    { label: 'Business', value: 'business', icon: '📊' },
+    { label: 'Design', value: 'design', icon: '🎨' },
+];
 
 export const VoiceInputScreen = () => {
     const navigation = useNavigation();
@@ -23,6 +37,39 @@ export const VoiceInputScreen = () => {
     const { colors } = useThemeStore(s => s.theme);
     const inputRef = useRef<TextInput>(null);
     const [isFocused, setIsFocused] = useState(false);
+    const [difficulty, setDifficulty] = useState<string | null>(null);
+    const [isFocus, setIsFocus] = useState(false);
+    const [type, setType] = useState<string | null>(null);
+    const [isFocusType, setIsFocusType] = useState(false);
+
+    const diffData = difficultyData(t, colors);
+
+    const renderDifficultyItem = (item: any) => {
+        return (
+            <View style={styles.dropdownOption}>
+                <View style={[styles.optionDot, { backgroundColor: item.bg }]}>
+                    <Text style={{ fontSize: 18 }}>{item.icon}</Text>
+                </View>
+                <View>
+                    <Text style={styles.optionTitle}>{item.label}</Text>
+                    <Text style={styles.optionSubtitle}>{item.subtitle}</Text>
+                </View>
+            </View>
+        );
+    };
+
+    const renderTypeItem = (item: any) => {
+        return (
+            <View style={styles.dropdownOption}>
+                <View style={[styles.optionDot]}>
+                    <Text style={{ fontSize: 18 }}>{item.icon}</Text>
+                </View>
+                <View>
+                    <Text style={styles.optionTitle}>{item.label}</Text>
+                </View>
+            </View>
+        );
+    };
 
     useEffect(() => {
         async function setup() {
@@ -151,6 +198,89 @@ export const VoiceInputScreen = () => {
                                 )}
                             </Pressable>
 
+                            <View style={styles.selectorsRow}>
+                                <View style={styles.selectorCell}>
+                                    <Text style={styles.fieldLabel}>
+                                        {t('screens.newLesson.difficultyLabel')}
+                                    </Text>
+                                    <Dropdown
+                                        style={[
+                                            styles.selector,
+                                            isFocus && styles.selectorOpen
+                                        ]}
+                                        containerStyle={styles.dropdownList}
+                                        itemTextStyle={styles.optionTitle}
+                                        itemContainerStyle={styles.dropdownOption}
+                                        data={diffData}
+                                        labelField="label"
+                                        valueField="value"
+                                        placeholder={t('screens.newLesson.difficultyLabel')}
+                                        placeholderStyle={styles.selectorPlaceholder}
+                                        selectedTextStyle={styles.selectorValue}
+                                        activeColor={colors.primarySoft}
+                                        value={difficulty}
+                                        onFocus={() => setIsFocus(true)}
+                                        onBlur={() => setIsFocus(false)}
+                                        onChange={(item) => {
+                                            setDifficulty(item.value);
+                                            setIsFocus(false);
+                                        }}
+                                        renderItem={renderDifficultyItem}
+                                        renderLeftIcon={() => {
+                                            const selectedItem = diffData.find(d => d.value === difficulty);
+                                            if (selectedItem) {
+                                                return (
+                                                    <View style={[styles.optionDot, { backgroundColor: selectedItem.bg, marginRight: 8, width: 28, height: 28 }]}>
+                                                        <Text style={{ fontSize: 14 }}>{selectedItem.icon}</Text>
+                                                    </View>
+                                                );
+                                            }
+                                            return null;
+                                        }}
+                                    />
+                                </View>
+                                <View style={styles.selectorCell}>
+                                    <Text style={styles.fieldLabel}>
+                                        {t('screens.newLesson.categoryLabel')}
+                                    </Text>
+                                    <Dropdown
+                                        style={[
+                                            styles.selector,
+                                            isFocusType && styles.selectorOpen
+                                        ]}
+                                        containerStyle={styles.dropdownList}
+                                        itemTextStyle={styles.optionTitle}
+                                        itemContainerStyle={styles.dropdownOption}
+                                        data={typesData}
+                                        labelField="label"
+                                        valueField="value"
+                                        placeholder={t('screens.newLesson.typePlaceholder')}
+                                        placeholderStyle={styles.selectorPlaceholder}
+                                        selectedTextStyle={styles.selectorValue}
+                                        activeColor={colors.primarySoft}
+                                        value={type}
+                                        onFocus={() => setIsFocusType(true)}
+                                        onBlur={() => setIsFocusType(false)}
+                                        onChange={(item) => {
+                                            setType(item.value);
+                                            setIsFocusType(false);
+                                        }}
+                                        renderItem={renderTypeItem}
+                                        renderLeftIcon={() => {
+                                            const selectedItemType = typesData.find(d => d.value === type);
+                                            if (selectedItemType) {
+                                                return (
+                                                    <View style={[styles.optionDot, { marginRight: 8, width: 28, height: 28 }]}>
+                                                        <Text style={{ fontSize: 14 }}>{selectedItemType.icon}</Text>
+                                                    </View>
+                                                );
+                                            }
+                                            return null;
+                                        }}
+                                    />
+                                </View>
+                            </View>
+
                             <View style={styles.inputContainer}>
                                 <TextInput
                                     ref={inputRef}
@@ -171,7 +301,7 @@ export const VoiceInputScreen = () => {
                         <Pressable
                             disabled={isButtonDisabled}
                             style={isButtonDisabled ? styles.saveButtonDisabled : styles.saveButton}
-                            onPress={() => console.log("Final text:", text)}
+                            onPress={() => console.log("Final submission:", { text, difficulty, type })}
                         >
                             <Text style={styles.saveButtonText}>{t('screens.newLesson.continueBtn')}</Text>
                         </Pressable>

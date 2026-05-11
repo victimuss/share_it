@@ -76,3 +76,314 @@
 2026-05-09 19:23:22 | INFO     | telegram_bot.handlers.start:start_command:20 - None
 2026-05-09 19:56:21 | INFO     | telegram_bot.handlers.start:start_command:19 - 102
 2026-05-09 19:56:21 | INFO     | telegram_bot.handlers.start:start_command:20 - 2173bf4a
+2026-05-11 23:38:55 | ERROR    | __main__:_create_lesson_async:133 - Ошибка при создании урока: [Errno 11001] getaddrinfo failed
+2026-05-11 23:39:58 | ERROR    | __main__:_create_lesson_async:133 - Ошибка при создании урока: [Errno 11001] getaddrinfo failed
+2026-05-11 23:41:16 | ERROR    | __main__:_create_lesson_async:133 - Ошибка при создании урока: [Errno 11001] getaddrinfo failed
+2026-05-12 00:12:34 | ERROR    | __main__:_create_lesson_async:156 - Ошибка при создании урока: [Errno 11001] getaddrinfo failed
+2026-05-12 00:14:40 | ERROR    | __main__:_create_lesson_async:155 - Ошибка при создании урока: [Errno 11001] getaddrinfo failed
+Traceback (most recent call last):
+
+  File "e:\dev\share_it\back-end\routers\tasks\ai_tasks.py", line 164, in <module>
+    result = asyncio.run(_create_lesson_async("Python basics", "beginner", "Code", 1, "en"))
+             │       │   └ <function _create_lesson_async at 0x000001E8F978DBC0>
+             │       └ <function run at 0x000001E8F7C8CB80>
+             └ <module 'asyncio' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\asyncio\\__init__.py'>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           │      │   └ <coroutine object _create_lesson_async at 0x000001E8FA0E8780>
+           │      └ <function Runner.run at 0x000001E8F7D23060>
+           └ <asyncio.runners.Runner object at 0x000001E8FA04F230>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<_create_lesson_async() running at e:\dev\share_it\back-end\routers\tasks\ai_tasks.py:155> c...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x000001E8F7D20C20>
+           │    └ <ProactorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x000001E8FA04F230>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 712, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x000001E8F7D20B80>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 683, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x000001E8F7D22980>
+    └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 2040, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x000001E8F7C35620>
+    └ <Handle Task.task_wakeup()>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup()>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup()>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup()>
+
+> File "e:\dev\share_it\back-end\routers\tasks\ai_tasks.py", line 106, in _create_lesson_async
+    await session.flush()
+          │       └ <function AsyncSession.flush at 0x000001E8FA38C220>
+          └ <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x000001E8FFAF8050>
+
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 802, in flush
+    await greenlet_spawn(self.sync_session.flush, objects=objects)
+          │              │    │            │              └ None
+          │              │    │            └ <function Session.flush at 0x000001E8FA25C220>
+          │              │    └ <sqlalchemy.orm.session.Session object at 0x000001E8FFAF8C20>
+          │              └ <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x000001E8FFAF8050>
+          └ <function greenlet_spawn at 0x000001E8F983D260>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+             │       │      │   └ <built-in function exc_info>
+             │       │      └ <module 'sys' (built-in)>
+             │       └ <method 'throw' of 'greenlet.greenlet' objects>
+             └ <_AsyncIoGreenlet object at 0x000001E8FFC30440 (otid=0x000001E8F97EAB50) dead>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py", line 4353, in flush
+    self._flush(objects)
+    │    │      └ None
+    │    └ <function Session._flush at 0x000001E8FA25C400>
+    └ <sqlalchemy.orm.session.Session object at 0x000001E8FFAF8C20>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py", line 4488, in _flush
+    with util.safe_reraise():
+         │    └ <class 'sqlalchemy.util.langhelpers.safe_reraise'>
+         └ <module 'sqlalchemy.util' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sqlalchemy...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+          │         │              └ <traceback object at 0x000001E8FFCAE880>
+          │         └ <method 'with_traceback' of 'BaseException' objects>
+          └ gaierror(11001, 'getaddrinfo failed')
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py", line 4449, in _flush
+    flush_context.execute()
+    │             └ <function UOWTransaction.execute at 0x000001E8FA248B80>
+    └ <sqlalchemy.orm.unitofwork.UOWTransaction object at 0x000001E8FFBF8AD0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+    │   │       └ <sqlalchemy.orm.unitofwork.UOWTransaction object at 0x000001E8FFBF8AD0>
+    │   └ <function SaveUpdateAll.execute at 0x000001E8FA2496C0>
+    └ SaveUpdateAll(Mapper[Lesson(lessons)])
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    │    │         │               └ <function save_obj at 0x000001E8F9FB4220>
+    │    │         └ <module 'sqlalchemy.orm.persistence' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\...
+    │    └ <module 'sqlalchemy.util.preloaded' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\...
+    └ <module 'sqlalchemy.util' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sqlalchemy...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\persistence.py", line 68, in save_obj
+    ) in _organize_states_for_save(base_mapper, states, uowtransaction):
+         │                         │            │       └ <sqlalchemy.orm.unitofwork.UOWTransaction object at 0x000001E8FFBF8AD0>
+         │                         │            └ <generator object UOWTransaction.states_for_mapper_hierarchy at 0x000001E8FFCB1210>
+         │                         └ <Mapper at 0x1e8fa441e80; Lesson>
+         └ <function _organize_states_for_save at 0x000001E8FA20B380>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\persistence.py", line 223, in _organize_states_for_save
+    for state, dict_, mapper, connection in _connections_for_states(
+                                            └ <function _connections_for_states at 0x000001E8FA20BCE0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1753, in _connections_for_states
+    connection = uowtransaction.transaction.connection(base_mapper)
+                 │              │           │          └ <Mapper at 0x1e8fa441e80; Lesson>
+                 │              │           └ <function SessionTransaction.connection at 0x000001E8FA24B920>
+                 │              └ <sqlalchemy.orm.session.SessionTransaction object at 0x000001E8FFCAD690>
+                 └ <sqlalchemy.orm.unitofwork.UOWTransaction object at 0x000001E8FFBF8AD0>
+  File "<string>", line 2, in connection
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                │  │      │      └ {'execution_options': None}
+                │  │      └ (<Mapper at 0x1e8fa441e80; Lesson>,)
+                │  └ <sqlalchemy.orm.session.SessionTransaction object at 0x000001E8FFCAD690>
+                └ <function SessionTransaction.connection at 0x000001E8FA24B740>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py", line 1039, in connection
+    return self._connection_for_bind(bind, execution_options)
+           │    │                    │     └ None
+           │    │                    └ Engine(postgresql+asyncpg://admin:***@db:5432/my_project)
+           │    └ <function SessionTransaction._connection_for_bind at 0x000001E8FA24BE20>
+           └ <sqlalchemy.orm.session.SessionTransaction object at 0x000001E8FFCAD690>
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                │  │      │      └ {}
+                │  │      └ (Engine(postgresql+asyncpg://admin:***@db:5432/my_project), None)
+                │  └ <sqlalchemy.orm.session.SessionTransaction object at 0x000001E8FFCAD690>
+                └ <function SessionTransaction._connection_for_bind at 0x000001E8FA24BD80>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py", line 1175, in _connection_for_bind
+    conn = self._parent._connection_for_bind(
+           │    │       └ <function SessionTransaction._connection_for_bind at 0x000001E8FA24BE20>
+           │    └ <sqlalchemy.orm.session.SessionTransaction object at 0x000001E8FFB9E450>
+           └ <sqlalchemy.orm.session.SessionTransaction object at 0x000001E8FFCAD690>
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                │  │      │      └ {}
+                │  │      └ (Engine(postgresql+asyncpg://admin:***@db:5432/my_project), None)
+                │  └ <sqlalchemy.orm.session.SessionTransaction object at 0x000001E8FFB9E450>
+                └ <function SessionTransaction._connection_for_bind at 0x000001E8FA24BD80>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py", line 1189, in _connection_for_bind
+    conn = bind.connect()
+           │    └ <function Engine.connect at 0x000001E8F9D1B2E0>
+           └ Engine(postgresql+asyncpg://admin:***@db:5432/my_project)
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py", line 3274, in connect
+    return self._connection_cls(self)
+           │    │               └ Engine(postgresql+asyncpg://admin:***@db:5432/my_project)
+           │    └ <class 'sqlalchemy.engine.base.Connection'>
+           └ Engine(postgresql+asyncpg://admin:***@db:5432/my_project)
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    self._dbapi_connection = engine.raw_connection()
+    │                        │      └ <function Engine.raw_connection at 0x000001E8F9D1B380>
+    │                        └ Engine(postgresql+asyncpg://admin:***@db:5432/my_project)
+    └ <sqlalchemy.engine.base.Connection object at 0x000001E8FFBF8C20>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py", line 3298, in raw_connection
+    return self.pool.connect()
+           │    │    └ <function Pool.connect at 0x000001E8F98E4B80>
+           │    └ <sqlalchemy.pool.impl.NullPool object at 0x000001E8FB5A9FD0>
+           └ Engine(postgresql+asyncpg://admin:***@db:5432/my_project)
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\pool\base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+           │                │         └ <sqlalchemy.pool.impl.NullPool object at 0x000001E8FB5A9FD0>
+           │                └ <classmethod(<function _ConnectionFairy._checkout at 0x000001E8F98E6CA0>)>
+           └ <class 'sqlalchemy.pool.base._ConnectionFairy'>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\pool\base.py", line 1264, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            │                 │        └ <sqlalchemy.pool.impl.NullPool object at 0x000001E8FB5A9FD0>
+            │                 └ <classmethod(<function _ConnectionRecord.checkout at 0x000001E8F98E5800>)>
+            └ <class 'sqlalchemy.pool.base._ConnectionRecord'>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\pool\base.py", line 713, in checkout
+    rec = pool._do_get()
+          │    └ <function NullPool._do_get at 0x000001E8F98BAA20>
+          └ <sqlalchemy.pool.impl.NullPool object at 0x000001E8FB5A9FD0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\pool\impl.py", line 308, in _do_get
+    return self._create_connection()
+           │    └ <function Pool._create_connection at 0x000001E8F98E4900>
+           └ <sqlalchemy.pool.impl.NullPool object at 0x000001E8FB5A9FD0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\pool\base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+           │                 └ <sqlalchemy.pool.impl.NullPool object at 0x000001E8FB5A9FD0>
+           └ <class 'sqlalchemy.pool.base._ConnectionRecord'>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\pool\base.py", line 675, in __init__
+    self.__connect()
+    └ <sqlalchemy.pool.base._ConnectionRecord object at 0x000001E8FFBC0F50>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\pool\base.py", line 901, in __connect
+    with util.safe_reraise():
+         │    └ <class 'sqlalchemy.util.langhelpers.safe_reraise'>
+         └ <module 'sqlalchemy.util' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sqlalchemy...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+          │         │              └ <traceback object at 0x000001E8FFCAE240>
+          │         └ <method 'with_traceback' of 'BaseException' objects>
+          └ gaierror(11001, 'getaddrinfo failed')
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\pool\base.py", line 897, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+    │    │                               │    │               └ <sqlalchemy.pool.base._ConnectionRecord object at 0x000001E8FFBC0F50>
+    │    │                               │    └ <function create_engine.<locals>.connect at 0x000001E8FB54BA60>
+    │    │                               └ <sqlalchemy.pool.impl.NullPool object at 0x000001E8FB5A9FD0>
+    │    └ <member 'dbapi_connection' of '_ConnectionRecord' objects>
+    └ <sqlalchemy.pool.base._ConnectionRecord object at 0x000001E8FFBC0F50>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\create.py", line 646, in connect
+    return dialect.connect(*cargs, **cparams)
+           │       │        │        └ {'host': 'db', 'database': 'my_project', 'user': 'admin', 'password': 'root', 'port': 5432}
+           │       │        └ []
+           │       └ <function DefaultDialect.connect at 0x000001E8F9DA2E80>
+           └ <sqlalchemy.dialects.postgresql.asyncpg.PGDialect_asyncpg object at 0x000001E8FB5A9BE0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py", line 625, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           │    │            │        │        └ {'host': 'db', 'database': 'my_project', 'user': 'admin', 'password': 'root', 'port': 5432}
+           │    │            │        └ ()
+           │    │            └ <function AsyncAdapt_asyncpg_dbapi.connect at 0x000001E8FA4A6C00>
+           │    └ <sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi object at 0x000001E8FB5A9A90>
+           └ <sqlalchemy.dialects.postgresql.asyncpg.PGDialect_asyncpg object at 0x000001E8FB5A9BE0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 961, in connect
+    await_only(creator_fn(*arg, **kw)),
+    │          │           │      └ {'host': 'db', 'database': 'my_project', 'user': 'admin', 'password': 'root', 'port': 5432}
+    │          │           └ ()
+    │          └ <function connect at 0x000001E8FB64AC00>
+    └ <function await_only at 0x000001E8F983D120>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           │       │             └ <coroutine object connect at 0x000001E8FFB6A110>
+           │       └ <attribute 'parent' of 'greenlet.greenlet' objects>
+           └ <_AsyncIoGreenlet object at 0x000001E8FFC30440 (otid=0x000001E8F97EAB50) dead>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+                  └ <coroutine object connect at 0x000001E8FFB6A110>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\asyncpg\connection.py", line 2443, in connect
+    return await connect_utils._connect(
+                 │             └ <function _connect at 0x000001E8FB64A8E0>
+                 └ <module 'asyncpg.connect_utils' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\asyn...
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\asyncpg\connect_utils.py", line 1249, in _connect
+    raise last_error or exceptions.TargetServerAttributeNotMatched(
+          │             │          └ <class 'asyncpg.exceptions._base.TargetServerAttributeNotMatched'>
+          │             └ <module 'asyncpg.exceptions' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\asyncpg...
+          └ gaierror(11001, 'getaddrinfo failed')
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\asyncpg\connect_utils.py", line 1218, in _connect
+    conn = await _connect_addr(
+                 └ <function _connect_addr at 0x000001E8FB64A020>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\asyncpg\connect_utils.py", line 1054, in _connect_addr
+    return await __connect_addr(params, True, *args)
+                 │              │              └ (('db', 5432), <ProactorEventLoop running=True closed=False debug=False>, ConnectionConfiguration(command_timeout=None, state...
+                 │              └ ConnectionParameters(user='admin', password='root', database='my_project', ssl=<ssl.SSLContext object at 0x000001E8FFC95640>,...
+                 └ <function __connect_addr at 0x000001E8FB64A2A0>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\asyncpg\connect_utils.py", line 1099, in __connect_addr
+    tr, pr = await connector
+                   └ <coroutine object _create_ssl_connection at 0x000001E8FFB93880>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\site-packages\asyncpg\connect_utils.py", line 969, in _create_ssl_connection
+    tr, pr = await loop.create_connection(
+                   │    └ <function BaseEventLoop.create_connection at 0x000001E8F7D21B20>
+                   └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1117, in create_connection
+    infos = await self._ensure_resolved(
+                  │    └ <function BaseEventLoop._ensure_resolved at 0x000001E8F7D21F80>
+                  └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1500, in _ensure_resolved
+    return await loop.getaddrinfo(host, port, family=family, type=type,
+                 │    │           │     │            │            └ <SocketKind.SOCK_STREAM: 1>
+                 │    │           │     │            └ 0
+                 │    │           │     └ 5432
+                 │    │           └ 'db'
+                 │    └ <function BaseEventLoop.getaddrinfo at 0x000001E8F7D216C0>
+                 └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 939, in getaddrinfo
+    return await self.run_in_executor(
+                 │    └ <function BaseEventLoop.run_in_executor at 0x000001E8F7D214E0>
+                 └ <ProactorEventLoop running=True closed=False debug=False>
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             │        │            └ None
+             │        └ None
+             └ None
+  File "C:\Users\Chane\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 977, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               │       │           │     │     │       │     │      └ 0
+               │       │           │     │     │       │     └ 0
+               │       │           │     │     │       └ <SocketKind.SOCK_STREAM: 1>
+               │       │           │     │     └ 0
+               │       │           │     └ 5432
+               │       │           └ 'db'
+               │       └ <built-in function getaddrinfo>
+               └ <module '_socket' from 'C:\\Users\\Chane\\AppData\\Local\\Programs\\Python\\Python313\\DLLs\\_socket.pyd'>
+
+socket.gaierror: [Errno 11001] getaddrinfo failed
+2026-05-12 00:16:17 | ERROR    | __main__:_create_lesson_async:155 - Ошибка при создании урока: [Errno 11001] getaddrinfo failed
+2026-05-12 00:17:01 | ERROR    | __main__:_create_lesson_async:155 - Ошибка при создании урока: [Errno 11001] getaddrinfo failed
+2026-05-12 00:19:30 | ERROR    | __main__:_create_lesson_async:155 - Ошибка при создании урока: [Errno 11001] getaddrinfo failed
+2026-05-12 00:21:06 | ERROR    | __main__:_create_lesson_async:155 - Ошибка при создании урока: [Errno 11001] getaddrinfo failed
+2026-05-12 00:22:07 | ERROR    | __main__:_create_lesson_async:155 - Ошибка при создании урока: [Errno 11001] getaddrinfo failed
+2026-05-12 00:25:43 | ERROR    | __main__:_create_lesson_async:155 - Ошибка при создании урока: [Errno 11001] getaddrinfo failed
+2026-05-12 00:29:23 | ERROR    | __main__:_create_lesson_async:155 - Ошибка при создании урока: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kpjzcdp3e0wbjqed778e7xck` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 97216, Requested 6711. Please try again in 56m32.928s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-05-12 00:33:51 | WARNING  | __main__:_create_lesson_async:153 - Лимит Groq исчерпан. Передаем управление Celery для ретрая...
+2026-05-12 00:35:33 | ERROR    | __main__:_create_lesson_async:159 - Ошибка при создании урока: 'lesson_id' is an invalid keyword argument for LessonSheet
+2026-05-12 00:37:06 | ERROR    | __main__:_create_lesson_async:159 - Ошибка при создании урока: 'sheet_type' is an invalid keyword argument for LessonSheet
+2026-05-12 00:37:35 | ERROR    | __main__:_create_lesson_async:159 - Ошибка при создании урока: 'quiz' is an invalid keyword argument for LessonSheet
+2026-05-12 00:38:51 | ERROR    | __main__:_create_lesson_async:160 - Ошибка при создании урока: 'NoneType' object has no attribute 'get'
+2026-05-12 00:40:11 | ERROR    | __main__:_create_lesson_async:160 - Ошибка при создании урока: 'description_for_media' is an invalid keyword argument for LessonSheet
+2026-05-12 00:40:38 | ERROR    | __main__:_create_lesson_async:160 - Ошибка при создании урока: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "author_id" of relation "lesson_sheets" violates not-null constraint
+DETAIL:  Failing row contains (32, null, 98, THEORY, Introduction to Python, Python is a high-level programming language. It's easy to learn ..., null, null, null, null, null, null, 0, Don't ignore syntax errors, Practice coding every day, 2026-05-11 21:40:38.162651+00, 2026-05-11 21:40:38.162651+00).
+[SQL: INSERT INTO lesson_sheets (author_id, content_id, "sheetType", sheet_header, content, description_for_video_or_picture, video_url, picture_url, image_public_id, question_text, quiz_options, "timeToRead", content_danger, content_advice, created_at, up ... 2546 characters truncated ... NING lesson_sheets.id, lesson_sheets.created_at, lesson_sheets.updated_at, lesson_sheets.id AS id__1]
+[parameters: (None, 98, 'THEORY', 'Introduction to Python', "Python is a high-level programming language. It's easy to learn and versatile.", None, None, None, None, None, 'null', 0.0, "Don't ignore syntax errors", 'Practice coding every day', None, 98, 'THEORY', 'Variables and Data Types', 'In Python, you can store values in variables. Basic data types include int, float, and string.', None, None, None, None, None, 'null', 0.0, 'Be careful with data type conversions', 'Use meaningful variable names', None, 98, 'THEORY', 'Basic Operators', 'Python has various operators for arithmetic, comparison, and logical operations.', None, None, None, None, None, 'null', 0.0, "Don't confuse '==' and '='", 'Use parentheses for complex expressions', None, 98, 'THEORY', 'Control Structures', 'Control structures like if-else statements and for loops help control the flow of your program.', None, None, None ... 40 parameters truncated ... None, None, None, 'What is Python?', '[{"option": "A low-level programming language", "is_correct": false}, {"option": "A high-level programming language", "is_correct": true}]', 0.0, None, None, None, 98, 'VIDEO', 'Video Tutorial', None, 'Python basics video tutorial', 'https://www.youtube.com/watch?v=N4mEzFDjqtA', None, None, None, 'null', 0.0, None, None, None, 98, 'THEORY', 'Practice Exercise', 'Write a Python program to ask the user for their name and age, then print out a greeting.', None, None, None, None, None, 'null', 0.0, "Don't forget to handle errors", 'Use string formatting', None, 98, 'THEORY', 'Conclusion', "Congratulations! You've completed the Python basics lesson.", None, None, None, None, None, 'null', 0.0, "Don't be afraid to ask for help", 'Keep practicing and learning')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-05-12 00:41:23 | ERROR    | __main__:_create_lesson_async:161 - Ошибка при создании урока: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "content" of relation "lesson_sheets" violates not-null constraint
+DETAIL:  Failing row contains (38, 909090, 99, PICTURE, Example Code, null, Example Python code, null, https://loremflickr.com/800/600/python,code, null, null, null, 0, null, null, 2026-05-11 21:41:23.757071+00, 2026-05-11 21:41:23.757071+00).
+[SQL: INSERT INTO lesson_sheets (author_id, content_id, "sheetType", sheet_header, content, description_for_video_or_picture, video_url, picture_url, image_public_id, question_text, quiz_options, "timeToRead", content_danger, content_advice, created_at, up ... 2546 characters truncated ... NING lesson_sheets.id, lesson_sheets.created_at, lesson_sheets.updated_at, lesson_sheets.id AS id__1]
+[parameters: (909090, 99, 'THEORY', 'Introduction to Python', "Python is a high-level, interpreted programming language. It's easy to learn and widely used.", None, None, None, None, None, 'null', 0.0, "Don't ignore syntax errors", 'Practice coding every day', 909090, 99, 'THEORY', 'Variables and Data Types', 'In Python, you can store values in variables. Basic data types include int, float, str, and bool.', None, None, None, None, None, 'null', 0.0, 'Be careful with data type conversions', 'Use meaningful variable names', 909090, 99, 'THEORY', 'Basic Operators', 'Python has various operators for arithmetic, comparison, logical operations, and assignment.', None, None, None, None, None, 'null', 0.0, "Don't confuse '==' and '='", 'Use parentheses for complex expressions', 909090, 99, 'THEORY', 'Control Structures', 'Control structures include if-else statements, for loops, and while loops.', None, None, None ... 40 parameters truncated ... None, None, None, 'What is Python?', '[{"option": "A programming language", "is_correct": true}, {"option": "A database management system", "is_correct": false}]', 0.0, None, None, 909090, 99, 'VIDEO', 'Video Tutorial', None, 'Python basics video tutorial', 'https://www.youtube.com/watch?v=N4mEzFDjqtA', None, None, None, 'null', 0.0, None, None, 909090, 99, 'THEORY', 'Practice Exercise', "Write a Python program to print 'Hello, World!'", None, None, None, None, None, 'null', 0.0, "Don't get discouraged by errors", 'Use online resources for help', 909090, 99, 'THEORY', 'Conclusion', 'Congratulations on completing the Python basics lesson!', None, None, None, None, None, 'null', 0.0, "Don't stop learning", 'Keep practicing and learning')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-05-12 00:41:39 | ERROR    | __main__:_create_lesson_async:161 - Ошибка при создании урока: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "content" of relation "lesson_sheets" violates not-null constraint
+DETAIL:  Failing row contains (44, 909090, 100, PICTURE, Example Code, null, Example Python code, null, https://loremflickr.com/800/600/python,code, null, null, null, 0, null, null, 2026-05-11 21:41:39.466377+00, 2026-05-11 21:41:39.466377+00).
+[SQL: INSERT INTO lesson_sheets (author_id, content_id, "sheetType", sheet_header, content, description_for_video_or_picture, video_url, picture_url, image_public_id, question_text, quiz_options, "timeToRead", content_danger, content_advice, created_at, up ... 2546 characters truncated ... NING lesson_sheets.id, lesson_sheets.created_at, lesson_sheets.updated_at, lesson_sheets.id AS id__1]
+[parameters: (909090, 100, 'THEORY', 'Introduction to Python', "Python is a high-level programming language. It's easy to learn and versatile.", None, None, None, None, None, 'null', 0.0, "Don't ignore syntax errors", 'Practice coding every day', 909090, 100, 'THEORY', 'Variables and Data Types', 'In Python, you can store values in variables. Basic data types include int, float, and string.', None, None, None, None, None, 'null', 0.0, 'Be careful with data type conversions', 'Use meaningful variable names', 909090, 100, 'THEORY', 'Basic Operators', 'Python has various operators for arithmetic, comparison, and logical operations.', None, None, None, None, None, 'null', 0.0, "Don't confuse '==' and '='", 'Use parentheses for clarity', 909090, 100, 'THEORY', 'Control Structures', 'Control structures like if-else statements and for loops help control the flow of your program.', None, None, None ... 40 parameters truncated ... None, None, None, 'What is Python?', '[{"option": "A low-level programming language", "is_correct": false}, {"option": "A high-level programming language", "is_correct": true}]', 0.0, None, None, 909090, 100, 'VIDEO', 'Video Tutorial', None, 'Python basics video tutorial', 'https://www.youtube.com/watch?v=N4mEzFDjqtA', None, None, None, 'null', 0.0, None, None, 909090, 100, 'THEORY', 'Practice Exercise', 'Write a Python program to ask the user for their name and age, then print out a greeting.', None, None, None, None, None, 'null', 0.0, "Don't forget to handle errors", 'Use string formatting', 909090, 100, 'THEORY', 'Conclusion', "Congratulations! You've completed the Python basics lesson.", None, None, None, None, None, 'null', 0.0, "Don't be afraid to ask for help", 'Keep practicing and learning')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)

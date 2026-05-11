@@ -172,4 +172,107 @@ export const createAIVoiceStyles = (theme: Theme) => StyleSheet.create({
         ...FONTS.semibold,
         color: '#FFFFFF',
     } as TextStyle,
+
+    // ─── Выпадающие списки (Dropdowns) ───────────────────────────────
+    selectorsRow: {
+        flexDirection: 'row',
+        width: '100%',
+        gap: SPACING.md,
+        marginBottom: SPACING.xl,
+    } as ViewStyle,
+
+    selectorCell: {
+        flex: 1,
+    } as ViewStyle,
+
+    fieldLabel: {
+        ...FONTS.medium,
+        fontSize: FONTS.small.fontSize,
+        color: theme.colors.text,
+        marginBottom: SPACING.xs,
+        marginLeft: SPACING.xs,
+    } as TextStyle,
+
+    selector: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: theme.colors.surface,
+        borderWidth: 1.5,
+        borderColor: theme.colors.border,
+        borderRadius: RADIUS.lg,
+        paddingHorizontal: SPACING.md,
+        paddingVertical: SPACING.sm,
+        shadowColor: theme.colors.shadow,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.04,
+        shadowRadius: 4,
+        elevation: 2,
+    } as ViewStyle,
+
+    selectorOpen: {
+        borderColor: theme.colors.primary,
+        borderBottomLeftRadius: RADIUS.none,
+        borderBottomRightRadius: RADIUS.none,
+    } as ViewStyle,
+
+    selectorPlaceholder: {
+        ...FONTS.regular,
+        fontSize: FONTS.small.fontSize,
+        color: theme.colors.textSecondary,
+    } as TextStyle,
+
+    selectorValue: {
+        ...FONTS.regular,
+        fontSize: FONTS.small.fontSize,
+        color: theme.colors.text,
+        fontWeight: '500' as const,
+    } as TextStyle,
+
+    dropdownList: {
+        backgroundColor: theme.colors.surface,
+        borderWidth: 1.5,
+        borderColor: theme.colors.primary,
+        borderTopWidth: 0,
+        borderBottomLeftRadius: RADIUS.lg,
+        borderBottomRightRadius: RADIUS.lg,
+        overflow: 'hidden',
+        shadowColor: theme.colors.shadow,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.08,
+        shadowRadius: 16,
+        elevation: 8,
+    } as ViewStyle,
+
+    dropdownOption: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: SPACING.sm,
+        paddingHorizontal: SPACING.md,
+        paddingVertical: SPACING.sm,
+        borderTopWidth: 1,
+        borderTopColor: theme.colors.border,
+    } as ViewStyle,
+
+    optionDot: {
+        width: 32,
+        height: 32,
+        borderRadius: RADIUS.full,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+        backgroundColor: theme.colors.indigoSoft
+    } as ViewStyle,
+
+    optionTitle: {
+        ...FONTS.medium,
+        fontSize: FONTS.small.fontSize,
+        color: theme.colors.text,
+    } as TextStyle,
+
+    optionSubtitle: {
+        ...FONTS.regular,
+        fontSize: 10,
+        color: theme.colors.textSecondary,
+    } as TextStyle,
 });
