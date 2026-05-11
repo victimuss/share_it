@@ -268,6 +268,7 @@
       "descLabel": "描述 *",
       "descPlaceholder": "课程描述",
       "saveContinueBtn": "保存并继续",
+      "createWithAI": "使用 AI 创建",
       "tagsTitle": "添加标签",
       "tagsHint": "标签可帮助其他用户通过搜索找到您的课程。最多添加5个最能描述内容的关键字 — 例如“useState”，“async/await”，“flexbox”。",
       "tagsCount": "已添加 {{count}} / 5",

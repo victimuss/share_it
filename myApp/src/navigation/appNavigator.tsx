@@ -9,6 +9,7 @@ import LessonMainScreen from '../screens/Lesson/LessonMainPage';
 import SheetScreen from '../screens/Lesson/SheetScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
+import { VoiceInputScreen } from '../screens/AI/VoiceInputScreen';
 
 export type RootStackParamList = {
   MainTabs: undefined;
@@ -16,6 +17,7 @@ export type RootStackParamList = {
   NewSheetScreen: { lessonId: number; isEdit?: boolean } | undefined;
   LessonMainScreen: { lessonId: number };
   LessonPage: { lessonId: number };
+  NewSheetAIScreen: undefined;
 };
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -27,6 +29,7 @@ export const AppNavigator = () => {
       <Stack.Screen name="NewSheetScreen" component={NewSheetScreen} />
       <Stack.Screen name="LessonMainScreen" component={LessonMainScreen} />
       <Stack.Screen name="LessonPage" component={SheetScreen} />
+      <Stack.Screen name="NewSheetAIScreen" component={VoiceInputScreen} />
     </Stack.Navigator>
   );
 };

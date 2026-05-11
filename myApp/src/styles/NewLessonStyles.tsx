@@ -386,6 +386,31 @@ export const createLessonStyles = (theme: Theme) => StyleSheet.create({
         color: '#FFFFFF',
     } as TextStyle,
 
+    aiButton: {
+        backgroundColor: theme.colors.primaryAlpha20,
+        borderRadius: RADIUS.lg,
+        paddingVertical: SPACING.xl,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        gap: SPACING.sm,
+        marginTop: SPACING.xs,
+        marginBottom: SPACING.lg,
+        borderWidth: 1.5,
+        borderColor: theme.colors.primary,
+        borderStyle: 'dashed',
+    } as ViewStyle,
+
+    aiButtonText: {
+        ...FONTS.semibold,
+        color: theme.colors.primary,
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: SPACING.sm,
+
+    } as TextStyle,
+
     /** View-обёртка под иконку стрелки в кнопке. */
     saveButtonIconWrapper: {
         width: 16,

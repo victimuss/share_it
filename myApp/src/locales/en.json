@@ -268,6 +268,7 @@
       "descLabel": "Description *",
       "descPlaceholder": "Lesson description",
       "saveContinueBtn": "Save and continue",
+      "createWithAI": "Create with AI",
       "tagsTitle": "Add tags",
       "tagsHint": "Tags help other users find your lesson through search. Add up to 5 keywords that best describe the content — for example, \"useState\", \"async/await\", \"flexbox\".",
       "tagsCount": "Added {{count}} of 5",
@@ -334,6 +335,14 @@
       "reasonTitle": "Reason:",
       "defaultReason": "Violation of platform rules or AI deemed the content unsafe.",
       "button": "Back to editing"
+    },
+    "ai": {
+      "voiceInput": {
+        "title": "AI Creation",
+        "prefix": "Use voice input or ",
+        "action": "enter text",
+        "placeholder": "Describe the lesson topic..."
+      }
     }
   },
   "components": {

@@ -26,9 +26,10 @@ import { NewLessonScreen } from './src/screens/auth/main/NewLesson/NewLessonScre
 import { NewSheetScreen } from './src/screens/auth/main/NewLesson/NewSheetScreen';
 import LessonMainScreen from './src/screens/Lesson/LessonMainPage';
 import SheetScreen from './src/screens/Lesson/SheetScreen';
+import { VoiceInputScreen } from './src/screens/AI/VoiceInputScreen';
 
-import { MainScreen as LoginScreen } from './src/screens/auth/login/MainScreen';
-import { RegistrationScreen } from './src/screens/auth/login/RegistrationScreen';
+import LoginScreen from './src/screens/auth/CryptoAuthScreen';
+import { RegisScreen as RegistrationScreen } from './src/screens/auth/RegisScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const RootStack = createNativeStackNavigator();
@@ -44,21 +45,22 @@ const MainApp = () => {
         <StatusBar style="auto" />
         <RootStack.Navigator screenOptions={{ headerShown: false }}>
           {user ? (
-          <>
-            <RootStack.Screen name="MainTabs" component={TabNavigator} />
-            <RootStack.Screen name="NewLessonScreen" component={NewLessonScreen} />
-            <RootStack.Screen name="NewSheetScreen" component={NewSheetScreen} />
-            <RootStack.Screen name="LessonMainScreen" component={LessonMainScreen} />
-            <RootStack.Screen name="LessonPage" component={SheetScreen} />
-          </>
-        ) : (
-          <>
-            <RootStack.Screen name="Login" component={LoginScreen} />
-            <RootStack.Screen name="Register" component={RegistrationScreen} />
-          </>
-        )}
-      </RootStack.Navigator>
-    </NavigationContainer>
+            <>
+              <RootStack.Screen name="MainTabs" component={TabNavigator} />
+              <RootStack.Screen name="NewLessonScreen" component={NewLessonScreen} />
+              <RootStack.Screen name="NewSheetScreen" component={NewSheetScreen} />
+              <RootStack.Screen name="LessonMainScreen" component={LessonMainScreen} />
+              <RootStack.Screen name="LessonPage" component={SheetScreen} />
+              <RootStack.Screen name="NewSheetAIScreen" component={VoiceInputScreen} />
+            </>
+          ) : (
+            <>
+              <RootStack.Screen name="Login" component={LoginScreen} />
+              <RootStack.Screen name="Register" component={RegistrationScreen} />
+            </>
+          )}
+        </RootStack.Navigator>
+      </NavigationContainer>
     </I18nextProvider>
   );
 };

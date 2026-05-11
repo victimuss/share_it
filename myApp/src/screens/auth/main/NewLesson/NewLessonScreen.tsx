@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { useStyles } from '../../../../hooks/useStyles';
 import { useThemeStore } from '../../../../context/useThemeStore';
 import { COLORS } from '@/src/styles/root';
+import { AnimatedButton } from '../../../../components/AnimatedButton';
 
 const difficultyData = (t: any, colors: any) => [
     { label: 'Beginner', value: 'Beginner', subtitle: t('screens.newLesson.diffBeginner'), icon: '🌱', bg: colors.successLight },
@@ -32,8 +33,8 @@ const typesData = [
 ]
 
 export const NewLessonScreen = () => {
-  const styles = useStyles(createLessonStylesFn);
-  const { colors } = useThemeStore(s => s.theme);
+    const styles = useStyles(createLessonStylesFn);
+    const { colors } = useThemeStore(s => s.theme);
     const { t } = useTranslation();
     const [difficulty, setDifficulty] = useState<string | null>(null);
     const [isFocus, setIsFocus] = useState(false);
@@ -251,6 +252,8 @@ export const NewLessonScreen = () => {
                         />
                     </View>
                 </View>
+
+
                 <View style={styles.fieldGroup}>
                     <View style={styles.fieldHeader}>
                         <Text style={styles.fieldLabel}>
@@ -289,6 +292,15 @@ export const NewLessonScreen = () => {
                 </View>
             </ScrollView>
             <View style={styles.bottomBar}>
+                <AnimatedButton
+                    label={"✨ " + t('screens.newLesson.createWithAI')}
+                    onPress={() => {
+                        navigation.navigate('NewSheetAIScreen');
+                        console.log("AI Generation triggered");
+                    }}
+                    style={styles.aiButton}
+                    textStyle={styles.aiButtonText}
+                />
                 <Pressable
                     disabled={!difficulty || !type || !title || !description}
                     style={!difficulty || !type || !title || !description ? styles.saveButtonDisabled : styles.saveButton}
