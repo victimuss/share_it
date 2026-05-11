@@ -1,92 +1,90 @@
-# Spark ❇️ – AI-Powered Education Platform
+# Spark ❇️ – AI-Powered Trustless Education Platform
 
-![Status](https://img.shields.io/badge/Status-Active_Development-green)
-![Backend](https://img.shields.io/badge/Backend-FastAPI-009688)
-![Security](https://img.shields.io/badge/Security-ZKP_Auth-8A2BE2)
-![Database](https://img.shields.io/badge/DB-PostgreSQL-336791)
-![TaskQueue](https://img.shields.io/badge/Queue-RabbitMQ%20%7C%20Celery-FF6600)
-![Storage](https://img.shields.io/badge/Storage-MinIO%20(S3)-C7202C)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React Native](https://img.shields.io/badge/Frontend-React_Native-61DAFB.svg?style=flat&logo=react&logoColor=black)](https://reactnative.dev/)
+[![ZKP](https://img.shields.io/badge/Security-Zero--Knowledge_Proofs-blueviolet.svg)](https://en.wikipedia.org/wiki/Zero-knowledge_proof)
 
-**SPARK** — это образовательная платформа нового поколения, где искусственный интеллект помогает структурировать знания, а пользователи делятся ими в формате микрообучения. Проект построен на современной распределенной архитектуре, обеспечивающей высокую отказоустойчивость, масштабируемость и **максимальный (Trustless) уровень приватности**.
-
-[🔗 Следить за разработкой в Telegram](https://t.me/spark_app_edu)
+**Spark** is a next-generation micro-learning platform designed for the era of AI and total privacy. It combines intelligent content structuring with a **Trustless Architecture**, ensuring that users own their data without compromise.
 
 ---
 
-## 🚀 Обновление архитектуры
-* **Распределенная система:** Внедрение брокеров сообщений и фоновых задач (Celery + RabbitMQ) позволило разгрузить API, сделав загрузку медиа и работу с ИИ-моделями асинхронной.
-* **Trustless Privacy (ZKP):** Полный отказ от хранения паролей, email и любых персональных данных (ПДн). Регистрация и авторизация происходят через Telegram-бота с использованием криптографических доказательств с нулевым разглашением (Zero-Knowledge Proofs) и сид-фраз стандарта BIP-39.
+## 💎 Core Value Propositions
 
-## 🛠 Технологический стек
-
-### **Backend & Infrastructure:**
-* **Framework:** FastAPI (Асинхронная архитектура).
-* **Security & Identity:** aiogram 3.x (Telegram-бот как интерфейс генерации ключей), ZKP (Протокол Шнорра), BIP-39 (Mnemonic фразы).
-* **Task Queue:** Celery + RabbitMQ (Асинхронная обработка медиа, модерация контента и тяжелые ИИ-задачи).
-* **Databases & Cache:** PostgreSQL (основная БД для бизнес-логики и публичных ключей ZKP), Redis (кэширование, Celery Backend и хранение временных ZKP-вызовов), Alembic (управление миграциями).
-* **Media Storage:** MinIO (Собственное S3-совместимое объектное хранилище).
-* **AI Core:** Интеграция с **Gemini Pro** и **Groq (Llama 3)** для интеллектуального анализа контента.
-* **DevOps:** Docker & Docker Compose (Полная контейнеризация всей инфраструктуры).
-
-### **Mobile (Frontend):**
-* **Framework:** React Native.
-* **State Management:** Zustand (Легковесный и быстрый стор).
-* **Networking:** Axios.
+* **🔒 Trustless Privacy (ZKP):** No passwords, no emails, no PII (Personally Identifiable Information). Identity is managed via **Schnorr Protocol Zero-Knowledge Proofs** and **BIP-39 Mnemonic phrases**. 
+* **🤖 AI-Native Infrastructure:** Integrated **Gemini Pro** and **Groq (Llama 3)** engines for automated content generation and structured knowledge synthesis.
+* **🌍 Multi-tenant & Scalable:** A distributed microservice architecture built with **FastAPI**, **Celery**, and **RabbitMQ** for asynchronous task processing.
+* **📱 Offline-First Mobile Experience:** A high-performance **React Native** client utilizing **Zustand** for state management and robust caching for seamless learning anywhere.
 
 ---
 
-## 🔑 Доступ к Demo (Android)
-В связи с переходом на криптографическую ZKP-авторизацию, классические логины и пароли полностью удалены из системы. В нашей базе данных не хранятся ваши личные данные.
+## 🛠 Tech Stack
 
-Для гостевого тестирования приложения используйте следующую связку (аналог входа в криптокошелек):
+### Backend & Infrastructure
+- **Framework:** FastAPI (High-performance asynchronous Python).
+- **Identity & Security:** BIP-39 Mnemonic generation via Telegram Bot, ECC-based Schnorr ZKP authentication.
+- **Task Orchestration:** Celery + RabbitMQ (Media processing, AI inference, and content moderation).
+- **Storage:** PostgreSQL (Business logic), Redis (Cache & ZKP Challenges), MinIO (S3-compatible object storage).
+- **DevOps:** Docker & Docker Compose (One-command deployment), Alembic (DB Migrations).
 
-* **ID аккаунта:** `1`
-* **Сид-фраза (Секрет):** `apple orbit cloud river stone forest light echo alpha brave charlie delta` 
-*(Примечание: Сервер проверяет математическое доказательство на основе этих 12 слов, но сама фраза никогда не передается по сети и не хранится в нашей БД).*
-
-Для создания собственного полностью анонимного аккаунта запустите нашего [Telegram-бота](#) (https://t.me/assist_me_please_P_bot).
-
----
-
-## 🗓 Дорожная карта (Roadmap)
-
-### 🏗 Infrastructure & Backend (Done)
-- [x] **AI Integration**: Интеграция Gemini/Groq для генерации контента.
-- [x] **Architecture**: Переход на микросервисы (Celery, RabbitMQ, Redis).
-- [x] **Database**: Миграция с SQLite на PostgreSQL + Alembic.
-- [x] **Storage**: Собственное S3-совместимое хранилище (MinIO).
-- [x] **Quality Assurance**: Покрытие бизнес-логики и воркеров тестами (Pytest).
-- [x] **DevOps**: Настройка CI/CD пайплайнов (GitHub Actions) и централизованного логирования.
-
-### 🔐 Authentication & Security (In Progress)
-- [x] **ECC Auth**: Zero-Knowledge Proof авторизация (ECC подпись)
-- [x] **Telegram Bot**: Авторизация и уведомления через официального бота.
-- [x] **Sentry**: Вынос логирования ошибок в Sentry для мониторинга в реальном времени.
-
-### 📱 Frontend & UI/UX (Next Steps)
-- [x] **Global**: Мультиязычность (i18next: RU/EN/ES/ZH).
-- [x] **Design**: Темная тема и система дизайн-токенов.
-- [x] **Animations**: Плавные интерфейсные анимации (Reanimated 3).
-- [x] **Offline Mode**: Обработка состояния сети через `netinfo` и кэширование данных.
-
-### 🛠 Admin & Maintenance
-- [x] **Admin Panel**: Управление данными через FastAPI Admin.
-- [x] **Backup System**: Bash-скрипты для автоматического бэкапа БД и S3 хранилища.
+### Mobile Client
+- **Framework:** React Native.
+- **State:** Zustand (Lightweight store).
+- **Networking:** Axios with custom interceptors for ZKP-auth headers.
+- **Theming:** Dynamic design tokens (Dark/Light mode support).
 
 ---
 
-## 🛠 Локальная разработка
+## 🚀 Architectural Highlights
 
-Проект полностью контейнеризирован. Для запуска всей инфраструктуры (API, Postgres, Redis, RabbitMQ, MinIO, Celery Workers) достаточно одной команды.
+### Schnorr ZKP Authentication
+Unlike traditional platforms, Spark never sees your password. The login process uses a non-interactive zero-knowledge proof:
+1. Client generates a cryptographic commitment.
+2. Server issues a challenge.
+3. Client provides a proof that it knows the secret key (derived from BIP-39 words) without revealing it.
 
-1. Клонируйте репозиторий:
-   ```bash
-   git clone [https://github.com/victimuss/spark_edu.git](https://github.com/victimuss/spark_edu.git)
-   cd spark-backend
-   ```
-2. Запустите инфраструктуру через Docker Compose:
-   ```bash
-   docker-compose up --build -d
-   ```
+### Edge NLP Moderation
+To minimize external API costs and legal risks, Spark uses quantized **Local BERT models** for real-time content moderation directly on the infrastructure, ensuring 100% data sovereignty.
 
-   
+---
+
+## 🗓 Roadmap
+
+### ✅ Phase 1: Foundation (Completed)
+- Microservice architecture setup (FastAPI, Celery, Redis).
+- S3 Storage integration (MinIO).
+- Core AI integration for card generation.
+- Automated testing suite (Pytest).
+
+### ⏳ Phase 2: Security & Privacy (In Progress)
+- [x] Hardened ECC-based ZKP implementation.
+- [x] Telegram-based Identity Provider (Bot).
+- [x] Real-time monitoring with Sentry.
+
+### 🔭 Phase 3: Global Scale (Next Steps)
+- [x] Multilingual support (RU/EN/ES/ZH) using `i18next`.
+- [x] Advanced UI/UX with `Reanimated 3`.
+- [x] Enterprise-grade backup & disaster recovery system.
+
+---
+
+## 🔑 Demo Access (Preview)
+
+Experience the privacy-first approach without creating an account:
+
+1. **Download the Android Build** (Link in Telegram)
+2. **Identity ID:** `1`
+3. **Secret Seed (BIP-39):** `apple orbit cloud river stone forest light echo alpha brave charlie delta`
+
+> *Note: The server verifies the mathematical proof. The seed phrase is never transmitted over the network.*
+
+---
+
+## 🛠 Local Development
+
+The entire infrastructure is containerized. Launch the full environment (API, Workers, DB, S3) with:
+
+```bash
+git clone [https://github.com/victimuss/spark_edu.git](https://github.com/victimuss/spark_edu.git)
+cd spark_edu
+docker-compose up --build -d
