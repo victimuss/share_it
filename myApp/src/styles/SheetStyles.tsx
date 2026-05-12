@@ -379,12 +379,12 @@ export const lessonSwipeViewStyles = (theme: Theme) => StyleSheet.create({
     } as ViewStyle,
 
     videoCommentLabel: {
-        fontSize: FONTS.mini.fontSize,
-        fontFamily: 'Inter_400Regular',
-        color: theme.colors.textSecondary,
-        fontWeight: '600' as const,
-        letterSpacing: 0.4,
+        fontSize: FONTS.xs.fontSize,
+        ...FONTS.semibold,
+        color: theme.colors.primary,
+        letterSpacing: 0.5,
         marginBottom: SPACING.xs,
+        textTransform: 'uppercase' as const,
     } as TextStyle,
 
     videoCommentText: {
@@ -616,12 +616,14 @@ export const lessonSwipeViewStyles = (theme: Theme) => StyleSheet.create({
     // ════════════════════════════════════════════════════════════════
 
     pictureImageArea: {
+        width: '100%',
         borderRadius: RADIUS.xl,
         overflow: 'hidden',
         marginBottom: SPACING.md,
         backgroundColor: theme.colors.indigo100,
         alignItems: 'center',
         justifyContent: 'center',
+        minHeight: 250,
     } as ViewStyle,
 
     pictureImage: {

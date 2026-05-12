@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Linking, Image, Pressable, ScrollView } from "react-native";
+import { View, Text, Linking, Image, Pressable, ScrollView, useWindowDimensions } from "react-native";
 import { lessonSwipeViewStyles as lessonStyles } from "@/src/styles/SheetStyles";
 import { Sheet } from "@/src/types/lessonmainscreen";
 import YoutubePlayer from "react-native-youtube-iframe";
@@ -17,6 +17,8 @@ interface SheetCardProps {
 export const SheetContent = ({ type, sheet }: SheetCardProps) => {
     const styles = useStyles(lessonStyles);
     const { colors } = useThemeStore(s => s.theme);
+    const { width } = useWindowDimensions();
+    const imageWidth = width - 32;
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
@@ -167,21 +169,22 @@ export const SheetContent = ({ type, sheet }: SheetCardProps) => {
                     </Text>
                 </View>
             </ScrollView>
-        case 'PICTURE':
+        case 'PICTURE': {
             return <ScrollView style={[styles.swipePage, { flex: 1, minHeight: 300 }]}>
                 <View style={styles.pictureImageArea}>
                     <CachedImage
                         sourceUri={sheet.picture_url || "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"}
-                        style={styles.pictureImage}
+                        style={{ width: imageWidth, height: 250, borderRadius: 16 }}
                         resizeMode='contain'
                         onLoad={() => console.log("✅ КАРТИНКА ПОЯВИЛАСЬ!")}
-                        onError={(e) => console.log("❌ ОШИБКА:", e.nativeEvent.error)}
+                        onError={(e) => console.log("❌ ОШИБКА:", e)}
                     />
                 </View>
-                <Text style={[styles.videoCommentText, { marginTop: 10, color: 'black' }]}>
+                <Text style={[styles.videoCommentText, { marginTop: 10, color: colors.text }]}>
                     {sheet.description_for_video_or_picture || "Описания нет"}
                 </Text>
             </ScrollView>
+        }
         default:
             return <ScrollView>{sheet.content}</ScrollView>
     }

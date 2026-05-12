@@ -301,6 +301,7 @@ export default function ZkpAuthScreen() {
                             </TouchableOpacity>
 
                             <Pressable
+                                style={{ flex: 1 }}
                                 disabled={inputKey.length < 10}
                                 onPress={handleLogin}
                             >

@@ -5,7 +5,7 @@ from sqlalchemy.pool import NullPool
 # 1. Создаем движок, используя URL из нашего нового единого конфига
 # Теперь это будет PostgreSQL, который мы запустили в Docker
 fixed_url = settings.DATABASE_URL.replace("@db:", "@localhost:")
-engine = create_async_engine(fixed_url, echo=True)
+engine = create_async_engine(fixed_url, echo=True, poolclass=NullPool)
 
 # 2. Создаем фабрику сессий
 async_session = async_sessionmaker(

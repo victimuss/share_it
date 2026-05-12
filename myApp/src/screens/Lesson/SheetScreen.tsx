@@ -86,7 +86,7 @@ export const SheetScreen = () => {
                     <Text style={styles.progressLabelRight}>{progress}%</Text>
                 </View>
             </View>
-            <SheetCard type={sheets[currentIndex].sheetType} sheet={sheets[currentIndex]} />
+            <SheetCard key={currentIndex} type={sheets[currentIndex].sheetType} sheet={sheets[currentIndex]} />
             <View style={styles.bottomNav}>
                 <Pressable style={prevbuttondisabled ? styles.prevButtonDisabled : styles.prevButton}
                     disabled={prevbuttondisabled}

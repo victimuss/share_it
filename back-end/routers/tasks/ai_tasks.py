@@ -12,6 +12,7 @@ from databases.schemas.schemas_lessons import GroqResponseSchema
 from databases.main_databases import async_session
 from databases.lesson_db.lesson_db import RegistedUsers
 from databases.users_db.users_db import UserLesson
+from routers.tasks.notification_tasks import dispatch_notifications
 
 client = AsyncGroq(api_key=settings.GROQ_API_KEY)
 def build_grok_prompt(lesson_prompt: str, difficulty: str, lesson_type: str, language: str = 'en') -> str:
@@ -73,10 +74,11 @@ def build_grok_prompt(lesson_prompt: str, difficulty: str, lesson_type: str, lan
 
 
 async def _create_lesson_async(lesson_prompt: str, difficulty: str, lesson_type: str, user_id: int, language: str = 'en') -> dict:
+    lesson_id = None
     try:
         system_prompt = build_grok_prompt(lesson_prompt, difficulty, lesson_type, language)
         response = await client.chat.completions.create(
-            model="meta-llama/llama-4-scout-17b-16e-instruct",
+            model="openai/gpt-oss-120b",
             messages=[
                 {
                     "role": "system",
@@ -141,12 +143,14 @@ async def _create_lesson_async(lesson_prompt: str, difficulty: str, lesson_type:
                 )
                 session.add_all([reg_user, user_lesson])
                 await session.commit()
+                dispatch_notifications.delay(user_id, "Ваш урок готов и добавлен в профиль.", "general", url=f"http://{settings.BACKEND_IP}:8080/api/redirect/lesson/{lesson_id}")
                 return {"status": "success", "lesson_id": lesson_id}
             if is_safe is False:
                 await delete_session.execute(
                     delete(LessonSheet).where(LessonSheet.lesson_id == lesson_id)
                 )
                 await delete_session.commit()
+                dispatch_notifications.delay(user_id, "Ваш урок не прошел модерацию. Повторите Ваш запрос", "general", url=f"http://{settings.BACKEND_IP}:8080/api/redirect/lesson/{lesson_id}")
                 return {
                         "status": "failed_moderation", 
                         "reason": check_result.get("reason", "Unknown moderation failure")
@@ -156,9 +160,13 @@ async def _create_lesson_async(lesson_prompt: str, difficulty: str, lesson_type:
         raise e
     except json.JSONDecodeError as e:
         logger.error(f"Ошибка парсинга JSON от Groq: {e}")
+        url = f"http://{settings.BACKEND_IP}:8080/api/redirect/lesson/{lesson_id}" if lesson_id else None
+        dispatch_notifications.delay(user_id, "Ошибка создания урока. Повторите Ваш запрос", "general", url=url)
         return {"error": "Failed to parse AI response into JSON"}
     except Exception as e:
         logger.error(f"Ошибка при создании урока: {e}")
+        url = f"http://{settings.BACKEND_IP}:8080/api/redirect/lesson/{lesson_id}" if lesson_id else None
+        dispatch_notifications.delay(user_id, "Ошибка создания урока. Повторите Ваш запрос", "general", url=url)
         return {"error": str(e)}
 
 @celery_app.task(name="create_lesson",
@@ -172,5 +180,3 @@ retry_jitter=True
 def create_lesson(lesson_prompt: str, difficulty: str, lesson_type: str, user_id: int, language: str = 'en') -> dict:
     return asyncio.run(_create_lesson_async(lesson_prompt, difficulty, lesson_type, user_id, language))
 
-if __name__ == "__main__":
-    result = asyncio.run(_create_lesson_async("HTML", "beginner", "Code", 102, "ru"))

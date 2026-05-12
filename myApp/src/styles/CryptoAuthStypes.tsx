@@ -353,8 +353,8 @@ export const zkpAuthStyles = (theme: Theme) => StyleSheet.create({
     } as ViewStyle,
 
     pasteButton: {
-        paddingHorizontal: SPACING.md,
-        paddingVertical: SPACING.md,
+        paddingHorizontal: SPACING.lg,
+        paddingVertical: SPACING.lg,
         borderRadius: RADIUS.lg,
         backgroundColor: theme.colors.surface,
         borderWidth: 1.5,
@@ -380,7 +380,7 @@ export const zkpAuthStyles = (theme: Theme) => StyleSheet.create({
 
     loginButton: {
         flex: 1,
-        paddingVertical: SPACING.md,
+        paddingVertical: SPACING.lg,
         borderRadius: RADIUS.lg,
         backgroundColor: theme.colors.primary,
         alignItems: 'center',

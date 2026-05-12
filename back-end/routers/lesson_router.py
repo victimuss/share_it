@@ -28,6 +28,9 @@ from core.logging import logger
 import tempfile
 from routers.tasks.media_tasks import upload_to_minio, delete_from_minio
 from routers.tasks.censore_tasks import checker_lesson
+from routers.tasks.ai_tasks import create_lesson
+from databases.schemas.schemas_lessons import AiTaskRequest
+
 
 router = APIRouter(prefix="/lessons")
 
@@ -245,3 +248,8 @@ async def publish_lesson(
         "status": "draft", 
         "message": "Урок отправлен на модерацию. Это займет около минуты.",
     }
+
+@router.post('/generate_lesson')
+async def generate_les(request: AiTaskRequest, current_user: int = Depends(get_current_active_user)):
+   create_lesson.delay(request.prompt, request.difficulty, request.lesson_type, current_user, request.language)
+   return {"status": "success", "message": "Урок в процессе генерации."} 

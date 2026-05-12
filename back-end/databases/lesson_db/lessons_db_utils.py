@@ -526,13 +526,13 @@ from groq import AsyncGroq
 
 client = AsyncGroq(api_key=settings.GROQ_API_KEY)
 async def checker(lesson_id: int, max_retries: int = 3):
-    backend_ip = "10.171.36.68"
     
     async with async_session() as session:
         lesson_res = await session.execute(select(Lesson).where(Lesson.id == lesson_id))
         lesson = lesson_res.scalar_one_or_none()
         
         if not lesson:
+            dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{settings.BACKEND_IP}:8080/api/redirect/lesson/{lesson_id}")
             return {"status": False, "reason": "Lesson not found"}
 
         sheets_res = await session.execute(
@@ -543,7 +543,7 @@ async def checker(lesson_id: int, max_retries: int = 3):
         sheets = sheets_res.scalars().all()
 
     if not sheets:
-        dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")
+        dispatch_notifications.delay(lesson.author_id, "Ваш урок получил новый статус, ознакомьтесь с ним.", "general", url=f"http://{settings.BACKEND_IP}:8080/api/redirect/lesson/{lesson_id}")
         return {"status": False, "reason": "Lesson is empty"}
 
     full_text = "--- GENERAL LESSON DATA ---\n"
@@ -620,7 +620,7 @@ async def checker(lesson_id: int, max_retries: int = 3):
                     )
             
             # Отправляем уведомление
-            dispatch_notifications.delay(lesson.author_id, "Ваш урок прошел модерацию, проверьте статус.", "general", url=f"http://{backend_ip}:8080/api/redirect/lesson/{lesson_id}")
+            dispatch_notifications.delay(lesson.author_id, "Ваш урок прошел модерацию, проверьте статус.", "general", url=f"http://{settings.BACKEND_IP}:8080/api/redirect/lesson/{lesson_id}")
             
             return moderation_result
 

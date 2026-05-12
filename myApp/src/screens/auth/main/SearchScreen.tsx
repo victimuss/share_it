@@ -330,7 +330,7 @@ export const SearchScreen = () => {
                                 return (
                                     <View key={less.id} style={[homeStyles.lessonCard]}>
                                         <View style={homeStyles.lessonCardThumb}>
-                                            {iconMap[less.type || 'code'] || null}
+                                            {iconMap[(less.type || 'code').toLowerCase()] || null}
                                         </View>
                                         <View style={homeStyles.lessonCardContent}>
                                             <Text style={homeStyles.lessonCardTitle}>{less.lesson_name}</Text>

@@ -247,3 +247,12 @@ class LessonContentAI(BaseModel):
 
 class GroqResponseSchema(BaseModel):
     lesson: LessonContentAI
+
+class AiTaskRequest(BaseModel):
+    prompt: str
+    lesson_type: Optional[str] = "Code"
+    difficulty: Optional[str] = "Beginner"
+    language: Optional[str] = "en"
+
+    model_config = ConfigDict(from_attributes=True)
+

@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     DB_NAME: str = "my_project"         
     BACKUP_DIR: str = "E:/backups"    
     DAYS_TO_KEEP: int = 7           
+    BACKEND_IP: str = "127.0.0.1"
 
     #Redis
     REDIS_URL: str = ""

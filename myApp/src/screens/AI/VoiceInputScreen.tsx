@@ -11,6 +11,10 @@ import { CloseIcon } from '../../SVG/SearchSVG';
 import { MicIcon } from '../../SVG/VoiceSVG';
 import { Dropdown } from 'react-native-element-dropdown';
 import { initWhisper, WhisperContext } from 'whisper.rn';
+import { CreateLession } from '@/src/api/ai_generating/ai_gen';
+import { ModeratingScreen } from '../auth/main/ModeratingScreen';
+import { ApprovedScreen } from '../auth/main/ApprovedScreen';
+
 
 const difficultyData = (t: any, colors: any) => [
     { label: 'Beginner', value: 'Beginner', subtitle: t('screens.newLesson.diffBeginner'), icon: '🌱', bg: colors.successLight },
@@ -27,9 +31,9 @@ const typesData = [
 
 export const VoiceInputScreen = () => {
     const navigation = useNavigation();
+    const { i18n, t } = useTranslation()
     const [isListening, setIsListening] = useState(false);
     const [text, setText] = useState('');
-    const { t } = useTranslation();
     const styles = useStyles(createAIVoiceStyles);
     const [whisperContext, setWhisperContext] = useState<WhisperContext | null>(null);
     const sessionRef = useRef<any>(null);
@@ -41,6 +45,7 @@ export const VoiceInputScreen = () => {
     const [isFocus, setIsFocus] = useState(false);
     const [type, setType] = useState<string | null>(null);
     const [isFocusType, setIsFocusType] = useState(false);
+    const [isModerat, setIsModerat] = useState(false);
 
     const diffData = difficultyData(t, colors);
 
@@ -102,7 +107,6 @@ export const VoiceInputScreen = () => {
             isBusy.current = true;
             setText('');
 
-            // Используем старый метод, так как новый еще не завезли в твой билд
             const session = await (whisperContext as any).transcribeRealtime({
                 language: 'auto',
                 beamCount: 1,
@@ -110,7 +114,7 @@ export const VoiceInputScreen = () => {
                 maxAudioCtx: 1500,
             });
 
-            // Проверяем, как подписываться (через .on или .subscribe)
+
             if (session.onTranscribing) {
                 session.onTranscribing((event: any) => {
                     if (event.transcription) setText(event.transcription);
@@ -123,7 +127,6 @@ export const VoiceInputScreen = () => {
 
             sessionRef.current = session;
 
-            // Если сессия требует явного старта
             if (typeof session.start === 'function') {
                 await session.start();
             }
@@ -145,14 +148,34 @@ export const VoiceInputScreen = () => {
             await sessionRef.current.stop();
             sessionRef.current = null;
             setIsListening(false);
-        } catch (e: any) {
-            console.error('Stop error:', e.message);
         } finally {
             isBusy.current = false;
         }
     };
 
+    const handleCreateLesson = async () => {
+        try {
+            const response = await CreateLession(
+                {
+                    lesson_type: type,
+                    difficulty: difficulty,
+                    language: i18n.language?.split('-')[0] || 'en',
+                    prompt: text,
+                }
+            );
+            if (response) {
+                setIsModerat(true);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const isButtonDisabled = text.trim().length === 0;
+
+    if (isModerat) {
+        return <ApprovedScreen />
+    }
 
     return (
         <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
@@ -301,7 +324,7 @@ export const VoiceInputScreen = () => {
                         <Pressable
                             disabled={isButtonDisabled}
                             style={isButtonDisabled ? styles.saveButtonDisabled : styles.saveButton}
-                            onPress={() => console.log("Final submission:", { text, difficulty, type })}
+                            onPress={() => handleCreateLesson()}
                         >
                             <Text style={styles.saveButtonText}>{t('screens.newLesson.continueBtn')}</Text>
                         </Pressable>
@@ -310,4 +333,4 @@ export const VoiceInputScreen = () => {
             </TouchableWithoutFeedback>
         </SafeAreaView>
     );
-};
+}
