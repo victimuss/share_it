@@ -22,7 +22,7 @@ const StackModal = ({ isOpen, onClose }: StackModalProps) => {
         initial={{ scale: 0.9, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        className="relative w-full max-w-3xl pointer-events-auto"
+        className="relative w-full max-w-3xl pointer-events-auto max-h-[90vh] overflow-y-auto scrollbar-hide"
         onClick={(e) => e.stopPropagation()}
       >
         <SpotlightCard className="p-8 md:p-12 bg-[#120F17]/90 border border-white/10 rounded-[2.5rem] text-white shadow-2xl">
