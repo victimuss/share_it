@@ -5,86 +5,62 @@
 [![React Native](https://img.shields.io/badge/Frontend-React_Native-61DAFB.svg?style=flat&logo=react&logoColor=black)](https://reactnative.dev/)
 [![ZKP](https://img.shields.io/badge/Security-Zero--Knowledge_Proofs-blueviolet.svg)](https://en.wikipedia.org/wiki/Zero-knowledge_proof)
 
+# Spark ❇️ – AI-Powered Trustless Education Platform
+
 **Spark** is a next-generation micro-learning platform designed for the era of AI and total privacy. It combines intelligent content structuring with a **Trustless Architecture**, ensuring that users own their data without compromise.
 
----
+> **📢 Acquisition Notice:** Spark is a fully completed, production-ready MVP. The project, including all intellectual property and source code, is currently available for acquisition.
 
 ## 💎 Core Value Propositions
 
-* **🔒 Trustless Privacy (ZKP):** No passwords, no emails, no PII (Personally Identifiable Information). Identity is managed via **Schnorr Protocol Zero-Knowledge Proofs** and **BIP-39 Mnemonic phrases**. 
-* **🤖 AI-Native Infrastructure:** Integrated **Gemini Pro** and **Groq (Llama 3)** engines for automated content generation and structured knowledge synthesis.
+* **🔒 Trustless Privacy (ZKP):** No passwords, no emails, no PII (Personally Identifiable Information). Identity is managed via **Schnorr Protocol Zero-Knowledge Proofs** and **BIP-39 Mnemonic phrases**.
+* **🤖 AI-Native Infrastructure:** Integrated **Gemini Pro**, **OpenAI**, and **Groq** engines for high-speed automated content generation and structured knowledge synthesis directly from voice prompts.
 * **🌍 Multi-tenant & Scalable:** A distributed microservice architecture built with **FastAPI**, **Celery**, and **RabbitMQ** for asynchronous task processing.
-* **📱 Offline-First Mobile Experience:** A high-performance **React Native** client utilizing **Zustand** for state management and robust caching for seamless learning anywhere.
-
----
+* **📱 Offline-First Mobile Experience:** A high-performance **React Native** client utilizing **Zustand** and **MMKV** for state management and robust caching for seamless learning anywhere.
 
 ## 🛠 Tech Stack
 
-### Backend & Infrastructure
-- **Framework:** FastAPI (High-performance asynchronous Python).
-- **Identity & Security:** BIP-39 Mnemonic generation via Telegram Bot, ECC-based Schnorr ZKP authentication.
-- **Task Orchestration:** Celery + RabbitMQ (Media processing, AI inference, and content moderation).
-- **Storage:** PostgreSQL (Business logic), Redis (Cache & ZKP Challenges), MinIO (S3-compatible object storage).
-- **DevOps:** Docker & Docker Compose (One-command deployment), Alembic (DB Migrations).
+**Backend & Infrastructure**
+* **Framework:** FastAPI (High-performance asynchronous Python).
+* **Identity & Security:** BIP-39 Mnemonic generation via Telegram Bot, ECC-based Schnorr ZKP authentication.
+* **Task Orchestration:** Celery + RabbitMQ (Media processing, AI inference).
+* **Storage:** PostgreSQL (Business logic), Redis (Cache & ZKP Challenges), MinIO (S3-compatible object storage).
+* **DevOps:** Docker & Docker Compose (One-command deployment), Alembic (DB Migrations).
 
-### Mobile Client
-- **Framework:** React Native.
-- **State:** Zustand (Lightweight store).
-- **Networking:** Axios with custom interceptors for ZKP-auth headers.
-- **Theming:** Dynamic design tokens (Dark/Light mode support).
-
----
+**Mobile Client**
+* **Framework:** React Native / Expo.
+* **State & Storage:** Zustand (Lightweight store) + MMKV.
+* **Networking:** Axios with custom interceptors for ZKP-auth headers.
+* **Theming:** Dynamic design tokens (Dark/Light mode support).
 
 ## 🚀 Architectural Highlights
 
-### Schnorr ZKP Authentication
+**Schnorr ZKP Authentication**
 Unlike traditional platforms, Spark never sees your password. The login process uses a non-interactive zero-knowledge proof:
-1. Client generates a cryptographic commitment.
-2. Server issues a challenge.
-3. Client provides a proof that it knows the secret key (derived from BIP-39 words) without revealing it.
+1.  Client generates a cryptographic commitment.
+2.  Server issues a challenge.
+3.  Client provides a proof that it knows the secret key (derived from BIP-39 words) without revealing it.
 
-### Edge NLP Moderation
-To minimize external API costs and legal risks, Spark uses quantized **Local BERT models** for real-time content moderation directly on the infrastructure, ensuring 100% data sovereignty.
+## 🏁 Project Status (100% Completed)
 
----
+All development phases have been successfully executed. Spark stands as a fully operational system ready for global deployment:
+* **✅ Core Architecture:** Stable microservices (FastAPI, Celery, Redis) with S3 integration.
+* **✅ Security:** Hardened ECC-based ZKP implementation and seamless Telegram-based Identity Provider.
+* **✅ Mobile Client:** Polished UI/UX with Reanimated 3, fully localized (RU/EN/ES/ZH), and offline-first capabilities.
+* **✅ AI Integration:** Instant voice-to-text and automated flashcard generation.
 
-## 🗓 Roadmap
+## 🔑 Demo & Previews
 
-### ✅ Phase 1: Foundation (Completed)
-- Microservice architecture setup (FastAPI, Celery, Redis).
-- S3 Storage integration (MinIO).
-- Core AI integration for card generation.
-- Automated testing suite (Pytest).
+To see Spark in action, watch the video demonstrations, architecture breakdowns, and UI previews on our official Telegram channel:
 
-### ⏳ Phase 2: Security & Privacy (In Progress)
-- [x] Hardened ECC-based ZKP implementation.
-- [x] Telegram-based Identity Provider (Bot).
-- [x] Real-time monitoring with Sentry.
-
-### 🔭 Phase 3: Global Scale (Next Steps)
-- [x] Multilingual support (RU/EN/ES/ZH) using `i18next`.
-- [x] Advanced UI/UX with `Reanimated 3`.
-- [x] Enterprise-grade backup & disaster recovery system.
-
----
-
-## 🔑 Demo Access (Preview)
-
-Experience the privacy-first approach without creating an account:
-
-1. **Download the Android Build** (Link in Telegram)
-2. **Identity ID:** `1`
-3. **Secret Seed (BIP-39):** `apple orbit cloud river stone forest light echo alpha brave charlie delta`
-
-> *Note: The server verifies the mathematical proof. The seed phrase is never transmitted over the network.*
-
----
+**👉 [t.me/spark_app_edu](https://t.me/spark_app_edu)**
 
 ## 🛠 Local Development
 
-The entire infrastructure is containerized. Launch the full environment (API, Workers, DB, S3) with:
+The entire infrastructure is containerized. A potential buyer or developer can launch the full environment (API, Workers, DB, S3) in minutes:
 
 ```bash
 git clone [https://github.com/victimuss/spark_edu.git](https://github.com/victimuss/spark_edu.git)
 cd spark_edu
 docker-compose up --build -d
+```
