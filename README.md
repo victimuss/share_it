@@ -5,7 +5,7 @@
 [![React Native](https://img.shields.io/badge/Frontend-React_Native-61DAFB.svg?style=flat&logo=react&logoColor=black)](https://reactnative.dev/)
 [![ZKP](https://img.shields.io/badge/Security-Zero--Knowledge_Proofs-blueviolet.svg)](https://en.wikipedia.org/wiki/Zero-knowledge_proof)
 
-# Spark ❇️ – AI-Powered Trustless Education Platform
+**🌐 Official Website:** [spark-edu.ru](https://spark-edu.ru)
 
 **Spark** is a next-generation micro-learning platform designed for the era of AI and total privacy. It combines intelligent content structuring with a **Trustless Architecture**, ensuring that users own their data without compromise.
 
@@ -37,9 +37,9 @@
 
 **Schnorr ZKP Authentication**
 Unlike traditional platforms, Spark never sees your password. The login process uses a non-interactive zero-knowledge proof:
-1.  Client generates a cryptographic commitment.
-2.  Server issues a challenge.
-3.  Client provides a proof that it knows the secret key (derived from BIP-39 words) without revealing it.
+1. Client generates a cryptographic commitment.
+2. Server issues a challenge.
+3. Client provides a proof that it knows the secret key (derived from BIP-39 words) without revealing it.
 
 ## 🏁 Project Status (100% Completed)
 
@@ -49,11 +49,12 @@ All development phases have been successfully executed. Spark stands as a fully 
 * **✅ Mobile Client:** Polished UI/UX with Reanimated 3, fully localized (RU/EN/ES/ZH), and offline-first capabilities.
 * **✅ AI Integration:** Instant voice-to-text and automated flashcard generation.
 
-## 🔑 Demo & Previews
+## 🔑 Demo, Previews & Website
 
-To see Spark in action, watch the video demonstrations, architecture breakdowns, and UI previews on our official Telegram channel:
+To see Spark in action or learn more, visit our official resources:
 
-**👉 [t.me/spark_app_edu](https://t.me/spark_app_edu)**
+* **🌐 Official Website:** [spark-edu.ru](https://spark-edu.ru)
+* **👉 Telegram Channel:** [t.me/spark_app_edu](https://t.me/spark_app_edu) — Watch video demonstrations, architecture breakdowns, and UI previews.
 
 ## 🛠 Local Development
 
@@ -63,4 +64,3 @@ The entire infrastructure is containerized. A potential buyer or developer can l
 git clone [https://github.com/victimuss/spark_edu.git](https://github.com/victimuss/spark_edu.git)
 cd spark_edu
 docker-compose up --build -d
-```
