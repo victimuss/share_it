@@ -17,6 +17,4 @@ COPY . .
 
 RUN useradd -m spark_user && chown -R spark_user:spark_user /app
 USER spark_user
- 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-
+CMD ["gunicorn", "main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]

@@ -1,4 +1,8 @@
-version: '3.8'
+x-common-env: &common-env
+  DATABASE_URL: postgresql+asyncpg://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+  REDIS_URL: redis://redis:6379/0
+  CELERY_BROKER_URL: amqp://guest:guest@rabbitmq:5672//
+  S3_ENDPOINT: http://minio:9000
 
 services:
   # --- ИНФРАСТРУКТУРА ---
@@ -10,28 +14,31 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
-    ports:
-      - "5432:5432"
+    # Порт 5432 закрыт снаружи для безопасности
     volumes:
       - pg_data:/var/lib/postgresql/data
 
   redis:
     image: redis:7-alpine
     container_name: spark_redis
-    ports:
-      - "6379:6379"
+    restart: always
+    # Порт 6379 закрыт снаружи для безопасности
+    volumes:
+      - redis_data:/data
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: spark_mq
-    ports:
-      - "5672:5672"   # AMQP port
-      - "15673:15672" # Management UI
+    restart: always
+    # Порт 5672 закрыт. Management UI (15672) тоже лучше закрывать на проде
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
   minio:
     image: minio/minio
     container_name: spark_s3
     command: server /data --console-address ":9001"
+    restart: always
     ports:
       - "9010:9000"
       - "9011:9001"
@@ -45,15 +52,13 @@ services:
   backend:
     build: ./back-end
     container_name: spark_api
-    command: sh -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000"
+    restart: always
+    command: sh -c "alembic upgrade head && gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000"
     ports:
       - "8000:8000"
     env_file: ./back-end/.env
     environment:
-      - DATABASE_URL=postgresql+asyncpg://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
-      - REDIS_URL=redis://redis:6379/0
-      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
-      - S3_ENDPOINT=http://minio:9000
+      <<: *common-env
     depends_on:
       - db
       - redis
@@ -61,26 +66,22 @@ services:
   bot:
     build: ./back-end
     container_name: spark_bot
+    restart: always
     command: python telegram_bot/bot_main.py
     env_file: ./back-end/.env
     environment:
-      - DATABASE_URL=postgresql+asyncpg://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
-      - REDIS_URL=redis://redis:6379/0
-      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
-      - S3_ENDPOINT=http://minio:9000
+      <<: *common-env
     depends_on:
       - backend
 
   worker:
     build: ./back-end
     container_name: spark_worker
+    restart: always
     command: celery -A core.celery_app worker --loglevel=info
     env_file: ./back-end/.env
     environment:
-      - DATABASE_URL=postgresql+asyncpg://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
-      - REDIS_URL=redis://redis:6379/0
-      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
-      - S3_ENDPOINT=http://minio:9000
+      <<: *common-env
     depends_on:
       - rabbitmq
       - redis
@@ -88,16 +89,16 @@ services:
   beat:
     build: ./back-end
     container_name: spark_beat
+    restart: always
     command: celery -A core.celery_app beat --loglevel=info
     env_file: ./back-end/.env
     environment:
-      - DATABASE_URL=postgresql+asyncpg://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
-      - REDIS_URL=redis://redis:6379/0
-      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
-      - S3_ENDPOINT=http://minio:9000
+      <<: *common-env
     depends_on:
       - worker
 
 volumes:
   pg_data:
   minio_data:
+  redis_data:
+  rabbitmq_data:

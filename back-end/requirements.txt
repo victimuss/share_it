@@ -32,3 +32,4 @@ google-genai
 itsdangerous
 jinja2
 python-multipart
+gunicorn
