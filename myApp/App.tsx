@@ -30,6 +30,7 @@ import { VoiceInputScreen } from './src/screens/AI/VoiceInputScreen';
 
 import LoginScreen from './src/screens/auth/CryptoAuthScreen';
 import { RegisScreen as RegistrationScreen } from './src/screens/auth/RegisScreen';
+import { LegalScreen } from './src/screens/auth/LegalScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const RootStack = createNativeStackNavigator();
@@ -57,6 +58,7 @@ const MainApp = () => {
             <>
               <RootStack.Screen name="Login" component={LoginScreen} />
               <RootStack.Screen name="Register" component={RegistrationScreen} />
+              <RootStack.Screen name="Legal" component={LegalScreen} options={{ presentation: 'modal' }} />
             </>
           )}
         </RootStack.Navigator>

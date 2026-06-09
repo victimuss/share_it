@@ -24,6 +24,7 @@ import { LanguageSwitcher } from '@/src/components/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from '../../hooks/useStyles';
 import { useThemeStore } from '../../context/useThemeStore';
+import { useNavigation } from '@react-navigation/native';
 // ─── Типы ─────────────────────────────────────────────────────────
 type Tab = 'register' | 'login';
 
@@ -41,6 +42,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 // ─── Компонент ────────────────────────────────────────────────────
 export default function ZkpAuthScreen() {
+  const navigation = useNavigation();
   const styles = useStyles(zkpAuthStylesFn);
   const { colors } = useThemeStore(s => s.theme);
     const [activeTab, setActiveTab] = useState<Tab>('register');
@@ -335,6 +337,17 @@ export default function ZkpAuthScreen() {
                     <Text style={styles.footerText}>
                         {t('screens.cryptoAuth.footer')}
                     </Text>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginTop: 8 }}>
+                        <Text 
+                            style={[styles.footerText, { color: colors.primary, textDecorationLine: 'underline' }]}
+                            onPress={() => (navigation as any).navigate('Legal', { type: 'terms' })}
+                        >Условия использования</Text>
+                        <Text style={styles.footerText}>{'  |  '}</Text>
+                        <Text 
+                            style={[styles.footerText, { color: colors.primary, textDecorationLine: 'underline' }]}
+                            onPress={() => (navigation as any).navigate('Legal', { type: 'privacy' })}
+                        >Политика конфиденциальности</Text>
+                    </View>
                 </View>
 
             </ScrollView>
